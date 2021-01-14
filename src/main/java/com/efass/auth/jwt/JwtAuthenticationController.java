@@ -22,7 +22,7 @@ import com.efass.user.UserDAO;
 
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class JwtAuthenticationController {
 
 	@Autowired

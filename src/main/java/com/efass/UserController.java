@@ -21,7 +21,7 @@ import com.efass.user.UserRepository;
 
 
 
-@CrossOrigin()
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("api/v1")
 public class UserController {

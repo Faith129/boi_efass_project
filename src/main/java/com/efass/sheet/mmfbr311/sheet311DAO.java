@@ -1,6 +1,7 @@
-package com.efass.sheet.mmfbr221;
+package com.efass.sheet.mmfbr311;
 
 import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,27 +10,43 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "MMFBR221")
-public class sheet221DAO implements Serializable {
+@Table(name = "MMFBR311")
+public class sheet311DAO implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 1928892232870720320L;
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private int id;
-
+	public int id;
+	
 	@Column(name = "BANK_CODE")
-	private String bankCode;
-
+	public String bankCode;
+	
 	@Column(name = "BANK_NAME")
-	private String bankName;
-
+	public String bankName;
+	
+	@Column(name = "TENOR")
+	public String tenor;
+	
+	@Column(name = "MATURITY")
+	public String maturity;
+	
 	@Column(name = "AMOUNT")
-	private String amount;
+	public String amount;
+	
+	
+	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getBankCode() {
 		return bankCode;
@@ -47,6 +64,22 @@ public class sheet221DAO implements Serializable {
 		this.bankName = bankName;
 	}
 
+	public String getTenor() {
+		return tenor;
+	}
+
+	public void setTenor(String tenor) {
+		this.tenor = tenor;
+	}
+
+	public String getMaturity() {
+		return maturity;
+	}
+
+	public void setMaturity(String maturity) {
+		this.maturity = maturity;
+	}
+
 	public String getAmount() {
 		return amount;
 	}
@@ -55,11 +88,9 @@ public class sheet221DAO implements Serializable {
 		this.amount = amount;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
+	
+	
+	
+	
+	  
 }
