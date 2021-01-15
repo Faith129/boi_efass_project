@@ -18,6 +18,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.google.common.collect.ImmutableList;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -33,14 +35,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private JwtRequestFilter jwtRequestFilter;
 	
  
-  @Bean
-  CorsConfigurationSource corsConfigurationSource() {
-      UrlBasedCorsConfigurationSource source = new
-             UrlBasedCorsConfigurationSource();
-      source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-     return source;
-  }
+//  @Bean
+//  CorsConfigurationSource corsConfigurationSource() {
+//      UrlBasedCorsConfigurationSource source = new
+//             UrlBasedCorsConfigurationSource();
+//      source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+//     return source;
+//  }
 	
+  
+  @Bean
+  public CorsConfigurationSource corsConfigurationSource() {
+      final CorsConfiguration configuration = new CorsConfiguration();
+      configuration.setAllowedOrigins(ImmutableList.of("*"));
+      configuration.setAllowedMethods(ImmutableList.of("HEAD",
+              "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+      //configuration.setAllowCredentials(true);
+      configuration.setAllowedHeaders(ImmutableList.of("*"));
+      configuration.setExposedHeaders(ImmutableList.of("X-Auth-Token","Authorization","Access-Control-Allow-Origin","Access-Control-Allow-Credentials"));
+      final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+      source.registerCorsConfiguration("/**", configuration);
+      return source;
+  }
+  
 	
 	
 
@@ -67,6 +84,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 	
 		httpSecurity.cors();
+	
+		
 		// We don't need CSRF for this example
 		httpSecurity.csrf().disable()
 				// dont authenticate this particular request

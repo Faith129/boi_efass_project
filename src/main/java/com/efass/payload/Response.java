@@ -1,7 +1,5 @@
 package com.efass.payload;
 
-import java.util.ArrayList;
-
 import com.efass.sheet.mmfbr221.sheet221DAO;
 import com.efass.sheet.mmfbr311.sheet311DAO;
 import com.efass.sheet.mmfbr321.sheet321DAO;
@@ -9,6 +7,8 @@ import com.efass.sheet.mmfbr641.sheet641DAO;
 import com.efass.sheet.mmfbr711.sheet711DAO;
 import com.efass.sheet.mmfbr746.sheet746DAO;
 import com.efass.sheet.mmfbr761.sheet761DAO;
+import com.efass.sheet.mmfbr762.sheet762DAO;
+import com.efass.sheet.mmfbr771.sheet771DAO;
 import com.efass.user.UserDAO;
 
 public class Response {
@@ -48,9 +48,14 @@ public class Response {
 	public sheet761DAO s761Data;
 	public Iterable<sheet761DAO> sheet761;
 	
+	public sheet762DAO s762Data;
+	public Iterable<sheet762DAO> sheet762;
 	
 	
 	
+	
+	public sheet771DAO s771Data;
+	public Iterable<sheet771DAO> sheet771;
 	
 
 	@Override
@@ -155,6 +160,30 @@ public class Response {
 		this.s211Data = s211Data;
 	}
 
+	public sheet762DAO getS762Data() {
+		return s762Data;
+	}
+
+	public void setS762Data(sheet762DAO s762Data) {
+		this.s762Data = s762Data;
+	}
+
+	public Iterable<sheet762DAO> getSheet762() {
+		return sheet762;
+	}
+
+	public void setSheet762(Iterable<sheet762DAO> sheet762) {
+		this.sheet762 = sheet762;
+	}
+
+	public sheet771DAO getS771Data() {
+		return s771Data;
+	}
+
+	public void setS771Data(sheet771DAO s771Data) {
+		this.s771Data = s771Data;
+	}
+
 	public String getFilePath() {
 		return filePath;
 	}
@@ -231,6 +260,16 @@ public class Response {
 
 	public void setSheet711(Iterable<sheet711DAO> sheet711) {
 		this.sheet711 = sheet711;
+	}
+
+
+
+	public Iterable<sheet771DAO> getSheet771() {
+		return sheet771;
+	}
+
+	public void setSheet771(Iterable<sheet771DAO> sheet771) {
+		this.sheet771 = sheet771;
 	}
 
 }

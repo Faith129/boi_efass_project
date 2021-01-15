@@ -1,0 +1,104 @@
+package com.efass.sheet.mmfbr771;
+
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import com.efass.exceptions.ResourceNotFoundException;
+import com.efass.payload.Response;
+
+
+@Service
+public class sheet771_impl implements sheet771_Service {
+
+	@Autowired
+	sheet771Repository _771Repository;
+
+	// ############################## MMFBR746 CRUD OPERATIONS
+	// #################################
+
+	public ResponseEntity<?> createData(sheet771DAO data) {
+		_771Repository.save(data);
+		Response res = new Response();
+		res.setResponseMessage("Success");
+		res.setResponseCode(00);
+		res.setS771Data(data);
+		return new ResponseEntity<>(res, HttpStatus.OK);
+	}
+
+	public ResponseEntity<?> fetchAllData() {
+		Iterable<sheet771DAO> data = _771Repository.findAll();
+		Response res = new Response();
+		res.setSheet771(data);
+		res.setResponseMessage("Success");
+		res.setResponseCode(00);
+		return new ResponseEntity<>(res, HttpStatus.OK);
+	}
+
+	public ResponseEntity<?> getDataById(int dataId) throws ResourceNotFoundException {
+		sheet771DAO data = _771Repository.findById(dataId)
+				.orElseThrow(() -> new ResourceNotFoundException("Record not found for this id :: " + dataId));
+		Response res = new Response();
+		res.setResponseMessage("Record Found");
+		res.setResponseCode(00);
+		res.setS771Data(data);
+		return new ResponseEntity<>(res, HttpStatus.OK);
+	}
+
+	public ResponseEntity<?> deleteById(int dataId) throws ResourceNotFoundException {
+
+		Optional<sheet771DAO> data = _771Repository.findById(dataId);
+
+		if (data.isPresent()) {
+			_771Repository.delete(data.get());
+		} else {
+			throw new ResourceNotFoundException("Record not found with id : " + dataId);
+		}
+		Response res = new Response();
+		res.setResponseMessage("Record Deleted");
+		res.setResponseCode(00);
+		return new ResponseEntity<>(res, HttpStatus.OK);
+
+	}
+
+	public ResponseEntity<?> updateData(int id, sheet771DAO Data) throws ResourceNotFoundException {
+
+		Optional<sheet771DAO> DataDb = _771Repository.findById(id);
+
+		if (DataDb.isPresent()) {
+			sheet771DAO DataUpdate = DataDb.get();
+			DataUpdate.setId(Data.getId());
+			DataUpdate.setAccruedInterestUnpaid(Data.getAccruedInterestUnpaid());
+			DataUpdate.setAmountGranted(Data.getAmountGranted());
+			DataUpdate.setCustomerCode(Data.getCustomerCode());
+			DataUpdate.setCustomerName(Data.getCustomerName());
+			DataUpdate.setLastRepaymentDate(Data.getLastRepaymentDate());
+			DataUpdate.setNintyOneToModeDays(Data.getNintyOneToModeDays());
+			DataUpdate.setOneToThirtyDays(Data.getOneToThirtyDays());
+			DataUpdate.setPastDueDate(Data.getPastDueDate());
+			DataUpdate.setPrincipalPaymentDueUnpaid(Data.getPrincipalPaymentDueUnpaid());
+			DataUpdate.setRemarks(Data.getRemarks());
+			DataUpdate.setSixyOneToNintyDays(Data.getSixyOneToNintyDays());
+			DataUpdate.setThirtyOneToSixtyDays(Data.getThirtyOneToSixtyDays());
+			DataUpdate.setTotalNonPerformingCredit(Data.getTotalNonPerformingCredit());
+			_771Repository.save(DataUpdate);
+			Response res = new Response();
+			res.setResponseMessage("Record Updated");
+			res.setResponseCode(00);
+			res.setS771Data(DataUpdate);
+			return new ResponseEntity<>(res, HttpStatus.OK);
+
+		} else {
+			throw new ResourceNotFoundException("Record not found with id : " + Data.getId());
+		}
+	}
+
+	// ####################################################################################
+
+	// #####################SHEET OPERATIONS
+	// ############################################
+
+	// ##################################################################################
+
+}
