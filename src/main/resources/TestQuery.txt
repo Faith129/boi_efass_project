@@ -1,0 +1,136 @@
+######INSERT INTO TABLES
+
+insert into EFASS.MMFBR221 u(u.BANK_CODE, u.BANK_NAME, u.AMOUNT) values('2001','JULIE BANK', '10000')
+
+insert into EFASS.MMFBR221 u(u.BANK_CODE, u.BANK_NAME, u.AMOUNT) values('2002','JERRY BANK', '37000')
+
+insert into EFASS.MMFBR221 u(u.BANK_CODE, u.BANK_NAME, u.AMOUNT) values('2003','CHERRY BANK', '97000')
+
+insert into EFASS.MMFBR221 u(u.BANK_CODE, u.BANK_NAME, u.AMOUNT) values('2004','BENNY BANK', '77000')
+
+
+
+
+
+########UPDATE ID TO PRIMARY KEY
+--Add ID Column
+ALTER TABLE EFASS.MMFBR321 
+ADD id NUMBER(10)    NOT NULL ;
+
+
+--Make ID Primary Key
+ALTER TABLE EFASS.MMFBR321
+  ADD (
+    CONSTRAINT dept_pk2 PRIMARY KEY (id)
+  );
+
+--Create Sequence
+CREATE SEQUENCE MMFBR321_sequence;
+
+
+--Create Trigger
+CREATE OR REPLACE TRIGGER id
+ BEFORE INSERT ON EFASS.MMFBR321
+ FOR EACH ROW
+BEGIN
+ SELECT MMFBR321_sequence.nextval
+ INTO :new.id
+ FROM dual;
+END;
+
+
+
+
+
+
+
+###################DROP CREATE TABLE WITH AUTOINCREMENT COLUMN ############
+
+
+
+
+
+--Table definition:
+
+DROP TABLE EFASS.mmfbr321 CASCADE CONSTRAINTS;
+
+
+CREATE TABLE EFASS.mmfbr321 (
+  ID            NUMBER                          NOT NULL,
+  BANK_CODE  VARCHAR2(30 BYTE)                  NOT NULL,
+  BANK_NAME  VARCHAR2(200 BYTE)                 NOT NULL,
+  TENOR      VARCHAR2(25 BYTE),
+  MATURITY   VARCHAR2(25 BYTE),
+  AMOUNT     VARCHAR2(25 BYTE)
+  );
+
+ALTER TABLE EFASS.mmfbr321 ADD (
+  CONSTRAINT efass_pk PRIMARY KEY (ID));
+
+CREATE SEQUENCE dept_seq START WITH 1;
+--Trigger definition:
+
+CREATE OR REPLACE TRIGGER dept_bir 
+BEFORE INSERT ON EFASS.mmfbr321 
+FOR EACH ROW
+
+BEGIN
+  SELECT dept_seq.NEXTVAL
+  INTO   :new.id
+  FROM   dual;
+END;
+/
+
+
+
+
+  
+  ######################################################################
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  DROP TABLE EFASS.MMFBR746 CASCADE CONSTRAINTS;
+
+
+CREATE TABLE EFASS.MMFBR746 (
+  ID            NUMBER                          NOT NULL,
+  NAME_OF_BENE     VARCHAR2(200 BYTE)           NOT NULL,
+  DATE_GRANTED     VARCHAR2(30 BYTE),
+  TENOR            NUMBER,
+  AMOUNT_APPROVED  VARCHAR2(25 BYTE),
+  OUTSTAND_BAL     VARCHAR2(25 BYTE),
+  STATUS           VARCHAR2(20 BYTE)
+  );
+
+ALTER TABLE EFASS.MMFBR746 ADD (
+  CONSTRAINT efass746_pk PRIMARY KEY (ID));
+
+CREATE SEQUENCE dept764_seq START WITH 1;
+--Trigger definition:
+
+CREATE OR REPLACE TRIGGER dept764_bir 
+BEFORE INSERT ON EFASS.MMFBR746 
+FOR EACH ROW
+
+BEGIN
+  SELECT dept_seq.NEXTVAL
+  INTO   :new.id
+  FROM   dual;
+END;
