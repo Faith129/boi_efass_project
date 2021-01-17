@@ -1,14 +1,23 @@
 package com.efass.payload;
 
+import com.efass.sheet.mmfbr141.sheet141DAO;
+import com.efass.sheet.mmfbr201.sheet201DAO;
+import com.efass.sheet.mmfbr202.sheet202DAO;
 import com.efass.sheet.mmfbr221.sheet221DAO;
 import com.efass.sheet.mmfbr311.sheet311DAO;
+import com.efass.sheet.mmfbr312.sheet312DAO;
 import com.efass.sheet.mmfbr321.sheet321DAO;
+import com.efass.sheet.mmfbr322.sheet322DAO;
+import com.efass.sheet.mmfbr451.sheet451DAO;
 import com.efass.sheet.mmfbr641.sheet641DAO;
 import com.efass.sheet.mmfbr711.sheet711DAO;
 import com.efass.sheet.mmfbr746.sheet746DAO;
 import com.efass.sheet.mmfbr761.sheet761DAO;
 import com.efass.sheet.mmfbr762.sheet762DAO;
+import com.efass.sheet.mmfbr763.sheet763DAO;
+import com.efass.sheet.mmfbr764.sheet764DAO;
 import com.efass.sheet.mmfbr771.sheet771DAO;
+import com.efass.sheet.mmfbr811.sheet811DAO;
 import com.efass.user.UserDAO;
 
 public class Response {
@@ -58,6 +67,92 @@ public class Response {
 	public Iterable<sheet771DAO> sheet771;
 	
 
+	
+	
+	
+	
+	
+	public sheet763DAO s763Data;
+	public Iterable<sheet763DAO> sheet763;
+	
+	
+	
+	
+	public sheet764DAO s764Data;
+	public Iterable<sheet764DAO> sheet764;
+	
+	
+	public sheet811DAO s811Data;
+	public Iterable<sheet811DAO> sheet811;
+	
+	
+	
+	public sheet141DAO s141Data;
+	public Iterable<sheet141DAO> sheet141;
+	
+	
+	
+	public sheet201DAO s201Data;
+	public Iterable<sheet201DAO> sheet201;
+	
+	
+	
+	
+	public sheet202DAO s202Data;
+	public Iterable<sheet202DAO> sheet202;
+	
+	
+	
+	
+	
+	
+	public sheet312DAO s312Data;
+	public Iterable<sheet312DAO> sheet312;
+	
+	
+	public sheet322DAO s322Data;
+	public Iterable<sheet322DAO> sheet322;
+	
+	
+	
+	public sheet451DAO s451Data;
+	public Iterable<sheet451DAO> sheet451;
+	
+	
+	
+	
+	public sheet201DAO getS201Data() {
+		return s201Data;
+	}
+
+	public void setS201Data(sheet201DAO s201Data) {
+		this.s201Data = s201Data;
+	}
+
+	public Iterable<sheet201DAO> getSheet201() {
+		return sheet201;
+	}
+
+	public void setSheet201(Iterable<sheet201DAO> sheet201) {
+		this.sheet201 = sheet201;
+	}
+
+	public sheet764DAO getS764Data() {
+		return s764Data;
+	}
+
+	public void setS764Data(sheet764DAO s764Data) {
+		this.s764Data = s764Data;
+	}
+
+	public Iterable<sheet764DAO> getSheet764() {
+		return sheet764;
+	}
+
+	public void setSheet764(Iterable<sheet764DAO> sheet764) {
+		this.sheet764 = sheet764;
+	}
+
 	@Override
 	public String toString() {
 		return "Response [Sheet321Data=" + s321Data + "]";
@@ -102,12 +197,60 @@ public class Response {
 		this.responseCode = responseCode;
 	}
 
+	public sheet202DAO getS202Data() {
+		return s202Data;
+	}
+
+	public void setS202Data(sheet202DAO s202Data) {
+		this.s202Data = s202Data;
+	}
+
+	public Iterable<sheet202DAO> getSheet202() {
+		return sheet202;
+	}
+
+	public void setSheet202(Iterable<sheet202DAO> sheet202) {
+		this.sheet202 = sheet202;
+	}
+
 	public UserDAO getUser() {
 		return user;
 	}
 
 	public void setUser(UserDAO user) {
 		this.user = user;
+	}
+
+	public sheet322DAO getS322Data() {
+		return s322Data;
+	}
+
+	public void setS322Data(sheet322DAO s322Data) {
+		this.s322Data = s322Data;
+	}
+
+	public sheet451DAO getS451Data() {
+		return s451Data;
+	}
+
+	public void setS451Data(sheet451DAO s451Data) {
+		this.s451Data = s451Data;
+	}
+
+	public Iterable<sheet451DAO> getSheet451() {
+		return sheet451;
+	}
+
+	public void setSheet451(Iterable<sheet451DAO> sheet451) {
+		this.sheet451 = sheet451;
+	}
+
+	public Iterable<sheet322DAO> getSheet322() {
+		return sheet322;
+	}
+
+	public void setSheet322(Iterable<sheet322DAO> sheet322) {
+		this.sheet322 = sheet322;
 	}
 
 	public Iterable<UserDAO> getAllUsers() {
@@ -126,6 +269,22 @@ public class Response {
 		this.token = token;
 	}
 
+	public sheet312DAO getS312Data() {
+		return s312Data;
+	}
+
+	public void setS312Data(sheet312DAO s312Data) {
+		this.s312Data = s312Data;
+	}
+
+	public Iterable<sheet312DAO> getSheet312() {
+		return sheet312;
+	}
+
+	public void setSheet312(Iterable<sheet312DAO> sheet312) {
+		this.sheet312 = sheet312;
+	}
+
 	public Iterable<sheet221DAO> getSheet211() {
 		return sheet211;
 	}
@@ -136,6 +295,38 @@ public class Response {
 
 	public void setS761Data(sheet761DAO s761Data) {
 		this.s761Data = s761Data;
+	}
+
+	public sheet811DAO getS811Data() {
+		return s811Data;
+	}
+
+	public void setS811Data(sheet811DAO s811Data) {
+		this.s811Data = s811Data;
+	}
+
+	public Iterable<sheet811DAO> getSheet811() {
+		return sheet811;
+	}
+
+	public void setSheet811(Iterable<sheet811DAO> sheet811) {
+		this.sheet811 = sheet811;
+	}
+
+	public sheet141DAO getS141Data() {
+		return s141Data;
+	}
+
+	public void setS141Data(sheet141DAO s141Data) {
+		this.s141Data = s141Data;
+	}
+
+	public Iterable<sheet141DAO> getSheet141() {
+		return sheet141;
+	}
+
+	public void setSheet141(Iterable<sheet141DAO> sheet141) {
+		this.sheet141 = sheet141;
 	}
 
 	public Iterable<sheet761DAO> getSheet761() {
@@ -154,6 +345,22 @@ public class Response {
 
 	public sheet221DAO getS211Data() {
 		return s211Data;
+	}
+
+	public sheet763DAO getS763Data() {
+		return s763Data;
+	}
+
+	public void setS763Data(sheet763DAO s763Data) {
+		this.s763Data = s763Data;
+	}
+
+	public Iterable<sheet763DAO> getSheet763() {
+		return sheet763;
+	}
+
+	public void setSheet763(Iterable<sheet763DAO> sheet763) {
+		this.sheet763 = sheet763;
 	}
 
 	public void setS211Data(sheet221DAO s211Data) {
