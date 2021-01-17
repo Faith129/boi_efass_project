@@ -12,10 +12,7 @@ import javax.persistence.Table;
 @Table(name = "MMFBR221")
 public class sheet221DAO implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

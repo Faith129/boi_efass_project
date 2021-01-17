@@ -18,12 +18,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+import com.efass.sheet.mmfbr141.sheet141DAO;
+import com.efass.sheet.mmfbr141.sheet141_Service;
+import com.efass.sheet.mmfbr201.sheet201DAO;
+import com.efass.sheet.mmfbr201.sheet201_Service;
+import com.efass.sheet.mmfbr202.sheet202DAO;
+import com.efass.sheet.mmfbr202.sheet202_Service;
 import com.efass.sheet.mmfbr221.sheet221DAO;
 import com.efass.sheet.mmfbr221.sheet221_Service;
 import com.efass.sheet.mmfbr311.sheet311DAO;
 import com.efass.sheet.mmfbr311.sheet311_Service;
+import com.efass.sheet.mmfbr312.sheet312DAO;
+import com.efass.sheet.mmfbr312.sheet312_Service;
 import com.efass.sheet.mmfbr321.sheet321DAO;
 import com.efass.sheet.mmfbr321.sheet321_Service;
+import com.efass.sheet.mmfbr322.sheet322DAO;
+import com.efass.sheet.mmfbr322.sheet322_Service;
+import com.efass.sheet.mmfbr451.sheet451DAO;
+import com.efass.sheet.mmfbr451.sheet451_Service;
 import com.efass.sheet.mmfbr641.sheet641DAO;
 import com.efass.sheet.mmfbr641.sheet641_Service;
 import com.efass.sheet.mmfbr711.sheet711DAO;
@@ -36,6 +48,8 @@ import com.efass.sheet.mmfbr762.sheet762DAO;
 import com.efass.sheet.mmfbr762.sheet762_Service;
 import com.efass.sheet.mmfbr771.sheet771DAO;
 import com.efass.sheet.mmfbr771.sheet771_Service;
+import com.efass.sheet.mmfbr811.sheet811DAO;
+import com.efass.sheet.mmfbr811.sheet811_Service;
 import com.efass.specials.SpecialFunction;
 
 @CrossOrigin(origins = "*")
@@ -74,6 +88,40 @@ public class ReportController {
 	
 	@Autowired
 	private sheet762_Service sheet762Svc;
+	
+	
+	@Autowired
+	private sheet811_Service sheet811Svc;
+	
+	@Autowired
+	private sheet141_Service sheet141Svc;
+	
+	
+	
+	
+	@Autowired
+	private sheet201_Service sheet201Svc;
+	
+
+	@Autowired
+	private sheet202_Service sheet202Svc;
+	
+	@Autowired
+	private sheet312_Service sheet312Svc;
+	
+	
+	
+	@Autowired
+	private sheet322_Service sheet322Svc;
+	
+	
+	
+	
+	@Autowired
+	private sheet451_Service sheet451Svc;
+	
+	//Stopped at 451
+	
 	
 	// CHOOSE REPORT DATE
 	// You can consume the path .../report/date/2019-04-25
@@ -432,5 +480,258 @@ public class ReportController {
 	
 	//####################################################################
 	
+	
+	
+	
+	
+	
+	
+	//########################## MMFBR811 ##########################
+	@GetMapping("/mmfbr811")
+	public ResponseEntity<?> getAllData811() {
+		return sheet811Svc.fetchAllData();
+	}
 
+	@GetMapping("/mmfbr811/{id}")
+	public ResponseEntity<?> getDataById811(@PathVariable int id) throws ResourceNotFoundException {
+		return sheet811Svc.getDataById(id);
+	}
+
+	@PostMapping("/mmfbr811")
+	public ResponseEntity<?> createData811(@RequestBody sheet811DAO data) throws ResourceNotFoundException {
+		return sheet811Svc.createData(data);
+	}
+
+	@PutMapping("/mmfbr811/{id}")
+	public ResponseEntity<?> updateData811(@PathVariable int id, @RequestBody sheet811DAO Data) throws ResourceNotFoundException {
+		Data.setId(id);
+		return sheet811Svc.updateData(id, Data);
+	}
+
+	@DeleteMapping("/mmfbr811/{id}")
+	public ResponseEntity<?> deleteData811(@PathVariable int id) throws ResourceNotFoundException {
+		
+		return sheet811Svc.deleteById(id);
+	}
+	
+	//####################################################################
+	
+
+	
+	
+	
+	
+	
+	//########################## MMFBR141 ##########################
+	@GetMapping("/mmfbr141")
+	public ResponseEntity<?> getAllData141() {
+		return sheet141Svc.fetchAllData();
+	}
+
+	@GetMapping("/mmfbr141/{id}")
+	public ResponseEntity<?> getDataById141(@PathVariable int id) throws ResourceNotFoundException {
+		return sheet141Svc.getDataById(id);
+	}
+
+	@PostMapping("/mmfbr141")
+	public ResponseEntity<?> createData141(@RequestBody sheet141DAO data) throws ResourceNotFoundException {
+		return sheet141Svc.createData(data);
+	}
+
+	@PutMapping("/mmfbr141/{id}")
+	public ResponseEntity<?> updateData141(@PathVariable int id, @RequestBody sheet141DAO Data) throws ResourceNotFoundException {
+		Data.setId(id);
+		return sheet141Svc.updateData(id, Data);
+	}
+
+	@DeleteMapping("/mmfbr141/{id}")
+	public ResponseEntity<?> deleteData141(@PathVariable int id) throws ResourceNotFoundException {
+		
+		return sheet141Svc.deleteById(id);
+	}
+	
+	//####################################################################
+	
+	
+	
+	
+	
+	
+	
+	//########################## MMFBR201 ##########################
+	@GetMapping("/mmfbr201")
+	public ResponseEntity<?> getAllData201() {
+		return sheet201Svc.fetchAllData();
+	}
+
+	@GetMapping("/mmfbr201/{id}")
+	public ResponseEntity<?> getDataById201(@PathVariable int id) throws ResourceNotFoundException {
+		return sheet201Svc.getDataById(id);
+	}
+
+	@PostMapping("/mmfbr201")
+	public ResponseEntity<?> createData201(@RequestBody sheet201DAO data) throws ResourceNotFoundException {
+		return sheet201Svc.createData(data);
+	}
+
+	@PutMapping("/mmfbr201/{id}")
+	public ResponseEntity<?> updateData201(@PathVariable int id, @RequestBody sheet201DAO Data) throws ResourceNotFoundException {
+		Data.setId(id);
+		return sheet201Svc.updateData(id, Data);
+	}
+
+	@DeleteMapping("/mmfbr201/{id}")
+	public ResponseEntity<?> deleteData201(@PathVariable int id) throws ResourceNotFoundException {
+		
+		return sheet201Svc.deleteById(id);
+	}
+	
+	//####################################################################
+	
+	
+	
+	
+	
+	//########################## MMFBR202 ##########################
+	@GetMapping("/mmfbr202")
+	public ResponseEntity<?> getAllData202() {
+		return sheet202Svc.fetchAllData();
+	}
+
+	@GetMapping("/mmfbr202/{id}")
+	public ResponseEntity<?> getDataById202(@PathVariable int id) throws ResourceNotFoundException {
+		return sheet202Svc.getDataById(id);
+	}
+
+	@PostMapping("/mmfbr202")
+	public ResponseEntity<?> createData202(@RequestBody sheet202DAO data) throws ResourceNotFoundException {
+		return sheet202Svc.createData(data);
+	}
+
+	@PutMapping("/mmfbr202/{id}")
+	public ResponseEntity<?> updateData202(@PathVariable int id, @RequestBody sheet202DAO Data) throws ResourceNotFoundException {
+		Data.setId(id);
+		return sheet202Svc.updateData(id, Data);
+	}
+
+	@DeleteMapping("/mmfbr202/{id}")
+	public ResponseEntity<?> deleteData202(@PathVariable int id) throws ResourceNotFoundException {
+		
+		return sheet202Svc.deleteById(id);
+	}
+	
+	//####################################################################
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//########################## MMFBR312 ##########################
+	@GetMapping("/mmfbr312")
+	public ResponseEntity<?> getAllData312() {
+		return sheet312Svc.fetchAllData();
+	}
+
+	@GetMapping("/mmfbr312/{id}")
+	public ResponseEntity<?> getDataById312(@PathVariable int id) throws ResourceNotFoundException {
+		return sheet312Svc.getDataById(id);
+	}
+
+	@PostMapping("/mmfbr312")
+	public ResponseEntity<?> createData312(@RequestBody sheet312DAO data) throws ResourceNotFoundException {
+		return sheet312Svc.createData(data);
+	}
+
+	@PutMapping("/mmfbr312/{id}")
+	public ResponseEntity<?> updateData312(@PathVariable int id, @RequestBody sheet312DAO Data) throws ResourceNotFoundException {
+		Data.setId(id);
+		return sheet312Svc.updateData(id, Data);
+	}
+
+	@DeleteMapping("/mmfbr312/{id}")
+	public ResponseEntity<?> deleteData312(@PathVariable int id) throws ResourceNotFoundException {
+		
+		return sheet312Svc.deleteById(id);
+	}
+	
+	//####################################################################
+	
+	
+	
+	
+	
+	
+	//########################## MMFBR322 ##########################
+	@GetMapping("/mmfbr322")
+	public ResponseEntity<?> getAllData322() {
+		return sheet322Svc.fetchAllData();
+	}
+
+	@GetMapping("/mmfbr322/{id}")
+	public ResponseEntity<?> getDataById322(@PathVariable int id) throws ResourceNotFoundException {
+		return sheet322Svc.getDataById(id);
+	}
+
+	@PostMapping("/mmfbr322")
+	public ResponseEntity<?> createData322(@RequestBody sheet322DAO data) throws ResourceNotFoundException {
+		return sheet322Svc.createData(data);
+	}
+
+	@PutMapping("/mmfbr322/{id}")
+	public ResponseEntity<?> updateData322(@PathVariable int id, @RequestBody sheet322DAO Data) throws ResourceNotFoundException {
+		Data.setId(id);
+		return sheet322Svc.updateData(id, Data);
+	}
+
+	@DeleteMapping("/mmfbr322/{id}")
+	public ResponseEntity<?> deleteData322(@PathVariable int id) throws ResourceNotFoundException {
+		
+		return sheet322Svc.deleteById(id);
+	}
+	
+	//####################################################################
+	
+	
+	
+	
+	
+	
+	//########################## MMFBR451 ##########################
+	@GetMapping("/mmfbr451")
+	public ResponseEntity<?> getAllData451() {
+		return sheet451Svc.fetchAllData();
+	}
+
+	@GetMapping("/mmfbr451/{id}")
+	public ResponseEntity<?> getDataById451(@PathVariable int id) throws ResourceNotFoundException {
+		return sheet451Svc.getDataById(id);
+	}
+
+	@PostMapping("/mmfbr451")
+	public ResponseEntity<?> createData451(@RequestBody sheet451DAO data) throws ResourceNotFoundException {
+		return sheet451Svc.createData(data);
+	}
+
+	@PutMapping("/mmfbr451/{id}")
+	public ResponseEntity<?> updateData451(@PathVariable int id, @RequestBody sheet451DAO Data) throws ResourceNotFoundException {
+		Data.setId(id);
+		return sheet451Svc.updateData(id, Data);
+	}
+
+	@DeleteMapping("/mmfbr451/{id}")
+	public ResponseEntity<?> deleteData451(@PathVariable int id) throws ResourceNotFoundException {
+		
+		return sheet451Svc.deleteById(id);
+	}
+	
+	//####################################################################
+	
+	
+	
+	
 }
