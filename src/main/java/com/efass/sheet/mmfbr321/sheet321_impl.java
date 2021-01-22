@@ -1,5 +1,7 @@
 package com.efass.sheet.mmfbr321;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+import com.efass.sheet.mmfbr221.sheet221DAO;
 import com.efass.sheet.mmfbr311.sheet311DAO;
 import com.efass.sheet.mmfbr311.sheet311Repository;
 
@@ -35,9 +38,17 @@ public class sheet321_impl implements sheet321_Service {
 	 
 	public ResponseEntity<?> fetchAllData() {
 		Iterable<sheet321DAO> data = _321Repository.findAll();
+		
+		  Field[] fields = sheet221DAO.class.getFields();
+				ArrayList<String> colname = new ArrayList<String>();
+				for(Field f: fields){
+				   colname.add(f.getName()) ;
+				}
+				
 		Response res = new Response();
 		res.setSheet321(data);
 		res.setResponseMessage("Success");
+		res.setColumnNames(colname);
 		res.setResponseCode(00);
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}

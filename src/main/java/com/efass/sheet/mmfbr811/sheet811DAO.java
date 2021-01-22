@@ -32,7 +32,7 @@ public class sheet811DAO {
 	public String performing;
 	
 	
-	@Column(name = "NONPERFFORMING")
+	@Column(name = "NON_PERFORMING")
 	public String nonPerforming;
 
 

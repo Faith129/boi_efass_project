@@ -18,29 +18,37 @@ public class sheet201DAO {
 	@Column(name = "id")
 	public int id;
 
-	@Column(name="TYPE_OF_DEPOSIT")
+	@Column(name="DEPOSIT_TYPE")
 	public String typeOfDeposit;
 	
-	@Column(name = "ONE_THIRTY_DAYS")
-	public String oneToThirtyDays;
+	@Column(name = "ONE_TO_30_DAYS")
+	public int oneToThirtyDays;
 	
 	
-	@Column(name = "THIRTYONE_SIX_DAYS")
-	public String thirtyOneToSixtyDays;
+	@Column(name = "THIRTY_ONE_TO_60_DAYS")
+	public int thirtyOneToSixtyDays;
 	
 	
-	@Column(name = "SIXYONE_NINTY_DAYS")
-	public String sixyOneToNintyDays;
+	@Column(name = "SIXTY_ONE_TO_90_DAYS")
+	public int sixyOneToNintyDays;
 	
 	
-	@Column(name = "NINTYONE_180DAYS")
-	public String nintyOneTo180Days;
+	@Column(name = "NINETY_ONE_TO_180_DAYS")
+	public int nintyOneTo180Days;
 	
 	
-	@Column(name = "oneEightyOne-360Days")
-	public String oneEightyOneTo360Days;
+	@Column(name = "ONE_EIGHTY_ONE_TO_360_Days")
+	public int oneEightyOneTo360Days;
 
-
+	@Column(name = "ABOVE_360_DAYS")
+	public int above360Days;
+	
+	
+	
+	
+	
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -61,52 +69,62 @@ public class sheet201DAO {
 	}
 
 
-	public String getOneToThirtyDays() {
+	public int getOneToThirtyDays() {
 		return oneToThirtyDays;
 	}
 
 
-	public void setOneToThirtyDays(String oneToThirtyDays) {
+	public void setOneToThirtyDays(int oneToThirtyDays) {
 		this.oneToThirtyDays = oneToThirtyDays;
 	}
 
 
-	public String getThirtyOneToSixtyDays() {
+	public int getThirtyOneToSixtyDays() {
 		return thirtyOneToSixtyDays;
 	}
 
 
-	public void setThirtyOneToSixtyDays(String thirtyOneToSixtyDays) {
+	public void setThirtyOneToSixtyDays(int thirtyOneToSixtyDays) {
 		this.thirtyOneToSixtyDays = thirtyOneToSixtyDays;
 	}
 
 
-	public String getSixyOneToNintyDays() {
+	public int getSixyOneToNintyDays() {
 		return sixyOneToNintyDays;
 	}
 
 
-	public void setSixyOneToNintyDays(String sixyOneToNintyDays) {
+	public void setSixyOneToNintyDays(int sixyOneToNintyDays) {
 		this.sixyOneToNintyDays = sixyOneToNintyDays;
 	}
 
 
-	public String getNintyOneTo180Days() {
+	public int getNintyOneTo180Days() {
 		return nintyOneTo180Days;
 	}
 
 
-	public void setNintyOneTo180Days(String nintyOneTo180Days) {
+	public void setNintyOneTo180Days(int nintyOneTo180Days) {
 		this.nintyOneTo180Days = nintyOneTo180Days;
 	}
 
 
-	public String getOneEightyOneTo360Days() {
+	public int getOneEightyOneTo360Days() {
 		return oneEightyOneTo360Days;
 	}
 
 
-	public void setOneEightyOneTo360Days(String oneEightyOneTo360Days) {
+	public int getAbove360Days() {
+		return above360Days;
+	}
+
+
+	public void setAbove360Days(int above360Days) {
+		this.above360Days = above360Days;
+	}
+
+
+	public void setOneEightyOneTo360Days(int oneEightyOneTo360Days) {
 		this.oneEightyOneTo360Days = oneEightyOneTo360Days;
 	}
 	

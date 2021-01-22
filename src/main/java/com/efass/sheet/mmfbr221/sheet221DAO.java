@@ -17,16 +17,30 @@ public class sheet221DAO implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private int id;
+	public int id;
 
 	@Column(name = "BANK_CODE")
-	private String bankCode;
+	public String bankCode;
 
 	@Column(name = "BANK_NAME")
-	private String bankName;
+	public String bankName;
 
 	@Column(name = "AMOUNT")
-	private String amount;
+	public String amount;
+	
+	
+	
+	public sheet221DAO() {
+		
+	}
+
+	public sheet221DAO(int id, String bankCode, String bankName, String amount) {
+	
+		this.id = id;
+		this.bankCode = bankCode;
+		this.bankName = bankName;
+		this.amount = amount;
+	}
 
 	public String getBankCode() {
 		return bankCode;

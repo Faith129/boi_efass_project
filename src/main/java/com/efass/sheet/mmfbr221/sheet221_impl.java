@@ -2,6 +2,7 @@ package com.efass.sheet.mmfbr221;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -12,12 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
-import com.efass.user.UserDAO;
 
 @Service
 public class sheet221_impl implements sheet221_Service {
@@ -31,22 +30,32 @@ public class sheet221_impl implements sheet221_Service {
 	// ############################## MMFBR221 CRUD OPERATIONS #################################
 
 	
+
+	
 	
 	 public ResponseEntity<?> createData(sheet221DAO data) {
-	     _221Repository.save(data);
-	 	Response res = new Response();
+	     _221Repository.save(data);     
+	   	 	Response res = new Response();
 	 	res.setResponseMessage("Success");
 		res.setResponseCode(00);
-		res.setS211Data(data);
+		res.setS221Data(data);
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	    }
 	 
 	 
 	public ResponseEntity<?> fetchAllData() {
 		Iterable<sheet221DAO> data = _221Repository.findAll();
+		
+		  Field[] fields = sheet221DAO.class.getFields();
+			ArrayList<String> colname = new ArrayList<String>();
+			for(Field f: fields){
+			   colname.add(f.getName()) ;
+			}
+		
 		Response res = new Response();
-		res.setSheet211(data);
+		res.setSheet221(data);
 		res.setResponseMessage("Success");
+		res.setColumnNames(colname);
 		res.setResponseCode(00);
 
 		return new ResponseEntity<>(res, HttpStatus.OK);
@@ -58,7 +67,7 @@ public class sheet221_impl implements sheet221_Service {
 		Response res = new Response();
 		res.setResponseMessage("Record Found");
 		res.setResponseCode(00);
-		res.setS211Data(data);
+		res.setS221Data(data);
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 
@@ -92,7 +101,7 @@ public class sheet221_impl implements sheet221_Service {
 			Response res = new Response();
 			res.setResponseMessage("Record Updated");
 			res.setResponseCode(00);
-			res.setS211Data(DataUpdate);
+			res.setS221Data(DataUpdate);
 			return new ResponseEntity<>(res, HttpStatus.OK);
 
 		} else {

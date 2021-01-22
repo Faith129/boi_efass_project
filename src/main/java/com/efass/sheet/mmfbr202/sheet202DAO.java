@@ -18,15 +18,15 @@ public class sheet202DAO {
 	@Column(name = "id")
 	private int id;
 
-	@Column(name = "TYPEOFDEPOSIT")
+	@Column(name = "DEPOSIT_TYPE")
 	private String typeOfDeposit;
 	
 	
-	@Column(name = "HUNDRED_NAIRA")
+	@Column(name = "ONE_TO_100K")
 	private String oneToHundredNaira;
 	
 	
-	@Column(name = "HUNDRED_AND_ONE_NAIRA")
+	@Column(name = "HUNDRED_ANDONE_AND_ABOVE")
 	private String hundredAndOneNaira;
 
 

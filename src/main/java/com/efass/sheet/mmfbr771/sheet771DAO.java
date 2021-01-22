@@ -53,7 +53,6 @@ public class sheet771DAO {
 	public String totalNonPerformingCredit;
 	
 	
-	
 	@Column(name = "ONE_THIRTY_DAYS")
 	public String oneToThirtyDays;
 	

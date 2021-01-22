@@ -76,11 +76,13 @@ public class sheet322_impl implements sheet322_Service {
 			sheet322DAO DataUpdate = DataDb.get();
 			DataUpdate.setId(Data.getId());
 			DataUpdate.setAmount(Data.getAmount());
-			DataUpdate.setBankCode(Data.getBankCode());
+			DataUpdate.setBank_code(Data.getBank_code());
 			DataUpdate.setMaturityDate(Data.getMaturityDate());
-			DataUpdate.setNameOfInstitution(Data.getNameOfInstitution());
+			DataUpdate.setBank_name(Data.getBank_name());
+			DataUpdate.setAmount(Data.getAmount());
 			DataUpdate.setRate(Data.getRate());
 			DataUpdate.setTenor(Data.getTenor());
+			
 			_322Repository.save(DataUpdate);
 			Response res = new Response();
 			res.setResponseMessage("Record Updated");

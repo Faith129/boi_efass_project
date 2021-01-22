@@ -1,5 +1,8 @@
 package com.efass.payload;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.efass.sheet.mmfbr141.sheet141DAO;
 import com.efass.sheet.mmfbr201.sheet201DAO;
 import com.efass.sheet.mmfbr202.sheet202DAO;
@@ -9,6 +12,7 @@ import com.efass.sheet.mmfbr312.sheet312DAO;
 import com.efass.sheet.mmfbr321.sheet321DAO;
 import com.efass.sheet.mmfbr322.sheet322DAO;
 import com.efass.sheet.mmfbr451.sheet451DAO;
+import com.efass.sheet.mmfbr501.sheet501DAO;
 import com.efass.sheet.mmfbr641.sheet641DAO;
 import com.efass.sheet.mmfbr711.sheet711DAO;
 import com.efass.sheet.mmfbr746.sheet746DAO;
@@ -18,6 +22,7 @@ import com.efass.sheet.mmfbr763.sheet763DAO;
 import com.efass.sheet.mmfbr764.sheet764DAO;
 import com.efass.sheet.mmfbr771.sheet771DAO;
 import com.efass.sheet.mmfbr811.sheet811DAO;
+import com.efass.sheet.table.TabSheet;
 import com.efass.user.UserDAO;
 
 public class Response {
@@ -31,8 +36,8 @@ public class Response {
 	
 	
 	
-	public Iterable<sheet221DAO> sheet211;
-	public sheet221DAO s211Data;
+	public Iterable<sheet221DAO> sheet221;
+	public sheet221DAO s221Data;
 
 
 	public sheet311DAO s311Data;
@@ -120,7 +125,38 @@ public class Response {
 	
 	
 	
+	public sheet501DAO s501Data;
+	public Iterable<sheet501DAO> sheet501;
 	
+
+	
+public ArrayList<String> columnNames;
+
+
+	public ArrayList<String> getColumnNames() {
+	return columnNames;
+}
+
+public void setColumnNames(ArrayList<String> columnNames) {
+	this.columnNames = columnNames;
+}
+
+	public sheet501DAO getS501Data() {
+		return s501Data;
+	}
+
+	public void setS501Data(sheet501DAO s501Data) {
+		this.s501Data = s501Data;
+	}
+
+	public Iterable<sheet501DAO> getSheet501() {
+		return sheet501;
+	}
+
+	public void setSheet501(Iterable<sheet501DAO> sheet501) {
+		this.sheet501 = sheet501;
+	}
+
 	public sheet201DAO getS201Data() {
 		return s201Data;
 	}
@@ -285,8 +321,8 @@ public class Response {
 		this.sheet312 = sheet312;
 	}
 
-	public Iterable<sheet221DAO> getSheet211() {
-		return sheet211;
+	public Iterable<sheet221DAO> getSheet221() {
+		return sheet221;
 	}
 
 	public sheet761DAO getS761Data() {
@@ -337,14 +373,14 @@ public class Response {
 		this.sheet761 = sheet761;
 	}
 
-	public void setSheet211(Iterable<sheet221DAO> sheet211) {
-		this.sheet211 = sheet211;
+	public void setSheet221(Iterable<sheet221DAO> sheet221) {
+		this.sheet221 = sheet221;
 	}
 
 	
 
-	public sheet221DAO getS211Data() {
-		return s211Data;
+	public sheet221DAO getS221Data() {
+		return s221Data;
 	}
 
 	public sheet763DAO getS763Data() {
@@ -363,8 +399,8 @@ public class Response {
 		this.sheet763 = sheet763;
 	}
 
-	public void setS211Data(sheet221DAO s211Data) {
-		this.s211Data = s211Data;
+	public void setS221Data(sheet221DAO s221Data) {
+		this.s221Data = s221Data;
 	}
 
 	public sheet762DAO getS762Data() {

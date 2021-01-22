@@ -19,7 +19,7 @@ public class sheet141DAO {
 		public int id;
 		
 		
-		@Column(name = "TYPEOFDEPOSIT")
+		@Column(name = "DEPOSIT_TYPE")
 		public String typeOfDeposit;
 		
 		

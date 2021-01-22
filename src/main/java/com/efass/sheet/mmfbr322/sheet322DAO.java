@@ -20,13 +20,13 @@ public class sheet322DAO {
 	private int id;
 
 	@Column(name = "BANK_CODE")
-	private String bankCode;
+	private String bank_code;
 	
 	
 	
 	
-	@Column(name = "NAME_OF_INSTITUTION")
-	private String nameOfInstitution;
+	@Column(name = "BANK_NAME")
+	private String bank_name;
 	
 	
 	
@@ -40,9 +40,26 @@ public class sheet322DAO {
 	
 	
 	
+	
+	@Column(name = "AMOUNT")
+	private String amount;
+	
+	
+
+
+
+	@Column(name = "MATURITY")
+	private String maturityDate;
+
+
+
+
+
 	public int getId() {
 		return id;
 	}
+
+
 
 
 
@@ -52,27 +69,37 @@ public class sheet322DAO {
 
 
 
-	public String getBankCode() {
-		return bankCode;
+
+
+	public String getBank_code() {
+		return bank_code;
 	}
 
 
 
-	public void setBankCode(String bankCode) {
-		this.bankCode = bankCode;
+
+
+	public void setBank_code(String bank_code) {
+		this.bank_code = bank_code;
 	}
 
 
 
-	public String getNameOfInstitution() {
-		return nameOfInstitution;
+
+
+	public String getBank_name() {
+		return bank_name;
 	}
 
 
 
-	public void setNameOfInstitution(String nameOfInstitution) {
-		this.nameOfInstitution = nameOfInstitution;
+
+
+	public void setBank_name(String bank_name) {
+		this.bank_name = bank_name;
 	}
+
+
 
 
 
@@ -82,9 +109,13 @@ public class sheet322DAO {
 
 
 
+
+
 	public void setRate(String rate) {
 		this.rate = rate;
 	}
+
+
 
 
 
@@ -94,21 +125,13 @@ public class sheet322DAO {
 
 
 
+
+
 	public void setTenor(String tenor) {
 		this.tenor = tenor;
 	}
 
 
-
-	public String getMaturityDate() {
-		return maturityDate;
-	}
-
-
-
-	public void setMaturityDate(String maturityDate) {
-		this.maturityDate = maturityDate;
-	}
 
 
 
@@ -118,19 +141,30 @@ public class sheet322DAO {
 
 
 
+
+
 	public void setAmount(String amount) {
 		this.amount = amount;
 	}
 
 
 
-	@Column(name = "MATURITY_DATE")
-	private String maturityDate;
+
+
+	public String getMaturityDate() {
+		return maturityDate;
+	}
+
+
+
+
+
+	public void setMaturityDate(String maturityDate) {
+		this.maturityDate = maturityDate;
+	}
 
 	
-	
-	@Column(name = "AMOUNT")
-	private String amount;
+
 
 	
 	

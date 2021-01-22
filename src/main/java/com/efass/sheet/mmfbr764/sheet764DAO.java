@@ -18,31 +18,33 @@ public class sheet764DAO {
 	@Column(name = "id")
 	public int id;
 
+
+	  
+	  
+	@Column(name = "ACCOUNT_TYPE")
+	public String account_type;
 	
-	@Column(name = "TypeOfAccount")
-	public String typeOfAccount;
 	
+	@Column(name = "ONE_TO_30_DAYS")
+	public String one_to_30_days;
 	
-	@Column(name = "_0-30Days")
-	public String zeroTo30Days;
-	
-	@Column(name = "_31-60Days")
+	@Column(name = "THIRTY_ONE_TO_60_DAYS")
 	public String thirtyOneTo60Days;
 	
-	@Column(name = "_61–90Days")
-	public String sixtyOneTo90Days;
+	@Column(name = "SIXTY_ONE_TO_90_DAYS")
+	public String sixty_one_to_90_days;
 	
 	
-	@Column(name = "_91–180Days")
-	public String nintyOneTo180Days;
+	@Column(name = "NINETY_ONE_TO_180_DAYS")
+	public String ninety_one_to_180_days;
 	
 	
-	@Column(name = "_180–360Days")
-	public String oneEightyTo180Days;
+	@Column(name = "  ONE_EIGHTY_ONE_TO_360_DAYS")
+	public String   one_eighty_one_to_360_days;
 	
 	
-	@Column(name = "_Over360Days")
-	public String over360Days;
+	@Column(name = " ABOVE_360_DAYS")
+	public String  above_360_days;
 
 
 	public int getId() {
@@ -55,23 +57,23 @@ public class sheet764DAO {
 	}
 
 
-	public String getTypeOfAccount() {
-		return typeOfAccount;
+	public String getAccount_type() {
+		return account_type;
 	}
 
 
-	public void setTypeOfAccount(String typeOfAccount) {
-		this.typeOfAccount = typeOfAccount;
+	public void setAccount_type(String account_type) {
+		this.account_type = account_type;
 	}
 
 
-	public String getZeroTo30Days() {
-		return zeroTo30Days;
+	public String getOne_to_30_days() {
+		return one_to_30_days;
 	}
 
 
-	public void setZeroTo30Days(String zeroTo30Days) {
-		this.zeroTo30Days = zeroTo30Days;
+	public void setOne_to_30_days(String one_to_30_days) {
+		this.one_to_30_days = one_to_30_days;
 	}
 
 
@@ -85,45 +87,45 @@ public class sheet764DAO {
 	}
 
 
-	public String getSixtyOneTo90Days() {
-		return sixtyOneTo90Days;
+	public String getSixty_one_to_90_days() {
+		return sixty_one_to_90_days;
 	}
 
 
-	public void setSixtyOneTo90Days(String sixtyOneTo90Days) {
-		this.sixtyOneTo90Days = sixtyOneTo90Days;
+	public void setSixty_one_to_90_days(String sixty_one_to_90_days) {
+		this.sixty_one_to_90_days = sixty_one_to_90_days;
 	}
 
 
-	public String getNintyOneTo180Days() {
-		return nintyOneTo180Days;
+	public String getNinety_one_to_180_days() {
+		return ninety_one_to_180_days;
 	}
 
 
-	public void setNintyOneTo180Days(String nintyOneTo180Days) {
-		this.nintyOneTo180Days = nintyOneTo180Days;
+	public void setNinety_one_to_180_days(String ninety_one_to_180_days) {
+		this.ninety_one_to_180_days = ninety_one_to_180_days;
 	}
 
 
-	public String getOneEightyTo180Days() {
-		return oneEightyTo180Days;
+	public String getOne_eighty_one_to_360_days() {
+		return one_eighty_one_to_360_days;
 	}
 
 
-	public void setOneEightyTo180Days(String oneEightyTo180Days) {
-		this.oneEightyTo180Days = oneEightyTo180Days;
+	public void setOne_eighty_one_to_360_days(String one_eighty_one_to_360_days) {
+		this.one_eighty_one_to_360_days = one_eighty_one_to_360_days;
 	}
 
 
-	public String getOver360Days() {
-		return over360Days;
+	public String getAbove_360_days() {
+		return above_360_days;
 	}
 
 
-	public void setOver360Days(String over360Days) {
-		this.over360Days = over360Days;
+	public void setAbove_360_days(String above_360_days) {
+		this.above_360_days = above_360_days;
 	}
-	
-	
+
+
 	
 }

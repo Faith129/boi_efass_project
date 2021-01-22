@@ -78,6 +78,7 @@ public class sheet201_impl implements sheet201_Service{
 			DataUpdate.setSixyOneToNintyDays(Data.getSixyOneToNintyDays());
 			DataUpdate.setThirtyOneToSixtyDays(Data.getThirtyOneToSixtyDays());
 			DataUpdate.setTypeOfDeposit(Data.getTypeOfDeposit());
+			DataUpdate.setAbove360Days(Data.getAbove360Days());
 			_201Repository.save(DataUpdate);
 			Response res = new Response();
 			res.setResponseMessage("Record Updated");

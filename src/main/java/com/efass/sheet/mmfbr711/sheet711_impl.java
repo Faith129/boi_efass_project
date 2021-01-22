@@ -1,5 +1,7 @@
 package com.efass.sheet.mmfbr711;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+import com.efass.sheet.mmfbr221.sheet221DAO;
 import com.efass.sheet.mmfbr321.sheet321Repository;
 
 @Service
@@ -29,10 +32,17 @@ public class sheet711_impl implements sheet711_Service {
 	}
 
 	public ResponseEntity<?> fetchAllData() {
+		
+		  Field[] fields = sheet221DAO.class.getFields();
+				ArrayList<String> colname = new ArrayList<String>();
+				for(Field f: fields){
+				   colname.add(f.getName()) ;
+				}
 		Iterable<sheet711DAO> data = _711Repository.findAll();
 		Response res = new Response();
 		res.setSheet711(data);
 		res.setResponseMessage("Success");
+		res.setColumnNames(colname);
 		res.setResponseCode(00);
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
