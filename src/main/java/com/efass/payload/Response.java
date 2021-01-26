@@ -14,6 +14,8 @@ import com.efass.sheet.mmfbr322.sheet322DAO;
 import com.efass.sheet.mmfbr451.sheet451DAO;
 import com.efass.sheet.mmfbr501.sheet501DAO;
 import com.efass.sheet.mmfbr641.sheet641DAO;
+import com.efass.sheet.mmfbr642.sheet642DAO;
+import com.efass.sheet.mmfbr651.sheet651DAO;
 import com.efass.sheet.mmfbr711.sheet711DAO;
 import com.efass.sheet.mmfbr746.sheet746DAO;
 import com.efass.sheet.mmfbr761.sheet761DAO;
@@ -22,6 +24,10 @@ import com.efass.sheet.mmfbr763.sheet763DAO;
 import com.efass.sheet.mmfbr764.sheet764DAO;
 import com.efass.sheet.mmfbr771.sheet771DAO;
 import com.efass.sheet.mmfbr811.sheet811DAO;
+import com.efass.sheet.mmfbr933.sheet933DAO;
+import com.efass.sheet.mmfbr951.sheet951DAO;
+import com.efass.sheet.mmfbr980.sheet980DAO;
+import com.efass.sheet.mmfbr996.sheet996DAO;
 import com.efass.sheet.table.TabSheet;
 import com.efass.user.UserDAO;
 
@@ -130,6 +136,129 @@ public class Response {
 	
 
 	
+	
+	public sheet642DAO s642Data;
+	public Iterable<sheet642DAO> sheet642;
+	
+	
+	
+	public sheet933DAO s933Data;
+	public Iterable<sheet933DAO> sheet933;
+	
+	
+	public sheet951DAO s951Data;
+	public Iterable<sheet951DAO> sheet951;
+	
+	
+	
+	public sheet996DAO s996Data;
+	public Iterable<sheet996DAO> sheet996;
+	
+	
+	public sheet980DAO s980Data;
+	public Iterable<sheet980DAO> sheet980;
+	
+	
+	public sheet980DAO getS980Data() {
+		return s980Data;
+	}
+
+	public void setS980Data(sheet980DAO s980Data) {
+		this.s980Data = s980Data;
+	}
+
+	public Iterable<sheet980DAO> getSheet980() {
+		return sheet980;
+	}
+
+	public void setSheet980(Iterable<sheet980DAO> sheet980) {
+		this.sheet980 = sheet980;
+	}
+
+	public sheet996DAO getS996Data() {
+		return s996Data;
+	}
+
+	public void setS996Data(sheet996DAO s996Data) {
+		this.s996Data = s996Data;
+	}
+
+	public Iterable<sheet996DAO> getSheet996() {
+		return sheet996;
+	}
+
+	public void setSheet996(Iterable<sheet996DAO> sheet996) {
+		this.sheet996 = sheet996;
+	}
+
+	public sheet951DAO getS951Data() {
+		return s951Data;
+	}
+
+	public void setS951Data(sheet951DAO s951Data) {
+		this.s951Data = s951Data;
+	}
+
+	public Iterable<sheet951DAO> getSheet951() {
+		return sheet951;
+	}
+
+	public void setSheet951(Iterable<sheet951DAO> sheet951) {
+		this.sheet951 = sheet951;
+	}
+
+	public sheet933DAO getS933Data() {
+		return s933Data;
+	}
+
+	public void setS933Data(sheet933DAO s933Data) {
+		this.s933Data = s933Data;
+	}
+
+	public Iterable<sheet933DAO> getSheet933() {
+		return sheet933;
+	}
+
+	public void setSheet933(Iterable<sheet933DAO> sheet933) {
+		this.sheet933 = sheet933;
+	}
+
+	public sheet651DAO s651Data;
+	public Iterable<sheet651DAO> sheet651;
+	
+
+public sheet651DAO getS651Data() {
+		return s651Data;
+	}
+
+	public void setS651Data(sheet651DAO s651Data) {
+		this.s651Data = s651Data;
+	}
+
+	public Iterable<sheet651DAO> getSheet651() {
+		return sheet651;
+	}
+
+	public void setSheet651(Iterable<sheet651DAO> sheet651) {
+		this.sheet651 = sheet651;
+	}
+
+public sheet642DAO getS642Data() {
+		return s642Data;
+	}
+
+	public void setS642Data(sheet642DAO s642Data) {
+		this.s642Data = s642Data;
+	}
+
+	public Iterable<sheet642DAO> getSheet642() {
+		return sheet642;
+	}
+
+	public void setSheet642(Iterable<sheet642DAO> sheet642) {
+		this.sheet642 = sheet642;
+	}
+
 public ArrayList<String> columnNames;
 
 

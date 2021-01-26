@@ -1,4 +1,6 @@
 package com.efass.sheet.mmfbr762;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+import com.efass.sheet.mmfbr746.sheet746DAO;
 import com.efass.sheet.mmfbr746.sheet746Repository;
 
 @Service
@@ -36,10 +39,17 @@ public class sheet762_impl implements sheet762_Service{
 		 
 		 
 		public ResponseEntity<?> fetchAllData() {
+			 Field[] fields = sheet746DAO.class.getFields();
+				ArrayList<String> colname = new ArrayList<String>();
+				for(Field f: fields){
+				   colname.add(f.getName()) ;
+				}
+				
 			Iterable<sheet762DAO> data = _762Repository.findAll();
 			Response res = new Response();
 			res.setSheet762(data);
 			res.setResponseMessage("Success");
+			res.setColumnNames(colname);
 			res.setResponseCode(00);
 			return new ResponseEntity<>(res, HttpStatus.OK);
 		}
