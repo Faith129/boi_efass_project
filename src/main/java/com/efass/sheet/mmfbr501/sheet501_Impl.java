@@ -1,18 +1,21 @@
 package com.efass.sheet.mmfbr501;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+import com.efass.sheet.mmfbr221.sheet221DAO;
 
-
+@Service
 public class sheet501_Impl implements sheet501_Service {
 
-	
 	
 	@Autowired
 	sheet501Repository _501Repository;
@@ -31,9 +34,16 @@ public class sheet501_Impl implements sheet501_Service {
 
 	public ResponseEntity<?> fetchAllData() {
 		Iterable<sheet501DAO> data = _501Repository.findAll();
+		
+		  Field[] fields = sheet221DAO.class.getFields();
+			ArrayList<String> colname = new ArrayList<String>();
+			for(Field f: fields){
+			   colname.add(f.getName()) ;
+			}
 		Response res = new Response();
 		res.setSheet501(data);
 		res.setResponseMessage("Success");
+		res.setColumnNames(colname);
 		res.setResponseCode(00);
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
