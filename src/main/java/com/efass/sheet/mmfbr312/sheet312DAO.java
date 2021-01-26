@@ -18,12 +18,14 @@ public class sheet312DAO {
 	@Column(name = "id")
 	private int id;
 
+	
+  
 	@Column(name = "BANK_CODE")
 	private String bankCode;
 	
 	
 	
-	@Column(name = "NAME_OF_BANKS")
+	@Column(name = "BANK_NAME")
 	private String nameOfBanks;
 	
 	
@@ -43,7 +45,7 @@ public class sheet312DAO {
 	
 	
 	
-	@Column(name = "MATURITY_DATE")
+	@Column(name = "MATURITY")
 	private String maturityDate;
 	
 	

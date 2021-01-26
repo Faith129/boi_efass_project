@@ -1,14 +1,19 @@
 package com.efass.sheet.mmfbr764;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+import com.efass.sheet.mmfbr221.sheet221DAO;
 
+@Service
 public class sheet764_impl implements sheet764_Service {
 
 	
@@ -29,10 +34,18 @@ public class sheet764_impl implements sheet764_Service {
 	}
 
 	public ResponseEntity<?> fetchAllData() {
+		
+		  Field[] fields = sheet221DAO.class.getFields();
+				ArrayList<String> colname = new ArrayList<String>();
+				for(Field f: fields){
+				   colname.add(f.getName()) ;
+				}
+				
 		Iterable<sheet764DAO> data = _764Repository.findAll();
 		Response res = new Response();
 		res.setSheet764(data);
 		res.setResponseMessage("Success");
+		res.setColumnNames(colname);
 		res.setResponseCode(00);
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
@@ -70,13 +83,13 @@ public class sheet764_impl implements sheet764_Service {
 		if (DataDb.isPresent()) {
 			sheet764DAO DataUpdate = DataDb.get();
 			DataUpdate.setId(Data.getId());
-			DataUpdate.setNintyOneTo180Days(Data.getNintyOneTo180Days());
-			DataUpdate.setOneEightyTo180Days(Data.getOneEightyTo180Days());
-			DataUpdate.setOver360Days(Data.getOver360Days());
-			DataUpdate.setSixtyOneTo90Days(Data.getSixtyOneTo90Days());
+			DataUpdate.setAbove_360_days(Data.getAbove_360_days());
+			DataUpdate.setAccount_type(Data.getAccount_type());
+			DataUpdate.setNinety_one_to_180_days(Data.getNinety_one_to_180_days());
+			DataUpdate.setOne_eighty_one_to_360_days(Data.getOne_eighty_one_to_360_days());
+			DataUpdate.setOne_to_30_days(Data.getOne_to_30_days());
+			DataUpdate.setSixty_one_to_90_days(Data.getSixty_one_to_90_days());
 			DataUpdate.setThirtyOneTo60Days(Data.getThirtyOneTo60Days());
-			DataUpdate.setTypeOfAccount(Data.getTypeOfAccount());
-			DataUpdate.setZeroTo30Days(Data.getZeroTo30Days());
 			_764Repository.save(DataUpdate);
 			Response res = new Response();
 			res.setResponseMessage("Record Updated");

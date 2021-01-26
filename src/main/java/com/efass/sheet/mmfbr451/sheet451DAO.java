@@ -25,7 +25,7 @@ public class sheet451DAO {
 	
 	
 	
-	@Column(name = "NAME_OF_INSTITUTION")
+	@Column(name = "BANK_NAME")
 	private String nameOfInstitution;
 	
 	

@@ -12,9 +12,8 @@ import com.efass.payload.Response;
 import com.efass.sheet.mmfbr771.sheet771Repository;
 
 @Service
-public class sheet763_impl implements sheet763_Service{
+public class sheet763_impl implements sheet763_Service {
 
-	
 	@Autowired
 	sheet763Repository _763Repository;
 
@@ -72,13 +71,14 @@ public class sheet763_impl implements sheet763_Service{
 		if (DataDb.isPresent()) {
 			sheet763DAO DataUpdate = DataDb.get();
 			DataUpdate.setId(Data.getId());
-			DataUpdate.setAbove360Days(Data.getAbove360Days());
-			DataUpdate.setOneEightyDays(Data.getOneEightyDays());
-			DataUpdate.setOneEightyoneTo360Days(Data.getOneEightyoneTo360Days());
-			DataUpdate.setOneTo30Days(Data.getOneTo30Days());
-			DataUpdate.setSixtyOneTo90Days(Data.getSixtyOneTo90Days());
+			DataUpdate.setAbove_360_days(Data.getAbove_360_days());
+			DataUpdate.setNinty_one_to_180_days(Data.getNinty_one_to_180_days());
+			DataUpdate.setOne_eighty_one_to_360_days(Data.getOne_eighty_one_to_360_days());
+			DataUpdate.setOne_to_30_Days(Data.getOne_to_30_Days());
+			DataUpdate.setSixty_one_to_90_days(Data.getSixty_one_to_90_days());
+			DataUpdate.setThirty_one_to_60_Days(Data.getThirty_one_to_60_Days());
 			DataUpdate.setTypeOfLoans(Data.getTypeOfLoans());
-			DataUpdate.setThirtyOneTo60Days(Data.getThirtyOneTo60Days());
+
 			_763Repository.save(DataUpdate);
 			Response res = new Response();
 			res.setResponseMessage("Record Updated");
@@ -98,5 +98,4 @@ public class sheet763_impl implements sheet763_Service{
 
 	// ##################################################################################
 
-	
 }

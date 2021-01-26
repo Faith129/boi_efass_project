@@ -1,6 +1,9 @@
 package com.efass;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -46,10 +49,15 @@ import com.efass.sheet.mmfbr761.sheet761DAO;
 import com.efass.sheet.mmfbr761.sheet761_Service;
 import com.efass.sheet.mmfbr762.sheet762DAO;
 import com.efass.sheet.mmfbr762.sheet762_Service;
+import com.efass.sheet.mmfbr763.sheet763DAO;
+import com.efass.sheet.mmfbr763.sheet763_Service;
+import com.efass.sheet.mmfbr764.sheet764DAO;
+import com.efass.sheet.mmfbr764.sheet764_Service;
 import com.efass.sheet.mmfbr771.sheet771DAO;
 import com.efass.sheet.mmfbr771.sheet771_Service;
 import com.efass.sheet.mmfbr811.sheet811DAO;
 import com.efass.sheet.mmfbr811.sheet811_Service;
+import com.efass.sheet.table.TableService;
 import com.efass.specials.SpecialFunction;
 
 @CrossOrigin(origins = "*")
@@ -120,7 +128,23 @@ public class ReportController {
 	@Autowired
 	private sheet451_Service sheet451Svc;
 	
-	//Stopped at 451
+	
+	
+	@Autowired
+	private TableService tableSvc;
+	
+	
+	@Autowired
+	private sheet763_Service sheet763Svc;
+	
+	@Autowired
+	private sheet764_Service sheet764Svc;
+	
+	//Start from 501
+	
+	
+	
+
 	
 	
 	// CHOOSE REPORT DATE
@@ -153,8 +177,33 @@ public class ReportController {
 
 	}
 
+	
+	
+	//Fetch all table names
+	@RequestMapping("/tables/assets")
+	public ResponseEntity<?> fetchAssetsChildren(){
+		
+		return tableSvc.AssetsTableData();
+			
+	}
+	
+	
+	
+	//Fetch all table names
+	@RequestMapping("/tables/profits")
+	public ResponseEntity<?> fetchProfitsChildren(){
+		
+		return tableSvc.AssetsTableData();
+			
+	}
+	
+	
+	
+	
 	// ########################## MMFBR221 ##########################################
 
+
+		
 	@GetMapping("/mmfbr221")
 	public ResponseEntity<?> getAllData221() {
 		return sheet221Svc.fetchAllData();
@@ -479,6 +528,78 @@ public class ReportController {
 	}
 	
 	//####################################################################
+	
+	
+	
+	
+	
+	//########################## MMFBR763 ##########################
+	@GetMapping("/mmfbr763")
+	public ResponseEntity<?> getAllData763() {
+		return sheet763Svc.fetchAllData();
+	}
+
+	@GetMapping("/mmfbr763/{id}")
+	public ResponseEntity<?> getDataById763(@PathVariable int id) throws ResourceNotFoundException {
+		return sheet763Svc.getDataById(id);
+	}
+
+	@PostMapping("/mmfbr763")
+	public ResponseEntity<?> createData763(@RequestBody sheet763DAO data) throws ResourceNotFoundException {
+		return sheet763Svc.createData(data);
+	}
+
+	@PutMapping("/mmfbr763/{id}")
+	public ResponseEntity<?> updateData763(@PathVariable int id, @RequestBody sheet763DAO Data) throws ResourceNotFoundException {
+		Data.setId(id);
+		return sheet763Svc.updateData(id, Data);
+	}
+
+	@DeleteMapping("/mmfbr763/{id}")
+	public ResponseEntity<?> deleteData763(@PathVariable int id) throws ResourceNotFoundException {
+		
+		return sheet763Svc.deleteById(id);
+	}
+	
+	//####################################################################
+	
+	
+	
+	
+	
+	
+	//########################## MMFBR764 ##########################
+	@GetMapping("/mmfbr764")
+	public ResponseEntity<?> getAllData764() {
+		return sheet764Svc.fetchAllData();
+	}
+
+	@GetMapping("/mmfbr764/{id}")
+	public ResponseEntity<?> getDataById764(@PathVariable int id) throws ResourceNotFoundException {
+		return sheet764Svc.getDataById(id);
+	}
+
+	@PostMapping("/mmfbr764")
+	public ResponseEntity<?> createData764(@RequestBody sheet764DAO data) throws ResourceNotFoundException {
+		return sheet764Svc.createData(data);
+	}
+
+	@PutMapping("/mmfbr764/{id}")
+	public ResponseEntity<?> updateData764(@PathVariable int id, @RequestBody sheet764DAO Data) throws ResourceNotFoundException {
+		Data.setId(id);
+		return sheet764Svc.updateData(id, Data);
+	}
+
+	@DeleteMapping("/mmfbr764/{id}")
+	public ResponseEntity<?> deleteData764(@PathVariable int id) throws ResourceNotFoundException {
+		
+		return sheet764Svc.deleteById(id);
+	}
+	
+	//####################################################################
+	
+	
+	
 	
 	
 	

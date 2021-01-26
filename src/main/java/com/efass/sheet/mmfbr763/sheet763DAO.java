@@ -17,31 +17,34 @@ public class sheet763DAO {
 	public int id;
 
 	
-	@Column(name = "TYPE_OF_LOANS")
+	
+
+	   
+	@Column(name = "LOAN_TYPE")
 	public String typeOfLoans;
 	
 	
-	@Column(name = "_1-30Days")
-	public String oneTo30Days;
+	@Column(name = "ONE_TO_30_DAYS")
+	public String one_to_30_Days;
 	
-	@Column(name = "_31-60Days")
-	public String thirtyOneTo60Days;
+	@Column(name = "THIRTY_ONE_TO_60_DAYS")
+	public String thirty_one_to_60_Days;
 	
-	@Column(name = "_61–90Days")
-	public String sixtyOneTo90Days;
-	
-	
-	
-	@Column(name = "_180Days")
-	public String oneEightyDays;
+	@Column(name = "SIXTY_ONE_TO_90_DAYS")
+	public String sixty_one_to_90_days;
 	
 	
-	@Column(name = "_181–360Days")
-	public String oneEightyoneTo360Days;
+	
+	@Column(name = "NINETY_ONE_TO_180_DAYS")
+	public String ninty_one_to_180_days;
 	
 	
-	@Column(name = "_above360Days")
-	public String above360Days;
+	@Column(name = "ONE_EIGHTY_ONE_TO_360_DAYS")
+	public String one_eighty_one_to_360_days;
+	
+	
+	@Column(name = "ABOVE_360_DAYS")
+	public String above_360_days;
 
 
 	public int getId() {
@@ -59,69 +62,72 @@ public class sheet763DAO {
 	}
 
 
+	public String getOne_to_30_Days() {
+		return one_to_30_Days;
+	}
+
+
+	public void setOne_to_30_Days(String one_to_30_Days) {
+		this.one_to_30_Days = one_to_30_Days;
+	}
+
+
+	public String getThirty_one_to_60_Days() {
+		return thirty_one_to_60_Days;
+	}
+
+
+	public void setThirty_one_to_60_Days(String thirty_one_to_60_Days) {
+		this.thirty_one_to_60_Days = thirty_one_to_60_Days;
+	}
+
+
+	public String getSixty_one_to_90_days() {
+		return sixty_one_to_90_days;
+	}
+
+
+	public void setSixty_one_to_90_days(String sixty_one_to_90_days) {
+		this.sixty_one_to_90_days = sixty_one_to_90_days;
+	}
+
+
+	public String getNinty_one_to_180_days() {
+		return ninty_one_to_180_days;
+	}
+
+
+	public void setNinty_one_to_180_days(String ninty_one_to_180_days) {
+		this.ninty_one_to_180_days = ninty_one_to_180_days;
+	}
+
+
+	public String getOne_eighty_one_to_360_days() {
+		return one_eighty_one_to_360_days;
+	}
+
+
+	public void setOne_eighty_one_to_360_days(String one_eighty_one_to_360_days) {
+		this.one_eighty_one_to_360_days = one_eighty_one_to_360_days;
+	}
+
+
+	public String getAbove_360_days() {
+		return above_360_days;
+	}
+
+
+	public void setAbove_360_days(String above_360_days) {
+		this.above_360_days = above_360_days;
+	}
+
+
 	public void setTypeOfLoans(String typeOfLoans) {
 		this.typeOfLoans = typeOfLoans;
 	}
 
 
-	public String getOneTo30Days() {
-		return oneTo30Days;
-	}
-
-
-	public void setOneTo30Days(String oneTo30Days) {
-		this.oneTo30Days = oneTo30Days;
-	}
-
-
-	public String getSixtyOneTo90Days() {
-		return sixtyOneTo90Days;
-	}
-
-
-	public void setSixtyOneTo90Days(String sixtyOneTo90Days) {
-		this.sixtyOneTo90Days = sixtyOneTo90Days;
-	}
-
-
-	public String getOneEightyDays() {
-		return oneEightyDays;
-	}
-
-
-	public void setOneEightyDays(String oneEightyDays) {
-		this.oneEightyDays = oneEightyDays;
-	}
-
-
-	public String getOneEightyoneTo360Days() {
-		return oneEightyoneTo360Days;
-	}
-
-
-	public void setOneEightyoneTo360Days(String oneEightyoneTo360Days) {
-		this.oneEightyoneTo360Days = oneEightyoneTo360Days;
-	}
-
-
-	public String getThirtyOneTo60Days() {
-		return thirtyOneTo60Days;
-	}
-
-
-	public void setThirtyOneTo60Days(String thirtyOneTo60Days) {
-		this.thirtyOneTo60Days = thirtyOneTo60Days;
-	}
-
-
-	public String getAbove360Days() {
-		return above360Days;
-	}
-
-
-	public void setAbove360Days(String above360Days) {
-		this.above360Days = above360Days;
-	}
+	
 	
 	
 	
