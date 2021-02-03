@@ -39,7 +39,7 @@ public class sheet321_impl implements sheet321_Service {
 	public ResponseEntity<?> fetchAllData() {
 		Iterable<sheet321DAO> data = _321Repository.findAll();
 		
-		  Field[] fields = sheet221DAO.class.getFields();
+		  Field[] fields = sheet321DAO.class.getFields();
 				ArrayList<String> colname = new ArrayList<String>();
 				for(Field f: fields){
 				   colname.add(f.getName()) ;

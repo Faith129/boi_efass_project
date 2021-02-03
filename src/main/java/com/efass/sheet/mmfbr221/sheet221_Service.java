@@ -2,6 +2,7 @@ package com.efass.sheet.mmfbr221;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.apache.poi.EncryptedDocumentException;
@@ -22,10 +23,10 @@ public interface sheet221_Service {
 
 	public ResponseEntity<?> updateData(int id , sheet221DAO Data) throws ResourceNotFoundException;
 
-	public void updateSheetList(List<List<Object>> listOfLists)
+	public Boolean writesheet221(LocalDate Date)
 			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException;
 
-	public Boolean writesheet221()
+	void updateSheetList(List<List<Object>> listOfLists, LocalDate Date)
 			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException;
 
 }

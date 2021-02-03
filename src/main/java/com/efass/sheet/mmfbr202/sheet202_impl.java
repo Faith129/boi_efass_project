@@ -1,5 +1,7 @@
 package com.efass.sheet.mmfbr202;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+import com.efass.sheet.mmfbr201.sheet201DAO;
 
 @Service
 public class sheet202_impl implements sheet202_Service{
@@ -31,7 +34,14 @@ public class sheet202_impl implements sheet202_Service{
 
 	public ResponseEntity<?> fetchAllData() {
 		Iterable<sheet202DAO> data = _202Repository.findAll();
+		
+		  Field[] fields = sheet202DAO.class.getFields();
+			ArrayList<String> colname = new ArrayList<String>();
+			for(Field f: fields){
+			   colname.add(f.getName()) ;
+			}
 		Response res = new Response();
+		res.setColumnNames(colname);
 		res.setSheet202(data);
 		res.setResponseMessage("Success");
 		res.setResponseCode(00);

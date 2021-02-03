@@ -1,10 +1,11 @@
 package com.efass;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.efass.exceptions.ResourceNotFoundException;
-import com.efass.payload.Response;
+import com.efass.report.ReportService;
 import com.efass.sheet.mmfbr141.sheet141DAO;
 import com.efass.sheet.mmfbr141.sheet141_Service;
 import com.efass.sheet.mmfbr201.sheet201DAO;
@@ -178,37 +179,20 @@ public class ReportController {
 	@Autowired
 	private sheet980_Service sheet980Svc;
 	
+	@Autowired
+	private ReportService reportSvc;
 	
 	// CHOOSE REPORT DATE
 	// You can consume the path .../report/date/2019-04-25
-	@RequestMapping("/report/date/{from}")
-	public ResponseEntity<?> userAddedSince2(
-			@PathVariable("from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date since) {
-		// String selectedDate =since.toString();
-		long selectedTime = since.getTime();
-
-		int selectedDate = since.getDate();
-
-		// Create a folder inside exports
-		SpecialFunction special = new SpecialFunction();
-		Response res = new Response();
-		String filename = special.createFolderDirectory(selectedTime, selectedDate);
-		if (!filename.equals(null)) {
-			// Run Procedure to populate the tables on DB
-			res.setResponseMessage("Success");
-			res.setResponseCode(00);
-			res.setFilePath(filename);
-			return new ResponseEntity<>(res, HttpStatus.OK);
-		} else {
-			res.setResponseMessage("Failed To Prepare For Generation");
-			res.setResponseCode(00);
-			return new ResponseEntity<>(res, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
-		// Call Procedure to populate tables
-
+	@RequestMapping("/report/date/{date}")
+	public ResponseEntity<?> userAddedSince2(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+		
+		return reportSvc.selectDate(date);
 	}
-
+//	@RequestMapping("/report/test/{date}")
+//	public Boolean test(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+//		return reportSvc.checkDate(date);
+//	}
 	
 	
 	//Fetch all table names
@@ -236,31 +220,61 @@ public class ReportController {
 
 
 		
-	@GetMapping("/mmfbr221")
-	public ResponseEntity<?> getAllData221() {
-		return sheet221Svc.fetchAllData();
-	}
-
-	@GetMapping("/mmfbr221/{id}")
-	public ResponseEntity<?> getDataById221(@PathVariable int id) throws ResourceNotFoundException {
-		return sheet221Svc.getDataById(id);
-	}
-
-	@PostMapping("/mmfbr221")
-	public ResponseEntity<?> createData221(@RequestBody sheet221DAO data) throws ResourceNotFoundException {
-		return sheet221Svc.createData(data);
-	}
-
-	@PutMapping("/mmfbr221/{id}")
-	public ResponseEntity<?> updateData221(@PathVariable int id, @RequestBody sheet221DAO Data) throws ResourceNotFoundException {
-		Data.setId(id);
-		return sheet221Svc.updateData(id, Data);
-	}
-
-	@DeleteMapping("/mmfbr221/{id}")
-	public ResponseEntity<?> deleteData221(@PathVariable int id) throws ResourceNotFoundException {
+	@GetMapping("/mmfbr221/{date}")
+	public ResponseEntity<?> getAllData221(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
+			return sheet221Svc.fetchAllData();
+		}else {
+			return reportSvc.NoDateFound();
+		}
 		
+	}
+
+	@GetMapping("/mmfbr221/{date}/{id}")
+	public ResponseEntity<?> getDataById221(@PathVariable int id,@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) throws ResourceNotFoundException {
+		
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
+		return sheet221Svc.getDataById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
+		
+	}
+
+	@PostMapping("/mmfbr221/{date}")
+	public ResponseEntity<?> createData221(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, @RequestBody sheet221DAO data) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
+		return sheet221Svc.createData(data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
+		
+	}
+
+	@PutMapping("/mmfbr221/{date}/{id}")
+	public ResponseEntity<?> updateData221(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet221DAO data) throws ResourceNotFoundException {
+		data.setId(id);
+		
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
+		return sheet221Svc.updateData(id, data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
+	}
+
+	@DeleteMapping("/mmfbr221/{date}/{id}")
+	public ResponseEntity<?> deleteData221(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, @PathVariable int id) throws ResourceNotFoundException {
+		
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet221Svc.deleteById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
 	// #################################################################################
@@ -274,31 +288,58 @@ public class ReportController {
 	// ########################## MMFBR311 ##########################################
 	
 
-	@GetMapping("/mmfbr311")
-	public ResponseEntity<?> getAllData311() {
-		return sheet311Svc.fetchAllData();
-	}
-
-	@GetMapping("/mmfbr311/{id}")
-	public ResponseEntity<?> getDataById311(@PathVariable int id) throws ResourceNotFoundException {
-		return sheet311Svc.getDataById(id);
-	}
-
-	@PostMapping("/mmfbr311")
-	public ResponseEntity<?> createData311(@RequestBody sheet311DAO data) throws ResourceNotFoundException {
-		return sheet311Svc.createData(data);
-	}
-
-	@PutMapping("/mmfbr311/{id}")
-	public ResponseEntity<?> updateData311(@PathVariable int id, @RequestBody sheet311DAO Data) throws ResourceNotFoundException {
-		Data.setId(id);
-		return sheet311Svc.updateData(id, Data);
-	}
-
-	@DeleteMapping("/mmfbr311/{id}")
-	public ResponseEntity<?> deleteData311(@PathVariable int id) throws ResourceNotFoundException {
+	@GetMapping("/mmfbr311/{date}")
+	public ResponseEntity<?> getAllData311(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
 		
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
+		return sheet311Svc.fetchAllData();
+	}else {
+		return reportSvc.NoDateFound();
+	}
+	}
+
+	@GetMapping("/mmfbr311/{date}/{id}")
+	public ResponseEntity<?> getDataById311(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
+		return sheet311Svc.getDataById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
+	}
+
+	@PostMapping("/mmfbr311/{date}")
+	public ResponseEntity<?> createData311(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, @RequestBody sheet311DAO data) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
+		return sheet311Svc.createData(data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
+	}
+
+	@PutMapping("/mmfbr311/{date}/{id}")
+	public ResponseEntity<?> updateData311(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet311DAO Data) throws ResourceNotFoundException {
+		Data.setId(id);
+		
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
+		return sheet311Svc.updateData(id, Data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
+	}
+
+	@DeleteMapping("/mmfbr311/{date}/{id}")
+	public ResponseEntity<?> deleteData311(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet311Svc.deleteById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 	
 	
@@ -310,31 +351,55 @@ public class ReportController {
 	
 	//########################## MMFBR 321 ################################
 	
-	@GetMapping("/mmfbr321")
-	public ResponseEntity<?> getAllData321() {
+	@GetMapping("/mmfbr321/{date}")
+	public ResponseEntity<?> getAllData321(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet321Svc.fetchAllData();
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@GetMapping("/mmfbr321/{id}")
-	public ResponseEntity<?> getDataById321(@PathVariable int id) throws ResourceNotFoundException {
+	@GetMapping("/mmfbr321/{date}/{id}")
+	public ResponseEntity<?> getDataById321(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet321Svc.getDataById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PostMapping("/mmfbr321")
-	public ResponseEntity<?> createData321(@RequestBody sheet321DAO data) throws ResourceNotFoundException {
+	@PostMapping("/mmfbr321/{date}")
+	public ResponseEntity<?> createData321(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@RequestBody sheet321DAO data) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet321Svc.createData(data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PutMapping("/mmfbr321/{id}")
-	public ResponseEntity<?> updateData321(@PathVariable int id, @RequestBody sheet321DAO Data) throws ResourceNotFoundException {
+	@PutMapping("/mmfbr321/{date}/{id}")
+	public ResponseEntity<?> updateData321(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet321DAO Data) throws ResourceNotFoundException {
 		Data.setId(id);
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet321Svc.updateData(id, Data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@DeleteMapping("/mmfbr321/{id}")
-	public ResponseEntity<?> deleteData321(@PathVariable int id) throws ResourceNotFoundException {
-		
+	@DeleteMapping("/mmfbr321/{date}/{id}")
+	public ResponseEntity<?> deleteData321(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet321Svc.deleteById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 	
 	
@@ -347,31 +412,50 @@ public class ReportController {
 	//################################ MMFBR 641 #########################################
 	
 	
-	@GetMapping("/mmfbr641")
+	@GetMapping("/mmfbr641/{date}")
 	public ResponseEntity<?> getAllData641() {
 		return sheet641Svc.fetchAllData();
 	}
 
-	@GetMapping("/mmfbr641/{id}")
-	public ResponseEntity<?> getDataById641(@PathVariable int id) throws ResourceNotFoundException {
+	@GetMapping("/mmfbr641/{date}/{id}")
+	public ResponseEntity<?> getDataById641(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet641Svc.getDataById(id);
+	}else {
+		return reportSvc.NoDateFound();
+	}
 	}
 
-	@PostMapping("/mmfbr641")
-	public ResponseEntity<?> createData641(@RequestBody sheet641DAO data) throws ResourceNotFoundException {
+	@PostMapping("/mmfbr641/{date}")
+	public ResponseEntity<?> createData641(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@RequestBody sheet641DAO data) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet641Svc.createData(data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PutMapping("/mmfbr641/{id}")
-	public ResponseEntity<?> updateData641(@PathVariable int id, @RequestBody sheet641DAO Data) throws ResourceNotFoundException {
+	@PutMapping("/mmfbr641/{date}/{id}")
+	public ResponseEntity<?> updateData641(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet641DAO Data) throws ResourceNotFoundException {
 		Data.setId(id);
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet641Svc.updateData(id, Data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@DeleteMapping("/mmfbr641/{id}")
-	public ResponseEntity<?> deleteData641(@PathVariable int id) throws ResourceNotFoundException {
-		
+	@DeleteMapping("/mmfbr641/{date}/{id}")
+	public ResponseEntity<?> deleteData641(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet641Svc.deleteById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 	
 	
@@ -380,31 +464,55 @@ public class ReportController {
 	//#####################################  MMFBR 711  ##############
 	
 
-	@GetMapping("/mmfbr711")
-	public ResponseEntity<?> getAllData711() {
+	@GetMapping("/mmfbr711/{date}")
+	public ResponseEntity<?> getAllData711(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet711Svc.fetchAllData();
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@GetMapping("/mmfbr711/{id}")
-	public ResponseEntity<?> getDataById711(@PathVariable int id) throws ResourceNotFoundException {
+	@GetMapping("/mmfbr711/{date}/{id}")
+	public ResponseEntity<?> getDataById711(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet711Svc.getDataById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PostMapping("/mmfbr711")
-	public ResponseEntity<?> createData711(@RequestBody sheet711DAO data) throws ResourceNotFoundException {
+	@PostMapping("/mmfbr711/{date}")
+	public ResponseEntity<?> createData711(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@RequestBody sheet711DAO data) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet711Svc.createData(data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PutMapping("/mmfbr711/{id}")
-	public ResponseEntity<?> updateData711(@PathVariable int id, @RequestBody sheet711DAO Data) throws ResourceNotFoundException {
+	@PutMapping("/mmfbr711/{date}/{id}")
+	public ResponseEntity<?> updateData711(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet711DAO Data) throws ResourceNotFoundException {
 		Data.setId(id);
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet711Svc.updateData(id, Data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@DeleteMapping("/mmfbr711/{id}")
-	public ResponseEntity<?> deleteData711(@PathVariable int id) throws ResourceNotFoundException {
-		
+	@DeleteMapping("/mmfbr711/{date}/{id}")
+	public ResponseEntity<?> deleteData711(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet711Svc.deleteById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 	
 	
@@ -412,31 +520,56 @@ public class ReportController {
 	
 	//########################## MMFBR746 ##########################
 	
-	@GetMapping("/mmfbr746")
-	public ResponseEntity<?> getAllData746() {
+	@GetMapping("/mmfbr746/{date}")
+	public ResponseEntity<?> getAllData746(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet746Svc.fetchAllData();
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@GetMapping("/mmfbr746/{id}")
-	public ResponseEntity<?> getDataById746(@PathVariable int id) throws ResourceNotFoundException {
+	@GetMapping("/mmfbr746/{date}/{id}")
+	public ResponseEntity<?> getDataById746(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet746Svc.getDataById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PostMapping("/mmfbr746")
-	public ResponseEntity<?> createData746(@RequestBody sheet746DAO data) throws ResourceNotFoundException {
+	@PostMapping("/mmfbr746/{date}")
+	public ResponseEntity<?> createData746(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@RequestBody sheet746DAO data) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet746Svc.createData(data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PutMapping("/mmfbr746/{id}")
-	public ResponseEntity<?> updateData746(@PathVariable int id, @RequestBody sheet746DAO Data) throws ResourceNotFoundException {
+	@PutMapping("/mmfbr746/{date}/{id}")
+	public ResponseEntity<?> updateData746(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet746DAO Data) throws ResourceNotFoundException {
 		Data.setId(id);
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet746Svc.updateData(id, Data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@DeleteMapping("/mmfbr746/{id}")
-	public ResponseEntity<?> deleteData746(@PathVariable int id) throws ResourceNotFoundException {
+	@DeleteMapping("/mmfbr746/{date}/{id}")
+	public ResponseEntity<?> deleteData746(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
 		
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet746Svc.deleteById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 	
 	
@@ -449,31 +582,55 @@ public class ReportController {
 	
 	
 	//########################## MMFBR761 ##########################
-	@GetMapping("/mmfbr761")
-	public ResponseEntity<?> getAllData761() {
+	@GetMapping("/mmfbr761/{date}")
+	public ResponseEntity<?> getAllData761(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet761Svc.fetchAllData();
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@GetMapping("/mmfbr761/{id}")
-	public ResponseEntity<?> getDataById761(@PathVariable int id) throws ResourceNotFoundException {
+	@GetMapping("/mmfbr761/{date}/{id}")
+	public ResponseEntity<?> getDataById761(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet761Svc.getDataById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PostMapping("/mmfbr761")
-	public ResponseEntity<?> createData761(@RequestBody sheet761DAO data) throws ResourceNotFoundException {
+	@PostMapping("/mmfbr761/{date}")
+	public ResponseEntity<?> createData761(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@RequestBody sheet761DAO data) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet761Svc.createData(data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PutMapping("/mmfbr761/{id}")
-	public ResponseEntity<?> updateData761(@PathVariable int id, @RequestBody sheet761DAO Data) throws ResourceNotFoundException {
+	@PutMapping("/mmfbr761/{date}/{id}")
+	public ResponseEntity<?> updateData761(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet761DAO Data) throws ResourceNotFoundException {
 		Data.setId(id);
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet761Svc.updateData(id, Data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@DeleteMapping("/mmfbr761/{id}")
-	public ResponseEntity<?> deleteData761(@PathVariable int id) throws ResourceNotFoundException {
-		
+	@DeleteMapping("/mmfbr761/{date}/{id}")
+	public ResponseEntity<?> deleteData761(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet761Svc.deleteById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 	
 	//####################################################################
@@ -496,31 +653,56 @@ public class ReportController {
 
 	
 	//########################## MMFBR771 ##########################
-	@GetMapping("/mmfbr771")
-	public ResponseEntity<?> getAllData771() {
+	@GetMapping("/mmfbr771/{date}")
+	public ResponseEntity<?> getAllData771(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet771Svc.fetchAllData();
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@GetMapping("/mmfbr771/{id}")
-	public ResponseEntity<?> getDataById771(@PathVariable int id) throws ResourceNotFoundException {
+	@GetMapping("/mmfbr771/{date}/{id}")
+	public ResponseEntity<?> getDataById771(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet771Svc.getDataById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PostMapping("/mmfbr771")
-	public ResponseEntity<?> createData771(@RequestBody sheet771DAO data) throws ResourceNotFoundException {
+	@PostMapping("/mmfbr771/{date}")
+	public ResponseEntity<?> createData771(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@RequestBody sheet771DAO data) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet771Svc.createData(data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PutMapping("/mmfbr771/{id}")
-	public ResponseEntity<?> updateData771(@PathVariable int id, @RequestBody sheet771DAO Data) throws ResourceNotFoundException {
+	@PutMapping("/mmfbr771/{date}/{id}")
+	public ResponseEntity<?> updateData771(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet771DAO Data) throws ResourceNotFoundException {
 		Data.setId(id);
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet771Svc.updateData(id, Data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
+		
 	}
 
-	@DeleteMapping("/mmfbr771/{id}")
-	public ResponseEntity<?> deleteData771(@PathVariable int id) throws ResourceNotFoundException {
-		
+	@DeleteMapping("/mmfbr771/{date}/{id}")
+	public ResponseEntity<?> deleteData771(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet771Svc.deleteById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 	
 	//####################################################################
@@ -532,31 +714,55 @@ public class ReportController {
 	
 	
 	//########################## MMFBR762 ##########################
-	@GetMapping("/mmfbr762")
-	public ResponseEntity<?> getAllData762() {
+	@GetMapping("/mmfbr762/{date}")
+	public ResponseEntity<?> getAllData762(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet762Svc.fetchAllData();
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@GetMapping("/mmfbr762/{id}")
-	public ResponseEntity<?> getDataById762(@PathVariable int id) throws ResourceNotFoundException {
+	@GetMapping("/mmfbr762/{date}/{id}")
+	public ResponseEntity<?> getDataById762(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet762Svc.getDataById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PostMapping("/mmfbr762")
-	public ResponseEntity<?> createData762(@RequestBody sheet762DAO data) throws ResourceNotFoundException {
+	@PostMapping("/mmfbr762/{date}")
+	public ResponseEntity<?> createData762(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@RequestBody sheet762DAO data) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet762Svc.createData(data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PutMapping("/mmfbr762/{id}")
-	public ResponseEntity<?> updateData762(@PathVariable int id, @RequestBody sheet762DAO Data) throws ResourceNotFoundException {
+	@PutMapping("/mmfbr762/{date}/{id}")
+	public ResponseEntity<?> updateData762(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet762DAO Data) throws ResourceNotFoundException {
 		Data.setId(id);
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet762Svc.updateData(id, Data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@DeleteMapping("/mmfbr762/{id}")
-	public ResponseEntity<?> deleteData762(@PathVariable int id) throws ResourceNotFoundException {
-		
+	@DeleteMapping("/mmfbr762/{date}/{id}")
+	public ResponseEntity<?> deleteData762(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet762Svc.deleteById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 	
 	//####################################################################
@@ -566,31 +772,55 @@ public class ReportController {
 	
 	
 	//########################## MMFBR763 ##########################
-	@GetMapping("/mmfbr763")
-	public ResponseEntity<?> getAllData763() {
+	@GetMapping("/mmfbr763/{date}")
+	public ResponseEntity<?> getAllData763(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet763Svc.fetchAllData();
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@GetMapping("/mmfbr763/{id}")
-	public ResponseEntity<?> getDataById763(@PathVariable int id) throws ResourceNotFoundException {
+	@GetMapping("/mmfbr763/{date}/{id}")
+	public ResponseEntity<?> getDataById763(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet763Svc.getDataById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PostMapping("/mmfbr763")
-	public ResponseEntity<?> createData763(@RequestBody sheet763DAO data) throws ResourceNotFoundException {
+	@PostMapping("/mmfbr763/{date}")
+	public ResponseEntity<?> createData763(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@RequestBody sheet763DAO data) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet763Svc.createData(data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PutMapping("/mmfbr763/{id}")
-	public ResponseEntity<?> updateData763(@PathVariable int id, @RequestBody sheet763DAO Data) throws ResourceNotFoundException {
+	@PutMapping("/mmfbr763/{date}/{id}")
+	public ResponseEntity<?> updateData763(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet763DAO Data) throws ResourceNotFoundException {
 		Data.setId(id);
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet763Svc.updateData(id, Data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@DeleteMapping("/mmfbr763/{id}")
-	public ResponseEntity<?> deleteData763(@PathVariable int id) throws ResourceNotFoundException {
-		
+	@DeleteMapping("/mmfbr763/{date}/{id}")
+	public ResponseEntity<?> deleteData763(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet763Svc.deleteById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 	
 	//####################################################################
@@ -601,31 +831,55 @@ public class ReportController {
 	
 	
 	//########################## MMFBR764 ##########################
-	@GetMapping("/mmfbr764")
-	public ResponseEntity<?> getAllData764() {
+	@GetMapping("/mmfbr764/{date}")
+	public ResponseEntity<?> getAllData764(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet764Svc.fetchAllData();
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@GetMapping("/mmfbr764/{id}")
-	public ResponseEntity<?> getDataById764(@PathVariable int id) throws ResourceNotFoundException {
+	@GetMapping("/mmfbr764/{date}/{id}")
+	public ResponseEntity<?> getDataById764(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet764Svc.getDataById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PostMapping("/mmfbr764")
-	public ResponseEntity<?> createData764(@RequestBody sheet764DAO data) throws ResourceNotFoundException {
+	@PostMapping("/mmfbr764/{date}")
+	public ResponseEntity<?> createData764(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@RequestBody sheet764DAO data) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet764Svc.createData(data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PutMapping("/mmfbr764/{id}")
-	public ResponseEntity<?> updateData764(@PathVariable int id, @RequestBody sheet764DAO Data) throws ResourceNotFoundException {
+	@PutMapping("/mmfbr764/{date}/{id}")
+	public ResponseEntity<?> updateData764(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet764DAO Data) throws ResourceNotFoundException {
 		Data.setId(id);
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet764Svc.updateData(id, Data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@DeleteMapping("/mmfbr764/{id}")
-	public ResponseEntity<?> deleteData764(@PathVariable int id) throws ResourceNotFoundException {
-		
+	@DeleteMapping("/mmfbr764/{date}/{id}")
+	public ResponseEntity<?> deleteData764(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet764Svc.deleteById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 	
 	//####################################################################
@@ -640,31 +894,55 @@ public class ReportController {
 	
 	
 	//########################## MMFBR811 ##########################
-	@GetMapping("/mmfbr811")
-	public ResponseEntity<?> getAllData811() {
+	@GetMapping("/mmfbr811/{date}")
+	public ResponseEntity<?> getAllData811(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet811Svc.fetchAllData();
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@GetMapping("/mmfbr811/{id}")
-	public ResponseEntity<?> getDataById811(@PathVariable int id) throws ResourceNotFoundException {
+	@GetMapping("/mmfbr811/{date}/{id}")
+	public ResponseEntity<?> getDataById811(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet811Svc.getDataById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PostMapping("/mmfbr811")
-	public ResponseEntity<?> createData811(@RequestBody sheet811DAO data) throws ResourceNotFoundException {
+	@PostMapping("/mmfbr811/{date}")
+	public ResponseEntity<?> createData811(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@RequestBody sheet811DAO data) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet811Svc.createData(data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PutMapping("/mmfbr811/{id}")
-	public ResponseEntity<?> updateData811(@PathVariable int id, @RequestBody sheet811DAO Data) throws ResourceNotFoundException {
+	@PutMapping("/mmfbr811/{date}/{id}")
+	public ResponseEntity<?> updateData811(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet811DAO Data) throws ResourceNotFoundException {
 		Data.setId(id);
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet811Svc.updateData(id, Data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@DeleteMapping("/mmfbr811/{id}")
-	public ResponseEntity<?> deleteData811(@PathVariable int id) throws ResourceNotFoundException {
-		
+	@DeleteMapping("/mmfbr811/{date}/{id}")
+	public ResponseEntity<?> deleteData811(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet811Svc.deleteById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 	
 	//####################################################################
@@ -676,31 +954,55 @@ public class ReportController {
 	
 	
 	//########################## MMFBR141 ##########################
-	@GetMapping("/mmfbr141")
-	public ResponseEntity<?> getAllData141() {
+	@GetMapping("/mmfbr141/{date}")
+	public ResponseEntity<?> getAllData141(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet141Svc.fetchAllData();
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@GetMapping("/mmfbr141/{id}")
-	public ResponseEntity<?> getDataById141(@PathVariable int id) throws ResourceNotFoundException {
+	@GetMapping("/mmfbr141/{date}/{id}")
+	public ResponseEntity<?> getDataById141(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet141Svc.getDataById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PostMapping("/mmfbr141")
-	public ResponseEntity<?> createData141(@RequestBody sheet141DAO data) throws ResourceNotFoundException {
+	@PostMapping("/mmfbr141/{date}")
+	public ResponseEntity<?> createData141(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@RequestBody sheet141DAO data) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet141Svc.createData(data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PutMapping("/mmfbr141/{id}")
-	public ResponseEntity<?> updateData141(@PathVariable int id, @RequestBody sheet141DAO Data) throws ResourceNotFoundException {
+	@PutMapping("/mmfbr141/{date}/{id}")
+	public ResponseEntity<?> updateData141(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet141DAO Data) throws ResourceNotFoundException {
 		Data.setId(id);
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet141Svc.updateData(id, Data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@DeleteMapping("/mmfbr141/{id}")
-	public ResponseEntity<?> deleteData141(@PathVariable int id) throws ResourceNotFoundException {
-		
+	@DeleteMapping("/mmfbr141/{date}/{id}")
+	public ResponseEntity<?> deleteData141(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet141Svc.deleteById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 	
 	//####################################################################
@@ -712,31 +1014,55 @@ public class ReportController {
 	
 	
 	//########################## MMFBR201 ##########################
-	@GetMapping("/mmfbr201")
-	public ResponseEntity<?> getAllData201() {
+	@GetMapping("/mmfbr201/{date}")
+	public ResponseEntity<?> getAllData201(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet201Svc.fetchAllData();
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@GetMapping("/mmfbr201/{id}")
-	public ResponseEntity<?> getDataById201(@PathVariable int id) throws ResourceNotFoundException {
+	@GetMapping("/mmfbr201/{date}/{id}")
+	public ResponseEntity<?> getDataById201(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet201Svc.getDataById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PostMapping("/mmfbr201")
-	public ResponseEntity<?> createData201(@RequestBody sheet201DAO data) throws ResourceNotFoundException {
+	@PostMapping("/mmfbr201/{date}")
+	public ResponseEntity<?> createData201(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@RequestBody sheet201DAO data) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet201Svc.createData(data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PutMapping("/mmfbr201/{id}")
-	public ResponseEntity<?> updateData201(@PathVariable int id, @RequestBody sheet201DAO Data) throws ResourceNotFoundException {
+	@PutMapping("/mmfbr201/{date}/{id}")
+	public ResponseEntity<?> updateData201(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet201DAO Data) throws ResourceNotFoundException {
 		Data.setId(id);
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet201Svc.updateData(id, Data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@DeleteMapping("/mmfbr201/{id}")
-	public ResponseEntity<?> deleteData201(@PathVariable int id) throws ResourceNotFoundException {
-		
+	@DeleteMapping("/mmfbr201/{date}/{id}")
+	public ResponseEntity<?> deleteData201(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet201Svc.deleteById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 	
 	//####################################################################
@@ -746,31 +1072,50 @@ public class ReportController {
 	
 	
 	//########################## MMFBR202 ##########################
-	@GetMapping("/mmfbr202")
-	public ResponseEntity<?> getAllData202() {
+	@GetMapping("/mmfbr202/{date}")
+	public ResponseEntity<?> getAllData202(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet202Svc.fetchAllData();
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@GetMapping("/mmfbr202/{id}")
-	public ResponseEntity<?> getDataById202(@PathVariable int id) throws ResourceNotFoundException {
+	@GetMapping("/mmfbr202/{date}/{id}")
+	public ResponseEntity<?> getDataById202(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
 		return sheet202Svc.getDataById(id);
 	}
 
-	@PostMapping("/mmfbr202")
-	public ResponseEntity<?> createData202(@RequestBody sheet202DAO data) throws ResourceNotFoundException {
+	@PostMapping("/mmfbr202/{date}")
+	public ResponseEntity<?> createData202(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@RequestBody sheet202DAO data) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet202Svc.createData(data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PutMapping("/mmfbr202/{id}")
-	public ResponseEntity<?> updateData202(@PathVariable int id, @RequestBody sheet202DAO Data) throws ResourceNotFoundException {
+	@PutMapping("/mmfbr202/{date}/{id}")
+	public ResponseEntity<?> updateData202(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet202DAO Data) throws ResourceNotFoundException {
 		Data.setId(id);
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet202Svc.updateData(id, Data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@DeleteMapping("/mmfbr202/{id}")
-	public ResponseEntity<?> deleteData202(@PathVariable int id) throws ResourceNotFoundException {
-		
+	@DeleteMapping("/mmfbr202/{date}/{id}")
+	public ResponseEntity<?> deleteData202(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet202Svc.deleteById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 	
 	//####################################################################
@@ -785,31 +1130,55 @@ public class ReportController {
 	
 	
 	//########################## MMFBR312 ##########################
-	@GetMapping("/mmfbr312")
-	public ResponseEntity<?> getAllData312() {
+	@GetMapping("/mmfbr312/{date}")
+	public ResponseEntity<?> getAllData312(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet312Svc.fetchAllData();
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@GetMapping("/mmfbr312/{id}")
-	public ResponseEntity<?> getDataById312(@PathVariable int id) throws ResourceNotFoundException {
+	@GetMapping("/mmfbr312/{date}/{id}")
+	public ResponseEntity<?> getDataById312(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet312Svc.getDataById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PostMapping("/mmfbr312")
-	public ResponseEntity<?> createData312(@RequestBody sheet312DAO data) throws ResourceNotFoundException {
+	@PostMapping("/mmfbr312/{date}")
+	public ResponseEntity<?> createData312(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@RequestBody sheet312DAO data) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet312Svc.createData(data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PutMapping("/mmfbr312/{id}")
-	public ResponseEntity<?> updateData312(@PathVariable int id, @RequestBody sheet312DAO Data) throws ResourceNotFoundException {
+	@PutMapping("/mmfbr312/{date}/{id}")
+	public ResponseEntity<?> updateData312(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet312DAO Data) throws ResourceNotFoundException {
 		Data.setId(id);
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet312Svc.updateData(id, Data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@DeleteMapping("/mmfbr312/{id}")
-	public ResponseEntity<?> deleteData312(@PathVariable int id) throws ResourceNotFoundException {
-		
+	@DeleteMapping("/mmfbr312/{date}/{id}")
+	public ResponseEntity<?> deleteData312(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet312Svc.deleteById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 	
 	//####################################################################
@@ -820,31 +1189,55 @@ public class ReportController {
 	
 	
 	//########################## MMFBR322 ##########################
-	@GetMapping("/mmfbr322")
-	public ResponseEntity<?> getAllData322() {
+	@GetMapping("/mmfbr322/{date}")
+	public ResponseEntity<?> getAllData322(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet322Svc.fetchAllData();
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@GetMapping("/mmfbr322/{id}")
-	public ResponseEntity<?> getDataById322(@PathVariable int id) throws ResourceNotFoundException {
+	@GetMapping("/mmfbr322/{date}/{id}")
+	public ResponseEntity<?> getDataById322(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet322Svc.getDataById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PostMapping("/mmfbr322")
-	public ResponseEntity<?> createData322(@RequestBody sheet322DAO data) throws ResourceNotFoundException {
+	@PostMapping("/mmfbr322/{date}")
+	public ResponseEntity<?> createData322(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@RequestBody sheet322DAO data) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet322Svc.createData(data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PutMapping("/mmfbr322/{id}")
-	public ResponseEntity<?> updateData322(@PathVariable int id, @RequestBody sheet322DAO Data) throws ResourceNotFoundException {
+	@PutMapping("/mmfbr322/{date}/{id}")
+	public ResponseEntity<?> updateData322(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet322DAO Data) throws ResourceNotFoundException {
 		Data.setId(id);
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet322Svc.updateData(id, Data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@DeleteMapping("/mmfbr322/{id}")
-	public ResponseEntity<?> deleteData322(@PathVariable int id) throws ResourceNotFoundException {
-		
+	@DeleteMapping("/mmfbr322/{date}/{id}")
+	public ResponseEntity<?> deleteData322(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet322Svc.deleteById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 	
 	//####################################################################
@@ -855,31 +1248,55 @@ public class ReportController {
 	
 	
 	//########################## MMFBR451 ##########################
-	@GetMapping("/mmfbr451")
-	public ResponseEntity<?> getAllData451() {
+	@GetMapping("/mmfbr451/{date}")
+	public ResponseEntity<?> getAllData451(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet451Svc.fetchAllData();
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@GetMapping("/mmfbr451/{id}")
-	public ResponseEntity<?> getDataById451(@PathVariable int id) throws ResourceNotFoundException {
+	@GetMapping("/mmfbr451/{date}/{id}")
+	public ResponseEntity<?> getDataById451(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet451Svc.getDataById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PostMapping("/mmfbr451")
-	public ResponseEntity<?> createData451(@RequestBody sheet451DAO data) throws ResourceNotFoundException {
+	@PostMapping("/mmfbr451/{date}")
+	public ResponseEntity<?> createData451(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@RequestBody sheet451DAO data) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet451Svc.createData(data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PutMapping("/mmfbr451/{id}")
-	public ResponseEntity<?> updateData451(@PathVariable int id, @RequestBody sheet451DAO Data) throws ResourceNotFoundException {
+	@PutMapping("/mmfbr451/{date}/{id}")
+	public ResponseEntity<?> updateData451(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet451DAO Data) throws ResourceNotFoundException {
 		Data.setId(id);
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet451Svc.updateData(id, Data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@DeleteMapping("/mmfbr451/{id}")
-	public ResponseEntity<?> deleteData451(@PathVariable int id) throws ResourceNotFoundException {
-		
+	@DeleteMapping("/mmfbr451/{date}/{id}")
+	public ResponseEntity<?> deleteData451(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet451Svc.deleteById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 	
 	//####################################################################
@@ -888,31 +1305,55 @@ public class ReportController {
 	
 
 	//########################## MMFBR501 ##########################
-	@GetMapping("/mmfbr501")
-	public ResponseEntity<?> getAllData501() {
+	@GetMapping("/mmfbr501/{date}")
+	public ResponseEntity<?> getAllData501(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet501Svc.fetchAllData();
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@GetMapping("/mmfbr501/{id}")
-	public ResponseEntity<?> getDataById501(@PathVariable int id) throws ResourceNotFoundException {
+	@GetMapping("/mmfbr501/{date}/{id}")
+	public ResponseEntity<?> getDataById501(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet501Svc.getDataById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PostMapping("/mmfbr501")
-	public ResponseEntity<?> createData501(@RequestBody sheet501DAO data) throws ResourceNotFoundException {
+	@PostMapping("/mmfbr501/{date}")
+	public ResponseEntity<?> createData501(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@RequestBody sheet501DAO data) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet501Svc.createData(data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PutMapping("/mmfbr501/{id}")
-	public ResponseEntity<?> updateData501(@PathVariable int id, @RequestBody sheet501DAO Data) throws ResourceNotFoundException {
+	@PutMapping("/mmfbr501/{date}/{id}")
+	public ResponseEntity<?> updateData501(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet501DAO Data) throws ResourceNotFoundException {
 		Data.setId(id);
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet501Svc.updateData(id, Data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@DeleteMapping("/mmfbr501/{id}")
-	public ResponseEntity<?> deleteData501(@PathVariable int id) throws ResourceNotFoundException {
-		
+	@DeleteMapping("/mmfbr501/{date}/{id}")
+	public ResponseEntity<?> deleteData501(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet501Svc.deleteById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 	
 	//####################################################################
@@ -922,31 +1363,55 @@ public class ReportController {
 	
 
 	//########################## MMFBR642 ##########################
-	@GetMapping("/mmfbr642")
-	public ResponseEntity<?> getAllData642() {
+	@GetMapping("/mmfbr642/{date}")
+	public ResponseEntity<?> getAllData642(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet642Svc.fetchAllData();
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@GetMapping("/mmfbr642/{id}")
-	public ResponseEntity<?> getDataById642(@PathVariable int id) throws ResourceNotFoundException {
+	@GetMapping("/mmfbr642/{date}/{id}")
+	public ResponseEntity<?> getDataById642(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet642Svc.getDataById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PostMapping("/mmfbr642")
-	public ResponseEntity<?> createData642(@RequestBody sheet642DAO data) throws ResourceNotFoundException {
+	@PostMapping("/mmfbr642/{date}")
+	public ResponseEntity<?> createData642(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@RequestBody sheet642DAO data) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet642Svc.createData(data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PutMapping("/mmfbr642/{id}")
-	public ResponseEntity<?> updateData642(@PathVariable int id, @RequestBody sheet642DAO Data) throws ResourceNotFoundException {
+	@PutMapping("/mmfbr642/{date}/{id}")
+	public ResponseEntity<?> updateData642(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet642DAO Data) throws ResourceNotFoundException {
 		Data.setId(id);
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet642Svc.updateData(id, Data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@DeleteMapping("/mmfbr642/{id}")
-	public ResponseEntity<?> deleteData642(@PathVariable int id) throws ResourceNotFoundException {
-		
+	@DeleteMapping("/mmfbr642/{date}/{id}")
+	public ResponseEntity<?> deleteData642(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet642Svc.deleteById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 	
 	//####################################################################
@@ -956,31 +1421,55 @@ public class ReportController {
 	
 
 	//########################## MMFBR651 ##########################
-	@GetMapping("/mmfbr651")
-	public ResponseEntity<?> getAllData651() {
+	@GetMapping("/mmfbr651/{date}")
+	public ResponseEntity<?> getAllData651(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet651Svc.fetchAllData();
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@GetMapping("/mmfbr651/{id}")
-	public ResponseEntity<?> getDataById651(@PathVariable int id) throws ResourceNotFoundException {
+	@GetMapping("/mmfbr651/{date}/{id}")
+	public ResponseEntity<?> getDataById651(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet651Svc.getDataById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PostMapping("/mmfbr651")
-	public ResponseEntity<?> createData651(@RequestBody sheet651DAO data) throws ResourceNotFoundException {
+	@PostMapping("/mmfbr651/{date}")
+	public ResponseEntity<?> createData651(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@RequestBody sheet651DAO data) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet651Svc.createData(data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PutMapping("/mmfbr651/{id}")
-	public ResponseEntity<?> updateData651(@PathVariable int id, @RequestBody sheet651DAO Data) throws ResourceNotFoundException {
+	@PutMapping("/mmfbr651/{date}/{id}")
+	public ResponseEntity<?> updateData651(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet651DAO Data) throws ResourceNotFoundException {
 		Data.setId(id);
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet651Svc.updateData(id, Data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@DeleteMapping("/mmfbr651/{id}")
-	public ResponseEntity<?> deleteData651(@PathVariable int id) throws ResourceNotFoundException {
-		
+	@DeleteMapping("/mmfbr651/{date}/{id}")
+	public ResponseEntity<?> deleteData651(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet651Svc.deleteById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 	
 	//####################################################################
@@ -990,31 +1479,55 @@ public class ReportController {
 	
 
 	//########################## MMFBR933 ##########################
-	@GetMapping("/mmfbr933")
-	public ResponseEntity<?> getAllData933() {
+	@GetMapping("/mmfbr933/{date}")
+	public ResponseEntity<?> getAllData933(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet933Svc.fetchAllData();
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@GetMapping("/mmfbr933/{id}")
-	public ResponseEntity<?> getDataById933(@PathVariable int id) throws ResourceNotFoundException {
+	@GetMapping("/mmfbr933/{date}/{id}")
+	public ResponseEntity<?> getDataById933(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet933Svc.getDataById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PostMapping("/mmfbr933")
-	public ResponseEntity<?> createData933(@RequestBody sheet933DAO data) throws ResourceNotFoundException {
+	@PostMapping("/mmfbr933/{date}")
+	public ResponseEntity<?> createData933(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@RequestBody sheet933DAO data) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet933Svc.createData(data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@PutMapping("/mmfbr933/{id}")
-	public ResponseEntity<?> updateData933(@PathVariable int id, @RequestBody sheet933DAO Data) throws ResourceNotFoundException {
+	@PutMapping("/mmfbr933/{date}/{id}")
+	public ResponseEntity<?> updateData933(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet933DAO Data) throws ResourceNotFoundException {
 		Data.setId(id);
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet933Svc.updateData(id, Data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 
-	@DeleteMapping("/mmfbr933/{id}")
-	public ResponseEntity<?> deleteData933(@PathVariable int id) throws ResourceNotFoundException {
-		
+	@DeleteMapping("/mmfbr933/{date}/{id}")
+	public ResponseEntity<?> deleteData933(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
 		return sheet933Svc.deleteById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
 	}
 	
 	//####################################################################
@@ -1029,31 +1542,56 @@ public class ReportController {
 	
 	
 	//########################## MMFBR951 ##########################
-		@GetMapping("/mmfbr951")
-		public ResponseEntity<?> getAllData951() {
+		@GetMapping("/mmfbr951/{date}")
+		public ResponseEntity<?> getAllData951(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+			Boolean evt = reportSvc.checkDate(date);
+			if(evt== true) {
 			return sheet951Svc.fetchAllData();
+		}else {
+			return reportSvc.NoDateFound();
+		}
 		}
 
-		@GetMapping("/mmfbr951/{id}")
-		public ResponseEntity<?> getDataById951(@PathVariable int id) throws ResourceNotFoundException {
+		@GetMapping("/mmfbr951/{date}/{id}")
+		public ResponseEntity<?> getDataById951(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+			Boolean evt = reportSvc.checkDate(date);
+			if(evt== true) {
 			return sheet951Svc.getDataById(id);
+			}else {
+				return reportSvc.NoDateFound();
+			}
 		}
 
-		@PostMapping("/mmfbr951")
-		public ResponseEntity<?> createData951(@RequestBody sheet951DAO data) throws ResourceNotFoundException {
-			return sheet951Svc.createData(data);
-		}
-
-		@PutMapping("/mmfbr951/{id}")
-		public ResponseEntity<?> updateData951(@PathVariable int id, @RequestBody sheet951DAO Data) throws ResourceNotFoundException {
-			Data.setId(id);
-			return sheet951Svc.updateData(id, Data);
-		}
-
-		@DeleteMapping("/mmfbr951/{id}")
-		public ResponseEntity<?> deleteData951(@PathVariable int id) throws ResourceNotFoundException {
+		@PostMapping("/mmfbr951/{date}")
+		public ResponseEntity<?> createData951(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@RequestBody sheet951DAO data) throws ResourceNotFoundException {
+			Boolean evt = reportSvc.checkDate(date);
+			if(evt== true) {
 			
+			return sheet951Svc.createData(data);
+			}else {
+				return reportSvc.NoDateFound();
+			}
+		}
+
+		@PutMapping("/mmfbr951/{date}/{id}")
+		public ResponseEntity<?> updateData951(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet951DAO Data) throws ResourceNotFoundException {
+			Data.setId(id);
+			Boolean evt = reportSvc.checkDate(date);
+			if(evt== true) {
+			return sheet951Svc.updateData(id, Data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
+		}
+
+		@DeleteMapping("/mmfbr951/{date}/{id}")
+		public ResponseEntity<?> deleteData951(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+			Boolean evt = reportSvc.checkDate(date);
+			if(evt== true) {
 			return sheet951Svc.deleteById(id);
+			}else {
+				return reportSvc.NoDateFound();
+			}
 		}
 		
 		//####################################################################
@@ -1063,31 +1601,55 @@ public class ReportController {
 
 
 		//########################## MMFBR996 ##########################
-		@GetMapping("/mmfbr996")
-		public ResponseEntity<?> getAllData996() {
+		@GetMapping("/mmfbr996/{date}")
+		public ResponseEntity<?> getAllData996(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+			Boolean evt = reportSvc.checkDate(date);
+			if(evt== true) {
 			return sheet996Svc.fetchAllData();
+			}else {
+				return reportSvc.NoDateFound();
+			}
 		}
 
-		@GetMapping("/mmfbr996/{id}")
-		public ResponseEntity<?> getDataById996(@PathVariable int id) throws ResourceNotFoundException {
+		@GetMapping("/mmfbr996/{date}/{id}")
+		public ResponseEntity<?> getDataById996(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+			Boolean evt = reportSvc.checkDate(date);
+			if(evt== true) {
 			return sheet996Svc.getDataById(id);
+			}else {
+				return reportSvc.NoDateFound();
+			}
 		}
 
-		@PostMapping("/mmfbr996")
-		public ResponseEntity<?> createData996(@RequestBody sheet996DAO data) throws ResourceNotFoundException {
+		@PostMapping("/mmfbr996/{date}")
+		public ResponseEntity<?> createData996(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@RequestBody sheet996DAO data) throws ResourceNotFoundException {
+			Boolean evt = reportSvc.checkDate(date);
+			if(evt== true) {
 			return sheet996Svc.createData(data);
+			}else {
+				return reportSvc.NoDateFound();
+			}
 		}
 
-		@PutMapping("/mmfbr996/{id}")
-		public ResponseEntity<?> updateData996(@PathVariable int id, @RequestBody sheet996DAO Data) throws ResourceNotFoundException {
+		@PutMapping("/mmfbr996/{date}/{id}")
+		public ResponseEntity<?> updateData996(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet996DAO Data) throws ResourceNotFoundException {
 			Data.setId(id);
+			Boolean evt = reportSvc.checkDate(date);
+			if(evt== true) {
 			return sheet996Svc.updateData(id, Data);
+			}else {
+				return reportSvc.NoDateFound();
+			}
 		}
 
-		@DeleteMapping("/mmfbr996/{id}")
-		public ResponseEntity<?> deleteData996(@PathVariable int id) throws ResourceNotFoundException {
-			
+		@DeleteMapping("/mmfbr996/{date}/{id}")
+		public ResponseEntity<?> deleteData996(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+			Boolean evt = reportSvc.checkDate(date);
+			if(evt== true) {
 			return sheet996Svc.deleteById(id);
+			}else {
+				return reportSvc.NoDateFound();
+			}
 		}
 		
 		//####################################################################
@@ -1101,31 +1663,55 @@ public class ReportController {
 		
 
 		//########################## MMFBR980 ##########################
-		@GetMapping("/mmfbr980")
-		public ResponseEntity<?> getAllData980() {
+		@GetMapping("/mmfbr980/{date}")
+		public ResponseEntity<?> getAllData980(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+			Boolean evt = reportSvc.checkDate(date);
+			if(evt== true) {
 			return sheet980Svc.fetchAllData();
+			}else {
+				return reportSvc.NoDateFound();
+			}
 		}
 
-		@GetMapping("/mmfbr980/{id}")
-		public ResponseEntity<?> getDataById980(@PathVariable int id) throws ResourceNotFoundException {
+		@GetMapping("/mmfbr980/{date}/{id}")
+		public ResponseEntity<?> getDataById980(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+			Boolean evt = reportSvc.checkDate(date);
+			if(evt== true) {
 			return sheet980Svc.getDataById(id);
+			}else {
+				return reportSvc.NoDateFound();
+			}
 		}
 
-		@PostMapping("/mmfbr980")
-		public ResponseEntity<?> createData980(@RequestBody sheet980DAO data) throws ResourceNotFoundException {
+		@PostMapping("/mmfbr980/{date}")
+		public ResponseEntity<?> createData980(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@RequestBody sheet980DAO data) throws ResourceNotFoundException {
+			Boolean evt = reportSvc.checkDate(date);
+			if(evt== true) {
 			return sheet980Svc.createData(data);
+			}else {
+				return reportSvc.NoDateFound();
+			}
 		}
 
-		@PutMapping("/mmfbr980/{id}")
-		public ResponseEntity<?> updateData980(@PathVariable int id, @RequestBody sheet980DAO Data) throws ResourceNotFoundException {
+		@PutMapping("/mmfbr980/{date}/{id}")
+		public ResponseEntity<?> updateData980(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet980DAO Data) throws ResourceNotFoundException {
 			Data.setId(id);
+			Boolean evt = reportSvc.checkDate(date);
+			if(evt== true) {
 			return sheet980Svc.updateData(id, Data);
+			}else {
+				return reportSvc.NoDateFound();
+			}
 		}
 
-		@DeleteMapping("/mmfbr980/{id}")
-		public ResponseEntity<?> deleteData980(@PathVariable int id) throws ResourceNotFoundException {
-			
+		@DeleteMapping("/mmfbr980/{date}/{id}")
+		public ResponseEntity<?> deleteData980(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+			Boolean evt = reportSvc.checkDate(date);
+			if(evt== true) {
 			return sheet980Svc.deleteById(id);
+			}else {
+				return reportSvc.NoDateFound();
+			}
 		}
 		
 		//####################################################################

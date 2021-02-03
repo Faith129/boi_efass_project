@@ -3,6 +3,7 @@ package com.efass.sheet.mmfbr221;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -128,16 +129,16 @@ public class sheet221_impl implements sheet221_Service {
 	// ############################## EXCEL MANIPULATIONS  #################################
 
 	@Override
-	public void updateSheetList(List<List<Object>> listOfLists)
+	public void updateSheetList(List<List<Object>> listOfLists, LocalDate Date)
 			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException {
 		// TODO Auto-generated method stub
 		sheet221_Util _221util = new sheet221_Util();
-		_221util.writeSpecificList(listOfLists);
+		_221util.writeSpecificList(listOfLists,Date);
 
 	}
 
 	@Override
-	public Boolean writesheet221()
+	public Boolean writesheet221(LocalDate Date)
 			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException {
 
 		ArrayList<sheet221DAO> sheetData = new ArrayList<sheet221DAO>();
@@ -154,7 +155,7 @@ public class sheet221_impl implements sheet221_Service {
 
 		}
 		sheet221_Util _221util = new sheet221_Util();
-		Boolean status = _221util.writeSpecificList(listOfLists);
+		Boolean status = _221util.writeSpecificList(listOfLists,Date);
 		if (status == true) {
 			return true;
 		} else {

@@ -35,7 +35,7 @@ public class sheet764_impl implements sheet764_Service {
 
 	public ResponseEntity<?> fetchAllData() {
 		
-		  Field[] fields = sheet221DAO.class.getFields();
+		  Field[] fields = sheet764DAO.class.getFields();
 				ArrayList<String> colname = new ArrayList<String>();
 				for(Field f: fields){
 				   colname.add(f.getName()) ;

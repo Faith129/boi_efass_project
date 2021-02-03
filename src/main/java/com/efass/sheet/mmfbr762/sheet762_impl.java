@@ -39,7 +39,7 @@ public class sheet762_impl implements sheet762_Service{
 		 
 		 
 		public ResponseEntity<?> fetchAllData() {
-			 Field[] fields = sheet746DAO.class.getFields();
+			 Field[] fields = sheet762DAO.class.getFields();
 				ArrayList<String> colname = new ArrayList<String>();
 				for(Field f: fields){
 				   colname.add(f.getName()) ;

@@ -1,4 +1,4 @@
-package com.efass.sheet.mmfbr201;
+package com.efass.sheet.mmfbr951;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -11,60 +11,59 @@ import org.springframework.stereotype.Service;
 
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
-import com.efass.sheet.mmfbr141.sheet141DAO;
+import com.efass.sheet.mmfbr221.sheet221DAO;
 
 @Service
-public class sheet201_impl implements sheet201_Service{
+public class sheet951_impl  implements sheet951_Service{
 
 	
-
 	@Autowired
-	sheet201Repository _201Repository;
+	sheet951Repository _951Repository;
 
-	// ############################## MMFBR201 CRUD OPERATIONS
+	// ############################## MMFBR951 CRUD OPERATIONS
 	// #################################
 
-	public ResponseEntity<?> createData(sheet201DAO data) {
-		_201Repository.save(data);
+	public ResponseEntity<?> createData(sheet951DAO data) {
+		_951Repository.save(data);
 		Response res = new Response();
 		res.setResponseMessage("Success");
 		res.setResponseCode(00);
-		res.setS201Data(data);
+		res.setS951Data(data);
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 
 	public ResponseEntity<?> fetchAllData() {
-		Iterable<sheet201DAO> data = _201Repository.findAll();
+		Iterable<sheet951DAO> data = _951Repository.findAll();
 		
-		  Field[] fields = sheet201DAO.class.getFields();
+		  Field[] fields = sheet951DAO.class.getFields();
 			ArrayList<String> colname = new ArrayList<String>();
 			for(Field f: fields){
 			   colname.add(f.getName()) ;
 			}
 		Response res = new Response();
-		res.setColumnNames(colname);
-		res.setSheet201(data);
+		res.setSheet951(data);
 		res.setResponseMessage("Success");
+		res.setColumnNames(colname);
 		res.setResponseCode(00);
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 
 	public ResponseEntity<?> getDataById(int dataId) throws ResourceNotFoundException {
-		sheet201DAO data = _201Repository.findById(dataId)
+		sheet951DAO data = _951Repository.findById(dataId)
 				.orElseThrow(() -> new ResourceNotFoundException("Record not found for this id :: " + dataId));
 		Response res = new Response();
 		res.setResponseMessage("Record Found");
 		res.setResponseCode(00);
-		res.setS201Data(data);
+		res.setS951Data(data);
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 
 	public ResponseEntity<?> deleteById(int dataId) throws ResourceNotFoundException {
 
-		Optional<sheet201DAO> data = _201Repository.findById(dataId);
+		Optional<sheet951DAO> data = _951Repository.findById(dataId);
 
 		if (data.isPresent()) {
-			_201Repository.delete(data.get());
+			_951Repository.delete(data.get());
 		} else {
 			throw new ResourceNotFoundException("Record not found with id : " + dataId);
 		}
@@ -75,25 +74,20 @@ public class sheet201_impl implements sheet201_Service{
 
 	}
 
-	public ResponseEntity<?> updateData(int id, sheet201DAO Data) throws ResourceNotFoundException {
+	public ResponseEntity<?> updateData(int id, sheet951DAO Data) throws ResourceNotFoundException {
 
-		Optional<sheet201DAO> DataDb = _201Repository.findById(id);
+		Optional<sheet951DAO> DataDb = _951Repository.findById(id);
 
 		if (DataDb.isPresent()) {
-			sheet201DAO DataUpdate = DataDb.get();
+			sheet951DAO DataUpdate = DataDb.get();
 			DataUpdate.setId(Data.getId());
-			DataUpdate.setNintyOneTo180Days(Data.getNintyOneTo180Days());
-			DataUpdate.setOneEightyOneTo360Days(Data.getOneEightyOneTo360Days());
-			DataUpdate.setOneToThirtyDays(Data.getOneToThirtyDays());
-			DataUpdate.setSixyOneToNintyDays(Data.getSixyOneToNintyDays());
-			DataUpdate.setThirtyOneToSixtyDays(Data.getThirtyOneToSixtyDays());
-			DataUpdate.setTypeOfDeposit(Data.getTypeOfDeposit());
-			DataUpdate.setAbove360Days(Data.getAbove360Days());
-			_201Repository.save(DataUpdate);
+			DataUpdate.setAmount(Data.getAmount());
+			DataUpdate.setItem(Data.getItem());
+			_951Repository.save(DataUpdate);
 			Response res = new Response();
 			res.setResponseMessage("Record Updated");
 			res.setResponseCode(00);
-			res.setS201Data(DataUpdate);
+			res.setS951Data(DataUpdate);
 			return new ResponseEntity<>(res, HttpStatus.OK);
 
 		} else {
@@ -108,4 +102,5 @@ public class sheet201_impl implements sheet201_Service{
 
 	// ##################################################################################
 
+	
 }
