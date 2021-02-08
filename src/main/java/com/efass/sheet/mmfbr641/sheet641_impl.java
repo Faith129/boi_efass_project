@@ -40,7 +40,7 @@ public class sheet641_impl implements sheet641_Service {
 	 
 	public ResponseEntity<?> fetchAllData() {
 		Iterable<sheet641DAO> data = _641Repository.findAll();
-		  Field[] fields = sheet221DAO.class.getFields();
+		  Field[] fields = sheet641DAO.class.getFields();
 				ArrayList<String> colname = new ArrayList<String>();
 				for(Field f: fields){
 				   colname.add(f.getName()) ;

@@ -1,13 +1,24 @@
 package com.efass.sheet.mmfbr311;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+import com.efass.report.ReportDAO;
+import com.efass.report.ReportRepository;
+import com.efass.sheet.mmfbr221.sheet221DAO;
+import com.efass.sheet.mmfbr221.sheet221_Util;
 import com.efass.sheet.mmfbr746.sheet746DAO;
 
 
@@ -19,6 +30,14 @@ public class sheet311_impl implements sheet311_Service {
 	
 	@Autowired
 	sheet311Repository _311Repository;
+	
+	
+	@Autowired
+	ReportRepository ReportRepo;
+
+	
+	@Autowired 
+	sheet311_Util sheet311Util;
 	
 	// ############################## MMFBR311 CRUD OPERATIONS #################################
 
@@ -35,7 +54,7 @@ public class sheet311_impl implements sheet311_Service {
 	 
 	 
 	public ResponseEntity<?> fetchAllData() {
-		 Field[] fields = sheet746DAO.class.getFields();
+		 Field[] fields = sheet311DAO.class.getFields();
 			ArrayList<String> colname = new ArrayList<String>();
 			for(Field f: fields){
 			   colname.add(f.getName()) ;
@@ -104,7 +123,55 @@ public class sheet311_impl implements sheet311_Service {
 	
 	
 	
+	
+	
+	
 	//#####################SHEET OPERATIONS ############################################
+	
+
+	
+
+	@Override
+	public Boolean writesheet311(LocalDate Date)
+			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException {
+
+		ArrayList<sheet311DAO> sheetData = new ArrayList<sheet311DAO>();
+		sheetData = (ArrayList<sheet311DAO>) _311Repository.findAll();
+
+		List<List<Object>> listOfLists = new ArrayList<List<Object>>();
+		for (int i = 0; i < sheetData.size(); i++) {
+			ArrayList<Object> data = new ArrayList<>();
+			data.clear();
+			data.add(sheetData.get(i).getBankCode());
+			data.add(sheetData.get(i).getBankName());
+			data.add(sheetData.get(i).getTenor());
+			data.add(sheetData.get(i).getMaturity());
+			data.add(sheetData.get(i).getAmount());
+			listOfLists.add(data);
+
+		}
+	
+		String folderPath = getFolderPathWithDate( Date);
+		Boolean status = sheet311Util.writeSpecificList(listOfLists,Date,folderPath);
+		if (status == true) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+
+	
+	
+	public String getFolderPathWithDate(LocalDate date) {
+
+		ReportDAO Data = ReportRepo.findByPathDate(date.toString());
+		String folderPath = Data.getFile_path();
+
+		System.out.println("Folder Path:" + folderPath);
+		return folderPath;
+	}
 	
 	
 	

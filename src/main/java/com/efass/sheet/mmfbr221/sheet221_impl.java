@@ -3,28 +3,33 @@ package com.efass.sheet.mmfbr221;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+import com.efass.report.ReportDAO;
+import com.efass.report.ReportRepository;
 
 @Service
 public class sheet221_impl implements sheet221_Service {
 
 	@Autowired
 	sheet221Repository _221Repository;
+	
+	@Autowired
+	ReportRepository ReportRepo;
 
 	
+	@Autowired 
+	sheet221_Util sheet221Util;
 
 
 	// ############################## MMFBR221 CRUD OPERATIONS #################################
@@ -126,18 +131,23 @@ public class sheet221_impl implements sheet221_Service {
 	
 	
 	// ############################## EXCEL MANIPULATIONS  #################################
+//
+//	@Override
+//	public void updateSheetList(List<List<Object>> listOfLists, LocalDate Date)
+//			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException {
+//		// TODO Auto-generated method stub
+//		sheet221_Util _221util = new sheet221_Util();
+//		_221util.writeSpecificList(listOfLists,Date);
+//
+//	}
 
+	
+	
+	
+	
+	
 	@Override
-	public void updateSheetList(List<List<Object>> listOfLists)
-			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException {
-		// TODO Auto-generated method stub
-		sheet221_Util _221util = new sheet221_Util();
-		_221util.writeSpecificList(listOfLists);
-
-	}
-
-	@Override
-	public Boolean writesheet221()
+	public Boolean writesheet221(LocalDate Date)
 			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException {
 
 		ArrayList<sheet221DAO> sheetData = new ArrayList<sheet221DAO>();
@@ -153,14 +163,36 @@ public class sheet221_impl implements sheet221_Service {
 			listOfLists.add(data);
 
 		}
-		sheet221_Util _221util = new sheet221_Util();
-		Boolean status = _221util.writeSpecificList(listOfLists);
+	
+		String folderPath = getFolderPathWithDate( Date);
+		Boolean status = sheet221Util.writeSpecificList(listOfLists,Date,folderPath);
 		if (status == true) {
 			return true;
 		} else {
 			return false;
 		}
 
+	}
+
+
+	
+	
+	public String getFolderPathWithDate(LocalDate date) {
+
+		ReportDAO Data = ReportRepo.findByPathDate(date.toString());
+		String folderPath = Data.getFile_path();
+
+		System.out.println("Folder Path:" + folderPath);
+		return folderPath;
+	}
+	
+	
+	
+	@Override
+	public void updateSheetList(List<List<Object>> listOfLists, LocalDate Date)
+			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException {
+		// TODO Auto-generated method stub
+		
 	}
 
 	// ####################################################################################

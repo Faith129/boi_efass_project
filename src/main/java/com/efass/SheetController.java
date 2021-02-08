@@ -2,24 +2,49 @@ package com.efass;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.efass.payload.Response;
+import com.efass.report.ReportService;
+import com.efass.sheet.mmfbr141.sheet141_Service;
+import com.efass.sheet.mmfbr201.sheet201_Service;
+import com.efass.sheet.mmfbr202.sheet202_Service;
 import com.efass.sheet.mmfbr221.sheet221_Service;
-
-
+import com.efass.sheet.mmfbr311.sheet311_Service;
+import com.efass.sheet.mmfbr312.sheet312_Service;
+import com.efass.sheet.mmfbr321.sheet321_Service;
+import com.efass.sheet.mmfbr322.sheet322_Service;
+import com.efass.sheet.mmfbr451.sheet451_Service;
+import com.efass.sheet.mmfbr501.sheet501_Service;
+import com.efass.sheet.mmfbr641.sheet641_Service;
+import com.efass.sheet.mmfbr642.sheet642_Service;
+import com.efass.sheet.mmfbr651.sheet651_Service;
+import com.efass.sheet.mmfbr711.sheet711_Service;
+import com.efass.sheet.mmfbr746.sheet746_Service;
+import com.efass.sheet.mmfbr761.sheet761_Service;
+import com.efass.sheet.mmfbr762.sheet762_Service;
+import com.efass.sheet.mmfbr763.sheet763_Service;
+import com.efass.sheet.mmfbr764.sheet764_Service;
+import com.efass.sheet.mmfbr771.sheet771_Service;
+import com.efass.sheet.mmfbr811.sheet811_Service;
+import com.efass.sheet.mmfbr933.sheet933_Service;
+import com.efass.sheet.mmfbr951.sheet951_Service;
+import com.efass.sheet.mmfbr980.sheet980_Service;
+import com.efass.sheet.mmfbr996.sheet996_Service;
+import com.efass.sheet.table.TableService;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -27,29 +52,122 @@ import com.efass.sheet.mmfbr221.sheet221_Service;
 public class SheetController {
 
 	@Autowired
-	sheet221_Service _221Svc;
-	
+	private sheet221_Service sheet221Svc;
+	@Autowired
+	private sheet311_Service sheet311Svc;
+	@Autowired
+	private sheet641_Service sheet641Svc;
+
+	@Autowired
+	private sheet321_Service sheet321Svc;
+
+	@Autowired
+	private sheet711_Service sheet711Svc;
+
+	@Autowired
+	private sheet746_Service sheet746Svc;
+
+	@Autowired
+	private sheet761_Service sheet761Svc;
+
+	@Autowired
+	private sheet771_Service sheet771Svc;
+
+	@Autowired
+	private sheet762_Service sheet762Svc;
+
+	@Autowired
+	private sheet811_Service sheet811Svc;
+
+	@Autowired
+	private sheet141_Service sheet141Svc;
+
+	@Autowired
+	private sheet201_Service sheet201Svc;
+
+	@Autowired
+	private sheet202_Service sheet202Svc;
+
+	@Autowired
+	private sheet312_Service sheet312Svc;
+
+	@Autowired
+	private sheet322_Service sheet322Svc;
+
+	@Autowired
+	private sheet451_Service sheet451Svc;
+
+	@Autowired
+	private TableService tableSvc;
+
+	@Autowired
+	private sheet763_Service sheet763Svc;
+
+	@Autowired
+	private sheet764_Service sheet764Svc;
+
+	@Autowired
+	private sheet501_Service sheet501Svc;
+
+	@Autowired
+	private sheet642_Service sheet642Svc;
+
+	@Autowired
+	private sheet651_Service sheet651Svc;
+
+	@Autowired
+	private sheet933_Service sheet933Svc;
+
+	@Autowired
+	private sheet951_Service sheet951Svc;
+
+	@Autowired
+	private sheet996_Service sheet996Svc;
+
+	@Autowired
+	private sheet980_Service sheet980Svc;
+
+	@Autowired
+	private ReportService reportSvc;
+
 	Response res = new Response();
-	
-	@RequestMapping(value ="/sheet/write/221")
-	public ResponseEntity<?> loadData() throws EncryptedDocumentException, FileNotFoundException, InvalidFormatException, IOException {
-		
-		
-		
-		Boolean status = _221Svc.writesheet221();
-		
-		if(status == true) {
+
+	@RequestMapping(value = "/generate/{date}")
+	public ResponseEntity<?> loadData(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date)
+			throws EncryptedDocumentException, FileNotFoundException, InvalidFormatException, IOException {
+
+		// Generation for Sheet 221
+		Boolean evt = reportSvc.checkDate(date);
+		Boolean status = null;
+
+		if (evt == true) {
+			sheet221Svc.writesheet221(date);
+			System.out.println("SHEET 221 DONE !");
+			sheet311Svc.writesheet311(date);
+			System.out.println("SHEET 311 DONE !");
+
+			status = true;
+		} else if (evt == false) {
+
+			// Create folder and Date
+			return reportSvc.NoDateFound();
+		}
+
+		// Create a Subfolder
+
+		// Store Subfolder in db
+
+		if (status == true) {
 			res.setResponseMessage("Sheet 221 Updated");
 			res.setResponseCode(00);
 			return new ResponseEntity<>(res, HttpStatus.OK);
-		}else {
+		} else {
 			res.setResponseMessage("Failed");
 			res.setResponseCode(-1001);
 			return new ResponseEntity<>(res, HttpStatus.INTERNAL_SERVER_ERROR);
-			
+
 		}
-		
-		
+
 //		ArrayList<Object> data = new ArrayList<>();
 //		data.add(15);
 //		data.add(3);
@@ -72,10 +190,6 @@ public class SheetController {
 //		listOfLists.add(data2);
 //		sheet4Svc.updateSheetList(listOfLists);
 
-		
-		
 	}
-	
-	
- 
+
 }

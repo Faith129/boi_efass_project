@@ -35,7 +35,7 @@ public class sheet501_Impl implements sheet501_Service {
 	public ResponseEntity<?> fetchAllData() {
 		Iterable<sheet501DAO> data = _501Repository.findAll();
 		
-		  Field[] fields = sheet221DAO.class.getFields();
+		  Field[] fields = sheet501DAO.class.getFields();
 			ArrayList<String> colname = new ArrayList<String>();
 			for(Field f: fields){
 			   colname.add(f.getName()) ;

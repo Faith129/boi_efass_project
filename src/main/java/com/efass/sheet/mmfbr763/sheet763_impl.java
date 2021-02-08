@@ -1,5 +1,7 @@
 package com.efass.sheet.mmfbr763;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+import com.efass.sheet.mmfbr762.sheet762DAO;
 import com.efass.sheet.mmfbr771.sheet771Repository;
 
 @Service
@@ -33,8 +36,16 @@ public class sheet763_impl implements sheet763_Service {
 		
 		
 		Iterable<sheet763DAO> data = _763Repository.findAll();
+		
+		 Field[] fields = sheet763DAO.class.getFields();
+			ArrayList<String> colname = new ArrayList<String>();
+			for(Field f: fields){
+			   colname.add(f.getName()) ;
+			}
+			
 		Response res = new Response();
 		res.setSheet763(data);
+		res.setColumnNames(colname);
 		res.setResponseMessage("Success");
 		res.setResponseCode(00);
 		return new ResponseEntity<>(res, HttpStatus.OK);

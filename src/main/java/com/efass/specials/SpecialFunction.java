@@ -10,11 +10,11 @@ public class SpecialFunction {
 	private final String UPLOAD_DIR = "./datafiles/export/";
 	
 
-	public String createFolderDirectory(long selectedTime,long selectedDate) {
+	public String createFolderDirectory(String fName,String rand) {
 		// Check if folder exists/create a folder path with report_id
 		String filename = null;
-		String rand = generateRandomString();
-		String filePath = UPLOAD_DIR + selectedDate+"-"+rand ;
+		//String rand = generateRandomString();
+		String filePath = UPLOAD_DIR +fName;
 		File file = new File(filePath);
 		if (!file.exists()) {
 			if (file.mkdir()) {
@@ -37,6 +37,26 @@ public class SpecialFunction {
 	}
 	
 	
+	
+	
+	public String checkCreateFolder(String filePath) {
+		
+		String path = filePath+"/output";
+		File file = new File(path);
+		if (!file.exists()) {
+			if (file.mkdir()) {
+
+				return path;
+			} else {
+				return null;
+			}
+		
+	}else {
+		return path;	
+	}
+
+		
+	}
 	
 	
 	public String generateRandomString() {

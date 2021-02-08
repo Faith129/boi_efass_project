@@ -11,12 +11,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "MMFBR311")
-public class sheet311DAO implements Serializable {
+public class sheet311DAO  {
 
 
-	private static final long serialVersionUID = 1928892232870720320L;
 
 
+
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
