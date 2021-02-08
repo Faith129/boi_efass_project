@@ -189,10 +189,7 @@ public class ReportController {
 		
 		return reportSvc.selectDate(date);
 	}
-//	@RequestMapping("/report/test/{date}")
-//	public Boolean test(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-//		return reportSvc.checkDate(date);
-//	}
+
 	
 	
 	//Fetch all table names

@@ -24,7 +24,6 @@ public class ReportImpl implements ReportService{
 
 	
 	@Autowired
-	
 	ReportRepository ReportRepo;
 	
 
@@ -73,12 +72,12 @@ public class ReportImpl implements ReportService{
 			ReportRepo.save(data);
 			
 			//Create file
-			try {
-				copyDirectory("./datafiles/cbn_MFB_rpt_12345m052087.xlsx",filepath);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			try {
+//				copyDirectory("./datafiles/cbn_MFB_rpt_12345m052087.xlsx",filepath);
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 			
 			// Run Procedure to populate the tables on DB
 			res.setResponseMessage("Success,File Created");
@@ -102,11 +101,30 @@ public class ReportImpl implements ReportService{
 		 data = ReportRepo.findByDate(Date.toString());
 	
 		if(data== null) {
+			
 			return false;
 			
 		}else {
 			System.out.println("Selected Date=" + data.getReport_date());
 			return true;
+		}
+		
+	}
+	
+
+	
+	
+	
+	public ReportDAO findDate(LocalDate Date) {
+		
+		 data = ReportRepo.findByDate(Date.toString());
+	
+		if(data== null) {
+			return data;
+			
+		}else {
+			System.out.println("Selected Date=" + data.getReport_date());
+			return data;
 		}
 		
 	}

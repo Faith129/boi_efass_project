@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 public interface ReportService {
 	public ResponseEntity<?> selectDate(LocalDate since);
 	public Boolean checkDate(LocalDate Date);
+	public ReportDAO findDate(LocalDate Date);
 	
 	public ResponseEntity<?> NoDateFound();
 }

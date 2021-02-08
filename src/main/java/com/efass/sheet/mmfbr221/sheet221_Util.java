@@ -16,30 +16,45 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.efass.payload.folderData;
+import com.efass.report.ReportDAO;
 import com.efass.report.ReportRepository;
+import com.efass.specials.SpecialData;
 import com.efass.specials.SpecialFunction;
 
 @Service
-public class sheet221_Util {
+public class sheet221_Util{
 
 	@Autowired
-	ReportRepository ReportRepo;
+	 static ReportRepository ReportRepo ;
 
-	public Boolean writeSpecificList(List<List<Object>> listOfLists, LocalDate Date)
+
+	@Autowired
+	 static sheet221Repository _221Repo;
+
+	
+	SpecialData specialData = new SpecialData();
+	
+	
+	
+	
+	public Boolean writeSpecificList(List<List<Object>> listOfLists, LocalDate Date ,String folderPath)
 			throws EncryptedDocumentException, InvalidFormatException, IOException {
 
-		// Check if folder is prepared
-		String folderPath = getFolderPathWithDate(Date);
+
+		
+		
+	
 
 		// Create Check and Create Folder
 	String childFolderPath =	new SpecialFunction().checkCreateFolder(folderPath);
 		 
+	specialData.setChildFolderPath(childFolderPath);
+	specialData.setFolderPath(folderPath);
 		
-		if (folderPath == null || childFolderPath == null) {
+		if (folderPath.equals(null) || childFolderPath.equals(null)) {
 			return false;
 		}
-		String Path = folderPath+"/cbn_MFB_rpt_12345m052087.xlsx";
+		String Path ="./datafiles/cbn_MFB_rpt_12345m052087.xlsx";
 
 		// Read the spreadsheet that needs to be updated
 		FileInputStream fsIP = new FileInputStream(new File(Path));
@@ -82,7 +97,7 @@ public class sheet221_Util {
 			// Open FileOutputStream to write updates
 
 			
-			FileOutputStream output_file = new FileOutputStream(new File(childFolderPath + "cbn_MFB_rpt_12345m052087.xlsx"));
+			FileOutputStream output_file = new FileOutputStream(new File(childFolderPath+"/" + "cbn_MFB_rpt_12345m052087.xlsx"));
 			// FileOutputStream output_file =new FileOutputStream(new
 			// File(".\\datafiles\\export\\cbn_MFB_rpt_12345m052087.xlsx"));
 			// write changes
@@ -102,10 +117,16 @@ public class sheet221_Util {
 
 	public String getFolderPathWithDate(LocalDate date) {
 
-		String folderPath = ReportRepo.findByPathDate(date.toString());
+		ReportDAO Data = ReportRepo.findByPathDate(date.toString());
+		String folderPath = Data.getFile_path();
 
 		System.out.println("Folder Path:" + folderPath);
 		return folderPath;
 	}
+
+
+
+
+
 
 }

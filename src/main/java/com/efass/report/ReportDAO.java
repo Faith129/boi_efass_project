@@ -1,5 +1,7 @@
 package com.efass.report;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,12 +11,15 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "activity")
-public class ReportDAO {
-	
+public class ReportDAO{
+
+
+
+    
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+    @Column(name="ID")
 	public int id;
 	
 	
