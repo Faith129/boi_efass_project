@@ -22,6 +22,6 @@ public interface sheet311_Service {
 
 	public ResponseEntity<?> updateData(int id, sheet311DAO Data) throws ResourceNotFoundException;
 
-	public Boolean writesheet311(LocalDate date) throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException;
+	public Boolean writesheet311(LocalDate date, String folderPath) throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException;
 
 }

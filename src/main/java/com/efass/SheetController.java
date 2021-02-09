@@ -2,9 +2,12 @@ package com.efass;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.Clock;
+import java.time.Instant;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -45,6 +48,8 @@ import com.efass.sheet.mmfbr951.sheet951_Service;
 import com.efass.sheet.mmfbr980.sheet980_Service;
 import com.efass.sheet.mmfbr996.sheet996_Service;
 import com.efass.sheet.table.TableService;
+import com.efass.specials.SpecialData;
+import com.efass.specials.SpecialFunction;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -141,10 +146,26 @@ public class SheetController {
 		Boolean status = null;
 
 		if (evt == true) {
-			sheet221Svc.writesheet221(date);
-			System.out.println("SHEET 221 DONE !");
-			sheet311Svc.writesheet311(date);
-			System.out.println("SHEET 311 DONE !");
+			
+
+			// Clock with the system's default timezone
+			long time = System.currentTimeMillis();
+			String _time =String.valueOf(time);
+			
+			
+			//Generate Folder with unique reference Number
+			SpecialFunction sp = new SpecialFunction();
+			String folderPath = sp.createFolderDirectory(date.toString(), _time);
+			SpecialData sd = new SpecialData();
+			sd.setFolderPath(folderPath);
+	
+			
+			//Write On Excel Sheets
+			sheet221Svc.writesheet221(date,folderPath);
+			sheet311Svc.writesheet311(date,folderPath);
+			sheet321Svc.writesheet321(date,folderPath);
+			//sheet711Svc.writesheet711(date,folderPath);
+			//sheet641Svc.writesheet641(date,folderPath);
 
 			status = true;
 		} else if (evt == false) {

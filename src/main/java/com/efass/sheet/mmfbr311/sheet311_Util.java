@@ -47,16 +47,14 @@ public class sheet311_Util {
 		
 	
 
-		// Create Check and Create Folder
-	String childFolderPath =	new SpecialFunction().checkCreateFolder(folderPath);
-		 
-	specialData.setChildFolderPath(childFolderPath);
-	specialData.setFolderPath(folderPath);
+	
 		
-		if (folderPath.equals(null) || childFolderPath.equals(null)) {
-			return false;
-		}
-		String Path =childFolderPath+"/" + "cbn_MFB_rpt_12345m052087.xlsx";
+		
+		String Path =folderPath + "/cbn_MFB_rpt_12345m052087.xlsx";
+		SpecialData sb = new SpecialData();
+		sb.setChildFolderPath(Path);
+		
+	
 
 		// Read the spreadsheet that needs to be updated
 		FileInputStream fsIP = new FileInputStream(new File(Path));
@@ -71,9 +69,12 @@ public class sheet311_Util {
 			
 			String bankCode = (String) listAtI.get(0);
 			String bankName = (String) listAtI.get(1);
-			String tenor = (String) listAtI.get(3);
-			String maturity = (String) listAtI.get(4);
-			int amount = (int) listAtI.get(5);
+			String tenor = (String) listAtI.get(2);
+			String maturity = (String) listAtI.get(3);
+			
+	
+			int amount = Integer.parseInt(listAtI.get(4).toString());
+		
 			
 			Sheet worksheet = wb.getSheet("311");
 			// declare a Cell object
@@ -134,7 +135,7 @@ public class sheet311_Util {
 			// Open FileOutputStream to write updates
 
 			
-			FileOutputStream output_file = new FileOutputStream(new File(childFolderPath+"/" + "cbn_MFB_rpt_12345m052087.xlsx"));
+			FileOutputStream output_file = new FileOutputStream(new File(Path));
 			// FileOutputStream output_file =new FileOutputStream(new
 			// File(".\\datafiles\\export\\cbn_MFB_rpt_12345m052087.xlsx"));
 			// write changes

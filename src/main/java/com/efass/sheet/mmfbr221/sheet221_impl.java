@@ -147,7 +147,7 @@ public class sheet221_impl implements sheet221_Service {
 	
 	
 	@Override
-	public Boolean writesheet221(LocalDate Date)
+	public Boolean writesheet221(LocalDate Date, String folderPath)
 			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException {
 
 		ArrayList<sheet221DAO> sheetData = new ArrayList<sheet221DAO>();
@@ -164,7 +164,6 @@ public class sheet221_impl implements sheet221_Service {
 
 		}
 	
-		String folderPath = getFolderPathWithDate( Date);
 		Boolean status = sheet221Util.writeSpecificList(listOfLists,Date,folderPath);
 		if (status == true) {
 			return true;
