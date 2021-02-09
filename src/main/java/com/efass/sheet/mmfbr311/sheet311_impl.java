@@ -132,7 +132,7 @@ public class sheet311_impl implements sheet311_Service {
 	
 
 	@Override
-	public Boolean writesheet311(LocalDate Date)
+	public Boolean writesheet311(LocalDate Date, String folderPath)
 			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException {
 
 		ArrayList<sheet311DAO> sheetData = new ArrayList<sheet311DAO>();
@@ -151,7 +151,7 @@ public class sheet311_impl implements sheet311_Service {
 
 		}
 	
-		String folderPath = getFolderPathWithDate( Date);
+	
 		Boolean status = sheet311Util.writeSpecificList(listOfLists,Date,folderPath);
 		if (status == true) {
 			return true;

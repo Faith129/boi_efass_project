@@ -1,4 +1,4 @@
-package com.efass.sheet.mmfbr221;
+package com.efass.sheet.mmfbr312;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,20 +16,22 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.efass.report.ReportDAO;
 import com.efass.report.ReportRepository;
+import com.efass.sheet.mmfbr312.sheet312Repository;
 import com.efass.specials.SpecialData;
-import com.efass.specials.SpecialFunction;
+
+
 
 @Service
-public class sheet221_Util{
+public class sheet312_Util {
 
+	
 	@Autowired
 	 static ReportRepository ReportRepo ;
 
 
 	@Autowired
-	 static sheet221Repository _221Repo;
+	 static sheet312Repository _312Repo;
 
 	
 	SpecialData specialData = new SpecialData();
@@ -44,11 +46,15 @@ public class sheet221_Util{
 		
 		
 	
+
+	
+		
+		
 		String Path =folderPath + "/cbn_MFB_rpt_12345m052087.xlsx";
 		SpecialData sb = new SpecialData();
 		sb.setChildFolderPath(Path);
 		
-		
+	
 
 		// Read the spreadsheet that needs to be updated
 		FileInputStream fsIP = new FileInputStream(new File(Path));
@@ -56,35 +62,73 @@ public class sheet221_Util{
 		Workbook wb = WorkbookFactory.create(fsIP);
 		// Access the worksheet, so that we can update / modify it.
 
-		int rowNum = 12;
+		int rowNum = 11;
 		for (int i = 0; i < listOfLists.size(); i++) {
 			List<Object> listAtI = listOfLists.get(i);
-
-			int amount = Integer.parseInt(listAtI.get(0).toString());
+			
+			
+			String bankCode = (String) listAtI.get(0);
 			String bankName = (String) listAtI.get(1);
-			String bankCode = (String) listAtI.get(2);
-
-			Sheet worksheet = wb.getSheet("221");
+			String tenor = (String) listAtI.get(2);
+			String maturity = (String) listAtI.get(3);
+			
+	
+			int amount = Integer.parseInt(listAtI.get(4).toString());
+		
+			
+			Sheet worksheet = wb.getSheet("312");
 			// declare a Cell object
 
 			Cell cell = null;
 			// Access the second cell in second row to update the value
-			cell = worksheet.getRow(rowNum).getCell(3);
+			cell = worksheet.getRow(rowNum).getCell(5);
 			// Get current cell value value and overwrite the value
 			cell.setCellValue(amount);
 
 			Cell cell2 = null;
 			// Access the second cell in second row to update the value
-			cell2 = worksheet.getRow(rowNum).getCell(1);
+			cell2 = worksheet.getRow(rowNum).getCell(4);
 			// Get current cell value value and overwrite the value
-			cell2.setCellValue(bankName);
+			cell2.setCellValue(maturity);
 
 			Cell cell3 = null;
 			// int cellNum3 =cellNum-3;
 			// Access the second cell in second row to update the value
-			cell2 = worksheet.getRow(rowNum).getCell(0);
+			cell3 = worksheet.getRow(rowNum).getCell(3);
 			// Get current cell value value and overwrite the value
-			cell2.setCellValue(bankCode);
+			cell3.setCellValue(tenor);
+			
+			
+			
+			Cell cell4 = null;
+			// int cellNum3 =cellNum-3;
+			// Access the second cell in second row to update the value
+			cell4 = worksheet.getRow(rowNum).getCell(2);
+			// Get current cell value value and overwrite the value
+			cell4.setCellValue(tenor);
+			
+			
+			
+			Cell cell5 = null;
+			// int cellNum3 =cellNum-3;
+			// Access the second cell in second row to update the value
+			cell5 = worksheet.getRow(rowNum).getCell(1);
+			// Get current cell value value and overwrite the value
+			cell5.setCellValue(bankName);
+			
+			
+			
+			
+			Cell cell6 = null;
+			// int cellNum3 =cellNum-3;
+			// Access the second cell in second row to update the value
+			cell6 = worksheet.getRow(rowNum).getCell(0);
+			// Get current cell value value and overwrite the value
+			cell6.setCellValue(bankCode);
+			
+			
+			
+			
 
 			// Close the InputStream
 			fsIP.close();
@@ -98,7 +142,7 @@ public class sheet221_Util{
 			wb.write(output_file);
 			// close the stream
 			output_file.close();
-			System.out.println("works");
+			System.out.println("sheet 321works");
 
 			rowNum++;
 		}
@@ -107,20 +151,4 @@ public class sheet221_Util{
 	}
 	
 	
-	
-
-	public String getFolderPathWithDate(LocalDate date) {
-
-		ReportDAO Data = ReportRepo.findByPathDate(date.toString());
-		String folderPath = Data.getFile_path();
-
-		System.out.println("Folder Path:" + folderPath);
-		return folderPath;
-	}
-
-
-
-
-
-
 }

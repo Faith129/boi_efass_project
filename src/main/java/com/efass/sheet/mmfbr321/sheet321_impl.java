@@ -1,9 +1,15 @@
 package com.efass.sheet.mmfbr321;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +28,9 @@ public class sheet321_impl implements sheet321_Service {
 	@Autowired
 	sheet321Repository _321Repository;
 	
+	
+	@Autowired
+	sheet321_Util sheet321Util;
 	// ############################## MMFBR311 CRUD OPERATIONS #################################
 
 
@@ -117,7 +126,35 @@ public class sheet321_impl implements sheet321_Service {
 	
 	
 	
+
+	public Boolean writesheet321(LocalDate Date, String folderPath)
+			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException {
+
+		ArrayList<sheet321DAO> sheetData = new ArrayList<sheet321DAO>();
+		sheetData = (ArrayList<sheet321DAO>) _321Repository.findAll();
+
+		List<List<Object>> listOfLists = new ArrayList<List<Object>>();
+		for (int i = 0; i < sheetData.size(); i++) {
+			ArrayList<Object> data = new ArrayList<>();
+			data.clear();
+			data.add(sheetData.get(i).getBankCode());
+			data.add(sheetData.get(i).getBankName());
+			data.add(sheetData.get(i).getTenor());
+			data.add(sheetData.get(i).getMaturity());
+			data.add(sheetData.get(i).getAmount());
+			listOfLists.add(data);
+
+		}
 	
+	
+		Boolean status = sheet321Util.writeSpecificList(listOfLists,Date,folderPath);
+		if (status == true) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
 	
 	//##################################################################################
 	

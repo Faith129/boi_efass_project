@@ -55,7 +55,8 @@ public class ReportImpl implements ReportService{
 		Response res = new Response();
 		String rand = special.generateRandomString();
 		String filename = selectedDate+"-"+rand;
-		String filepath = special.createFolderDirectory( filename,rand);
+		//String filepath = special.createFolderDirectory( filename,rand);
+		String filepath = "./datafiles/export";
 		if (!filepath.equals(null)) {
 			
 		
@@ -139,13 +140,6 @@ public class ReportImpl implements ReportService{
 	}
 	
 	
-	
-	public static void copyDirectory(String sourceDirectoryLocation, String destinationDirectoryLocation) throws IOException {
-	    File sourceDirectory = new File(sourceDirectoryLocation);
-	    File destinationDirectory = new File(destinationDirectoryLocation);
-	    FileUtils.copyFileToDirectory(sourceDirectory, destinationDirectory);
-	    
-	}
 	
 	
 	
