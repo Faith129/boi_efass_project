@@ -2,10 +2,17 @@ package com.efass.sheet.mmfbr933;
 
 import org.springframework.stereotype.Service;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +21,12 @@ import org.springframework.stereotype.Service;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 
+
 @Service
 public class sheet933_impl implements sheet933_Service{
 
-	
+	@Autowired
+	sheet933_Util sheet933Util;
 	
 	@Autowired
 	sheet933Repository _933Repository;
@@ -99,6 +108,44 @@ public class sheet933_impl implements sheet933_Service{
 		} else {
 			throw new ResourceNotFoundException("Record not found with id : " + Data.getId());
 		}
+	}
+
+	@Override
+	public Boolean writesheet933(LocalDate Date, String folderPath) throws FileNotFoundException, IOException,
+			EncryptedDocumentException, InvalidFormatException, ParseException {
+		
+		ArrayList<sheet933DAO> sheetdata = new ArrayList<>();
+		sheetdata =  (ArrayList<sheet933DAO>) _933Repository.findAll();
+		
+		List<List<Object>> listOfLists = new ArrayList<List<Object>>();
+		
+		for(int i = 0; i < sheetdata.size(); i++) {
+			
+			ArrayList<Object> data = new ArrayList<>();
+			
+			data.add(sheetdata.get(i).getInstitution_name());
+			data.add(sheetdata.get(i).getCountry());
+			data.add(sheetdata.get(i).getPurpose());
+			data.add(sheetdata.get(i).getTotalAmount());
+			data.add(sheetdata.get(i).getAmount_transferred_to_general_reserves());
+			data.add(sheetdata.get(i).getOutstanding_deferred_grants_amount());
+			
+			
+			
+			listOfLists.add(data);
+			
+			 System.out.println(">>>>>>>>>>>>This is the list" +listOfLists);
+			
+		}
+		
+		Boolean status = sheet933Util.writeSpecificList(listOfLists, Date, folderPath);
+		
+		if(status == true) {
+			return true;
+		}else {
+			return false;
+		}
+	
 	}
 
 	// ####################################################################################

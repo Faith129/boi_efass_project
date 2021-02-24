@@ -1,9 +1,16 @@
 package com.efass.sheet.mmfbr641;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +26,8 @@ import com.efass.sheet.mmfbr221.sheet221DAO;
 public class sheet641_impl implements sheet641_Service {
 
 	
+	@Autowired
+	sheet641_Util sheet641Util;
 	
 	
 	@Autowired
@@ -101,6 +110,40 @@ public class sheet641_impl implements sheet641_Service {
 		}
 	}
 
+
+	@Override
+	public Boolean writesheet641(LocalDate Date, String folderPath) throws FileNotFoundException, IOException,
+			EncryptedDocumentException, InvalidFormatException, ParseException {
+
+			ArrayList<sheet641DAO> sheetdata = new ArrayList<>();
+			
+			sheetdata = (ArrayList<sheet641DAO>) _641Repository.findAll();
+			
+			List<List<Object>> listofLists = new ArrayList<List<Object>>();
+			
+			for(int i = 0; i < sheetdata.size(); i++ ) {
+				
+				ArrayList<Object> data = new ArrayList<>();
+				
+				data.add(sheetdata.get(i).getNatureOfInvestment());
+				data.add(sheetdata.get(i).getAmount());
+				listofLists.add(data);
+				
+				System.out.println(">>>>>>>>>>>" +listofLists);
+			}
+				
+			Boolean status = sheet641Util.writeSpecificList(listofLists, Date, folderPath);
+			
+			if(status == true) {
+				return true;
+			}else {
+				return false;
+			}
+				
+				
+			
+	}
+
 	// ####################################################################################
 
 	
@@ -114,4 +157,5 @@ public class sheet641_impl implements sheet641_Service {
 	
 	//##################################################################################
 	
-}
+	}
+

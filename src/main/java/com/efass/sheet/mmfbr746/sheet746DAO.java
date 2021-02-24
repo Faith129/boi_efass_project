@@ -27,7 +27,7 @@ public class sheet746DAO {
 		public String dateGranted;
 		
 		@Column(name = "TENOR")
-		public int tenor;
+		public String tenor;
 		
 		
 		@Column(name = "AMOUNT_APPROVED")
@@ -64,11 +64,11 @@ public class sheet746DAO {
 			this.dateGranted = dateGranted;
 		}
 
-		public int getTenor() {
+		public String getTenor() {
 			return tenor;
 		}
 
-		public void setTenor(int tenor) {
+		public void setTenor(String tenor) {
 			this.tenor = tenor;
 		}
 

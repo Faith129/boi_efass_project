@@ -1,19 +1,29 @@
 package com.efass.sheet.mmfbr651;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Optional;
 
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 
 @Service
 public class sheet651_Impl implements sheet651_Service{
+	
+	@Autowired
+	sheet651_Util sheet651Util;
 
 	@Autowired
 	sheet651Repository _651Repository;
@@ -82,7 +92,6 @@ public class sheet651_Impl implements sheet651_Service{
 			DataUpdate.setAmount_granted(Data.getAmount_granted());
 			DataUpdate.setCountry(Data.getCountry());
 			DataUpdate.setDate_facility_granted(Data.getDate_facility_granted());
-			DataUpdate.setEffective_date(Data.getEffective_date());
 			DataUpdate.setName_of_lending_institution(Data.getName_of_lending_institution());
 			DataUpdate.setTenor(Data.getTenor());
 			_651Repository.save(DataUpdate);
@@ -95,6 +104,39 @@ public class sheet651_Impl implements sheet651_Service{
 		} else {
 			throw new ResourceNotFoundException("Record not found with id : " + Data.getId());
 		}
+	}
+
+	@Override
+	public Boolean writesheet651(LocalDate Date, String folderPath) throws FileNotFoundException, IOException,
+			EncryptedDocumentException, InvalidFormatException, ParseException {
+		
+		ArrayList <sheet651DAO> sheetdata = new ArrayList<>();
+		sheetdata = (ArrayList<sheet651DAO>) _651Repository.findAll();
+		
+		List<List<Object>> listOflists = new ArrayList<List<Object>>();
+		
+		for (int i = 0; i <sheetdata.size(); i++) {
+			
+			ArrayList <Object> data = new ArrayList<>();
+			
+			data.add(sheetdata.get(i).getName_of_lending_institution());
+			 data.add(sheetdata.get(i).getCountry());
+			 data.add(sheetdata.get(i).getDate_facility_granted());
+			 data.add(sheetdata.get(i).getTenor());
+			 data.add(sheetdata.get(i).getAmount_granted());
+			 
+			 listOflists.add(data);
+			 System.out.println(">>>>>>>>>>>>This is the list" +listOflists);
+		}
+	
+		Boolean status = sheet651Util.writeSpecificList(listOflists,Date,folderPath);
+		
+		if(status == true) {
+			return true;
+		}else {
+			return false;
+		}
+
 	}
 
 	// ####################################################################################

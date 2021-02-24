@@ -16,7 +16,12 @@ import org.springframework.stereotype.Service;
 
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+
 import com.efass.sheet.mmfbr311.sheet311DAO;
+
+import com.efass.report.ReportRepository;
+import com.efass.sheet.mmfbr221.sheet221_Util;
+
 import com.efass.sheet.mmfbr746.sheet746DAO;
 import com.efass.sheet.mmfbr746.sheet746Repository;
 
@@ -26,6 +31,13 @@ public class sheet762_impl implements sheet762_Service{
 	
 	@Autowired
 	sheet762Repository _762Repository;
+	
+	@Autowired
+	ReportRepository ReportRepo;
+
+	
+	@Autowired 
+	sheet762_Util sheet762Util;
 	
 	
 	
@@ -110,9 +122,11 @@ public class sheet762_impl implements sheet762_Service{
 			}
 		}
 
-		// ####################################################################################
 
 		
+		// ####################################################################################
+
+}
 		
 		
 		//#####################SHEET OPERATIONS ############################################
@@ -152,8 +166,9 @@ public class sheet762_impl implements sheet762_Service{
 		
 		
 		//##################################################################################
-		
+	
+	
 		
 	
-}
+
 

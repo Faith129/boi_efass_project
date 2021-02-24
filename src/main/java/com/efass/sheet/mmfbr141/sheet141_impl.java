@@ -1,9 +1,16 @@
 package com.efass.sheet.mmfbr141;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +27,9 @@ public class sheet141_impl implements sheet141_Service{
 
 	@Autowired
 	sheet141Repository _141Repository;
+	
+	@Autowired
+	sheet141_Util sheet141Util;
 
 	// ############################## MMFBR141 CRUD OPERATIONS
 	// #################################
@@ -94,6 +104,42 @@ public class sheet141_impl implements sheet141_Service{
 		} else {
 			throw new ResourceNotFoundException("Record not found with id : " + Data.getId());
 		}
+	}
+
+	@Override
+	public Boolean writesheet141(LocalDate date, String folderPath)
+			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException, ParseException {
+		
+		ArrayList<sheet141DAO> sheetdata  = new ArrayList<>();
+		
+		sheetdata = (ArrayList<sheet141DAO>) _141Repository.findAll();
+		
+		List<List<Object>> listofLists = new ArrayList<List<Object>>();
+		
+		System.out.println(">>>>>>>>>>" +sheetdata.size());
+		
+		for (int i = 0; i <sheetdata.size(); i++) {
+			
+			ArrayList<Object> data = new ArrayList<>();
+			data.clear();
+			
+			data.add(sheetdata.get(i).getTypeOfDeposit());
+			data.add(sheetdata.get(i).getTotal());
+			
+			listofLists.add(data);
+			
+			System.out.println("THis is the lists of inputs"+listofLists);
+			
+		}
+			
+		
+		Boolean status = sheet141Util.writeSpecificList(listofLists, date, folderPath);
+		if(status == true) {
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 
 	// ####################################################################################

@@ -1,9 +1,15 @@
 package com.efass.sheet.mmfbr763;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+import com.efass.report.ReportRepository;
 import com.efass.sheet.mmfbr762.sheet762DAO;
 import com.efass.sheet.mmfbr771.sheet771Repository;
 
@@ -19,6 +26,14 @@ public class sheet763_impl implements sheet763_Service {
 
 	@Autowired
 	sheet763Repository _763Repository;
+	
+	@Autowired
+	ReportRepository ReportRepo;
+	
+	@Autowired
+	sheet763_Util sheet763Util;
+	
+	
 
 	// ############################## MMFBR763 CRUD OPERATIONS
 	// #################################
@@ -103,6 +118,45 @@ public class sheet763_impl implements sheet763_Service {
 			throw new ResourceNotFoundException("Record not found with id : " + Data.getId());
 		}
 	}
+
+	@Override
+	public Boolean writesheet763(LocalDate date, String folderPath)
+			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException {
+		
+		ArrayList <sheet763DAO> sheetdata = new ArrayList<sheet763DAO>();
+		
+		sheetdata = (ArrayList<sheet763DAO>) _763Repository.findAll();
+		
+		
+		List<List<Object>> listOfLists = new ArrayList<List<Object>>();
+		
+		for (int i = 0; i < sheetdata.size(); i++) {
+			ArrayList<Object> data = new ArrayList<Object>();
+			data.clear();
+			data.add(sheetdata.get(i).getOne_to_30_Days());
+			data.add(sheetdata.get(i).getThirty_one_to_60_Days());
+			data.add(sheetdata.get(i).getSixty_one_to_90_days());
+			data.add(sheetdata.get(i).getNinty_one_to_180_days());
+			data.add(sheetdata.get(i).getOne_eighty_one_to_360_days());
+			data.add(sheetdata.get(i).getAbove_360_days());
+			
+			listOfLists.add(data);
+			
+		
+			
+		}
+		
+		
+		Boolean status = sheet763Util.writeSpecificList(listOfLists, date, folderPath);
+		if (status == true) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	
+	}
+
 
 	// ####################################################################################
 

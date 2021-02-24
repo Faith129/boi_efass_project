@@ -1,19 +1,31 @@
 package com.efass.sheet.mmfbr642;
 
+import org.apache.poi.EncryptedDocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.sun.el.parser.ParseException;
 
 @Service
 public class sheet642_Impl implements sheet642_Service{
+	
+	@Autowired
+	sheet642_Util sheet642Util;
+	
+	
 
 	@Autowired
 	sheet642Repository _642Repository;
@@ -97,6 +109,41 @@ public class sheet642_Impl implements sheet642_Service{
 		}
 	}
 
+	@Override
+	public boolean writesheet642(LocalDate Date, String folderPath)
+			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException,ParseException, Throwable{
+		
+		ArrayList<sheet642DAO> sheetdata = new ArrayList<>();
+		
+		sheetdata = (ArrayList<sheet642DAO>) _642Repository.findAll();
+		
+		List<List<Object>> listOfLists = new ArrayList<List<Object>>();
+		 
+		for(int i = 0; i < sheetdata.size(); i++) {
+			 ArrayList <Object> data = new ArrayList<>();
+			 
+			 data.add(sheetdata.get(i).getName_of_lending_institution());
+			 data.add(sheetdata.get(i).getCountry());
+			 data.add(sheetdata.get(i).getDate_facility_granted());
+			 data.add(sheetdata.get(i).getEffective_date());
+			 data.add(sheetdata.get(i).getTenor());
+			 data.add(sheetdata.get(i).getAmount_granted());
+			 
+			 listOfLists.add(data);
+			 System.out.println(">>>>>>>>>>>>This is the list" +listOfLists);
+		}
+	
+		Boolean status = sheet642Util.writeSpecificList(listOfLists,Date,folderPath);
+		
+		if(status == true) {
+			return true;
+		}else {
+			return false;
+		}
+		
+
+	}
+
 	// ####################################################################################
 
 	// #####################SHEET OPERATIONS
@@ -106,3 +153,4 @@ public class sheet642_Impl implements sheet642_Service{
 
 
 }
+

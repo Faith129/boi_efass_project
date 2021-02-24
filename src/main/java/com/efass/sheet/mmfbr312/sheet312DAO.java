@@ -11,7 +11,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "MMFBR312")
+
 public class sheet312DAO  implements Serializable{
+
 
 	
 	
@@ -55,6 +57,7 @@ public class sheet312DAO  implements Serializable{
 	@Column(name = "AMOUNT")
 	public String amount;
 
+
 	
 	
 	
@@ -78,6 +81,7 @@ public class sheet312DAO  implements Serializable{
 	
 	
 	public sheet312DAO() {}
+
 
 
 	public int getId() {
@@ -161,7 +165,6 @@ public class sheet312DAO  implements Serializable{
 	public void setMaturityDate(String maturityDate) {
 		this.maturityDate = maturityDate;
 	}
-
 
 
 
