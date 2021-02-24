@@ -18,23 +18,21 @@ public class sheet651DAO {
 	
 	
 	@Column(name = "LENDING_INSTIT_NAME")
-	private String Name_of_lending_institution;
+	public String Name_of_lending_institution;
 	
 	@Column(name = "COUNTRY")
-	private String country;
+	public String country;
 	
 	@Column(name = "DATE_FACILITY_GRANTED")
-	private String date_facility_granted;
+	public String date_facility_granted;
 	
-	@Column(name = "EFFECTIVE_DATE")
-	private String effective_date;
 	
 	@Column(name = "TENOR")
-	private String tenor;
+	public String tenor;
 	
 	
 	@Column(name = "AMOUNT")
-	private String amount_granted;
+	public String amount_granted;
 
 
 	public int getId() {
@@ -74,16 +72,6 @@ public class sheet651DAO {
 
 	public void setDate_facility_granted(String date_facility_granted) {
 		this.date_facility_granted = date_facility_granted;
-	}
-
-
-	public String getEffective_date() {
-		return effective_date;
-	}
-
-
-	public void setEffective_date(String effective_date) {
-		this.effective_date = effective_date;
 	}
 
 

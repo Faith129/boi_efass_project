@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "MMFBR811")
+@Table(name = "MMFBR933")
 public class sheet933DAO {
 	
 	
@@ -30,6 +30,12 @@ public class sheet933DAO {
 	@Column(name = "PURPOSE")
 	public String purpose;
 	
+	@Column(name = "TOTAL_AMOUNT")
+	public String totalAmount;
+
+
+
+
 	@Column(name = "OUTSTAN_DEF_GRANT_DONTN_AMT")
 	public String outstanding_deferred_grants_amount;
 	
@@ -94,6 +100,19 @@ public class sheet933DAO {
 	public void setPurpose(String purpose) {
 		this.purpose = purpose;
 	}
+	
+	
+	public String getTotalAmount() {
+		return totalAmount;
+	}
+
+
+
+
+	public void setTotalAmount(String totalAmount) {
+		this.totalAmount = totalAmount;
+	}
+
 
 
 

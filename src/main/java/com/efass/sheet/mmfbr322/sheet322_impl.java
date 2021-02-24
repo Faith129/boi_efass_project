@@ -1,9 +1,16 @@
 package com.efass.sheet.mmfbr322;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,13 +19,15 @@ import org.springframework.stereotype.Service;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.sheet.mmfbr221.sheet221DAO;
+import com.efass.sheet.mmfbr312.sheet312_Util;
 
 @Service
 public class sheet322_impl implements sheet322_Service {
 
 	
 	
-	
+	@Autowired
+	sheet322_Util sheet322Util;
 	
 
 	@Autowired
@@ -104,6 +113,42 @@ public class sheet322_impl implements sheet322_Service {
 		} else {
 			throw new ResourceNotFoundException("Record not found with id : " + Data.getId());
 		}
+	}
+
+	@Override
+	public Boolean writesheet322(LocalDate Date, String folderPath) throws FileNotFoundException, IOException,
+			EncryptedDocumentException, InvalidFormatException, ParseException {
+		
+		ArrayList<sheet322DAO> sheetdata = new ArrayList<sheet322DAO>();
+		
+		sheetdata = (ArrayList<sheet322DAO>) _322Repository.findAll();
+		
+		List<List<Object>> listOflists = new ArrayList<List<Object>>();
+		
+		for (int i = 0; i < sheetdata.size(); i++) {
+			ArrayList<Object> data = new ArrayList<Object>();
+			
+			data.add(sheetdata.get(i).getBank_code());
+			data.add(sheetdata.get(i).getBank_name());
+			data.add(sheetdata.get(i).getRate());
+			data.add(sheetdata.get(i).getTenor());
+			data.add(sheetdata.get(i).getMaturityDate());
+			data.add(sheetdata.get(i).getAmount());
+			
+			listOflists.add(data);
+			System.out.println(">>>>>>>>>>>>This is the list" +listOflists);
+			
+			
+		}
+		
+		Boolean status = sheet322Util.writeSpecificList(listOflists, Date, folderPath);
+		
+		if(status == true) {
+			return true;
+		}else {
+			return false;
+		}
+		
 	}
 
 	// ####################################################################################

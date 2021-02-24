@@ -1,14 +1,23 @@
 package com.efass.sheet.mmfbr771;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+import com.efass.sheet.mmfbr746.sheet746_Util;
 import com.efass.sheet.mmfbr764.sheet764DAO;
 
 
@@ -17,6 +26,9 @@ public class sheet771_impl implements sheet771_Service {
 
 	@Autowired
 	sheet771Repository _771Repository;
+	
+	@Autowired 
+	sheet771_Util sheet771Util;
 
 	// ############################## MMFBR746 CRUD OPERATIONS
 	// #################################
@@ -103,6 +115,50 @@ public class sheet771_impl implements sheet771_Service {
 		} else {
 			throw new ResourceNotFoundException("Record not found with id : " + Data.getId());
 		}
+	}
+
+	@Override
+	public Boolean writesheet771(LocalDate Date, String folderPath) throws FileNotFoundException, IOException,
+			EncryptedDocumentException, InvalidFormatException, ParseException {
+	
+		ArrayList<sheet771DAO> sheetdata = new ArrayList<>();
+		
+		sheetdata = (ArrayList<sheet771DAO>) _771Repository.findAll();
+		
+		List<List<Object>> listofLists = new ArrayList<List<Object>>();
+		
+		for (int i = 0; i<sheetdata.size(); i++) {
+			
+			ArrayList<Object> data = new ArrayList<>();
+			
+			data.add(sheetdata.get(i).getCustomerCode());
+			data.add(sheetdata.get(i).getCustomerName());
+			data.add(sheetdata.get(i).getPastDueDate());
+			data.add(sheetdata.get(i).getLastRepaymentDate());
+			data.add(sheetdata.get(i).getAmountGranted());
+			data.add(sheetdata.get(i).getPrincipalPaymentDueUnpaid());
+			data.add(sheetdata.get(i).getAccruedInterestUnpaid());
+			data.add(sheetdata.get(i).getTotalNonPerformingCredit());
+			data.add(sheetdata.get(i).getOneToThirtyDays());
+			data.add(sheetdata.get(i).getThirtyOneToSixtyDays());
+			data.add(sheetdata.get(i).getSixyOneToNintyDays());
+			data.add(sheetdata.get(i).getNintyOneToModeDays());
+			data.add(sheetdata.get(i).getRemarks());
+			
+			listofLists.add(data);
+			
+			System.out.println(">>>>>>>" +listofLists);
+		
+		}
+		
+		Boolean status = sheet771Util.writeSpecificList(listofLists, Date, folderPath);
+		
+		if (status == true) {
+			return true;
+		}else {
+			return false;
+		}
+	
 	}
 
 	// ####################################################################################

@@ -40,13 +40,15 @@ public class sheet221_Util{
 	public Boolean writeSpecificList(List<List<Object>> listOfLists, LocalDate Date ,String folderPath)
 			throws EncryptedDocumentException, InvalidFormatException, IOException {
 
+		
+	
 
 		
 		
 	
 		String Path =folderPath + "/cbn_MFB_rpt_12345m052087.xlsx";
-		SpecialData sb = new SpecialData();
-		sb.setChildFolderPath(Path);
+//		SpecialData sb = new SpecialData();
+//		sb.setChildFolderPath(Path);
 		
 		
 
@@ -82,9 +84,9 @@ public class sheet221_Util{
 			Cell cell3 = null;
 			// int cellNum3 =cellNum-3;
 			// Access the second cell in second row to update the value
-			cell2 = worksheet.getRow(rowNum).getCell(0);
+			cell3 = worksheet.getRow(rowNum).getCell(0);
 			// Get current cell value value and overwrite the value
-			cell2.setCellValue(bankCode);
+			cell3.setCellValue(bankCode);
 
 			// Close the InputStream
 			fsIP.close();

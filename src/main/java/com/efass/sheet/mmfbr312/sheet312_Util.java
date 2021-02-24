@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.poi.EncryptedDocumentException;
@@ -40,15 +43,7 @@ public class sheet312_Util {
 	
 	
 	public Boolean writeSpecificList(List<List<Object>> listOfLists, LocalDate Date ,String folderPath)
-			throws EncryptedDocumentException, InvalidFormatException, IOException {
-
-
-		
-		
-	
-
-	
-		
+			throws EncryptedDocumentException, InvalidFormatException, IOException, ParseException {
 		
 		String Path =folderPath + "/cbn_MFB_rpt_12345m052087.xlsx";
 		SpecialData sb = new SpecialData();
@@ -62,18 +57,23 @@ public class sheet312_Util {
 		Workbook wb = WorkbookFactory.create(fsIP);
 		// Access the worksheet, so that we can update / modify it.
 
-		int rowNum = 11;
+		int rowNum = 12;
 		for (int i = 0; i < listOfLists.size(); i++) {
 			List<Object> listAtI = listOfLists.get(i);
 			
 			
 			String bankCode = (String) listAtI.get(0);
 			String bankName = (String) listAtI.get(1);
-			String tenor = (String) listAtI.get(2);
-			String maturity = (String) listAtI.get(3);
+			String rate = (String) listAtI.get(2);
+			String tenor = (String) listAtI.get(3);
+			String _effectiveDate = (String) listAtI.get(4);
+			String _maturityDate = (String) listAtI.get(5);
 			
+			Date effectiveDate = new SimpleDateFormat("dd/MM/yyyy").parse(_effectiveDate);  
+			
+			Date maturityDate = new SimpleDateFormat("dd/MM/yyyy").parse(_maturityDate);  
 	
-			int amount = Integer.parseInt(listAtI.get(4).toString());
+			int amount = Integer.parseInt(listAtI.get(6).toString());
 		
 			
 			Sheet worksheet = wb.getSheet("312");
@@ -81,29 +81,29 @@ public class sheet312_Util {
 
 			Cell cell = null;
 			// Access the second cell in second row to update the value
-			cell = worksheet.getRow(rowNum).getCell(5);
+			cell = worksheet.getRow(rowNum).getCell(7);
 			// Get current cell value value and overwrite the value
 			cell.setCellValue(amount);
 
 			Cell cell2 = null;
 			// Access the second cell in second row to update the value
-			cell2 = worksheet.getRow(rowNum).getCell(4);
+			cell2 = worksheet.getRow(rowNum).getCell(6);
 			// Get current cell value value and overwrite the value
-			cell2.setCellValue(maturity);
+			cell2.setCellValue(maturityDate);
 
 			Cell cell3 = null;
 			// int cellNum3 =cellNum-3;
 			// Access the second cell in second row to update the value
-			cell3 = worksheet.getRow(rowNum).getCell(3);
+			cell3 = worksheet.getRow(rowNum).getCell(5);
 			// Get current cell value value and overwrite the value
-			cell3.setCellValue(tenor);
+			cell3.setCellValue(effectiveDate);
 			
 			
 			
 			Cell cell4 = null;
 			// int cellNum3 =cellNum-3;
 			// Access the second cell in second row to update the value
-			cell4 = worksheet.getRow(rowNum).getCell(2);
+			cell4 = worksheet.getRow(rowNum).getCell(4);
 			// Get current cell value value and overwrite the value
 			cell4.setCellValue(tenor);
 			
@@ -112,19 +112,26 @@ public class sheet312_Util {
 			Cell cell5 = null;
 			// int cellNum3 =cellNum-3;
 			// Access the second cell in second row to update the value
-			cell5 = worksheet.getRow(rowNum).getCell(1);
+			cell5 = worksheet.getRow(rowNum).getCell(3);
 			// Get current cell value value and overwrite the value
-			cell5.setCellValue(bankName);
-			
-			
-			
+			cell5.setCellValue(rate);
 			
 			Cell cell6 = null;
 			// int cellNum3 =cellNum-3;
 			// Access the second cell in second row to update the value
-			cell6 = worksheet.getRow(rowNum).getCell(0);
+			cell6 = worksheet.getRow(rowNum).getCell(1);
 			// Get current cell value value and overwrite the value
-			cell6.setCellValue(bankCode);
+			cell6.setCellValue(bankName);
+			
+			
+			
+			
+			Cell cell7 = null;
+			// int cellNum3 =cellNum-3;
+			// Access the second cell in second row to update the value
+			cell7 = worksheet.getRow(rowNum).getCell(0);
+			// Get current cell value value and overwrite the value
+			cell7.setCellValue(bankCode);
 			
 			
 			
@@ -142,7 +149,7 @@ public class sheet312_Util {
 			wb.write(output_file);
 			// close the stream
 			output_file.close();
-			System.out.println("sheet 321works");
+			System.out.println("sheet 312 works");
 
 			rowNum++;
 		}

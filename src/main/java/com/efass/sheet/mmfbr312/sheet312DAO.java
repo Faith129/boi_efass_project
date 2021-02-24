@@ -21,37 +21,37 @@ public class sheet312DAO {
 	
   
 	@Column(name = "BANK_CODE")
-	private String bankCode;
+	public String bankCode;
 	
 	
 	
 	@Column(name = "BANK_NAME")
-	private String nameOfBanks;
+	public String nameOfBanks;
 	
 	
 	@Column(name = "RATE")
-	private String rate;
+	public String rate;
 	
 	
 	
 	@Column(name = "TENOR")
-	private String tenor;
+	public String tenor;
 	
 	
 	
 	@Column(name = "EFFECTIVE_DATE")
-	private String effectiveDate;
+	public String effectiveDate;
 	
 	
 	
 	
 	@Column(name = "MATURITY")
-	private String maturityDate;
+	public String maturityDate;
 	
 	
 	
 	@Column(name = "AMOUNT")
-	private String amount;
+	public String amount;
 
 
 

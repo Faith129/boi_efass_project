@@ -1,9 +1,16 @@
 package com.efass.sheet.mmfbr951;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +19,13 @@ import org.springframework.stereotype.Service;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.sheet.mmfbr221.sheet221DAO;
+import com.efass.sheet.mmfbr651.sheet651DAO;
 
 @Service
 public class sheet951_impl  implements sheet951_Service{
 
+	@Autowired
+	sheet951_Util sheet951Util;
 	
 	@Autowired
 	sheet951Repository _951Repository;
@@ -93,6 +103,39 @@ public class sheet951_impl  implements sheet951_Service{
 		} else {
 			throw new ResourceNotFoundException("Record not found with id : " + Data.getId());
 		}
+	}
+
+	@Override
+	public Boolean writesheet951(LocalDate Date, String folderPath) throws FileNotFoundException, IOException,
+			EncryptedDocumentException, InvalidFormatException, ParseException {
+		
+		ArrayList<sheet951DAO> sheetdata = new ArrayList<>();
+		sheetdata =  (ArrayList<sheet951DAO>)  _951Repository.findAll();
+		
+		List<List<Object>> listOfLists = new ArrayList<List<Object>>();
+		
+		for(int i = 0; i < sheetdata.size(); i++) {
+			
+			ArrayList<Object> data = new ArrayList<>();
+			
+			data.add(sheetdata.get(i).getItem());
+			data.add(sheetdata.get(i).getAmount());
+			
+			listOfLists.add(data);
+			
+			 System.out.println(">>>>>>>>>>>>This is the list" +listOfLists);
+			
+		}
+		
+		Boolean status = sheet951Util.writeSpecificList(listOfLists, Date, folderPath);
+		
+		if(status == true) {
+			return true;
+		}else {
+			return false;
+		}
+		
+	
 	}
 
 	// ####################################################################################

@@ -18,23 +18,23 @@ public class sheet642DAO {
 	
 	
 	@Column(name = "LENDING_INSTIT_NAME")
-	private String Name_of_lending_institution;
+	public String Name_of_lending_institution;
 	
 	@Column(name = "COUNTRY")
-	private String country;
+	public String country;
 	
 	@Column(name = "DATE_FACILITY_GRANTED")
-	private String date_facility_granted;
+	public String date_facility_granted;
 	
 	@Column(name = "EFFECTIVE_DATE")
-	private String effective_date;
+	public String effective_date;
 	
 	@Column(name = "TENOR")
-	private String tenor;
+	public String tenor;
 	
 	
 	@Column(name = "AMOUNT")
-	private String amount_granted;
+	public String amount_granted;
 
 
 	public int getId() {
