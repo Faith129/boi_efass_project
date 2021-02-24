@@ -162,10 +162,10 @@ public class SheetController {
 			
 			//Write On Excel Sheets
 			sheet221Svc.writesheet221(date,folderPath);
-			sheet311Svc.writesheet311(date,folderPath);
-			sheet321Svc.writesheet321(date,folderPath);
-			//sheet711Svc.writesheet711(date,folderPath);
-			
+//			sheet311Svc.writesheet311(date,folderPath);
+//			sheet321Svc.writesheet321(date,folderPath);
+//			sheet711Svc.writesheet711(date,folderPath);
+			sheet762Svc.writesheet762(date,folderPath);
 			//sheet641Svc.writesheet641(date,folderPath);
 
 			status = true;

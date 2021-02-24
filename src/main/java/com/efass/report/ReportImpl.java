@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.CookieValue;
 
 import com.efass.auth.jwt.JwtRequest;
 import com.efass.payload.Response;
+import com.efass.sheet.mmfbr221.sheet221Repository;
+import com.efass.sheet.mmfbr311.sheet311Repository;
+import com.efass.sheet.mmfbr711.sheet711DAO;
+import com.efass.sheet.mmfbr711.sheet711Repository;
 import com.efass.specials.SpecialFunction;
 
 @Service
@@ -26,6 +30,9 @@ public class ReportImpl implements ReportService{
 	@Autowired
 	ReportRepository ReportRepo;
 	
+
+	@Autowired
+	sheet711Repository _711Repository;
 
 	 ReportDAO data = new ReportDAO();
 	
@@ -72,13 +79,8 @@ public class ReportImpl implements ReportService{
 			data.setUser_id(currentPrincipalName);
 			ReportRepo.save(data);
 			
-			//Create file
-//			try {
-//				copyDirectory("./datafiles/cbn_MFB_rpt_12345m052087.xlsx",filepath);
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+			//Populate data for sheet711
+			populateSheet711();
 			
 			// Run Procedure to populate the tables on DB
 			res.setResponseMessage("Success,File Created");
@@ -97,6 +99,38 @@ public class ReportImpl implements ReportService{
 	
 	
 	
+	private void populateSheet711() {
+		//Delete all 
+		_711Repository.deleteAll();
+		
+		sheet711DAO data = new sheet711DAO();
+		data.setLendingModel("Individuals");
+		_711Repository.save(data);
+		data.setLendingModel("Solidarity Group");
+		_711Repository.save(data);
+		data.setLendingModel("Neighborhood and Small Group Revolving Funds");
+		_711Repository.save(data);
+		data.setLendingModel("Village Banking");
+		_711Repository.save(data);
+		data.setLendingModel("Wholesale lending");
+		_711Repository.save(data);
+		data.setLendingModel("Credit Unions");
+		_711Repository.save(data);
+		data.setLendingModel("Staff");
+		_711Repository.save(data);
+		data.setLendingModel("Others - Specify");
+		_711Repository.save(data);
+	
+		
+		
+	}
+
+
+	
+	
+
+
+
 	public Boolean checkDate(LocalDate Date) {
 		
 		 data = ReportRepo.findByDate(Date.toString());

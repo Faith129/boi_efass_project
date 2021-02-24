@@ -1,4 +1,4 @@
-package com.efass.sheet.mmfbr311;
+package com.efass.sheet.mmfbr762;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,27 +19,23 @@ import org.springframework.stereotype.Service;
 import com.efass.report.ReportRepository;
 import com.efass.sheet.mmfbr311.sheet311Repository;
 import com.efass.specials.SpecialData;
-import com.efass.specials.SpecialFunction;
-
 
 @Service
-public class sheet311_Util {
-
+public class sheet762Util {
 	
 	@Autowired
 	 static ReportRepository ReportRepo ;
 
 
 	@Autowired
-	 static sheet311Repository _311Repo;
+	 static sheet762Repository _762Repo;
 
 	
+	
+	
 
 	
-	
-	
-	
-	public Boolean writeSpecificList(List<List<Object>> listOfLists, LocalDate Date ,String folderPath)
+	public static Boolean writeSpecificList(List<List<Object>> listOfLists, LocalDate Date ,String folderPath)
 			throws EncryptedDocumentException, InvalidFormatException, IOException {
 
 
@@ -66,68 +62,44 @@ public class sheet311_Util {
 		for (int i = 0; i < listOfLists.size(); i++) {
 			List<Object> listAtI = listOfLists.get(i);
 			
+			int loan;
+			int amount;
+			if (listAtI.get(1)==null ||listAtI.get(2)==null ) {
+				loan = 0;
+				amount=0;
+			}else if (listAtI.get(1) != null ||listAtI.get(2) != null ) {
+				loan= Integer.parseInt(listAtI.get(1).toString());
+				amount = Integer.parseInt(listAtI.get(2).toString());
+				
+				
 			
-			String bankCode = (String) listAtI.get(0);
-			String bankName = (String) listAtI.get(1);
-			String tenor = (String) listAtI.get(2);
-			String maturity = (String) listAtI.get(3);
 			
-	
-			int amount = Integer.parseInt(listAtI.get(4).toString());
 		
 			
-			Sheet worksheet = wb.getSheet("311");
+			
+			String sector = (String) listAtI.get(0);
+			int NoOfLoans = loan;
+			int AmountGranted =amount; 
+		
+			
+		
+			
+			Sheet worksheet = wb.getSheet("762");
 			// declare a Cell object
 
 			Cell cell = null;
 			// Access the second cell in second row to update the value
-			cell = worksheet.getRow(rowNum).getCell(5);
+			cell = worksheet.getRow(rowNum).getCell(3);
 			// Get current cell value value and overwrite the value
-			cell.setCellValue(amount);
+			cell.setCellValue(AmountGranted);
 
 			Cell cell2 = null;
 			// Access the second cell in second row to update the value
-			cell2 = worksheet.getRow(rowNum).getCell(4);
+			cell2 = worksheet.getRow(rowNum).getCell(2);
 			// Get current cell value value and overwrite the value
-			cell2.setCellValue(maturity);
+			cell2.setCellValue(NoOfLoans);
 
-			Cell cell3 = null;
-			// int cellNum3 =cellNum-3;
-			// Access the second cell in second row to update the value
-			cell3 = worksheet.getRow(rowNum).getCell(3);
-			// Get current cell value value and overwrite the value
-			cell3.setCellValue(tenor);
-			
-			
-			
-			Cell cell4 = null;
-			// int cellNum3 =cellNum-3;
-			// Access the second cell in second row to update the value
-			cell4 = worksheet.getRow(rowNum).getCell(2);
-			// Get current cell value value and overwrite the value
-			cell4.setCellValue(tenor);
-			
-			
-			
-			Cell cell5 = null;
-			// int cellNum3 =cellNum-3;
-			// Access the second cell in second row to update the value
-			cell5 = worksheet.getRow(rowNum).getCell(1);
-			// Get current cell value value and overwrite the value
-			cell5.setCellValue(bankName);
-			
-			
-			
-			
-			Cell cell6 = null;
-			// int cellNum3 =cellNum-3;
-			// Access the second cell in second row to update the value
-			cell6 = worksheet.getRow(rowNum).getCell(0);
-			// Get current cell value value and overwrite the value
-			cell6.setCellValue(bankCode);
-			
-			
-			
+			}
 			
 
 			// Close the InputStream
@@ -136,8 +108,7 @@ public class sheet311_Util {
 
 			
 			FileOutputStream output_file = new FileOutputStream(new File(Path));
-			// FileOutputStream output_file =new FileOutputStream(new
-			// File(".\\datafiles\\export\\cbn_MFB_rpt_12345m052087.xlsx"));
+
 			// write changes
 			wb.write(output_file);
 			// close the stream

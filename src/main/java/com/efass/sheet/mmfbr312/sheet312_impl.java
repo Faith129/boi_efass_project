@@ -44,7 +44,7 @@ public class sheet312_impl implements sheet312_Service{
 	public ResponseEntity<?> fetchAllData() {
 		Iterable<sheet312DAO> data = _312Repository.findAll();
 
-		  Field[] fields = sheet221DAO.class.getFields();
+		  Field[] fields = sheet312DAO.class.getFields();
 			ArrayList<String> colname = new ArrayList<String>();
 			for(Field f: fields){
 			   colname.add(f.getName()) ;
