@@ -1,9 +1,16 @@
 package com.efass.sheet.mmfbr451;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +24,8 @@ import com.efass.sheet.mmfbr221.sheet221DAO;
 public class sheet451_Impl implements sheet451_Service {
 
 	
-	
+	@Autowired
+	sheet451_Util sheet451Util;
 	
 
 	@Autowired
@@ -101,6 +109,44 @@ public class sheet451_Impl implements sheet451_Service {
 
 		} else {
 			throw new ResourceNotFoundException("Record not found with id : " + Data.getId());
+		}
+	}
+
+	@Override
+	public Boolean writesheet451(LocalDate Date, String folderPath) throws FileNotFoundException, IOException,
+			EncryptedDocumentException, InvalidFormatException, ParseException {
+	
+		ArrayList <sheet451DAO> sheetdata = new ArrayList<>();
+		sheetdata = (ArrayList<sheet451DAO>) _451Repository.findAll();
+		
+		List<List<Object>> listOflists = new ArrayList<List<Object>>();
+		
+		for(int i = 0; i < sheetdata.size(); i++) {
+			
+			ArrayList <Object> data = new ArrayList<>();
+			
+			data.add(sheetdata.get(i).getBankCode());
+			data.add(sheetdata.get(i).getNameOfInstitution());
+			data.add(sheetdata.get(i).getRate());
+			data.add(sheetdata.get(i).getTenor());
+			data.add(sheetdata.get(i).getMaturityDate());
+			data.add(sheetdata.get(i).getAmount());
+			
+			listOflists.add(data);
+			
+			System.out.println(">>>>>>>>>>>>This is the list" +listOflists);
+			
+			
+			
+		}
+		
+		Boolean status = sheet451Util.writeSpecificList(listOflists, Date, folderPath);
+		
+		if (status == true) {
+			return true;
+		}else
+		{
+			return false;
 		}
 	}
 

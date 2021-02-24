@@ -3,6 +3,7 @@ package com.efass.sheet.mmfbr312;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +20,14 @@ import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.sheet.mmfbr221.sheet221DAO;
 import com.efass.sheet.mmfbr311.sheet311DAO;
+import com.efass.sheet.mmfbr321.sheet321_Util;
 
 @Service
 public class sheet312_impl implements sheet312_Service{
 
 	
-	
+	@Autowired
+	sheet312_Util sheet312Util;
 
 	@Autowired
 	sheet312Repository _312Repository;
@@ -44,10 +47,11 @@ public class sheet312_impl implements sheet312_Service{
 	public ResponseEntity<?> fetchAllData() {
 		Iterable<sheet312DAO> data = _312Repository.findAll();
 
-		  Field[] fields = sheet221DAO.class.getFields();
+		  Field[] fields = sheet312DAO.class.getFields();
 			ArrayList<String> colname = new ArrayList<String>();
 			for(Field f: fields){
 			   colname.add(f.getName()) ;
+			 
 			}
 		Response res = new Response();
 		res.setSheet312(data);
@@ -108,6 +112,44 @@ public class sheet312_impl implements sheet312_Service{
 		} else {
 			throw new ResourceNotFoundException("Record not found with id : " + Data.getId());
 		}
+	}
+
+	@Override
+	public Boolean writesheet312(LocalDate Date, String folderPath) throws FileNotFoundException, IOException,
+			EncryptedDocumentException, InvalidFormatException, ParseException {
+		
+		ArrayList<sheet312DAO> sheetdata = new ArrayList<>();
+		
+		sheetdata = (ArrayList<sheet312DAO>) _312Repository.findAll();
+		
+		List<List<Object>> listofLists = new ArrayList<List<Object>>();
+		
+		for(int i =0; i < sheetdata.size(); i++) {
+			
+			ArrayList<Object> data = new ArrayList<>();
+			data.add(sheetdata.get(i).getBankCode());
+			data.add(sheetdata.get(i).getNameOfBanks());
+			data.add(sheetdata.get(i).getRate());
+			data.add(sheetdata.get(i).getTenor());
+			data.add(sheetdata.get(i).getEffectiveDate());
+			data.add(sheetdata.get(i).getMaturityDate());
+			data.add(sheetdata.get(i).getAmount());
+			
+			listofLists.add(data);
+			
+			System.out.println(">>>>>>>>>>>>>"+listofLists);
+		}
+		
+		Boolean status = sheet312Util.writeSpecificList(listofLists, Date, folderPath);
+		if(status == true) {
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+		
+		
 	}
 
 	// ####################################################################################

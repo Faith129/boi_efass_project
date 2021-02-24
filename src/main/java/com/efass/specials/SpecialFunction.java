@@ -40,10 +40,7 @@ public class SpecialFunction {
 		return filename;
 
 	}
-	
-	
-	
-	
+
 	public String checkCreateFolder(String filePath) {
 		
 		String path = filePath+"/output";
@@ -111,7 +108,7 @@ public class SpecialFunction {
 	
 	
 	
-	//Create file
+//	Create file
 //	try {
 //		copyDirectory("./datafiles/cbn_MFB_rpt_12345m052087.xlsx",filepath);
 //	} catch (IOException e) {

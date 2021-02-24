@@ -1,9 +1,16 @@
 package com.efass.sheet.mmfbr746;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +18,10 @@ import org.springframework.stereotype.Service;
 
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+import com.efass.report.ReportDAO;
+import com.efass.report.ReportRepository;
 import com.efass.sheet.mmfbr221.sheet221DAO;
+import com.efass.sheet.mmfbr221.sheet221_Util;
 import com.efass.sheet.mmfbr641.sheet641Repository;
 
 @Service
@@ -21,6 +31,12 @@ public class sheet746_impl   implements sheet746_Service{
 	
 	@Autowired
 	sheet746Repository _746Repository;
+	
+	@Autowired 
+	sheet746_Util sheet746Util;
+	
+	@Autowired
+	ReportRepository ReportRepo;
 	
 	// ############################## MMFBR746 CRUD OPERATIONS #################################
 
@@ -102,6 +118,52 @@ public class sheet746_impl   implements sheet746_Service{
 		}
 	}
 
+
+	@Override
+	public Boolean writesheet746(LocalDate Date, String folderPath) 
+			throws FileNotFoundException, IOException, EncryptedDocumentException, ParseException, InvalidFormatException {
+		
+		ArrayList<sheet746DAO> sheetData = new ArrayList<sheet746DAO>();
+		sheetData = (ArrayList<sheet746DAO>) _746Repository.findAll();
+		
+		List<List<Object>> listOfLists = new ArrayList<List<Object>>();
+		
+			for(int i = 0; i < sheetData.size(); i++) {
+				ArrayList<Object> data = new ArrayList<>();
+				data.clear();
+				data.add(sheetData.get(i).getStatus());
+				data.add(sheetData.get(i).getOutstandingBalance());
+				data.add(sheetData.get(i).getAmountApproved());
+				data.add(sheetData.get(i).getTenor());
+				data.add(sheetData.get(i).getDateGranted());
+				data.add(sheetData.get(i).getNameOfBen());
+				
+				listOfLists.add(data);
+				
+				System.out.println("This are the values written in the sheets for 746" +listOfLists);
+				
+				}
+			
+			Boolean status = sheet746Util.writeSpecificList(listOfLists,Date,folderPath);
+			if (status == true) {
+				return true;
+			} else {
+				return false;
+			}
+
+		}
+	
+//	public String getFolderPathWithDate(LocalDate date) {
+//
+//		ReportDAO Data = ReportRepo.findByPathDate(date.toString());
+//		String folderPath = Data.getFile_path();
+//
+//		System.out.println("Folder Path:" + folderPath);
+//		return folderPath;
+//	}
+			
+			
+
 	// ####################################################################################
 
 	
@@ -116,4 +178,6 @@ public class sheet746_impl   implements sheet746_Service{
 	//##################################################################################
 	
 	
-}
+	}
+	
+

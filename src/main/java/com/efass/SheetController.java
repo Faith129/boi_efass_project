@@ -2,6 +2,7 @@ package com.efass;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -11,6 +12,7 @@ import java.time.ZonedDateTime;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.xssf.model.ThemesTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -139,7 +141,7 @@ public class SheetController {
 
 	@RequestMapping(value = "/generate/{date}")
 	public ResponseEntity<?> loadData(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date)
-			throws EncryptedDocumentException, FileNotFoundException, InvalidFormatException, IOException {
+			throws EncryptedDocumentException, FileNotFoundException, InvalidFormatException, IOException, ParseException, Throwable {
 
 		// Generation for Sheet 221
 		Boolean evt = reportSvc.checkDate(date);
@@ -156,18 +158,35 @@ public class SheetController {
 			//Generate Folder with unique reference Number
 			SpecialFunction sp = new SpecialFunction();
 			String folderPath = sp.createFolderDirectory(date.toString(), _time);
+			
 			SpecialData sd = new SpecialData();
 			sd.setFolderPath(folderPath);
 	
 			
 			//Write On Excel Sheets
-			sheet221Svc.writesheet221(date,folderPath);
-			sheet311Svc.writesheet311(date,folderPath);
-			sheet321Svc.writesheet321(date,folderPath);
-			//sheet711Svc.writesheet711(date,folderPath);
+//			sheet221Svc.writesheet221(date,folderPath);
+//			sheet311Svc.writesheet311(date,folderPath);
+//			sheet321Svc.writesheet321(date,folderPath);
+//          sheet711Svc.writesheet711(date,folderPath);
+//		    sheet746Svc.writesheet746(date, folderPath);
+//	        sheet771Svc.writesheet771(date, folderPath);
+//	        sheet762Svc.writesheet762(date, folderPath);
+//			sheet641Svc.writesheet641(date,folderPath);
 			
-			//sheet641Svc.writesheet641(date,folderPath);
-
+		//	sheet763Svc.writesheet763(date, folderPath);
+		//	sheet141Svc.writesheet141(date, folderPath);
+			
+		//	sheet312Svc.writesheet312(date, folderPath);
+		//	sheet322Svc.writesheet322(date, folderPath);
+			
+//			sheet451Svc.writesheet451(date, folderPath);
+			//sheet642Svc.writesheet642(date,folderPath);
+			//sheet651Svc.writesheet651(date, folderPath);
+			//sheet951Svc.writesheet951(date, folderPath);
+			//sheet996Svc.writesheet996(date, folderPath);
+			sheet933Svc.writesheet933(date, folderPath);
+			
+			
 			status = true;
 		} else if (evt == false) {
 			//test
@@ -181,7 +200,7 @@ public class SheetController {
 		// Store Subfolder in db
 
 		if (status == true) {
-			res.setResponseMessage("Sheet 221 Updated");
+			res.setResponseMessage("Sheet  Updated");
 			res.setResponseCode(00);
 			return new ResponseEntity<>(res, HttpStatus.OK);
 		} else {

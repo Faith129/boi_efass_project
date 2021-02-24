@@ -20,36 +20,36 @@ public class sheet322DAO {
 	private int id;
 
 	@Column(name = "BANK_CODE")
-	private String bank_code;
+	public String bank_code;
 	
 	
 	
 	
 	@Column(name = "BANK_NAME")
-	private String bank_name;
+	public String bank_name;
 	
 	
 	
 	@Column(name = "RATE")
-	private String rate;
+	public String rate;
 	
 	
 	
 	@Column(name = "TENOR")
-	private String tenor;
+	public String tenor;
 	
 	
 	
 	
 	@Column(name = "AMOUNT")
-	private String amount;
+	public String amount;
 	
 	
 
 
 
 	@Column(name = "MATURITY")
-	private String maturityDate;
+	public String maturityDate;
 
 
 
