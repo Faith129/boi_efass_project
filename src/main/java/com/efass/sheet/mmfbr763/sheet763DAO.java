@@ -24,6 +24,9 @@ public class sheet763DAO {
 	public String typeOfLoans;
 	
 	
+	
+	
+	
 	@Column(name = "ONE_TO_30_DAYS")
 	public String one_to_30_Days;
 	
@@ -45,6 +48,30 @@ public class sheet763DAO {
 	
 	@Column(name = "ABOVE_360_DAYS")
 	public String above_360_days;
+	
+	
+	
+	
+	@Column(name = "TOTAL")
+	public String total;
+
+	
+	
+	@Column(name = "TYPE_ID")
+	public String typeId;
+
+	
+	@Column(name = "LOAN_ID")
+	public String loanId;
+
+	public String getLoanId() {
+		return loanId;
+	}
+
+
+	public void setLoanId(String loanId) {
+		this.loanId = loanId;
+	}
 
 
 	public int getId() {
@@ -112,6 +139,16 @@ public class sheet763DAO {
 	}
 
 
+	public String getTypeId() {
+		return typeId;
+	}
+
+
+	public void setTypeId(String typeId) {
+		this.typeId = typeId;
+	}
+
+
 	public String getAbove_360_days() {
 		return above_360_days;
 	}
@@ -119,6 +156,16 @@ public class sheet763DAO {
 
 	public void setAbove_360_days(String above_360_days) {
 		this.above_360_days = above_360_days;
+	}
+
+
+	public String getTotal() {
+		return total;
+	}
+
+
+	public void setTotal(String total) {
+		this.total = total;
 	}
 
 

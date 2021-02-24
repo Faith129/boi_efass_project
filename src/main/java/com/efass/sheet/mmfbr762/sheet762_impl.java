@@ -16,8 +16,12 @@ import org.springframework.stereotype.Service;
 
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+
+import com.efass.sheet.mmfbr311.sheet311DAO;
+
 import com.efass.report.ReportRepository;
 import com.efass.sheet.mmfbr221.sheet221_Util;
+
 import com.efass.sheet.mmfbr746.sheet746DAO;
 import com.efass.sheet.mmfbr746.sheet746Repository;
 
@@ -129,6 +133,36 @@ public class sheet762_impl implements sheet762_Service{
 		
 		
 		
+
+		@Override
+		public Boolean writesheet762(LocalDate Date, String folderPath)
+				throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException {
+
+			ArrayList<sheet762DAO> sheetData = new ArrayList<sheet762DAO>();
+			sheetData = (ArrayList<sheet762DAO>) _762Repository.findAll();
+
+			List<List<Object>> listOfLists = new ArrayList<List<Object>>();
+			for (int i = 0; i < sheetData.size(); i++) {
+				ArrayList<Object> data = new ArrayList<>();
+				data.clear();
+				data.add(sheetData.get(i).getSector());
+				data.add(sheetData.get(i).getNoOfLoans());
+				data.add(sheetData.get(i).getAmountGranted());
+				listOfLists.add(data);
+
+			}
+		
+		
+			Boolean status = sheet762Util.writeSpecificList(listOfLists,Date,folderPath);
+			if (status == true) {
+				return true;
+			} else {
+				return false;
+			}
+
+		}
+
+
 		
 		
 		//##################################################################################

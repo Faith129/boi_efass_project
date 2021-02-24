@@ -1,5 +1,7 @@
 package com.efass.sheet.mmfbr312;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +11,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "MMFBR312")
-public class sheet312DAO {
+
+public class sheet312DAO  implements Serializable{
+
 
 	
 	
@@ -52,6 +56,31 @@ public class sheet312DAO {
 	
 	@Column(name = "AMOUNT")
 	public String amount;
+
+
+	
+	
+	
+	
+	
+	public sheet312DAO(int id, String bankCode, String nameOfBanks, String rate, String tenor, String effectiveDate,
+			String maturityDate, String amount) {
+		super();
+		this.id = id;
+		this.bankCode = bankCode;
+		this.nameOfBanks = nameOfBanks;
+		this.rate = rate;
+		this.tenor = tenor;
+		this.effectiveDate = effectiveDate;
+		this.maturityDate = maturityDate;
+		this.amount = amount;
+	}
+
+
+	
+	
+	
+	public sheet312DAO() {}
 
 
 
@@ -136,6 +165,7 @@ public class sheet312DAO {
 	public void setMaturityDate(String maturityDate) {
 		this.maturityDate = maturityDate;
 	}
+
 
 
 

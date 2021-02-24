@@ -164,6 +164,15 @@ public class SheetController {
 	
 			
 			//Write On Excel Sheets
+
+			sheet221Svc.writesheet221(date,folderPath);
+//			sheet311Svc.writesheet311(date,folderPath);
+//			sheet321Svc.writesheet321(date,folderPath);
+//			sheet711Svc.writesheet711(date,folderPath);
+			sheet762Svc.writesheet762(date,folderPath);
+			//sheet641Svc.writesheet641(date,folderPath);
+
+
 //			sheet221Svc.writesheet221(date,folderPath);
 //			sheet311Svc.writesheet311(date,folderPath);
 //			sheet321Svc.writesheet321(date,folderPath);
@@ -187,6 +196,7 @@ public class SheetController {
 			sheet933Svc.writesheet933(date, folderPath);
 			
 			
+
 			status = true;
 		} else if (evt == false) {
 			//test
