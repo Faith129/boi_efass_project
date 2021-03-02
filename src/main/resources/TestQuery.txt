@@ -91,6 +91,13 @@ ALTER TABLE EFASS.MMFBR762 MODIFY (AMOUNT_GRANTED NOT NULL);
 
 
   
+  
+  
+  ALTER TABLE EFASS.MMFBR761
+  ADD SN VARCHAR2(50 BYTE);
+  
+  
+  
   ######################################################################
   
   
@@ -116,15 +123,12 @@ ALTER TABLE EFASS.MMFBR762 MODIFY (AMOUNT_GRANTED NOT NULL);
 
 
 CREATE TABLE EFASS.MMFBR746 (
-  ID            NUMBER                          NOT NULL,
- LOAN_TYPE                   VARCHAR2(30 BYTE) NOT NULL,
-  ONE_TO_30_DAYS              NUMBER,
-  THIRTY_ONE_TO_60_DAYS       NUMBER,
-  SIXTY_ONE_TO_90_DAYS        NUMBER,
-  NINETY_ONE_TO_180_DAYS      NUMBER,
-  ONE_EIGHTY_ONE_TO_360_DAYS  NUMBER,
-  ABOVE_360_DAYS              NUMBER,
-  TOTAL                       NUMBER
+ ID                  NUMBER                    NOT NULL,
+  DURATION            VARCHAR2(300 BYTE),
+  TYPE_OF_DEPOSIT     VARCHAR2(300 BYTE),
+  NUMBER_OF_ACCOUNTS  VARCHAR2(300 BYTE),
+  AMOUNT              VARCHAR2(300 BYTE),
+  CREATE_DT           TIMESTAMP(6)              DEFAULT systimestamp
   );
 
 ALTER TABLE EFASS.MMFBR746 ADD (

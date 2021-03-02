@@ -1,10 +1,13 @@
-package com.efass.sheet.mmfbr311;
+package com.efass.sheet.mmfbr201;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.poi.EncryptedDocumentException;
@@ -17,37 +20,41 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.efass.report.ReportRepository;
-import com.efass.sheet.mmfbr311.sheet311Repository;
 import com.efass.specials.SpecialData;
-import com.efass.specials.SpecialFunction;
-
 
 @Service
-public class sheet311_Util {
+public class sheet201_Util {
 
+	
 	
 	@Autowired
 	  ReportRepository ReportRepo ;
-
-
-	@Autowired
-	  sheet311Repository _311Repo;
-
 	
-
-	
-	
-	
-	
-	public Boolean writeSpecificList(List<List<Object>> listOfLists, LocalDate Date ,String folderPath)
-			throws EncryptedDocumentException, InvalidFormatException, IOException {
-
-
-		
-		
-	
-
-	
+	public Boolean writeSpecificList(List<List<Object>> listOfLists, LocalDate date, String folderPath, String duration) throws EncryptedDocumentException, InvalidFormatException, IOException {
+		int rowNum = 0;
+		int cellNum= 0;
+		if(duration == "1-30 Days") {
+			rowNum = 12;
+			cellNum= 2;
+		}else if (duration == "31-60 Days") {
+			rowNum = 12;
+			cellNum= 3;
+		}else if (duration == "61-90 Days") {
+			rowNum = 12;
+			cellNum= 4;
+		}else if (duration == "91-180 Days") {
+			rowNum = 12;
+			cellNum= 5;
+		}else if (duration == "181-360 Days") {
+			rowNum = 12;
+			cellNum= 6;
+		}else if(duration == "Above 360 Days") {
+			rowNum = 12;
+			cellNum= 7;
+			
+		}else {
+			return true;
+		}
 		
 		
 		String Path =folderPath + "/cbn_MFB_rpt_12345m052087.xlsx";
@@ -62,69 +69,56 @@ public class sheet311_Util {
 		Workbook wb = WorkbookFactory.create(fsIP);
 		// Access the worksheet, so that we can update / modify it.
 
-		int rowNum = 12;
+	
 		for (int i = 0; i < listOfLists.size(); i++) {
 			List<Object> listAtI = listOfLists.get(i);
 			
+			String _noOfAccounts =(( listAtI.get(2)== null) ? "0" : listAtI.get(2).toString());
 			
-			String bankCode = (String) listAtI.get(0);
-			String bankName = (String) listAtI.get(1);
-			String tenor = (String) listAtI.get(2);
-			String maturity = (String) listAtI.get(3);
+			String _amount =(( listAtI.get(3) == null) ? "0" : listAtI.get(3).toString());
 			
 	
-			int amount = Integer.parseInt(listAtI.get(4).toString());
+			
+			int noOfAccounts = Integer.parseInt(_noOfAccounts);
+			int amount = Integer.parseInt(_amount);
+		
+			String emptyValue = "";
+			
+		
+	
+		
 		
 			
-			Sheet worksheet = wb.getSheet("311");
+			Sheet worksheet = wb.getSheet("201");
 			// declare a Cell object
 
+			
+			
+			
 			Cell cell = null;
 			// Access the second cell in second row to update the value
-			cell = worksheet.getRow(rowNum).getCell(5);
+			cell = worksheet.getRow(rowNum).getCell(cellNum);
 			// Get current cell value value and overwrite the value
-			cell.setCellValue(amount);
+			cell.setCellValue(emptyValue);
+			
+			
+			rowNum = rowNum + 1;
+			
+			Cell cell1 = null;
+			// Access the second cell in second row to update the value
+			cell1 = worksheet.getRow(rowNum).getCell(cellNum);
+			// Get current cell value value and overwrite the value
+			cell1.setCellValue(noOfAccounts);
 
+			
+			
+			rowNum = rowNum + 1;
 			Cell cell2 = null;
 			// Access the second cell in second row to update the value
-			cell2 = worksheet.getRow(rowNum).getCell(4);
+			cell2 = worksheet.getRow(rowNum).getCell(cellNum);
 			// Get current cell value value and overwrite the value
-			cell2.setCellValue(maturity);
+			cell2.setCellValue(amount);
 
-			Cell cell3 = null;
-			// int cellNum3 =cellNum-3;
-			// Access the second cell in second row to update the value
-			cell3 = worksheet.getRow(rowNum).getCell(3);
-			// Get current cell value value and overwrite the value
-			cell3.setCellValue(tenor);
-			
-			
-			
-			Cell cell4 = null;
-			// int cellNum3 =cellNum-3;
-			// Access the second cell in second row to update the value
-			cell4 = worksheet.getRow(rowNum).getCell(2);
-			// Get current cell value value and overwrite the value
-			cell4.setCellValue(tenor);
-			
-			
-			
-			Cell cell5 = null;
-			// int cellNum3 =cellNum-3;
-			// Access the second cell in second row to update the value
-			cell5 = worksheet.getRow(rowNum).getCell(1);
-			// Get current cell value value and overwrite the value
-			cell5.setCellValue(bankName);
-			
-			
-			
-			
-			Cell cell6 = null;
-			// int cellNum3 =cellNum-3;
-			// Access the second cell in second row to update the value
-			cell6 = worksheet.getRow(rowNum).getCell(0);
-			// Get current cell value value and overwrite the value
-			cell6.setCellValue(bankCode);
 			
 			
 			
@@ -142,13 +136,15 @@ public class sheet311_Util {
 			wb.write(output_file);
 			// close the stream
 			output_file.close();
-			System.out.println("works");
+			System.out.println("sheet 201 works");
 
 			rowNum++;
 		}
 
 		return true;
+	
 	}
-	
-	
+
+
+
 }

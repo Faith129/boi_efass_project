@@ -96,7 +96,7 @@ public class sheet933_impl implements sheet933_Service{
 			DataUpdate.setCountry(Data.getCountry());
 			DataUpdate.setInstitution_name(Data.getInstitution_name());
 			DataUpdate.setOutstanding_deferred_grants_amount(Data.getOutstanding_deferred_grants_amount());
-			DataUpdate.setPurpose(Data.getOutstanding_deferred_grants_amount());
+			DataUpdate.setPurpose(Data.getPurpose());
 			
 			_933Repository.save(DataUpdate);
 			Response res = new Response();

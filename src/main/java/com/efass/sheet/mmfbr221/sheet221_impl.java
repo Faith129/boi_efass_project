@@ -114,6 +114,14 @@ public class sheet221_impl implements sheet221_Service {
 		}
 	}
 
+
+	@Override
+	public Boolean writesheet221(LocalDate Date, String folderPath)
+			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	// ####################################################################################
 
 	
@@ -131,68 +139,43 @@ public class sheet221_impl implements sheet221_Service {
 	
 	
 	// ############################## EXCEL MANIPULATIONS  #################################
-//
+	
+	
+//	
 //	@Override
-//	public void updateSheetList(List<List<Object>> listOfLists, LocalDate Date)
+//	public Boolean writesheet221(LocalDate Date, String folderPath)
 //			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException {
-//		// TODO Auto-generated method stub
-//		sheet221_Util _221util = new sheet221_Util();
-//		_221util.writeSpecificList(listOfLists,Date);
+//
+//		ArrayList<sheet221DAO> sheetData = new ArrayList<sheet221DAO>();
+//		sheetData = (ArrayList<sheet221DAO>) _221Repository.findAll();
+//
+//		List<List<Object>> listOfLists = new ArrayList<List<Object>>();
+//		for (int i = 0; i < sheetData.size(); i++) {
+//			ArrayList<Object> data = new ArrayList<>();
+//			data.clear();
+//			data.add(sheetData.get(i).getAmount());
+//			data.add(sheetData.get(i).getBankName());
+//			data.add(sheetData.get(i).getBankCode());
+//			listOfLists.add(data);
+//
+//		}
+//	
+//		Boolean status = sheet221Util.writeSpecificList(listOfLists,Date,folderPath);
+//		if (status == true) {
+//			return true;
+//		} else {
+//			return false;
+//		}
 //
 //	}
+//
+//
+//	
+	
 
 	
 	
-	
-	
-	
-	@Override
-	public Boolean writesheet221(LocalDate Date, String folderPath)
-			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException {
 
-		ArrayList<sheet221DAO> sheetData = new ArrayList<sheet221DAO>();
-		sheetData = (ArrayList<sheet221DAO>) _221Repository.findAll();
-
-		List<List<Object>> listOfLists = new ArrayList<List<Object>>();
-		for (int i = 0; i < sheetData.size(); i++) {
-			ArrayList<Object> data = new ArrayList<>();
-			data.clear();
-			data.add(sheetData.get(i).getAmount());
-			data.add(sheetData.get(i).getBankName());
-			data.add(sheetData.get(i).getBankCode());
-			listOfLists.add(data);
-
-		}
-	
-		Boolean status = sheet221Util.writeSpecificList(listOfLists,Date,folderPath);
-		if (status == true) {
-			return true;
-		} else {
-			return false;
-		}
-
-	}
-
-
-	
-	
-	public String getFolderPathWithDate(LocalDate date) {
-
-		ReportDAO Data = ReportRepo.findByPathDate(date.toString());
-		String folderPath = Data.getFile_path();
-
-		System.out.println("Folder Path:" + folderPath);
-		return folderPath;
-	}
-	
-	
-	
-	@Override
-	public void updateSheetList(List<List<Object>> listOfLists, LocalDate Date)
-			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException {
-		// TODO Auto-generated method stub
-		
-	}
 
 	// ####################################################################################
 
