@@ -8,6 +8,8 @@ import com.efass.sheet.mmfbr201.sheet201DAO;
 import com.efass.sheet.mmfbr201.sheet201Repository;
 import com.efass.sheet.mmfbr202.sheet202Repository;
 import com.efass.sheet.mmfbr221.sheet221Repository;
+import com.efass.sheet.mmfbr300.sheet300DAO;
+import com.efass.sheet.mmfbr300.sheet300Repository;
 import com.efass.sheet.mmfbr311.sheet311Repository;
 import com.efass.sheet.mmfbr312.sheet312Repository;
 import com.efass.sheet.mmfbr322.sheet322Repository;
@@ -86,7 +88,8 @@ public class PrepareTables {
 	@Autowired
 	sheet980Repository _980Repository;
 	
-	
+	@Autowired
+	sheet300Repository _300Repository;
 	
 
 	public void clearSheetTables() {
@@ -561,6 +564,21 @@ public class PrepareTables {
 	
 	
 	
+	
+	
+	public void populatesheet300() {
+		save300("10000", "ASSETS");
+		save300("10100", "");
+		
+	}
+	
+	public void save300(String code, String itemDesc) {
+		
+		sheet300DAO data = new sheet300DAO();
+		data.setItemDescription(itemDesc);
+		data.setCode(code);
+		_300Repository.save(data);
+	}
 	
 	public void save501(String bankCode, String item) {
 		

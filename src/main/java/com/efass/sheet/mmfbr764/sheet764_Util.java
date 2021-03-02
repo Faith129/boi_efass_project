@@ -44,41 +44,77 @@ public class sheet764_Util {
 				for (int i = 0; i < listOfLists.size(); i++) {
 				List<Object> listAtI = listOfLists.get(i);
 				
-		
-//				
-//				data.add(sheetdata.get(i).getAccount_type());
-//				data.add(sheetdata.get(i).getOne_to_30_days());
-//				data.add(sheetdata.get(i).getThirtyOneTo60Days());
-//				data.add(sheetdata.get(i).getSixty_one_to_90_days());
-//				data.add(sheetdata.get(i).getNinety_one_to_180_days());
-//				data.add(sheetdata.get(i).getOne_eighty_one_to_360_days());
-//				data.add(sheetdata.get(i).getAbove_360_days());
-				
-				
-				
-				String One_to_30_day =(( listAtI.get(1) == null) ? "0" : listAtI.get(1).toString());
+			
+				String One_to_30_day =(( listAtI.get(1) == null) ? "" : listAtI.get(1).toString());
 
-				//int _amount = Integer.parseInt(amount);
+				String ThirtyOneTo60Days = (( listAtI.get(2) == null) ? "" : listAtI.get(2).toString());
 				
-				String bankCode = listAtI.get(1).toString();
+				
+				String Sixty_one_to_90_days = (( listAtI.get(3) == null) ? "" : listAtI.get(3).toString());
+				
+				String Ninety_one_to_180_days = (( listAtI.get(4) == null) ? "" : listAtI.get(4).toString());
+				
+				String One_eighty_one_to_360_days = (( listAtI.get(5) == null) ? "" : listAtI.get(5).toString());
+				
+				String Above_360_days = (( listAtI.get(6) == null) ? "" : listAtI.get(6).toString());
+				
+				
+//				int _ThirtyOneTo60Days = Integer.parseInt(ThirtyOneTo60Days);
+//				int _One_to_30_day = Integer.parseInt(One_to_30_day);
+//				int _Sixty_one_to_90_days = Integer.parseInt(Sixty_one_to_90_days);
+//				int _Ninety_one_to_180_days = Integer.parseInt(Ninety_one_to_180_days);
+//				int _One_eighty_one_to_360_days = Integer.parseInt(One_eighty_one_to_360_days);
+//				int _Above_360_days = Integer.parseInt(Above_360_days);
 				
 				
 				Sheet worksheet = wb.getSheet("764");
 				// declare a Cell object
 				
-				if (bankCode.equals("20530")) {
-					rowNum = rowNum+1;
-					
-				}else  {
+				
 					Cell cell = null;
 					// Access the second cell in second row to update the value
-					cell = worksheet.getRow(rowNum).getCell(3);
+					cell = worksheet.getRow(rowNum).getCell(7);
 					// Get current cell value value and overwrite the value
-					cell.setCellValue(_amount);
+					cell.setCellValue(Above_360_days);
 					
-				}
-			
 				
+					Cell cell1 = null;
+					// Access the second cell in second row to update the value
+					cell1 = worksheet.getRow(rowNum).getCell(6);
+					// Get current cell value value and overwrite the value
+					cell1.setCellValue(One_eighty_one_to_360_days);
+					
+					
+					Cell cell2 = null;
+					// Access the second cell in second row to update the value
+					cell2 = worksheet.getRow(rowNum).getCell(5);
+					// Get current cell value value and overwrite the value
+					cell2.setCellValue(Ninety_one_to_180_days);
+					
+					
+					
+					Cell cell3 = null;
+					// Access the second cell in second row to update the value
+					cell3 = worksheet.getRow(rowNum).getCell(4);
+					// Get current cell value value and overwrite the value
+					cell3.setCellValue(Sixty_one_to_90_days);
+					
+					
+					
+					
+					Cell cell4 = null;
+					// Access the second cell in second row to update the value
+					cell4 = worksheet.getRow(rowNum).getCell(3);
+					// Get current cell value value and overwrite the value
+					cell4.setCellValue(ThirtyOneTo60Days);
+					
+					
+					
+					Cell cell5 = null;
+					// Access the second cell in second row to update the value
+					cell5 = worksheet.getRow(rowNum).getCell(2);
+					// Get current cell value value and overwrite the value
+					cell5.setCellValue(One_to_30_day);
 
 			
 
@@ -95,7 +131,7 @@ public class sheet764_Util {
 				wb.write(output_file);
 				// close the stream
 				output_file.close();
-				System.out.println("sheet 501works");
+				System.out.println("sheet 764works");
 
 				rowNum++;
 			}
