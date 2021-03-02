@@ -1,9 +1,16 @@
 package com.efass.sheet.mmfbr501;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +19,7 @@ import org.springframework.stereotype.Service;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.sheet.mmfbr221.sheet221DAO;
+import com.efass.sheet.mmfbr501.sheet501DAO;
 
 @Service
 public class sheet501_Impl implements sheet501_Service {
@@ -19,17 +27,20 @@ public class sheet501_Impl implements sheet501_Service {
 	
 	@Autowired
 	sheet501Repository _501Repository;
+	
+	@Autowired
+	 sheet501_Util sheet501Util;
 
 	// ############################## MMFBR501 CRUD OPERATIONS
 	// #################################
 
 	public ResponseEntity<?> createData(sheet501DAO data) {
-		_501Repository.save(data);
+		//_501Repository.save(data);
 		Response res = new Response();
-		res.setResponseMessage("Success");
-		res.setResponseCode(00);
+		res.setResponseMessage("Failed");
+		res.setResponseCode(-1001);
 		res.setS501Data(data);
-		return new ResponseEntity<>(res, HttpStatus.OK);
+		return new ResponseEntity<>(res, HttpStatus.NOT_ACCEPTABLE);
 	}
 
 	public ResponseEntity<?> fetchAllData() {
@@ -62,15 +73,15 @@ public class sheet501_Impl implements sheet501_Service {
 
 		Optional<sheet501DAO> data = _501Repository.findById(dataId);
 
-		if (data.isPresent()) {
-			_501Repository.delete(data.get());
-		} else {
-			throw new ResourceNotFoundException("Record not found with id : " + dataId);
-		}
+//		if (data.isPresent()) {
+//			_501Repository.delete(data.get());
+//		} else {
+//			throw new ResourceNotFoundException("Record not found with id : " + dataId);
+//		}
 		Response res = new Response();
-		res.setResponseMessage("Record Deleted");
-		res.setResponseCode(00);
-		return new ResponseEntity<>(res, HttpStatus.OK);
+		res.setResponseMessage("Failed");
+		res.setResponseCode(-1001);
+		return new ResponseEntity<>(res, HttpStatus.NOT_ACCEPTABLE);
 
 	}
 
@@ -99,8 +110,42 @@ public class sheet501_Impl implements sheet501_Service {
 
 	// ####################################################################################
 
+	
+	
+	
 	// #####################SHEET OPERATIONS
 	// ############################################
+	
+	
+	public Boolean writesheet501(LocalDate Date, String folderPath) throws EncryptedDocumentException, InvalidFormatException, IOException, ParseException {
+
+			ArrayList<sheet501DAO> sheetdata = new ArrayList<>();
+			
+			sheetdata = (ArrayList<sheet501DAO>) _501Repository.findAll();
+			
+			List<List<Object>> listofLists = new ArrayList<List<Object>>();
+			
+			for(int i = 0; i < sheetdata.size(); i++ ) {
+				
+				ArrayList<Object> data = new ArrayList<>();
+				data.add(sheetdata.get(i).getAmount());
+				data.add(sheetdata.get(i).getBank_code());
+				listofLists.add(data);
+		
+			}
+				
+			Boolean status = sheet501Util.writeSpecificList(listofLists, Date, folderPath);
+			
+			if(status == true) {
+				return true;
+			}else {
+				return false;
+			}
+				
+				
+			
+	}
+	
 
 	// ##################################################################################
 
