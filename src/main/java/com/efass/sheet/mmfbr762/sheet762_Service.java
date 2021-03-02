@@ -17,6 +17,8 @@ public interface sheet762_Service {
 		public ResponseEntity<?> getDataById(int dataId) throws ResourceNotFoundException;
 		public ResponseEntity<?> deleteById(int dataId) throws ResourceNotFoundException;
 		public ResponseEntity<?> updateData(int id , sheet762DAO Data) throws ResourceNotFoundException;
+		public Boolean writesheet762(LocalDate Date, String folderPath)
+				throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException;
 		
 
 		

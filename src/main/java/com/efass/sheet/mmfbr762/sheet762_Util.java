@@ -17,30 +17,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.efass.report.ReportRepository;
-import com.efass.sheet.mmfbr312.sheet312Repository;
+import com.efass.sheet.mmfbr311.sheet311Repository;
 import com.efass.specials.SpecialData;
-
-
 
 @Service
 public class sheet762_Util {
-
 	
 	@Autowired
-	 static ReportRepository ReportRepo ;
+	  ReportRepository ReportRepo ;
 
 
 	@Autowired
-	 static sheet762Repository _762Repo;
+	  sheet762Repository _762Repo;
 
 	
-	SpecialData specialData = new SpecialData();
 	
 	
+
 	
-	
-//	public Boolean writeSpecificList(List<List<Object>> listOfLists, LocalDate Date ,String folderPath)
-//			throws EncryptedDocumentException, InvalidFormatException, IOException {
+	public static Boolean writeSpecificList(List<List<Object>> listOfLists, LocalDate Date ,String folderPath)
+			throws EncryptedDocumentException, InvalidFormatException, IOException {
 
 
 		
@@ -50,105 +46,80 @@ public class sheet762_Util {
 	
 		
 		
-//		String Path =folderPath + "/cbn_MFB_rpt_12345m052087.xlsx";
-//		SpecialData sb = new SpecialData();
-//		sb.setChildFolderPath(Path);
-//		
-//	
-//
-//		// Read the spreadsheet that needs to be updated
-//		FileInputStream fsIP = new FileInputStream(new File(Path));
-//		// Access the workbook
-//		Workbook wb = WorkbookFactory.create(fsIP);
-//		// Access the worksheet, so that we can update / modify it.
-//
-//		int rowNum = 11;
-//		for (int i = 0; i < listOfLists.size(); i++) {
-//			List<Object> listAtI = listOfLists.get(i);
-//			
-//			
-//			String bankCode = (String) listAtI.get(0);
-//			String bankName = (String) listAtI.get(1);
-//			String tenor = (String) listAtI.get(2);
-//			String maturity = (String) listAtI.get(3);
-//			
-//	
-//			int amount = Integer.parseInt(listAtI.get(4).toString());
-//		
-//			
-//			Sheet worksheet = wb.getSheet("312");
-//			// declare a Cell object
-//
-//			Cell cell = null;
-//			// Access the second cell in second row to update the value
-//			cell = worksheet.getRow(rowNum).getCell(5);
-//			// Get current cell value value and overwrite the value
-//			cell.setCellValue(amount);
-//
-//			Cell cell2 = null;
-//			// Access the second cell in second row to update the value
-//			cell2 = worksheet.getRow(rowNum).getCell(4);
-//			// Get current cell value value and overwrite the value
-//			cell2.setCellValue(maturity);
-//
-//			Cell cell3 = null;
-//			// int cellNum3 =cellNum-3;
-//			// Access the second cell in second row to update the value
-//			cell3 = worksheet.getRow(rowNum).getCell(3);
-//			// Get current cell value value and overwrite the value
-//			cell3.setCellValue(tenor);
-//			
-//			
-//			
-//			Cell cell4 = null;
-//			// int cellNum3 =cellNum-3;
-//			// Access the second cell in second row to update the value
-//			cell4 = worksheet.getRow(rowNum).getCell(2);
-//			// Get current cell value value and overwrite the value
-//			cell4.setCellValue(tenor);
-//			
-//			
-//			
-//			Cell cell5 = null;
-//			// int cellNum3 =cellNum-3;
-//			// Access the second cell in second row to update the value
-//			cell5 = worksheet.getRow(rowNum).getCell(1);
-//			// Get current cell value value and overwrite the value
-//			cell5.setCellValue(bankName);
-//			
-//			
-//			
-//			
-//			Cell cell6 = null;
-//			// int cellNum3 =cellNum-3;
-//			// Access the second cell in second row to update the value
-//			cell6 = worksheet.getRow(rowNum).getCell(0);
-//			// Get current cell value value and overwrite the value
-//			cell6.setCellValue(bankCode);
-//			
-//			
-//			
-//			
-//
-//			// Close the InputStream
-//			fsIP.close();
-//			// Open FileOutputStream to write updates
-//
-//			
-//			FileOutputStream output_file = new FileOutputStream(new File(Path));
-//			// FileOutputStream output_file =new FileOutputStream(new
-//			// File(".\\datafiles\\export\\cbn_MFB_rpt_12345m052087.xlsx"));
-//			// write changes
-//			wb.write(output_file);
-//			// close the stream
-//			output_file.close();
-//			System.out.println("sheet 321works");
-//
-//			rowNum++;
-//		}
-//
-//		return true;
+		String Path =folderPath + "/cbn_MFB_rpt_12345m052087.xlsx";
+		SpecialData sb = new SpecialData();
+		sb.setChildFolderPath(Path);
+		
 	
-	
-	
+
+		// Read the spreadsheet that needs to be updated
+		FileInputStream fsIP = new FileInputStream(new File(Path));
+		// Access the workbook
+		Workbook wb = WorkbookFactory.create(fsIP);
+		// Access the worksheet, so that we can update / modify it.
+
+		int rowNum = 12;
+		for (int i = 0; i < listOfLists.size(); i++) {
+			List<Object> listAtI = listOfLists.get(i);
+			
+			int loan;
+			int amount;
+			if (listAtI.get(1)==null ||listAtI.get(2)==null ) {
+				loan = 0;
+				amount=0;
+			}else if (listAtI.get(1) != null ||listAtI.get(2) != null ) {
+				loan= Integer.parseInt(listAtI.get(1).toString());
+				amount = Integer.parseInt(listAtI.get(2).toString());
+				
+				
+			
+			
+		
+			
+			
+			String sector = (String) listAtI.get(0);
+			int NoOfLoans = loan;
+			int AmountGranted =amount; 
+		
+			
+		
+			
+			Sheet worksheet = wb.getSheet("762");
+			// declare a Cell object
+
+			Cell cell = null;
+			// Access the second cell in second row to update the value
+			cell = worksheet.getRow(rowNum).getCell(3);
+			// Get current cell value value and overwrite the value
+			cell.setCellValue(AmountGranted);
+
+			Cell cell2 = null;
+			// Access the second cell in second row to update the value
+			cell2 = worksheet.getRow(rowNum).getCell(2);
+			// Get current cell value value and overwrite the value
+			cell2.setCellValue(NoOfLoans);
+
+			}
+			
+
+			// Close the InputStream
+			fsIP.close();
+			// Open FileOutputStream to write updates
+
+			
+			FileOutputStream output_file = new FileOutputStream(new File(Path));
+
+			// write changes
+			wb.write(output_file);
+			// close the stream
+			output_file.close();
+			System.out.println("works");
+
+			rowNum++;
+		}
+
+		return true;
 	}
+	
+	
+}

@@ -1,4 +1,6 @@
-package com.efass.sheet.mmfbr141;
+package com.efass.sheet.mmfbr761;
+
+
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,7 +27,7 @@ import com.efass.sheet.mmfbr321.sheet321Repository;
 import com.efass.specials.SpecialData;
 
 @Service
-public class sheet141_Util {
+public class sheet761_Util {
 	
 	
 	@Autowired
@@ -33,16 +35,15 @@ public class sheet141_Util {
 
 
 	@Autowired
-	  sheet141Repository _141Repo;
+	  sheet761Repository _761Repo;
 	
 	SpecialData specialData = new SpecialData();
 	
 	
-	public Boolean writeSpecificList(List<List<Object>> listofLists, LocalDate Date ,String folderPath)
+	public Boolean writeSpecificList(List<List<Object>> listOfLists, LocalDate Date ,String folderPath)
 			throws EncryptedDocumentException, InvalidFormatException, IOException, ParseException {
 		
 		
-			System.out.print ("inside 141");
     		String Path =folderPath + "/cbn_MFB_rpt_12345m052087.xlsx";
 			SpecialData sb = new SpecialData();
 			sb.setChildFolderPath(Path);
@@ -54,45 +55,33 @@ public class sheet141_Util {
 			// Access the workbook
 			Workbook wb = WorkbookFactory.create(fsIP);
 			// Access the worksheet, so that we can update / modify it.
-			System.out.print("inside 141 2");
 			int rowNum = 11;
 			
-			System.out.println(">>>>>>>>>"+listofLists.size());
+		
 			
-				for (int i = 0; i < listofLists.size(); i++) {
-      				System.out.print("inside 141 3");
-				List<Object> listAtI = listofLists.get(i);
+				for (int i = 0; i < listOfLists.size(); i++) {
+      
+				List<Object> listAtI = listOfLists.get(i);
 				
-				int serial = i;
-				String typeDeposit =  listAtI.get(0).toString();
-				int total = Integer.parseInt(listAtI.get(1).toString()) ;
+			
+				int amount =  Integer.parseInt(listAtI.get(0).toString());
+			
+			
 				
-
-				
-				Sheet worksheet = wb.getSheet("141");
+				Sheet worksheet = wb.getSheet("761");
 				// declare a Cell object
-				
 
 				Cell cell = null;
 				// Access the second cell in second row to update the value
-				cell = worksheet.getRow(rowNum).getCell(0);
+				cell = worksheet.getRow(rowNum).getCell(4);
 				// Get current cell value value and overwrite the value
-				cell.setCellValue(serial);
+				cell.setCellValue(amount);
 
-			
-				Cell cell1 = null;
-				// Access the second cell in second row to update the value
-				cell1 = worksheet.getRow(rowNum).getCell(1);
-				// Get current cell value value and overwrite the value
-				cell1.setCellValue(typeDeposit);
+				
+				
+				
+				
 
-				Cell cell2 = null;
-				// Access the second cell in second row to update the value
-				cell2 = worksheet.getRow(rowNum).getCell(3);
-				// Get current cell value value and overwrite the value
-				cell2.setCellValue(total);
-
-			
 				// Close the InputStream
 				fsIP.close();
 				// Open FileOutputStream to write updates
@@ -105,7 +94,7 @@ public class sheet141_Util {
 				wb.write(output_file);
 				// close the stream
 				output_file.close();
-				System.out.println("sheet 141 WORKS");
+				System.out.println("sheet 761works");
 
 				rowNum++;
 			}
