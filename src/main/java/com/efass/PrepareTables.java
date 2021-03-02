@@ -26,6 +26,7 @@ import com.efass.sheet.mmfbr763.sheet763DAO;
 import com.efass.sheet.mmfbr763.sheet763Repository;
 import com.efass.sheet.mmfbr764.sheet764Repository;
 import com.efass.sheet.mmfbr771.sheet771Repository;
+import com.efass.sheet.mmfbr811.sheet811DAO;
 import com.efass.sheet.mmfbr811.sheet811Repository;
 import com.efass.sheet.mmfbr933.sheet933Repository;
 import com.efass.sheet.mmfbr951.sheet951Repository;
@@ -85,6 +86,8 @@ public class PrepareTables {
 	@Autowired
 	sheet980Repository _980Repository;
 	
+
+	
 	
 	
 
@@ -115,13 +118,14 @@ public class PrepareTables {
 //		_996Repository.deleteAll();
 //		_980Repository.deleteAll();
 		
-		
+		populatesheet811();
 		populateSheet711();
 		populateSheet762();
 		populateSheet763();
 		populateSheet761();
 		populatesheet201();
 		populatesheet980();
+	
 		}catch(Exception ex) {
 			
 		}
@@ -455,6 +459,23 @@ public class PrepareTables {
 		
 	}
 	
+	public void populatesheet811() {
+		_811Repository.deleteAll();
+		
+		
+		save811("10815", "Accounts Receivable [Provide Breakdown]");
+		save811("10820", "Accrued Interest");
+		save811("10825", "Cheques for Collection /Transit Items");
+		save811("10835", "Prepaid Interest");
+		save811("10840", "Prepaid Rent");
+		save811("10845", "Stationery [Provide Breakdown]");		
+		save811("10850", "Other Prepayments");
+		save811("10855", "Suspense Account");
+		save811("10860", "Goodwill and Other Intangible Assets [Provide Breakdown]");
+		save811("10865", "Miscellaneous");
+	
+	}
+	
 	
 	
 	
@@ -526,6 +547,8 @@ public class PrepareTables {
 	
 	
 	
+	
+	
 	public void save980(String items) {
 		
 		sheet980DAO data = new sheet980DAO();
@@ -539,6 +562,16 @@ public class PrepareTables {
 		data.setTypeOfDeposit(TypeOfDeposit);
 		data.setDuration(duration);
 		_201Repository.save(data);
+		
+	}
+	
+	
+	public void save811(String Code, String Item) {
+		
+		sheet811DAO data = new sheet811DAO();
+		data.setCode(Code);
+		data.setItem(Item);
+		_811Repository.save(data);
 		
 	}
 }
