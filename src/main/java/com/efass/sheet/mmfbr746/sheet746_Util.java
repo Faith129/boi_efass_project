@@ -29,11 +29,11 @@ public class sheet746_Util {
 	
 	
 	@Autowired
-	 static ReportRepository ReportRepo ;
+	  ReportRepository ReportRepo ;
 
 
 	@Autowired
-	 static sheet746Repository _746Repo;
+	  sheet746Repository _746Repo;
 	
 	SpecialData specialData = new SpecialData();
 	

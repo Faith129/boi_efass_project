@@ -33,11 +33,9 @@ public class sheet771_Util {
 	
 	
 	@Autowired
-	 static ReportRepository ReportRepo ;
+	  ReportRepository ReportRepo ;
 
 
-	@Autowired
-	 static sheet771Repository _771Repo;
 	
 	SpecialData specialData = new SpecialData();
 	

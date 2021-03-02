@@ -25,11 +25,11 @@ import com.efass.specials.SpecialFunction;
 public class sheet711_Util{
 
 	@Autowired
-	 static ReportRepository ReportRepo ;
+	  ReportRepository ReportRepo ;
 
 
 	@Autowired
-	 static sheet711Repository _711Repo;
+	  sheet711Repository _711Repo;
 
 	
 	SpecialData specialData = new SpecialData();

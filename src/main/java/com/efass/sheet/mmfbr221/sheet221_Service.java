@@ -26,7 +26,4 @@ public interface sheet221_Service {
 	public Boolean writesheet221(LocalDate Date, String folderPath)
 			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException;
 
-	void updateSheetList(List<List<Object>> listOfLists, LocalDate Date)
-			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException;
-
 }

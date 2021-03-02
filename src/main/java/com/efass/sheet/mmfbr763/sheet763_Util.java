@@ -27,11 +27,11 @@ public class sheet763_Util {
 
 	
 	@Autowired
-	 static ReportRepository ReportRepo ;
+	  ReportRepository ReportRepo ;
 
 
 	@Autowired
-	 static sheet763Repository _763Repo;
+	  sheet763Repository _763Repo;
 
 	
 	SpecialData specialData = new SpecialData();

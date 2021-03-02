@@ -34,7 +34,7 @@ public class sheet311DAO  {
 	public String tenor;
 	
 	@Column(name = "MATURITY")
-	public String maturity;
+	public String maturity_Date;
 	
 	@Column(name = "AMOUNT")
 	public String amount;
@@ -74,12 +74,14 @@ public class sheet311DAO  {
 		this.tenor = tenor;
 	}
 
-	public String getMaturity() {
-		return maturity;
+
+
+	public String getMaturity_Date() {
+		return maturity_Date;
 	}
 
-	public void setMaturity(String maturity) {
-		this.maturity = maturity;
+	public void setMaturity_Date(String maturity_Date) {
+		this.maturity_Date = maturity_Date;
 	}
 
 	public String getAmount() {

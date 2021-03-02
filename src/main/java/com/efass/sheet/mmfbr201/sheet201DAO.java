@@ -18,37 +18,20 @@ public class sheet201DAO {
 	@Column(name = "id")
 	public int id;
 
-	@Column(name="DEPOSIT_TYPE")
+	@Column(name="TYPE_OF_DEPOSIT")
 	public String typeOfDeposit;
 	
-	@Column(name = "ONE_TO_30_DAYS")
-	public int oneToThirtyDays;
+	@Column(name="DURATION")
+	public String duration;
+	
+	@Column(name = "NUMBER_OF_ACCOUNTS")
+	public String numberofAccounts;
 	
 	
-	@Column(name = "THIRTY_ONE_TO_60_DAYS")
-	public int thirtyOneToSixtyDays;
-	
-	
-	@Column(name = "SIXTY_ONE_TO_90_DAYS")
-	public int sixyOneToNintyDays;
-	
-	
-	@Column(name = "NINETY_ONE_TO_180_DAYS")
-	public int nintyOneTo180Days;
-	
-	
-	@Column(name = "ONE_EIGHTY_ONE_TO_360_Days")
-	public int oneEightyOneTo360Days;
+	@Column(name = "AMOUNT")
+	public String amount;
 
-	@Column(name = "ABOVE_360_DAYS")
-	public int above360Days;
-	
-	
-	
-	
-	
-	
-	
+
 	public int getId() {
 		return id;
 	}
@@ -69,64 +52,39 @@ public class sheet201DAO {
 	}
 
 
-	public int getOneToThirtyDays() {
-		return oneToThirtyDays;
+	public String getDuration() {
+		return duration;
 	}
 
 
-	public void setOneToThirtyDays(int oneToThirtyDays) {
-		this.oneToThirtyDays = oneToThirtyDays;
+	public void setDuration(String duration) {
+		this.duration = duration;
 	}
 
 
-	public int getThirtyOneToSixtyDays() {
-		return thirtyOneToSixtyDays;
+	public String getNumberofAccounts() {
+		return numberofAccounts;
 	}
 
 
-	public void setThirtyOneToSixtyDays(int thirtyOneToSixtyDays) {
-		this.thirtyOneToSixtyDays = thirtyOneToSixtyDays;
+	public void setNumberofAccounts(String numberofAccounts) {
+		this.numberofAccounts = numberofAccounts;
 	}
 
 
-	public int getSixyOneToNintyDays() {
-		return sixyOneToNintyDays;
+	public String getAmount() {
+		return amount;
 	}
 
 
-	public void setSixyOneToNintyDays(int sixyOneToNintyDays) {
-		this.sixyOneToNintyDays = sixyOneToNintyDays;
+	public void setAmount(String amount) {
+		this.amount = amount;
 	}
 
 
-	public int getNintyOneTo180Days() {
-		return nintyOneTo180Days;
-	}
-
-
-	public void setNintyOneTo180Days(int nintyOneTo180Days) {
-		this.nintyOneTo180Days = nintyOneTo180Days;
-	}
-
-
-	public int getOneEightyOneTo360Days() {
-		return oneEightyOneTo360Days;
-	}
-
-
-	public int getAbove360Days() {
-		return above360Days;
-	}
-
-
-	public void setAbove360Days(int above360Days) {
-		this.above360Days = above360Days;
-	}
-
-
-	public void setOneEightyOneTo360Days(int oneEightyOneTo360Days) {
-		this.oneEightyOneTo360Days = oneEightyOneTo360Days;
-	}
+	
+	
+	
 	
 	
 	
