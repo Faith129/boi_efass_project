@@ -15,9 +15,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.report.ReportRepository;
+import com.efass.sheet.mmfbr201.sheet201DAO;
 import com.efass.sheet.mmfbr762.sheet762DAO;
 import com.efass.sheet.mmfbr771.sheet771Repository;
 
@@ -33,12 +35,26 @@ public class sheet763_impl implements sheet763_Service {
 	@Autowired
 	sheet763_Util sheet763Util;
 	
+	@Autowired
+	Validation validation;
 	
 
 	// ############################## MMFBR763 CRUD OPERATIONS
 	// #################################
+	
+	public void validate(sheet763DAO data) throws ResourceNotFoundException {
+		String typeOfLoan = validation.checkDataType(data.getTypeOfLoans().toString());
+		
+		 if(!typeOfLoan.equalsIgnoreCase("Alpha")) {	
+				throw new ResourceNotFoundException("typeOfLoan  must be an alphabetic value  " );	
+			}
+		 
+		
+	}
 
-	public ResponseEntity<?> createData(sheet763DAO data) {
+	public ResponseEntity<?> createData(sheet763DAO data) throws ResourceNotFoundException {
+		validate(data);
+		
 		_763Repository.save(data);
 		Response res = new Response();
 		res.setResponseMessage("Success");
@@ -94,6 +110,8 @@ public class sheet763_impl implements sheet763_Service {
 
 	public ResponseEntity<?> updateData(int id, sheet763DAO Data) throws ResourceNotFoundException {
 
+		validate(Data);
+		
 		Optional<sheet763DAO> DataDb = _763Repository.findById(id);
 
 		if (DataDb.isPresent()) {

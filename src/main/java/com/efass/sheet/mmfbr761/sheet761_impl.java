@@ -16,10 +16,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.sheet.mmfbr761.sheet761DAO;
 import com.efass.sheet.mmfbr761.sheet761Repository;
+import com.efass.sheet.mmfbr996.sheet996DAO;
 
 @Service
 public class sheet761_impl implements sheet761_Service{
@@ -31,14 +33,28 @@ public class sheet761_impl implements sheet761_Service{
 	@Autowired
 	sheet761_Util sheet761Util;
 	
+	@Autowired
+	Validation validation;
+	
 	
 	
 	// ############################## MMFBR761 CRUD OPERATIONS #################################
 
+	public void validate(sheet761DAO data) throws ResourceNotFoundException {
+	String description = validation.checkDataType(data.getDescription().toString());
+	String amount = validation.checkDataType(data.getAmount().toString());
 	
+		if( !description.equalsIgnoreCase("Alpha")) {
+			throw new ResourceNotFoundException("description must be an alphabetic value " );	
+		}else if(!amount.equalsIgnoreCase("Num")) {
+			throw new ResourceNotFoundException("amount must be a numeric value " );	
+	 }
+	}
 
 				
-		 public ResponseEntity<?> createData(sheet761DAO data) {
+		 public ResponseEntity<?> createData(sheet761DAO data) throws ResourceNotFoundException {
+			 validate(data);
+			 
 		  //   _761Repository.save(data);
 		 	Response res = new Response();
 		 	res.setResponseMessage("Success");
@@ -92,6 +108,8 @@ public class sheet761_impl implements sheet761_Service{
 		}
 
 		public ResponseEntity<?> updateData(int id , sheet761DAO Data) throws ResourceNotFoundException {
+			
+			validate(Data);
 			
 			Optional<sheet761DAO> DataDb = _761Repository.findById(id);
 

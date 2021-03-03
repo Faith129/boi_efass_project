@@ -16,9 +16,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.sheet.mmfbr746.sheet746DAO;
+import com.efass.sheet.mmfbr771.sheet771DAO;
 import com.efass.sheet.mmfbr933.sheet933DAO;
 import com.efass.sheet.mmfbr933.sheet933_Util;
 
@@ -30,11 +32,34 @@ public class sheet811_impl implements sheet811_Service{
 
 	@Autowired
 	sheet811Repository _811Repository;
+	
+	@Autowired
+	Validation validation;
 
 	// ############################## MMFBR811 CRUD OPERATIONS
 	// #################################
 
-	public ResponseEntity<?> createData(sheet811DAO data) {
+	public void validate(sheet811DAO data) throws ResourceNotFoundException {
+		
+		String item = validation.checkDataType(data.getItem().toString());
+		String perfoming = validation.checkDataType(data.getPerforming().toString());
+		String nonPerforming = validation.checkDataType(data.getNonPerforming().toString());
+//		String total = validation.checkDataType(data.ge.toString()); 
+		
+		if( !item.equalsIgnoreCase("Alpha")) {
+			throw new ResourceNotFoundException("item must be an alphabetic value  " );	
+		}else if(!perfoming.equalsIgnoreCase("num")) {	
+			throw new ResourceNotFoundException("perfoming must be a numeric value  " );
+			}
+		 else if( !nonPerforming.equalsIgnoreCase("num")) {
+			throw new ResourceNotFoundException("nonPerforming  must be an numeric value " );	
+		 }
+		
+	}
+	public ResponseEntity<?> createData(sheet811DAO data) throws ResourceNotFoundException {
+		
+		validate(data);
+		
 		//_811Repository.save(data);
 		Response res = new Response();
 		res.setResponseMessage("Failed");
@@ -87,6 +112,8 @@ public class sheet811_impl implements sheet811_Service{
 
 	public ResponseEntity<?> updateData(int id, sheet811DAO Data) throws ResourceNotFoundException {
 
+		validate(Data);
+		
 		Optional<sheet811DAO> DataDb = _811Repository.findById(id);
 
 		if (DataDb.isPresent()) {
