@@ -5,18 +5,20 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
+
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
-import com.efass.report.ReportDAO;
 import com.efass.report.ReportRepository;
+import com.efass.sheet.mmfbr141.sheet141DAO;
 
 @Service
 public class sheet221_impl implements sheet221_Service {
@@ -30,15 +32,39 @@ public class sheet221_impl implements sheet221_Service {
 	
 	@Autowired 
 	sheet221_Util sheet221Util;
+	
+	@Autowired
+	Validation validation;
 
 
 	// ############################## MMFBR221 CRUD OPERATIONS #################################
+	
+	public void validate(sheet221DAO data) throws ResourceNotFoundException {
+	String bankCode = validation.checkDataType(data.getBankCode().toString());
+	String bankName = validation.checkDataType(data.getBankName().toString());
+	String amount = validation.checkDataType(data.getAmount().toString());
+	
+		if(!bankCode.equalsIgnoreCase("Alpha")) {
+			throw new ResourceNotFoundException("Bank Code  must be an alphabetic value  " );
+		}
+		if(!bankName.equalsIgnoreCase("Alpha")) {	
+		throw new ResourceNotFoundException("Bank Name must be an alphabetic value  " );
+	
+		}
+		else if( !amount.equalsIgnoreCase("Num")) {
+			throw new ResourceNotFoundException("Amount must be a numeric value  " );
+		}
+		
+	}
 
 	
 
 	
 	
-	 public ResponseEntity<?> createData(sheet221DAO data) {
+	 public ResponseEntity<?> createData(sheet221DAO data) throws ResourceNotFoundException {
+		 
+		 validate(data);
+		 
 	     _221Repository.save(data);     
 	   	 	Response res = new Response();
 	 	res.setResponseMessage("Success");
@@ -93,6 +119,8 @@ public class sheet221_impl implements sheet221_Service {
 	}
 
 	public ResponseEntity<?> updateData(int id , sheet221DAO Data) throws ResourceNotFoundException {
+		
+		validate(Data);
 		
 		Optional<sheet221DAO> DataDb = _221Repository.findById(id);
 

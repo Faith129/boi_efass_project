@@ -9,9 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
-import com.efass.sheet.mmfbr221.sheet221DAO;
+import com.efass.sheet.mmfbr451.sheet451DAO;
 
 @Service
 public class sheet501_Impl implements sheet501_Service {
@@ -19,11 +20,37 @@ public class sheet501_Impl implements sheet501_Service {
 	
 	@Autowired
 	sheet501Repository _501Repository;
+	
+	@Autowired
+	Validation validation; 
 
 	// ############################## MMFBR501 CRUD OPERATIONS
 	// #################################
+	public void validate(sheet501DAO data) throws ResourceNotFoundException {
+		String code = validation.checkDataType(data.getBank_code().toString());
+		String item = validation.checkDataType(data.getItem().toString());
+		String amount = validation.checkDataType(data.getAmount().toString());
+		
+			if(!code.equalsIgnoreCase("Alpha")) {
+				throw new ResourceNotFoundException("Bank Code  must be an alphabetic value  " );
+			}
+			
+			if(!item.equalsIgnoreCase("Alpha")) {	
+			throw new ResourceNotFoundException("Item must be an alphabetic value  " );
+		
+			}
+			
+			else if(!amount.equalsIgnoreCase("Num")) {
+				throw new ResourceNotFoundException("Amount must be a numeric value  " );
+			}
+			
+		}
 
-	public ResponseEntity<?> createData(sheet501DAO data) {
+
+	public ResponseEntity<?> createData(sheet501DAO data) throws ResourceNotFoundException {
+		
+		validate(data);
+		
 		_501Repository.save(data);
 		Response res = new Response();
 		res.setResponseMessage("Success");
@@ -75,6 +102,8 @@ public class sheet501_Impl implements sheet501_Service {
 	}
 
 	public ResponseEntity<?> updateData(int id, sheet501DAO Data) throws ResourceNotFoundException {
+		
+		validate(Data);
 
 		Optional<sheet501DAO> DataDb = _501Repository.findById(id);
 
