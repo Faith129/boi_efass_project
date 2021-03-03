@@ -8,10 +8,13 @@ import com.efass.sheet.mmfbr201.sheet201DAO;
 import com.efass.sheet.mmfbr201.sheet201Repository;
 import com.efass.sheet.mmfbr202.sheet202Repository;
 import com.efass.sheet.mmfbr221.sheet221Repository;
+import com.efass.sheet.mmfbr300.sheet300DAO;
+import com.efass.sheet.mmfbr300.sheet300Repository;
 import com.efass.sheet.mmfbr311.sheet311Repository;
 import com.efass.sheet.mmfbr312.sheet312Repository;
 import com.efass.sheet.mmfbr322.sheet322Repository;
 import com.efass.sheet.mmfbr451.sheet451Repository;
+import com.efass.sheet.mmfbr501.sheet501DAO;
 import com.efass.sheet.mmfbr501.sheet501Repository;
 import com.efass.sheet.mmfbr642.sheet642Repository;
 import com.efass.sheet.mmfbr651.sheet651Repository;
@@ -87,8 +90,9 @@ public class PrepareTables {
 	sheet980Repository _980Repository;
 	
 
-	
-	
+	@Autowired
+	sheet300Repository _300Repository;
+
 	
 
 	public void clearSheetTables() {
@@ -125,13 +129,17 @@ public class PrepareTables {
 		populateSheet761();
 		populatesheet201();
 		populatesheet980();
-	
+
+		populatesheet501();
+
 		}catch(Exception ex) {
 			
 		}
 	}
 	
+
 	
+
 	
 	private void populateSheet711() {
 		//Delete all 
@@ -555,6 +563,55 @@ public class PrepareTables {
 		data.setItems(items);
 		_980Repository.save(data);	
 	}
+	
+	
+	
+	
+	public void populatesheet501() {
+		
+		save501("20510", "Accounts Payable (Provide Breakdown");
+		save501("20515", "Unearned Income");
+		save501("20520", "Interest Accrued not Paid");
+		save501("20525", "Uncleared Effects / Transit items");
+		save501("20530", "Un-audited Profit to Date");
+		save501("20535", "Provision for Dimunition in the value of Investmen");
+		save501("20540", "Provision for Losses on Off Balance Sheet Items");
+		save501("20545", "Interest-in-Suspense");
+		save501("20550", "Provision for Taxation");
+		save501("20555", "Provision for Other Loan Losses");
+		save501("20560", "Dividend Payable");
+		save501("20565", "Suspense Account");
+		save501("20570", "Deposits for Shares (Provide Breakdown)");
+		save501("20575", "Miscellaneous (Specify)");
+		
+	}	
+	
+	
+	
+	
+	
+	public void populatesheet300() {
+		save300("10000", "ASSETS");
+		save300("10100", "");
+		
+	}
+	
+	public void save300(String code, String itemDesc) {
+		
+		sheet300DAO data = new sheet300DAO();
+		data.setItemDescription(itemDesc);
+		data.setCode(code);
+		_300Repository.save(data);
+	}
+	
+	public void save501(String bankCode, String item) {
+		
+	sheet501DAO data = new sheet501DAO();
+	data.setBank_code(bankCode);
+	data.setItem(item);
+	_501Repository.save(data);		
+	}
+	
 	
 	public void save201(String TypeOfDeposit, String duration) {
 		

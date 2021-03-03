@@ -372,7 +372,7 @@ public class TableImpl implements TableService {
 		data25.setReturnCode("Form MMFBR980");
 		data25.setBankCode("51253");
 		data25.setBankName("NEPTUNE MICROFINANCE BANK LIMITED");
-		data25.setReturnName("Gap Analysis		");
+		data25.setReturnName("Gap Analysis");
 		data25.setStateName("LAGOS");
 		data25.setStateCode("24");
 		data25.setLgaName("Ikeja");
