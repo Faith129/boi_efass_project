@@ -15,7 +15,7 @@ public interface sheet641_Service {
 
 	
 	
-	 public ResponseEntity<?> createData(sheet641DAO data);
+	 public ResponseEntity<?> createData(sheet641DAO data) throws ResourceNotFoundException;
 	 
 	 
 		public ResponseEntity<?> fetchAllData();

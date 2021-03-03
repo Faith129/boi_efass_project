@@ -13,7 +13,7 @@ import com.efass.exceptions.ResourceNotFoundException;
 
 public interface sheet221_Service {
 	
-	public ResponseEntity<?> createData(sheet221DAO data);
+	public ResponseEntity<?> createData(sheet221DAO data) throws ResourceNotFoundException;
 
 	public ResponseEntity<?> fetchAllData();
 

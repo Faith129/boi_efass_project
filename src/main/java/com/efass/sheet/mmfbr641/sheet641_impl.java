@@ -16,9 +16,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
-import com.efass.sheet.mmfbr221.sheet221DAO;
+import com.efass.sheet.mmfbr501.sheet501DAO;
 
 
 
@@ -33,12 +34,31 @@ public class sheet641_impl implements sheet641_Service {
 	@Autowired
 	sheet641Repository _641Repository;
 	
+	@Autowired
+	Validation validation;
+	
 	// ############################## MMFBR311 CRUD OPERATIONS #################################
+	public void validate(sheet641DAO data) throws ResourceNotFoundException {
+		String investment = validation.checkDataType(data.getNatureOfInvestment().toString());
+		String amount = validation.checkDataType(data.getAmount().toString());
+		
+			if(!investment.equalsIgnoreCase("Alpha")) {	
+			throw new ResourceNotFoundException("Investment must be an alphabetic value  " );
+		
+			}
+			
+			else if(!amount.equalsIgnoreCase("Num")) {
+				throw new ResourceNotFoundException("Amount must be a numeric value  " );
+			}
+			
+		}
 
 	
 	
-	 public ResponseEntity<?> createData(sheet641DAO data) {
-	     _641Repository.save(data);
+	 public ResponseEntity<?> createData(sheet641DAO data) throws ResourceNotFoundException {
+		 validate(data);
+		 
+		 _641Repository.save(data);
 	 	Response res = new Response();
 	 	res.setResponseMessage("Success");
 		res.setResponseCode(00);
@@ -90,6 +110,8 @@ public class sheet641_impl implements sheet641_Service {
 	}
 
 	public ResponseEntity<?> updateData(int id , sheet641DAO Data) throws ResourceNotFoundException {
+		
+		validate(Data);
 		
 		Optional<sheet641DAO> DataDb = _641Repository.findById(id);
 
