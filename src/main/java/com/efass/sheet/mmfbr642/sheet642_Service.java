@@ -14,7 +14,7 @@ import com.sun.el.parser.ParseException;
 public interface sheet642_Service {
 
 	
-	 public ResponseEntity<?> createData(sheet642DAO data);
+	 public ResponseEntity<?> createData(sheet642DAO data) throws ResourceNotFoundException;
 		public ResponseEntity<?> fetchAllData();
 		public ResponseEntity<?> getDataById(int dataId) throws ResourceNotFoundException;
 		public ResponseEntity<?> deleteById(int dataId) throws ResourceNotFoundException;

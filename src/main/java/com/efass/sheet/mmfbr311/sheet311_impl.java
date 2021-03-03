@@ -13,13 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.report.ReportDAO;
 import com.efass.report.ReportRepository;
 import com.efass.sheet.mmfbr221.sheet221DAO;
-import com.efass.sheet.mmfbr221.sheet221_Util;
-import com.efass.sheet.mmfbr746.sheet746DAO;
 
 
 
@@ -39,11 +39,49 @@ public class sheet311_impl implements sheet311_Service {
 	@Autowired 
 	sheet311_Util sheet311Util;
 	
+	@Autowired 
+	Validation validation;
+	
 	// ############################## MMFBR311 CRUD OPERATIONS #################################
+	
+	public void validate(sheet311DAO data) throws ResourceNotFoundException {
+		String bankCode = validation.checkDataType(data.getBankCode().toString());
+		String bankName = validation.checkDataType(data.getBankName().toString());
+		String tenor = validation.checkDataType(data.getTenor().toString());
+		String maturityDate = validation.checkDataType(data.getMaturity_Date().toString());
+		String amount = validation.checkDataType(data.getAmount().toString());
+		
+			if(!bankCode.equalsIgnoreCase("Alpha")) {
+				throw new ResourceNotFoundException("Bank Code  must be an alphabetic value  " );
+			}
+			
+			if(!bankName.equalsIgnoreCase("Alpha")) {	
+			throw new ResourceNotFoundException("Bank Name must be an alphabetic value  " );
+		
+			}
+			
+			if(!tenor.equalsIgnoreCase("Alpha")) {	
+				throw new ResourceNotFoundException("Tenor must be an alphabetic value  " );
+			
+			}
+			
+			if(!maturityDate.equalsIgnoreCase("Alpha")) {	
+				throw new ResourceNotFoundException("Maturity Date must be an alphabetic value  " );
+			
+			}
+			
+			else if( !amount.equalsIgnoreCase("Num")) {
+				throw new ResourceNotFoundException("Amount must be a numeric value  " );
+			}
+			
+		}
 
 	
 	
-	 public ResponseEntity<?> createData(sheet311DAO data) {
+	 public ResponseEntity<?> createData(sheet311DAO data) throws ResourceNotFoundException {
+		 
+		 validate(data);
+		 
 	     _311Repository.save(data);
 	 	Response res = new Response();
 	 	res.setResponseMessage("Success");
@@ -95,6 +133,8 @@ public class sheet311_impl implements sheet311_Service {
 	}
 
 	public ResponseEntity<?> updateData(int id , sheet311DAO Data) throws ResourceNotFoundException {
+		
+		validate(Data);
 		
 		Optional<sheet311DAO> DataDb = _311Repository.findById(id);
 
