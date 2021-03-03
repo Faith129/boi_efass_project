@@ -14,7 +14,7 @@ import com.efass.exceptions.ResourceNotFoundException;
 public interface sheet933_Service {
 	
 	
-	 public ResponseEntity<?> createData(sheet933DAO data);
+	 public ResponseEntity<?> createData(sheet933DAO data) throws ResourceNotFoundException;
 		public ResponseEntity<?> fetchAllData();
 		public ResponseEntity<?> getDataById(int dataId) throws ResourceNotFoundException;
 		public ResponseEntity<?> deleteById(int dataId) throws ResourceNotFoundException;

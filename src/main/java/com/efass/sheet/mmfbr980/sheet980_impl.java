@@ -16,9 +16,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.sheet.mmfbr221.sheet221DAO;
+import com.efass.sheet.mmfbr951.sheet951DAO;
 import com.efass.sheet.mmfbr980.sheet980DAO;
 
 @Service
@@ -32,13 +34,27 @@ public class sheet980_impl implements sheet980_Service {
 	@Autowired
 	sheet980_Util sheet980Util;
 	
-	
+	@Autowired
+	Validation validation;
 	
 	
 	// ############################## MMFBR980 CRUD OPERATIONS
 	// #################################
+	
+	public void validate(sheet980DAO data) throws ResourceNotFoundException {
+	String item = validation.checkDataType(data.getItems().toString());
+	
+		if( !item.equalsIgnoreCase("Alpha")) {
+			throw new ResourceNotFoundException("item must be an alphabetic value " );	
+		}else {
+			System.out.println("Correct");
+		}
+	}
 
-	public ResponseEntity<?> createData(sheet980DAO data) {
+	public ResponseEntity<?> createData(sheet980DAO data) throws ResourceNotFoundException {
+		
+		validate(data);
+		
 		//_980Repository.save(data);
 		Response res = new Response();
 		res.setResponseMessage("Failed");
@@ -91,6 +107,8 @@ public class sheet980_impl implements sheet980_Service {
 
 	public ResponseEntity<?> updateData(int id, sheet980DAO Data) throws ResourceNotFoundException {
 
+		validate(Data);
+		
 		Optional<sheet980DAO> DataDb = _980Repository.findById(id);
 
 		if (DataDb.isPresent()) {

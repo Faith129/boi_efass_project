@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.apache.poi.EncryptedDocumentException;
@@ -15,10 +14,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
-import com.efass.sheet.mmfbr201.sheet201DAO;
-import com.efass.sheet.mmfbr201.sheet201DAO;
+import com.efass.sheet.mmfbr141.sheet141DAO;
 
 @Service
 public class sheet202_impl implements sheet202_Service{
@@ -27,13 +26,31 @@ public class sheet202_impl implements sheet202_Service{
 	@Autowired
 	sheet202Repository _202Repository;
 	
+	@Autowired
+	Validation validation;
+	
+	
+
+	public void validate(sheet202DAO data) throws ResourceNotFoundException {
+
+	String depositType = validation.checkDataType(data.getTypeOfDeposit().toString());
+		
+		 if(!depositType.equalsIgnoreCase("Alpha")) {	
+			throw new ResourceNotFoundException("typeOfDeposit  must be an alphabetic value  " );
+			
+		}
+		
+	}
 	
 	
 
 	// ############################## MMFBR202 CRUD OPERATIONS
 	// #################################
 
-	public ResponseEntity<?> createData(sheet202DAO data) {
+	public ResponseEntity<?> createData(sheet202DAO data) throws ResourceNotFoundException {
+		
+		validate(data);
+		
 		_202Repository.save(data);
 		Response res = new Response();
 		res.setResponseMessage("Success");
@@ -85,6 +102,9 @@ public class sheet202_impl implements sheet202_Service{
 	}
 
 	public ResponseEntity<?> updateData(int id, sheet202DAO Data) throws ResourceNotFoundException {
+		
+		validate(Data);
+		
 
 		Optional<sheet202DAO> DataDb = _202Repository.findById(id);
 

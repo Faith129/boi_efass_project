@@ -9,8 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+import com.efass.sheet.mmfbr201.sheet201DAO;
 import com.efass.sheet.mmfbr221.sheet221DAO;
 
 @Service
@@ -20,11 +22,26 @@ public class sheet764_impl implements sheet764_Service {
 
 	@Autowired
 	sheet764Repository _764Repository;
+	
+	@Autowired
+	Validation validation;
 
 	// ############################## MMFBR746 CRUD OPERATIONS
 	// #################################
 
-	public ResponseEntity<?> createData(sheet764DAO data) {
+	public void validate(sheet764DAO data) throws ResourceNotFoundException {
+		String typeOfAccount = validation.checkDataType(data.getAccount_type().toString());
+		
+		 if(!typeOfAccount.equalsIgnoreCase("Alpha")) {	
+				throw new ResourceNotFoundException("typeOfDeposit  must be an alphabetic value  " );	
+			}
+		 
+	}
+	
+	public ResponseEntity<?> createData(sheet764DAO data) throws ResourceNotFoundException {
+		
+		validate(data);
+		
 		_764Repository.save(data);
 		Response res = new Response();
 		res.setResponseMessage("Success");
@@ -78,6 +95,8 @@ public class sheet764_impl implements sheet764_Service {
 
 	public ResponseEntity<?> updateData(int id, sheet764DAO Data) throws ResourceNotFoundException {
 
+		validate(Data);
+		
 		Optional<sheet764DAO> DataDb = _764Repository.findById(id);
 
 		if (DataDb.isPresent()) {

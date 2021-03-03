@@ -15,8 +15,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+import com.efass.sheet.mmfbr141.sheet141DAO;
 import com.efass.sheet.mmfbr221.sheet221DAO;
 import com.efass.sheet.mmfbr311.sheet311DAO;
 import com.efass.sheet.mmfbr321.sheet321Repository;
@@ -26,13 +28,34 @@ public class sheet711_impl implements sheet711_Service {
 
 	@Autowired
 	sheet711Repository _711Repository;
+	
 	@Autowired
 	sheet711_Util sheet711Util;
+	
+	@Autowired
+	Validation validation;
 
 	// ############################## MMFBR311 CRUD OPERATION  #################################
+	
+	public void validate(sheet711DAO data) throws ResourceNotFoundException {
+	String number = validation.checkDataType(data.getNumbers().toString());
+	String lendingModel = validation.checkDataType(data.getLendingModel().toString());
+	String amount = validation.checkDataType(data.getAmount().toString());
+	
+		if( !number.equalsIgnoreCase("Num")) {
+			throw new ResourceNotFoundException("Number must be a numeric value  " );	
+		}else if(!lendingModel.equalsIgnoreCase("Alpha")) {	
+			throw new ResourceNotFoundException("lendingModel  must be an alphabetic value  " );
+			}
+		 else if( !amount.equalsIgnoreCase("Num")) {
+			throw new ResourceNotFoundException("Amount must be a numeric value  " );	
+		 }
+	}
 
-	public ResponseEntity<?> createData(sheet711DAO data) {
+	public ResponseEntity<?> createData(sheet711DAO data) throws ResourceNotFoundException {
 //		_711Repository.save(data);
+		
+		validate(data);
 		Response res = new Response();
 		res.setResponseMessage("Success");
 		res.setResponseCode(00);
@@ -84,6 +107,7 @@ public class sheet711_impl implements sheet711_Service {
 
 	public ResponseEntity<?> updateData(int id, sheet711DAO Data) throws ResourceNotFoundException {
 
+		validate(Data);
 		Optional<sheet711DAO> DataDb = _711Repository.findById(id);
 
 		if (DataDb.isPresent()) {
