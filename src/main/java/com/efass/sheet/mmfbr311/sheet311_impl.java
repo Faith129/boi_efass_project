@@ -104,7 +104,7 @@ public class sheet311_impl implements sheet311_Service {
 			DataUpdate.setBankName(Data.getBankName());
 			DataUpdate.setBankCode(Data.getBankCode());
 			DataUpdate.setAmount(Data.getAmount());
-			DataUpdate.setMaturity(Data.getMaturity());
+			DataUpdate.setMaturity_Date(Data.getMaturity_Date());
 			DataUpdate.setTenor(Data.getTenor());
 			_311Repository.save(DataUpdate);
 			Response res = new Response();
@@ -145,7 +145,7 @@ public class sheet311_impl implements sheet311_Service {
 			data.add(sheetData.get(i).getBankCode());
 			data.add(sheetData.get(i).getBankName());
 			data.add(sheetData.get(i).getTenor());
-			data.add(sheetData.get(i).getMaturity());
+			data.add(sheetData.get(i).getMaturity_Date());
 			data.add(sheetData.get(i).getAmount());
 			listOfLists.add(data);
 

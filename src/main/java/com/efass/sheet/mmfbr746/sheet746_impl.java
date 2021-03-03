@@ -119,6 +119,26 @@ public class sheet746_impl   implements sheet746_Service{
 	}
 
 
+	
+//	public String getFolderPathWithDate(LocalDate date) {
+//
+//		ReportDAO Data = ReportRepo.findByPathDate(date.toString());
+//		String folderPath = Data.getFile_path();
+//
+//		System.out.println("Folder Path:" + folderPath);
+//		return folderPath;
+//	}
+			
+			
+
+	// ####################################################################################
+
+	
+	
+	
+	//#####################SHEET OPERATIONS ############################################
+	
+	
 	@Override
 	public Boolean writesheet746(LocalDate Date, String folderPath) 
 			throws FileNotFoundException, IOException, EncryptedDocumentException, ParseException, InvalidFormatException {
@@ -152,26 +172,6 @@ public class sheet746_impl   implements sheet746_Service{
 			}
 
 		}
-	
-//	public String getFolderPathWithDate(LocalDate date) {
-//
-//		ReportDAO Data = ReportRepo.findByPathDate(date.toString());
-//		String folderPath = Data.getFile_path();
-//
-//		System.out.println("Folder Path:" + folderPath);
-//		return folderPath;
-//	}
-			
-			
-
-	// ####################################################################################
-
-	
-	
-	
-	//#####################SHEET OPERATIONS ############################################
-	
-	
 	
 	
 	

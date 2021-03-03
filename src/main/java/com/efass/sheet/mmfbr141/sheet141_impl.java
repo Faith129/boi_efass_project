@@ -16,9 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
-import com.efass.sheet.mmfbr221.sheet221DAO;
 
 @Service
 public class sheet141_impl implements sheet141_Service{
@@ -30,11 +30,29 @@ public class sheet141_impl implements sheet141_Service{
 	
 	@Autowired
 	sheet141_Util sheet141Util;
+	
+	@Autowired
+	Validation validation;
 
 	// ############################## MMFBR141 CRUD OPERATIONS
 	// #################################
 
-	public ResponseEntity<?> createData(sheet141DAO data) {
+	public void validate(sheet141DAO data) throws ResourceNotFoundException {
+	String total = validation.checkDataType(data.getTotal().toString());
+	String depositType = validation.checkDataType(data.getTypeOfDeposit().toString());
+		if( !total.equalsIgnoreCase("Num")) {
+			throw new ResourceNotFoundException("Total must be a numeric value  " );	
+		}else if(!depositType.equalsIgnoreCase("Alpha")) {	
+			throw new ResourceNotFoundException("typeOfDeposit  must be an alphabetic value  " );
+			
+		}
+		
+	}
+	
+	public ResponseEntity<?> createData(sheet141DAO data) throws ResourceNotFoundException {
+		
+			//Validation
+		validate(data);
 		_141Repository.save(data);
 		Response res = new Response();
 		res.setResponseMessage("Success");
@@ -50,6 +68,8 @@ public class sheet141_impl implements sheet141_Service{
 			for(Field f: fields){
 			   colname.add(f.getName()) ;
 			}
+			
+	       		
 		Response res = new Response();
 		res.setColumnNames(colname);
 		res.setSheet141(data);
@@ -89,6 +109,9 @@ public class sheet141_impl implements sheet141_Service{
 
 		Optional<sheet141DAO> DataDb = _141Repository.findById(id);
 
+		//Validation
+		validate(Data);
+		
 		if (DataDb.isPresent()) {
 			sheet141DAO DataUpdate = DataDb.get();
 			DataUpdate.setId(Data.getId());
@@ -116,7 +139,6 @@ public class sheet141_impl implements sheet141_Service{
 		
 		List<List<Object>> listofLists = new ArrayList<List<Object>>();
 		
-		System.out.println(">>>>>>>>>>" +sheetdata.size());
 		
 		for (int i = 0; i <sheetdata.size(); i++) {
 			

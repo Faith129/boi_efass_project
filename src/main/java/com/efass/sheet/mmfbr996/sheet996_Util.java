@@ -30,11 +30,11 @@ public class sheet996_Util {
 
 	
 	@Autowired
-	 static ReportRepository ReportRepo ;
+	  ReportRepository ReportRepo ;
 
 
 	@Autowired
-	 static sheet996Repository _996Repo;
+	  sheet996Repository _996Repo;
 
 	
 	SpecialData specialData = new SpecialData();

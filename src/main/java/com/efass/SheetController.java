@@ -136,6 +136,9 @@ public class SheetController {
 
 	@Autowired
 	private ReportService reportSvc;
+	
+	
+
 
 	Response res = new Response();
 
@@ -165,11 +168,11 @@ public class SheetController {
 			
 			//Write On Excel Sheets
 
-			sheet221Svc.writesheet221(date,folderPath);
+	//		sheet221Svc.writesheet221(date,folderPath);
+			
 //			sheet311Svc.writesheet311(date,folderPath);
 //			sheet321Svc.writesheet321(date,folderPath);
 //			sheet711Svc.writesheet711(date,folderPath);
-			sheet762Svc.writesheet762(date,folderPath);
 			//sheet641Svc.writesheet641(date,folderPath);
 
 
@@ -193,10 +196,11 @@ public class SheetController {
 			//sheet651Svc.writesheet651(date, folderPath);
 			//sheet951Svc.writesheet951(date, folderPath);
 			//sheet996Svc.writesheet996(date, folderPath);
-			sheet933Svc.writesheet933(date, folderPath);
+	//		sheet933Svc.writesheet933(date, folderPath);
 			
-			
-
+	//        sheet201Svc.writesheet201(date, folderPath);
+	        sheet501Svc.writesheet501(date, folderPath);
+	        
 			status = true;
 		} else if (evt == false) {
 			//test

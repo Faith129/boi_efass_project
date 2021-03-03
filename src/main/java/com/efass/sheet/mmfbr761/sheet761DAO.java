@@ -23,6 +23,23 @@ public class sheet761DAO {
 		
 		@Column(name = "AMOUNT")
 		public String amount;
+		
+		
+		
+		
+		
+		@Column(name = "SN")
+		public String serialNo;
+		
+		
+
+		public String getSerialNo() {
+			return serialNo;
+		}
+
+		public void setSerialNo(String serialNo) {
+			this.serialNo = serialNo;
+		}
 
 		public int getId() {
 			return id;

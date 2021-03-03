@@ -1,9 +1,16 @@
 package com.efass.sheet.mmfbr980;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +19,7 @@ import org.springframework.stereotype.Service;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.sheet.mmfbr221.sheet221DAO;
+import com.efass.sheet.mmfbr980.sheet980DAO;
 
 @Service
 public class sheet980_impl implements sheet980_Service {
@@ -20,16 +28,23 @@ public class sheet980_impl implements sheet980_Service {
 	@Autowired
 	sheet980Repository _980Repository;
 
+	
+	@Autowired
+	sheet980_Util sheet980Util;
+	
+	
+	
+	
 	// ############################## MMFBR980 CRUD OPERATIONS
 	// #################################
 
 	public ResponseEntity<?> createData(sheet980DAO data) {
-		_980Repository.save(data);
+		//_980Repository.save(data);
 		Response res = new Response();
-		res.setResponseMessage("Success");
-		res.setResponseCode(00);
+		res.setResponseMessage("Failed");
+		res.setResponseCode(-1001);
 		res.setS980Data(data);
-		return new ResponseEntity<>(res, HttpStatus.OK);
+		return new ResponseEntity<>(res, HttpStatus.NOT_ACCEPTABLE);
 	}
 
 	public ResponseEntity<?> fetchAllData() {
@@ -103,8 +118,49 @@ public class sheet980_impl implements sheet980_Service {
 
 	// ####################################################################################
 
+	
+	
+	
 	// #####################SHEET OPERATIONS
 	// ############################################
+	
+	
+	
+	@Override
+	public Boolean writesheet980(LocalDate Date, String folderPath) throws FileNotFoundException, IOException,
+			EncryptedDocumentException, InvalidFormatException, ParseException {
+	
+		ArrayList<sheet980DAO> sheetdata = new ArrayList<>();
+		
+		sheetdata = (ArrayList<sheet980DAO>) _980Repository.findAll();
+		
+		List<List<Object>> listofLists = new ArrayList<List<Object>>();
+		
+		for (int i = 0; i<sheetdata.size(); i++) {
+			
+			ArrayList<Object> data = new ArrayList<>();
+			
+			data.add(sheetdata.get(i).getItems());
+			data.add(sheetdata.get(i).getOne_to_30_days());
+			data.add(sheetdata.get(i).getThirty_one_to_60_days());
+			data.add(sheetdata.get(i).getSixty_one_to_90_days());
+			data.add(sheetdata.get(i).getNinety_one_to_180_days());
+			data.add(sheetdata.get(i).getOne_eighty_one_to_360_days());
+					
+			listofLists.add(data);
+	
+		
+		}
+		
+		Boolean status = sheet980Util.writeSpecificList(listofLists, Date, folderPath);
+		
+		if (status == true) {
+			return true;
+		}else {
+			return false;
+		}
+	
+	}
 
 	// ##################################################################################
 
