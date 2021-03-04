@@ -23,17 +23,25 @@ public class sheet300DAO {
 		
 	
 
-		@Column(name = "code")
+		@Column(name = "CODE")
 		public String code;
 		
 		
-		@Column(name = "Item_Description")
+		@Column(name = "DESCRIPTION")
 		public String itemDescription;
 		
 		
-		@Column(name = "Amount1")
+		@Column(name = "AMOUNT_1")
 		public String amount1;
 
+	
+		
+		@Column(name = "AMOUNT_2")
+		public String amount2;
+		
+		
+		@Column(name = "AMOUNT_3")
+		public String amount3;
 		
 		
 		
@@ -62,12 +70,6 @@ public class sheet300DAO {
 		}
 
 
-		@Column(name = "Amount2")
-		public String amount2;
-		
-		
-		@Column(name = "Amount3")
-		public String amount3;
 
 
 		public int getId() {

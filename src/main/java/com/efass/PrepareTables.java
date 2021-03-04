@@ -3,6 +3,8 @@ package com.efass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.efass.sheet.mmfbr1000.sheet1000DAO;
+import com.efass.sheet.mmfbr1000.sheet1000Repository;
 import com.efass.sheet.mmfbr141.sheet141Repository;
 import com.efass.sheet.mmfbr201.sheet201DAO;
 import com.efass.sheet.mmfbr201.sheet201Repository;
@@ -90,6 +92,9 @@ public class PrepareTables {
 	
 	@Autowired
 	sheet300Repository _300Repository;
+	
+	@Autowired
+	sheet1000Repository _1000Repository;
 	
 
 	public void clearSheetTables() {
@@ -567,16 +572,63 @@ public class PrepareTables {
 	
 	
 	public void populatesheet300() {
-		save300("10000", "ASSETS");
-		save300("10100", "");
-		
+
+
+save300("10110","Notes","col1-null");
+save300("10120", "Coins","col1-null");
+
+save300("10610", "Quoted Companies","col1-null");
+save300("10620", "Unquoted Companies","col1-null" );
+
+
+	
 	}
 	
-	public void save300(String code, String itemDesc) {
+	
+	
+	
+	
+	public void populate1000() {
+		save1000("30000", "Interest Income");	
+		save1000("30100", "Less interest Expenses");
+	
+		
+		save1000("30210", "Commission");
+		save1000("30220", "Fees/Charges");
+		save1000("30230", "Income From Investments");
+		save1000("30240", "Other Income From Non-Financial Services");
+		save1000("31100", "Staff Cost");
+		save1000("31100", "Staff Cost");
+		save1000("31110", "Directors");
+		save1000("31120", "Depreciation");
+		save1000("31130", "Provision For Bad Debts");
+		save1000("31140", "Bad Debts Written-Off");
+		save1000("31150", "Penalties Paid");
+		save1000("31160", "Overheads");
+		save1000("31190", "Less: Provision For Taxation");
+		save1000("31210", "Extra Ordinary items(EOI)");
+		save1000("31220", "Tax On EOI");
+	
+	}
+	
+	
+	
+	public void save1000(String code, String desc) {
+		
+		sheet1000DAO data = new sheet1000DAO();
+		
+		data.setCode(code);
+		data.setDecsription(desc);
+		_1000Repository.save(data);
+	}
+	
+	
+	public void save300(String code, String desc, String amount1) {
 		
 		sheet300DAO data = new sheet300DAO();
-		data.setItemDescription(itemDesc);
 		data.setCode(code);
+		data.setItemDescription(desc);
+		data.setAmount1(amount1);
 		_300Repository.save(data);
 	}
 	
