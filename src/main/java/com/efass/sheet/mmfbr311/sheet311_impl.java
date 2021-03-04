@@ -65,8 +65,8 @@ public class sheet311_impl implements sheet311_Service {
 			
 			}
 			
-			if(!maturityDate.equalsIgnoreCase("Alpha")) {	
-				throw new ResourceNotFoundException("Maturity Date must be an alphabetic value  " );
+			if(!maturityDate.equalsIgnoreCase("Date")) {	
+				throw new ResourceNotFoundException("Maturity Date must be a Date value Format " );
 			
 			}
 			

@@ -11,6 +11,7 @@ public class Validation {
 
 	Boolean alpha = isAlpha(value);
 	Boolean num = isNum(value);
+	Boolean date = isDate(value);
 	String 	data=null;
 if (alpha) {
 		data= "Alpha";
@@ -18,6 +19,10 @@ if (alpha) {
 		
 		data= "Num";
 	}
+	else if(date) {
+		data= "Date";
+	}
+
 	return data;
 	
 		
@@ -49,6 +54,15 @@ if (alpha) {
 		}	
 	}
 	
+	public Boolean isDate(String Value) {
+		
+		if (Value.matches("^([1-9]|[12][0-9]|3[01])\\/(0[1-9]|1[0-2])\\/([12][0-9]{3})$")) {
+			
+			return true;
+		}else {
+			return false;
+		}	
+	}
 	
 	
 	

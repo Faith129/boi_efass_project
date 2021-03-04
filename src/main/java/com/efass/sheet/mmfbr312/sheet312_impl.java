@@ -57,8 +57,8 @@ public class sheet312_impl implements sheet312_Service{
 		
 			}
 			
-			if(!rate.equalsIgnoreCase("Alpha")) {	
-				throw new ResourceNotFoundException("Rate must be an alphabetic value  " );
+			if(!rate.equalsIgnoreCase("Num")) {	
+				throw new ResourceNotFoundException("Rate must be a numeric value  " );
 			
 			}
 			
@@ -67,14 +67,14 @@ public class sheet312_impl implements sheet312_Service{
 			
 			}
 			
-			if(!effectiveDate.equalsIgnoreCase("Alpha")) {	
-				throw new ResourceNotFoundException("Effective Date must be an alphabetic value  " );
+			if(!effectiveDate.equalsIgnoreCase("Date")) {	
+				throw new ResourceNotFoundException("Effective Date must be an Date value format  " );
 			
 			}
 			
 			
-			if(!maturityDate.equalsIgnoreCase("Alpha")) {	
-				throw new ResourceNotFoundException("Maturity Date must be an alphabetic value  " );
+			if(!maturityDate.equalsIgnoreCase("Date")) {	
+				throw new ResourceNotFoundException("Maturity Date must be an Date value format  " );
 			
 			}
 			

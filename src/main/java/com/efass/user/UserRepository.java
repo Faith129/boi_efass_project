@@ -1,3 +1,4 @@
+
 package com.efass.user;
 
 import java.util.List;
@@ -37,3 +38,4 @@ public interface UserRepository extends JpaRepository<UserDAO, Integer>{
 	  
 	    
 }
+

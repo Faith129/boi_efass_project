@@ -52,17 +52,17 @@ public class sheet642_Impl implements sheet642_Service{
 			}
 			
 			if(!country.equalsIgnoreCase("Alpha")) {	
-			throw new ResourceNotFoundException("Country must be an alphabetic value  " );
+				throw new ResourceNotFoundException("Country must be an alphabetic value  " );
 		
 			}
 			
-			if(!dateFacility.equalsIgnoreCase("Alpha")) {	
-				throw new ResourceNotFoundException("Date Facility must be an alphabetic value  " );
+			if(!dateFacility.equalsIgnoreCase("Date")) {	
+				throw new ResourceNotFoundException("Date Facility must be a date value format  " );
 			
 			}
 			
-			if(!effectiveDate.equalsIgnoreCase("Alpha")) {	
-				throw new ResourceNotFoundException("Effective Date must be an alphabetic value  " );
+			if(!effectiveDate.equalsIgnoreCase("Date")) {	
+				throw new ResourceNotFoundException("Effective Date must be an date value format  " );
 			
 			}
 		

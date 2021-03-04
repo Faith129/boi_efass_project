@@ -49,19 +49,19 @@ public class sheet321_impl implements sheet321_Service {
 				throw new ResourceNotFoundException("Bank Code  must be an alphabetic value  " );
 			}
 			
-			if(!bankName.equalsIgnoreCase("Alpha")) {	
+			else if(!bankName.equalsIgnoreCase("Alpha")) {	
 			throw new ResourceNotFoundException("Bank Name must be an alphabetic value  " );
 		
 			}
 		
 			
-			if(!tenor.equalsIgnoreCase("Alpha")) {	
+			else if(!tenor.equalsIgnoreCase("Alpha")) {	
 				throw new ResourceNotFoundException("Tenor must be an alphabetic value  " );
 			
 			}
 			
-			if(!maturityDate.equalsIgnoreCase("Alpha")) {	
-				throw new ResourceNotFoundException("Maturity Date must be an alphabetic value  " );
+			else if(!maturityDate.equalsIgnoreCase("Date")) {	
+				throw new ResourceNotFoundException("Maturity Date must be an date value format  " );
 			
 			}
 			
