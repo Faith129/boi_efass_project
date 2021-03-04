@@ -55,7 +55,7 @@ public class sheet746_impl   implements sheet746_Service{
 	
 		if( !namesOfBeneficiary.equalsIgnoreCase("Alpha")) {
 			throw new ResourceNotFoundException("Names Of Beneficiary must be an alphabetic value  " );	
-		}else if(!dateFacilityGranted.equalsIgnoreCase("date")) {	
+		}else if(!dateFacilityGranted.equalsIgnoreCase("Date")) {	
 			throw new ResourceNotFoundException("Date Facility Granted  must be a date value  " );
 			}
 		 else if( !tenor.equalsIgnoreCase("Alpha")) {
