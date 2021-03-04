@@ -29,7 +29,7 @@ public class sheet300_impl {
 	public ResponseEntity<?> fetchAllData() {
 		Iterable<sheet300DAO> data = _300Repository.findAll();
 		
-		  Field[] fields = sheet202DAO.class.getFields();
+		  Field[] fields = sheet300DAO.class.getFields();
 			ArrayList<String> colname = new ArrayList<String>();
 			for(Field f: fields){
 			   colname.add(f.getName()) ;
@@ -41,6 +41,9 @@ public class sheet300_impl {
 		res.setResponseCode(00);
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
+	
+	
+	
 	
 	
 	

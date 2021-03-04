@@ -132,6 +132,7 @@ public class PrepareTables {
 		populatesheet201();
 		populatesheet980();
 		populatesheet501();
+		populatesheet1000();
 		}catch(Exception ex) {
 			
 		}
@@ -588,7 +589,7 @@ save300("10620", "Unquoted Companies","col1-null" );
 	
 	
 	
-	public void populate1000() {
+	public void populatesheet1000() {
 		save1000("30000", "Interest Income");	
 		save1000("30100", "Less interest Expenses");
 	
