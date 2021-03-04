@@ -16,10 +16,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.sheet.mmfbr221.sheet221DAO;
 import com.efass.sheet.mmfbr951.sheet951DAO;
+import com.efass.sheet.mmfbr980.sheet980DAO;
 
 @Service
 public class sheet996_impl implements sheet996_Service {
@@ -29,11 +31,27 @@ public class sheet996_impl implements sheet996_Service {
 	
 	@Autowired
 	sheet996Repository _996Repository;
+	
+	@Autowired
+	Validation validation;
 
 	// ############################## MMFBR996 CRUD OPERATIONS
 	// #################################
-
-	public ResponseEntity<?> createData(sheet996DAO data) {
+	
+	public void validate(sheet996DAO data) throws ResourceNotFoundException {
+	String item = validation.checkDataType(data.getItem().toString());
+	String amount = validation.checkDataType(data.getAmount().toString());
+	
+		if( !item.equalsIgnoreCase("Alpha")) {
+			throw new ResourceNotFoundException("item must be an alphabetic value " );	
+		}else if(!amount.equalsIgnoreCase("Num")) {
+			throw new ResourceNotFoundException("amount must be a numeric value " );	
+	 }
+	}
+	
+	public ResponseEntity<?> createData(sheet996DAO data) throws ResourceNotFoundException {
+		validate(data);
+		
 		_996Repository.save(data);
 		Response res = new Response();
 		res.setResponseMessage("Success");
@@ -86,6 +104,7 @@ public class sheet996_impl implements sheet996_Service {
 
 	public ResponseEntity<?> updateData(int id, sheet996DAO Data) throws ResourceNotFoundException {
 
+		validate(Data);
 		Optional<sheet996DAO> DataDb = _996Repository.findById(id);
 
 		if (DataDb.isPresent()) {

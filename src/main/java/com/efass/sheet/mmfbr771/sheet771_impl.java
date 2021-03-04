@@ -15,8 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+import com.efass.sheet.mmfbr746.sheet746DAO;
 import com.efass.sheet.mmfbr746.sheet746_Util;
 import com.efass.sheet.mmfbr764.sheet764DAO;
 
@@ -29,11 +32,58 @@ public class sheet771_impl implements sheet771_Service {
 	
 	@Autowired 
 	sheet771_Util sheet771Util;
+	
+	@Autowired
+	Validation validation;
+	
 
 	// ############################## MMFBR746 CRUD OPERATIONS
 	// #################################
+	
+	public void validate(sheet771DAO data) throws ResourceNotFoundException {
+	String customerCode = validation.checkDataType(data.getCustomerCode().toString());
+	String customerName = validation.checkDataType(data.getCustomerName().toString());
+	String pastDueDate = validation.checkDataType(data.getPastDueDate().toString());
+	String lastDateRepayment = validation.checkDataType(data.getLastRepaymentDate().toString());
+	String amountGranted = validation.checkDataType(data.getAmountGranted().toString());
+	String principalPaymentDue = validation.checkDataType(data.getPrincipalPaymentDueUnpaid().toString());
+	String accruedInterest = validation.checkDataType(data.getAccruedInterestUnpaid().toString());
+	String totalNonPerformingCredit = validation.checkDataType(data.getTotalNonPerformingCredit().toString());
+//	String bankProvision = validation.checkDataType(data.get.toString());
+	String remarks = validation.checkDataType(data.getRemarks().toString());
+	
+		if( !customerCode.equalsIgnoreCase("Alpha")) {
+			throw new ResourceNotFoundException("customerCode must be an alphabetic value  " );	
+		}else if(!customerName.equalsIgnoreCase("Alpha")) {	
+			throw new ResourceNotFoundException("customerName  must be an alphabetic value   " );
+			}
+		 else if( !pastDueDate.equalsIgnoreCase("date")) {
+			throw new ResourceNotFoundException("pastDueDate  must be a date value " );	
+		 }
+		 else if( !lastDateRepayment.equalsIgnoreCase("date")) {
+				throw new ResourceNotFoundException("lastDateRepayment must be a date value  " );	
+			 }
+		 else if( !amountGranted.equalsIgnoreCase("Num")) {
+				throw new ResourceNotFoundException("amountGranted must be a numeric value  " );	
+			 }
+		 else if( !principalPaymentDue.equalsIgnoreCase("Num")) {
+				throw new ResourceNotFoundException("principalPaymentDue  must be a numeric value " );	
+			 }
+		 else if( !accruedInterest.equalsIgnoreCase("Num")) {
+				throw new ResourceNotFoundException("accruedInterest Of Facility  must be a numeric value " );	
+			 }
+		 else if( !totalNonPerformingCredit.equalsIgnoreCase("Num")) {
+				throw new ResourceNotFoundException("totalNonPerformingCredit  must be a numeric value " );	
+			 }
+		 else if( !remarks.equalsIgnoreCase("Alpha")) {
+				throw new ResourceNotFoundException("remarks  must be an alphabetic value " );	
+			 }
+	}
 
-	public ResponseEntity<?> createData(sheet771DAO data) {
+
+	public ResponseEntity<?> createData(sheet771DAO data) throws ResourceNotFoundException {
+		validate(data);
+		
 		_771Repository.save(data);
 		Response res = new Response();
 		res.setResponseMessage("Success");
@@ -87,6 +137,8 @@ public class sheet771_impl implements sheet771_Service {
 
 	public ResponseEntity<?> updateData(int id, sheet771DAO Data) throws ResourceNotFoundException {
 
+		validate(Data);
+		
 		Optional<sheet771DAO> DataDb = _771Repository.findById(id);
 
 		if (DataDb.isPresent()) {

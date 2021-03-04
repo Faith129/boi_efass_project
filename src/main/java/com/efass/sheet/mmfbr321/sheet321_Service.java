@@ -13,7 +13,7 @@ import com.efass.sheet.mmfbr311.sheet311DAO;
 
 public interface sheet321_Service {
 
-	public ResponseEntity<?> createData(sheet321DAO data);
+	public ResponseEntity<?> createData(sheet321DAO data) throws ResourceNotFoundException;
 
 	public ResponseEntity<?> fetchAllData();
 
