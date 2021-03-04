@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.efass.payload.Response;
 import com.efass.report.ReportService;
+import com.efass.sheet.mmfbr1000.sheet1000_Service;
 import com.efass.sheet.mmfbr141.sheet141_Service;
 import com.efass.sheet.mmfbr201.sheet201_Service;
 import com.efass.sheet.mmfbr202.sheet202_Service;
@@ -133,6 +134,9 @@ public class SheetController {
 
 	@Autowired
 	private sheet980_Service sheet980Svc;
+	
+	@Autowired
+	private sheet1000_Service sheet1000Svc;
 
 	@Autowired
 	private ReportService reportSvc;
@@ -204,7 +208,16 @@ public class SheetController {
 //	        sheet201Svc.writesheet201(date, folderPath);
 
 	//        sheet201Svc.writesheet201(date, folderPath);
+
+	 //       sheet501Svc.writesheet501(date, folderPath);
+	        sheet1000Svc.writesheet1000(date, folderPath);
+	        
+	        
+	        
+	        
+
 	        sheet501Svc.writesheet501(date, folderPath);
+
 
 	        
 			status = true;
@@ -253,5 +266,9 @@ public class SheetController {
 //		sheet4Svc.updateSheetList(listOfLists);
 
 	}
+	
+	
+	
+//	public void create
 
 }

@@ -11,8 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface ReportRepository extends JpaRepository<ReportDAO, Integer>{
 
-	@Query(value = "SELECT * FROM EFASS.Activity where report_date=test", nativeQuery = true)
-	ReportDAO test();
+	
 	
 	
 	@Query(value = "SELECT * FROM EFASS.Activity where report_date= ?", nativeQuery = true)
