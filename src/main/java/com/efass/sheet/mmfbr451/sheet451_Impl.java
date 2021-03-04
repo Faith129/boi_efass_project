@@ -55,8 +55,8 @@ public class sheet451_Impl implements sheet451_Service {
 		
 			}
 			
-			if(!rate.equalsIgnoreCase("Alpha")) {	
-				throw new ResourceNotFoundException("Rate must be an alphabetic value  " );
+			if(!rate.equalsIgnoreCase("Num")) {	
+				throw new ResourceNotFoundException("Rate must be an numeric value  " );
 			
 			}
 		
@@ -66,8 +66,8 @@ public class sheet451_Impl implements sheet451_Service {
 			
 			}
 			
-			if(!maturityDate.equalsIgnoreCase("Alpha")) {	
-				throw new ResourceNotFoundException("Maturity Date must be an alphabetic value  " );
+			if(!maturityDate.equalsIgnoreCase("Date")) {	
+				throw new ResourceNotFoundException("Maturity Date must be in a Date value format " );
 			
 			}
 			

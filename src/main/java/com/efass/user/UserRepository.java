@@ -1,24 +1,39 @@
 package com.efass.user;
 
 import java.util.List;
+import java.util.Optional;
 
-import org.springframework.data.jdbc.repository.query.Query;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.jpa.repository.Query;
 
-public interface UserRepository extends CrudRepository<UserDAO, Integer>{
 
-	
-	
-	//@Query(value="select * from efass_users e where e.username= 1?")
-	//UserDAO findByUsername(String username);
 
-	
-	  @Query("SELECT e.USER_ID FROM EFASS_USERS e where e.USERNAME = :username") 
-	  String findByUsername(@Param("username") String username);
+@Repository
+public interface UserRepository extends JpaRepository<UserDAO, Integer>{
 
-	  
-	
-	  
-	    
+
+
+
+
+@Query(value = "SELECT USER_ID FROM EFASS.EFASS_USERS where username=?", nativeQuery = true)
+String findByUsername(String username);
+
+
+
+
+@Query(value = "SELECT * FROM EFASS.EFASS_USERS where username=?", nativeQuery = true)
+UserDAO findUserdetails(String username);
+
+
+@Query(value = "SELECT * FROM EFASS.EFASS_USERS where username=?", nativeQuery = true)
+Optional<UserDAO> findUserdetails2(String username);
+
+
+
+
+
 }

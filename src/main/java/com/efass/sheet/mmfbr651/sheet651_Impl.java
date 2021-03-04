@@ -52,8 +52,8 @@ public class sheet651_Impl implements sheet651_Service{
 		
 			}
 			
-			if(!dateFacility.equalsIgnoreCase("Alpha")) {	
-				throw new ResourceNotFoundException("Date Facility must be an alphabetic value  " );
+			if(!dateFacility.equalsIgnoreCase("Date")) {	
+				throw new ResourceNotFoundException("Date Facility must be a Date value format  " );
 			
 			}
 			
