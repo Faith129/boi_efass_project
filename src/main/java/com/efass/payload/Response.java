@@ -7,6 +7,7 @@ import com.efass.sheet.mmfbr141.sheet141DAO;
 import com.efass.sheet.mmfbr201.sheet201DAO;
 import com.efass.sheet.mmfbr202.sheet202DAO;
 import com.efass.sheet.mmfbr221.sheet221DAO;
+import com.efass.sheet.mmfbr300.sheet300DAO;
 import com.efass.sheet.mmfbr311.sheet311DAO;
 import com.efass.sheet.mmfbr312.sheet312DAO;
 import com.efass.sheet.mmfbr321.sheet321DAO;
@@ -158,6 +159,24 @@ public class Response {
 	public sheet980DAO s980Data;
 	public Iterable<sheet980DAO> sheet980;
 	
+	public sheet300DAO s300Data;
+	public Iterable<sheet300DAO> sheet300;
+	
+	public sheet300DAO getS300Data() {
+		return s300Data;
+	}
+
+	public void setS300Data(sheet300DAO s300Data) {
+		this.s300Data = s300Data;
+	}
+
+	public Iterable<sheet300DAO> getSheet300() {
+		return sheet300;
+	}
+
+	public void setSheet300(Iterable<sheet300DAO> sheet300) {
+		this.sheet300 = sheet300;
+	}
 	
 	public sheet980DAO getS980Data() {
 		return s980Data;

@@ -8,15 +8,18 @@ public class Validation {
 	
 	public String checkDataType(String value) {
 		
-
+	Boolean date = isDate(value);
 	Boolean alpha = isAlpha(value);
 	Boolean num = isNum(value);
 	String 	data=null;
+	
 if (alpha) {
 		data= "Alpha";
 	}else if(num) {
 		
 		data= "Num";
+	}else if(date) {
+		data= "Date";
 	}
 	return data;
 	
@@ -64,5 +67,15 @@ if (alpha) {
 	        return false;
 	    }
 	    return true;
+	}
+	
+public Boolean isDate(String Value) {
+		
+		if (Value.matches("^([1-9]|[12][0-9]|3[01])\\/(0[1-9]|1[0-2])\\/([12][0-9]{3})$")) {
+			
+			return true;
+		}else {
+			return false;
+		}	
 	}
 }

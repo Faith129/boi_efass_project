@@ -3,15 +3,20 @@ package com.efass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.efass.sheet.mmfbr1000.sheet1000DAO;
+import com.efass.sheet.mmfbr1000.sheet1000Repository;
 import com.efass.sheet.mmfbr141.sheet141Repository;
 import com.efass.sheet.mmfbr201.sheet201DAO;
 import com.efass.sheet.mmfbr201.sheet201Repository;
 import com.efass.sheet.mmfbr202.sheet202Repository;
 import com.efass.sheet.mmfbr221.sheet221Repository;
+import com.efass.sheet.mmfbr300.sheet300DAO;
+import com.efass.sheet.mmfbr300.sheet300Repository;
 import com.efass.sheet.mmfbr311.sheet311Repository;
 import com.efass.sheet.mmfbr312.sheet312Repository;
 import com.efass.sheet.mmfbr322.sheet322Repository;
 import com.efass.sheet.mmfbr451.sheet451Repository;
+import com.efass.sheet.mmfbr501.sheet501DAO;
 import com.efass.sheet.mmfbr501.sheet501Repository;
 import com.efass.sheet.mmfbr642.sheet642Repository;
 import com.efass.sheet.mmfbr651.sheet651Repository;
@@ -26,7 +31,6 @@ import com.efass.sheet.mmfbr763.sheet763DAO;
 import com.efass.sheet.mmfbr763.sheet763Repository;
 import com.efass.sheet.mmfbr764.sheet764Repository;
 import com.efass.sheet.mmfbr771.sheet771Repository;
-import com.efass.sheet.mmfbr811.sheet811DAO;
 import com.efass.sheet.mmfbr811.sheet811Repository;
 import com.efass.sheet.mmfbr933.sheet933Repository;
 import com.efass.sheet.mmfbr951.sheet951Repository;
@@ -86,9 +90,11 @@ public class PrepareTables {
 	@Autowired
 	sheet980Repository _980Repository;
 	
-
+	@Autowired
+	sheet300Repository _300Repository;
 	
-	
+	@Autowired
+	sheet1000Repository _1000Repository;
 	
 
 	public void clearSheetTables() {
@@ -118,20 +124,23 @@ public class PrepareTables {
 //		_996Repository.deleteAll();
 //		_980Repository.deleteAll();
 		
-		populatesheet811();
+		
 		populateSheet711();
 		populateSheet762();
 		populateSheet763();
 		populateSheet761();
 		populatesheet201();
 		populatesheet980();
-	
+		populatesheet501();
+		populatesheet300();
 		}catch(Exception ex) {
 			
 		}
 	}
 	
+
 	
+
 	
 	private void populateSheet711() {
 		//Delete all 
@@ -459,23 +468,6 @@ public class PrepareTables {
 		
 	}
 	
-	public void populatesheet811() {
-		_811Repository.deleteAll();
-		
-		
-		save811("10815", "Accounts Receivable [Provide Breakdown]");
-		save811("10820", "Accrued Interest");
-		save811("10825", "Cheques for Collection /Transit Items");
-		save811("10835", "Prepaid Interest");
-		save811("10840", "Prepaid Rent");
-		save811("10845", "Stationery [Provide Breakdown]");		
-		save811("10850", "Other Prepayments");
-		save811("10855", "Suspense Account");
-		save811("10860", "Goodwill and Other Intangible Assets [Provide Breakdown]");
-		save811("10865", "Miscellaneous");
-	
-	}
-	
 	
 	
 	
@@ -547,8 +539,6 @@ public class PrepareTables {
 	
 	
 	
-	
-	
 	public void save980(String items) {
 		
 		sheet980DAO data = new sheet980DAO();
@@ -556,22 +546,165 @@ public class PrepareTables {
 		_980Repository.save(data);	
 	}
 	
+	
+	
+	
+	public void populatesheet501() {
+		
+		save501("20510", "Accounts Payable (Provide Breakdown");
+		save501("20515", "Unearned Income");
+		save501("20520", "Interest Accrued not Paid");
+		save501("20525", "Uncleared Effects / Transit items");
+		save501("20530", "Un-audited Profit to Date");
+		save501("20535", "Provision for Dimunition in the value of Investmen");
+		save501("20540", "Provision for Losses on Off Balance Sheet Items");
+		save501("20545", "Interest-in-Suspense");
+		save501("20550", "Provision for Taxation");
+		save501("20555", "Provision for Other Loan Losses");
+		save501("20560", "Dividend Payable");
+		save501("20565", "Suspense Account");
+		save501("20570", "Deposits for Shares (Provide Breakdown)");
+		save501("20575", "Miscellaneous (Specify)");
+		
+	}	
+	
+	
+	
+	
+	
+	public void populatesheet300() {
+		_300Repository.deleteAll();
+
+
+save300("10110","Notes","col1-null");
+save300("10120", "Coins","col1-null");
+
+save300("10610", "Quoted Companies","col1-null");
+save300("10620", "Unquoted Companies","col1-null" );
+save300("10630" , "Subsidiary Companies","col1-null" );
+//save300("10640");
+//save300("10650");
+//save300("10700");
+//save300("10710");
+save300("10720" , "Small and Medium Enterprises Loans","col1-null" );
+save300("10725" , "Blls Discounted","col1-null" );
+save300("10730" , "Hire Purchase","col1-null" );
+save300("10740" , "Advances Under Micro-Leases","col1-null" );
+//save300("10745");
+save300("10750" , "Staff Loans","col1-null" );
+//save300("10760");
+//save300("10770");
+//save300("10780");
+//save300("10790");
+//save300("10795");
+//save300("10800");
+//save300("10810");
+save300("10880" , "Provision for Losses on Other Assets","col1-null" );
+//save300("10890");
+//save300("10900");
+save300("10910" , "Freehold Land and Building","col1-null" );
+save300("10920" , "Leasehold Land and Building","col1-null" );
+save300("10930" , "Plant and Machinery","col1-null" );
+save300("10940" , "Furniture and Fixtures","col1-null" );
+save300("10950" , "Motor Vehicles","col1-null" );
+save300("10960" , "Office Equipment","col1-null" );
+//save300("10970");
+save300("10980" , "Less Accumulated Depraciation","col1-null" );
+//save300("10990");
+//save300("11000");
+//save300("20100");
+save300("20110" , "Demand Deposits","col1-null" );
+save300("20120" , "Mandatory Deposits","col1-null" );
+save300("20125" , "Voluntary Savings Deposits","col1-null" );
+save300("20130" , "Time/Term Deposits","col1-null" );
+//save300("20140");
+//save300("20200");
+//save300("20300");
+//save300("20310");
+//save300("20320");
+//save300("20330");
+//save300("20450");
+//save300("20500");
+//save300("20600");
+save300("20610" , "Federal Government","col1-null" );
+save300("20620 " , "State Government","col1-null" );
+save300("20630" , "Local Government","col1-null" );
+//save300("20640");
+//save300("20650");
+//save300("20660");
+//save300("20700");
+save300("20710" , "Redeemable Debenture","col1-null" );
+save300("20720" , "Irredeemable Debenture","col1-null" );
+//save300("20750");
+//save300("20800");
+save300("20810" , "Authorised Share Capital","col1-null" );
+//save300("20820");
+save300("20830" , "Ordinary Shares","col1-null" );
+save300("20840"  , "Preference Shares","col1-null" );
+//save300("0860");
+//save300("20900");
+save300("20910" , "Statutory Reserve","col1-null" );
+save300("20920" , "Share Premium","col1-null" );
+save300("20930" , "General Reserve","col1-null" );
+//save300("20932");
+save300("20935" , "Bonus Reserves","col1-null" );
+save300("20940" , "Revaluation Reserves","col1-null" );
+//save300("20950");
+save300("20960" , "Retained Profit/Loss","col1-null" );
+//save300("20965");
+//save300("20970");
+//save300("20980");
+//save300("20990");
+//save300("20995");
+
+	
+	}
+	
+	
+	
+	
+	
+	public void populate1000() {
+		save1000("30000", "Interest Income");	
+		save1000("30100", "Less interest Expenses");
+	}
+	
+	
+	
+	public void save1000(String code, String desc) {
+		
+		sheet1000DAO data = new sheet1000DAO();
+		
+		data.setCode(code);
+		data.setDecsription(desc);
+		_1000Repository.save(data);
+	}
+	
+	
+	public void save300(String code, String desc, String amount1) {
+		
+		sheet300DAO data = new sheet300DAO();
+		data.setCode(code);
+		data.setItemDescription(desc);
+		data.setAmount1(amount1);
+		_300Repository.save(data);
+	}
+	
+	public void save501(String bankCode, String item) {
+		
+	sheet501DAO data = new sheet501DAO();
+	data.setBank_code(bankCode);
+	data.setItem(item);
+	_501Repository.save(data);		
+	}
+	
+	
 	public void save201(String TypeOfDeposit, String duration) {
 		
 		sheet201DAO data = new sheet201DAO();
 		data.setTypeOfDeposit(TypeOfDeposit);
 		data.setDuration(duration);
 		_201Repository.save(data);
-		
-	}
-	
-	
-	public void save811(String Code, String Item) {
-		
-		sheet811DAO data = new sheet811DAO();
-		data.setCode(Code);
-		data.setItem(Item);
-		_811Repository.save(data);
 		
 	}
 }

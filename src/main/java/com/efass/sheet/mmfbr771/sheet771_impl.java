@@ -57,10 +57,10 @@ public class sheet771_impl implements sheet771_Service {
 		}else if(!customerName.equalsIgnoreCase("Alpha")) {	
 			throw new ResourceNotFoundException("customerName  must be an alphabetic value   " );
 			}
-		 else if( !pastDueDate.equalsIgnoreCase("date")) {
+		 else if( !pastDueDate.equalsIgnoreCase("Date")) {
 			throw new ResourceNotFoundException("pastDueDate  must be a date value " );	
 		 }
-		 else if( !lastDateRepayment.equalsIgnoreCase("date")) {
+		 else if( !lastDateRepayment.equalsIgnoreCase("Date")) {
 				throw new ResourceNotFoundException("lastDateRepayment must be a date value  " );	
 			 }
 		 else if( !amountGranted.equalsIgnoreCase("Num")) {
