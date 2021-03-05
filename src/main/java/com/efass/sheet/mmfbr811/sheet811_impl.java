@@ -41,12 +41,16 @@ public class sheet811_impl implements sheet811_Service{
 
 	public void validate(sheet811DAO data) throws ResourceNotFoundException {
 		
+		String code = validation.checkDataType(data.getCode().toString());
 		String item = validation.checkDataType(data.getItem().toString());
 		String perfoming = validation.checkDataType(data.getPerforming().toString());
 		String nonPerforming = validation.checkDataType(data.getNonPerforming().toString());
 //		String total = validation.checkDataType(data.ge.toString()); 
 		
-		if( !item.equalsIgnoreCase("Alpha")) {
+		if( !code.equalsIgnoreCase("num")) {
+			throw new ResourceNotFoundException("code must be a numeric value  " );	
+		}
+		else if( !item.equalsIgnoreCase("Alpha")) {
 			throw new ResourceNotFoundException("item must be an alphabetic value  " );	
 		}else if(!perfoming.equalsIgnoreCase("num")) {	
 			throw new ResourceNotFoundException("perfoming must be a numeric value  " );

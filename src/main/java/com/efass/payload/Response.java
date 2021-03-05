@@ -205,6 +205,24 @@ public class Response {
 	public sheet980DAO s980Data;
 	public Iterable<sheet980DAO> sheet980;
 	
+	public sheet300DAO s300Data;
+	public Iterable<sheet300DAO> sheet300;
+	
+	public sheet300DAO getS300Data() {
+		return s300Data;
+	}
+
+	public void setS300Data(sheet300DAO s300Data) {
+		this.s300Data = s300Data;
+	}
+
+	public Iterable<sheet300DAO> getSheet300() {
+		return sheet300;
+	}
+
+	public void setSheet300(Iterable<sheet300DAO> sheet300) {
+		this.sheet300 = sheet300;
+	}
 	
 	public sheet980DAO getS980Data() {
 		return s980Data;
