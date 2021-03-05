@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.sheet.mmfbr221.sheet221DAO;
@@ -31,11 +32,63 @@ public class sheet312_impl implements sheet312_Service{
 
 	@Autowired
 	sheet312Repository _312Repository;
+	
+	@Autowired
+	Validation validation;
 
 	// ############################## MMFBR312 CRUD OPERATIONS
 	// #################################
+	
+	public void validate(sheet312DAO data) throws ResourceNotFoundException {
+		String bankCode = validation.checkDataType(data.getBankCode().toString());
+		String bankName = validation.checkDataType(data.getNameOfBanks().toString());
+		String rate = validation.checkDataType(data.getRate().toString());
+		String tenor = validation.checkDataType(data.getTenor().toString());
+		String effectiveDate = validation.checkDataType(data.getEffectiveDate().toString());
+		String maturityDate = validation.checkDataType(data.getMaturityDate().toString());
+		String amount = validation.checkDataType(data.getAmount().toString());
+		
+			if(!bankCode.equalsIgnoreCase("Alpha")) {
+				throw new ResourceNotFoundException("Bank Code  must be an alphabetic value  " );
+			}
+			
+			if(!bankName.equalsIgnoreCase("Alpha")) {	
+			throw new ResourceNotFoundException("Bank Name must be an alphabetic value  " );
+		
+			}
+			
+			if(!rate.equalsIgnoreCase("Num")) {	
+				throw new ResourceNotFoundException("Rate must be a numeric value  " );
+			
+			}
+			
+			if(!tenor.equalsIgnoreCase("Alpha")) {	
+				throw new ResourceNotFoundException("Tenor must be an alphabetic value  " );
+			
+			}
+			
+			if(!effectiveDate.equalsIgnoreCase("Date")) {	
+				throw new ResourceNotFoundException("Effective Date must be an Date value format  " );
+			
+			}
+			
+			
+			if(!maturityDate.equalsIgnoreCase("Date")) {	
+				throw new ResourceNotFoundException("Maturity Date must be an Date value format  " );
+			
+			}
+			
+			else if(!amount.equalsIgnoreCase("Num")) {
+				throw new ResourceNotFoundException("Amount must be a numeric value  " );
+			}
+			
+		}
 
-	public ResponseEntity<?> createData(sheet312DAO data) {
+	
+
+	public ResponseEntity<?> createData(sheet312DAO data) throws ResourceNotFoundException {
+		
+		validate(data);
 		_312Repository.save(data);
 		Response res = new Response();
 		res.setResponseMessage("Success");
@@ -88,6 +141,8 @@ public class sheet312_impl implements sheet312_Service{
 	}
 
 	public ResponseEntity<?> updateData(int id, sheet312DAO Data) throws ResourceNotFoundException {
+		
+		validate(Data);
 
 		Optional<sheet312DAO> DataDb = _312Repository.findById(id);
 

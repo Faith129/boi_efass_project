@@ -29,6 +29,8 @@ import com.efass.sheet.mmfbr202.sheet202DAO;
 import com.efass.sheet.mmfbr202.sheet202_Service;
 import com.efass.sheet.mmfbr221.sheet221DAO;
 import com.efass.sheet.mmfbr221.sheet221_Service;
+import com.efass.sheet.mmfbr300.sheet300DAO;
+import com.efass.sheet.mmfbr300.sheet300_Service;
 import com.efass.sheet.mmfbr311.sheet311DAO;
 import com.efass.sheet.mmfbr311.sheet311_Service;
 import com.efass.sheet.mmfbr312.sheet312DAO;
@@ -189,6 +191,9 @@ public class ReportController {
 	@Autowired
 	private ReportService reportSvc;
 	
+	@Autowired
+	private sheet300_Service sheet300Svc;
+	
 	// CHOOSE REPORT DATE
 	// You can consume the path .../report/date/2019-04-25
 	@RequestMapping("/report/date/{date}")
@@ -284,6 +289,52 @@ public class ReportController {
 	// #################################################################################
 	
 	
+	// ########################## MMFBR300 ##########################################
+
+
+	
+	@GetMapping("/mmfbr300/{date}")
+	public ResponseEntity<?> getAllData300(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
+			return sheet300Svc.fetchAllData();
+		}else {
+			return reportSvc.NoDateFound();
+		}
+		
+	}
+
+	@GetMapping("/mmfbr300/{date}/{id}")
+	public ResponseEntity<?> getDataById300(@PathVariable int id , @PathVariable   @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) throws ResourceNotFoundException {
+		
+//		string codedata2 = data
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
+//			String _code =Integer.toString(Code);
+		return sheet300Svc.getDataById(id);
+		}else {
+			return reportSvc.NoDateFound();
+		}
+		
+	}
+
+
+
+	@PutMapping("/mmfbr300/{date}/{code}")
+	public ResponseEntity<?> updateData300(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, @RequestBody sheet300DAO data) throws ResourceNotFoundException {
+//		data.setCodcode);
+		String codedata  = data.getCode();
+		
+		Boolean evt = reportSvc.checkDate(date);
+		if(evt== true) {
+		return sheet300Svc.updateData(codedata, data);
+		}else {
+			return reportSvc.NoDateFound();
+		}
+	}
+
+
+	// #################################################################################
 	
 	
 	

@@ -1,11 +1,5 @@
 package com.efass.sheet.mmfbr642;
 
-import org.apache.poi.EncryptedDocumentException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -14,8 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.poi.EncryptedDocumentException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+import com.efass.sheet.mmfbr451.sheet451DAO;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.sun.el.parser.ParseException;
 
@@ -29,11 +31,58 @@ public class sheet642_Impl implements sheet642_Service{
 
 	@Autowired
 	sheet642Repository _642Repository;
+	
+	@Autowired
+	Validation validation;
 
 	// ############################## MMFBR642 CRUD OPERATIONS
 	// #################################
+	
+	public void validate(sheet642DAO data) throws ResourceNotFoundException {
+		
+		String nameOfInstitution = validation.checkDataType(data.getName_of_lending_institution().toString());
+		String country = validation.checkDataType(data.getCountry().toString());
+		String dateFacility = validation.checkDataType(data.getDate_facility_granted().toString());
+		String effectiveDate = validation.checkDataType(data.getEffective_date().toString());
+		String tenor = validation.checkDataType(data.getTenor().toString());
+		String amount = validation.checkDataType(data.getAmount_granted().toString());
+		
+			if(!nameOfInstitution.equalsIgnoreCase("Alpha")) {
+				throw new ResourceNotFoundException("Name of Institution must be an alphabetic value  " );
+			}
+			
+			if(!country.equalsIgnoreCase("Alpha")) {	
+				throw new ResourceNotFoundException("Country must be an alphabetic value  " );
+		
+			}
+			
+			if(!dateFacility.equalsIgnoreCase("Date")) {	
+				throw new ResourceNotFoundException("Date Facility must be a date value format  " );
+			
+			}
+			
+			if(!effectiveDate.equalsIgnoreCase("Date")) {	
+				throw new ResourceNotFoundException("Effective Date must be an date value format  " );
+			
+			}
+		
+			
+			if(!tenor.equalsIgnoreCase("Alpha")) {	
+				throw new ResourceNotFoundException("Tenor must be an alphabetic value  " );
+			
+			}
+			
+			
+			
+			else if(!amount.equalsIgnoreCase("Num")) {
+				throw new ResourceNotFoundException("Amount must be a numeric value  " );
+			}
+			
+		}
 
-	public ResponseEntity<?> createData(sheet642DAO data) {
+	public ResponseEntity<?> createData(sheet642DAO data) throws ResourceNotFoundException {
+		
+		validate(data);
 		_642Repository.save(data);
 		Response res = new Response();
 		res.setResponseMessage("Success");
@@ -85,6 +134,8 @@ public class sheet642_Impl implements sheet642_Service{
 	}
 
 	public ResponseEntity<?> updateData(int id, sheet642DAO Data) throws ResourceNotFoundException {
+		
+		validate(Data);
 
 		Optional<sheet642DAO> DataDb = _642Repository.findById(id);
 

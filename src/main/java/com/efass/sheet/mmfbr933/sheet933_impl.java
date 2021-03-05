@@ -18,8 +18,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+import com.efass.sheet.mmfbr746.sheet746DAO;
 
 
 @Service
@@ -30,11 +32,45 @@ public class sheet933_impl implements sheet933_Service{
 	
 	@Autowired
 	sheet933Repository _933Repository;
+	
+	@Autowired
+	Validation validation;
 
 	// ############################## MMFBR933 CRUD OPERATIONS
 	// #################################
+	
+	public void validate(sheet933DAO data) throws ResourceNotFoundException {
+	String namesOfInstitution = validation.checkDataType(data.getInstitution_name().toString());
+	String country = validation.checkDataType(data.getCountry().toString());
+	String purpose = validation.checkDataType(data.getPurpose().toString());
+	String totalAmount = validation.checkDataType(data.getTotalAmount().toString());
+	String outstandingDeferredGrants = validation.checkDataType(data.getOutstanding_deferred_grants_amount().toString());
+	String amountTransferred = validation.checkDataType(data.getAmount_transferred_to_general_reserves().toString());
+	
+		if( !namesOfInstitution.equalsIgnoreCase("Alpha")) {
+			throw new ResourceNotFoundException("namesOfInstitution must be an alphabetic value  " );	
+		}else if(!country.equalsIgnoreCase("Alpha")) {	
+			throw new ResourceNotFoundException("country  must be an alphabetic value  " );
+			}
+		 else if( !purpose.equalsIgnoreCase("Alpha")) {
+			throw new ResourceNotFoundException("purpose  must be an alphabetic value " );	
+		 }
+		 else if( !totalAmount.equalsIgnoreCase("Num")) {
+				throw new ResourceNotFoundException("totalAmount must be a numeric value  " );	
+			 }
+		 else if( !outstandingDeferredGrants.equalsIgnoreCase("Num")) {
+				throw new ResourceNotFoundException("outstandingDeferredGrants must be a numeric value  " );	
+			 }
+		 else if( !amountTransferred.equalsIgnoreCase("Num")) {
+				throw new ResourceNotFoundException("amountTransferred  must be a numeric value " );	
+			 }
+	}
 
-	public ResponseEntity<?> createData(sheet933DAO data) {
+	
+
+	public ResponseEntity<?> createData(sheet933DAO data) throws ResourceNotFoundException {
+		validate(data);
+		
 		_933Repository.save(data);
 		Response res = new Response();
 		res.setResponseMessage("Success");
@@ -87,6 +123,8 @@ public class sheet933_impl implements sheet933_Service{
 
 	public ResponseEntity<?> updateData(int id, sheet933DAO Data) throws ResourceNotFoundException {
 
+		validate (Data);
+		
 		Optional<sheet933DAO> DataDb = _933Repository.findById(id);
 
 		if (DataDb.isPresent()) {

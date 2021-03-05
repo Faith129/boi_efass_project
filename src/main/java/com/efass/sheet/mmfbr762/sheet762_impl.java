@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 
@@ -39,16 +40,37 @@ public class sheet762_impl implements sheet762_Service{
 	@Autowired 
 	sheet762_Util sheet762Util;
 	
+	@Autowired
+	Validation validation;
+	
 	
 	
 	
 	
 	// ############################## MMFBR746 CRUD OPERATIONS #################################
 
+	public void validate(sheet762DAO data) throws ResourceNotFoundException {
+	String sector = validation.checkDataType(data.getSector().toString());
+	String amountGranted = validation.checkDataType(data.getAmountGranted().toString());
+	String numberOfLoans = validation.checkDataType(data.getNoOfLoans().toString());
+
 	
+		if( !sector.equalsIgnoreCase("Alpha")) {
+			throw new ResourceNotFoundException("Names Of Beneficiary must be a numeric value  " );	
+		}
+		 else if( !amountGranted.equalsIgnoreCase("Num")) {
+				throw new ResourceNotFoundException("Amount granted must be a numeric value  " );	
+			 }
+		 else if( !numberOfLoans.equalsIgnoreCase("Num")) {
+				throw new ResourceNotFoundException("Number Of Loans must be a numeric value  " );	
+		 }
+	}
 
 				
-		 public ResponseEntity<?> createData(sheet762DAO data) {
+		 public ResponseEntity<?> createData(sheet762DAO data) throws ResourceNotFoundException {
+			 
+			 validate(data);
+			 
 		     _762Repository.save(data);
 		 	Response res = new Response();
 		 	res.setResponseMessage("Success");
@@ -102,6 +124,8 @@ public class sheet762_impl implements sheet762_Service{
 		}
 
 		public ResponseEntity<?> updateData(int id , sheet762DAO Data) throws ResourceNotFoundException {
+			
+			validate(Data);
 			
 			Optional<sheet762DAO> DataDb = _762Repository.findById(id);
 

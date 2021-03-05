@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.report.ReportDAO;
@@ -23,6 +24,7 @@ import com.efass.report.ReportRepository;
 import com.efass.sheet.mmfbr221.sheet221DAO;
 import com.efass.sheet.mmfbr221.sheet221_Util;
 import com.efass.sheet.mmfbr641.sheet641Repository;
+import com.efass.sheet.mmfbr711.sheet711DAO;
 
 @Service
 public class sheet746_impl   implements sheet746_Service{
@@ -38,9 +40,42 @@ public class sheet746_impl   implements sheet746_Service{
 	@Autowired
 	ReportRepository ReportRepo;
 	
+	@Autowired
+	Validation validation;
+	
 	// ############################## MMFBR746 CRUD OPERATIONS #################################
+	
+	public void validate(sheet746DAO data) throws ResourceNotFoundException {
+	String namesOfBeneficiary = validation.checkDataType(data.getNameOfBen().toString());
+	String dateFacilityGranted = validation.checkDataType(data.getDateGranted().toString());
+	String tenor = validation.checkDataType(data.getTenor().toString());
+	String amountApproved = validation.checkDataType(data.getAmountApproved().toString());
+	String outstandingBalance = validation.checkDataType(data.getOutstandingBalance().toString());
+	String statusOfFacility = validation.checkDataType(data.getStatus().toString());
+	
+		if( !namesOfBeneficiary.equalsIgnoreCase("Alpha")) {
+			throw new ResourceNotFoundException("Names Of Beneficiary must be an alphabetic value  " );	
+		}else if(!dateFacilityGranted.equalsIgnoreCase("Date")) {	
+			throw new ResourceNotFoundException("Date Facility Granted  must be a date value  " );
+			}
+		 else if( !tenor.equalsIgnoreCase("Alpha")) {
+			throw new ResourceNotFoundException("tenor  must be an alphabetic value " );	
+		 }
+		 else if( !amountApproved.equalsIgnoreCase("Num")) {
+				throw new ResourceNotFoundException("Amount Approved must be a numeric value  " );	
+			 }
+		 else if( !outstandingBalance.equalsIgnoreCase("Num")) {
+				throw new ResourceNotFoundException("Outstanding Balance must be a numeric value  " );	
+			 }
+		 else if( !statusOfFacility.equalsIgnoreCase("Alpha")) {
+				throw new ResourceNotFoundException("Status Of Facility  must be an alphabetic value " );	
+			 }
+	}
 
-	 public ResponseEntity<?> createData(sheet746DAO data) {
+	 public ResponseEntity<?> createData(sheet746DAO data) throws ResourceNotFoundException {
+		 
+		 validate(data);
+		 
 	     _746Repository.save(data);
 	 	Response res = new Response();
 	 	res.setResponseMessage("Success");
@@ -95,11 +130,13 @@ public class sheet746_impl   implements sheet746_Service{
 
 	public ResponseEntity<?> updateData(int id , sheet746DAO Data) throws ResourceNotFoundException {
 		
+		validate(Data);
+		
 		Optional<sheet746DAO> DataDb = _746Repository.findById(id);
 
 		if (DataDb.isPresent()) {
 			sheet746DAO DataUpdate = DataDb.get();
-			DataUpdate.setId(Data.getId());
+//			DataUpdate.setId(Data.getId());
 			DataUpdate.setAmountApproved(Data.getAmountApproved());
 			DataUpdate.setDateGranted(Data.getDateGranted());
 			DataUpdate.setNameOfBen(Data.getNameOfBen());

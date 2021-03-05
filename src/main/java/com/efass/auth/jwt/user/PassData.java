@@ -1,3 +1,4 @@
+
 package com.efass.auth.jwt.user;
 
 public class PassData {
@@ -47,3 +48,4 @@ public class PassData {
 	
 	
 }
+

@@ -16,8 +16,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+import com.efass.sheet.mmfbr642.sheet642DAO;
 
 @Service
 public class sheet651_Impl implements sheet651_Service{
@@ -27,11 +29,51 @@ public class sheet651_Impl implements sheet651_Service{
 
 	@Autowired
 	sheet651Repository _651Repository;
+	
+	@Autowired
+	Validation validation;
 
 	// ############################## MMFBR651 CRUD OPERATIONS
 	// #################################
+	public void validate(sheet651DAO data) throws ResourceNotFoundException {
+		
+		String nameOfInstitution = validation.checkDataType(data.getName_of_lending_institution().toString());
+		String country = validation.checkDataType(data.getCountry().toString());
+		String dateFacility = validation.checkDataType(data.getDate_facility_granted().toString());
+		String tenor = validation.checkDataType(data.getTenor().toString());
+		String amount = validation.checkDataType(data.getAmount_granted().toString());
+		
+			if(!nameOfInstitution.equalsIgnoreCase("Alpha")) {
+				throw new ResourceNotFoundException("Name of Institution must be an alphabetic value  " );
+			}
+			
+			if(!country.equalsIgnoreCase("Alpha")) {	
+			throw new ResourceNotFoundException("Country must be an alphabetic value  " );
+		
+			}
+			
+			if(!dateFacility.equalsIgnoreCase("Date")) {	
+				throw new ResourceNotFoundException("Date Facility must be a Date value format  " );
+			
+			}
+			
+			
+			if(!tenor.equalsIgnoreCase("Alpha")) {	
+				throw new ResourceNotFoundException("Tenor must be an alphabetic value  " );
+			
+			}
+			
+			
+			
+			else if(!amount.equalsIgnoreCase("Num")) {
+				throw new ResourceNotFoundException("Amount must be a numeric value  " );
+			}
+			
+		}
 
-	public ResponseEntity<?> createData(sheet651DAO data) {
+	public ResponseEntity<?> createData(sheet651DAO data) throws ResourceNotFoundException {
+		
+		validate(data);
 		_651Repository.save(data);
 		Response res = new Response();
 		res.setResponseMessage("Success");
@@ -83,6 +125,8 @@ public class sheet651_Impl implements sheet651_Service{
 	}
 
 	public ResponseEntity<?> updateData(int id, sheet651DAO Data) throws ResourceNotFoundException {
+		
+		validate(Data);
 
 		Optional<sheet651DAO> DataDb = _651Repository.findById(id);
 
