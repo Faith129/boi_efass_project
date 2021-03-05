@@ -66,12 +66,6 @@ public class sheet501_Impl implements sheet501_Service {
 
 	public ResponseEntity<?> createData(sheet501DAO data) throws ResourceNotFoundException {
 		
-		validate(data);
-		
-		_501Repository.save(data);
-
-	public ResponseEntity<?> createData(sheet501DAO data) {
-		//_501Repository.save(data);
 
 		Response res = new Response();
 		res.setResponseMessage("Failed");

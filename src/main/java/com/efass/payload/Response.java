@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.efass.sheet.mmfbr1000.sheet1000DAO;
+import com.efass.sheet.mmfbr1000.sheet1000Data;
 import com.efass.sheet.mmfbr141.sheet141DAO;
 import com.efass.sheet.mmfbr201.sheet201DAO;
 import com.efass.sheet.mmfbr202.sheet202DAO;
@@ -122,14 +123,6 @@ public class Response {
 	public Iterable<sheet300DAO> sheet300;
 	
 	
-	
-	public sheet1000DAO s1000Data;
-	public Iterable<sheet1000DAO> sheet1000;
-	
-	
-	
-	
-	
 	public sheet1000DAO getS1000Data() {
 		return s1000Data;
 	}
@@ -138,13 +131,22 @@ public class Response {
 		this.s1000Data = s1000Data;
 	}
 
-	public Iterable<sheet1000DAO> getSheet1000() {
+	public ArrayList<sheet1000Data> getSheet1000() {
 		return sheet1000;
 	}
 
-	public void setSheet1000(Iterable<sheet1000DAO> sheet1000) {
+	public void setSheet1000(ArrayList<sheet1000Data> sheet1000) {
 		this.sheet1000 = sheet1000;
 	}
+
+	public sheet1000DAO s1000Data;
+	public ArrayList<sheet1000Data> sheet1000;
+	
+	
+	
+	
+	
+
 
 	
 	
