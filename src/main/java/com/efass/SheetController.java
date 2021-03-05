@@ -208,7 +208,8 @@ public class SheetController {
 	        
 	        
 	        
-	        
+	        String filename = "file~"+ _time;
+	        reportSvc.saveReportActivity(date.toString(), folderPath, filename);
 	        
 			status = true;
 		} else if (evt == false) {
@@ -259,6 +260,6 @@ public class SheetController {
 	
 	
 	
-//	public void create
+
 
 }

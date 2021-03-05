@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,16 +34,54 @@ public class sheet1000_impl implements sheet1000_Service{
 	
 	
 	public ResponseEntity<?> fetchAllData() {
-	Iterable<sheet1000DAO> data = sheet1000Repo.findAll();
-		
+	
 		  Field[] fields = sheet1000DAO.class.getFields();
 			ArrayList<String> colname = new ArrayList<String>();
 			for(Field f: fields){
 			   colname.add(f.getName()) ;
 			}
-		Response res = new Response();
+			
+			ArrayList<String> codes = new ArrayList<String>();
+	        codes.add("30000");	
+			codes.add("30100");
+			codes.add("30210");
+			codes.add("30220");
+			codes.add("30230");
+			codes.add("30240");
+			codes.add("31100");
+			codes.add("31100");
+			codes.add("31110");
+			codes.add("31120");
+			codes.add("31130");
+			codes.add("31140");
+			codes.add("31150");
+			codes.add("31160");
+			codes.add("31190");
+			codes.add("31210");
+			codes.add("31220");
+			
+			sheet1000Data data = new sheet1000Data();
+			
+			
+			ArrayList  arrList = new ArrayList();
+			for (String code: codes){
+				HashMap<String,codeData> sheet1000Map=new HashMap<String,codeData>();//Creating HashMap.
+				
+				
+				sheet1000DAO dataValue = sheet1000Repo.findColumnsByCode(code);
+				
+				codeData _codeData = new codeData();
+				_codeData.setCol1(dataValue.getCol_1());
+				_codeData.setId(dataValue.getId());
+		
+		
+				sheet1000Map.put(code, _codeData);
+				arrList.add(sheet1000Map);
+		
+			}
+			Response res = new Response();
 		res.setColumnNames(colname);
-		res.setSheet1000(data);
+		res.setSheet1000(arrList);
 		res.setResponseMessage("Success");
 		res.setResponseCode(00);
 		return new ResponseEntity<>(res, HttpStatus.OK);
@@ -68,13 +107,12 @@ public class sheet1000_impl implements sheet1000_Service{
 	
 	
 	
-	public ResponseEntity<?> updateData(String code, sheet1000DAO Data) throws ResourceNotFoundException {
+	public ResponseEntity<?> updateData(int id, sheet1000DAO Data) throws ResourceNotFoundException {
 
-		Optional<sheet1000DAO> DataDb = sheet1000Repo.findByCode(code);
+		Optional<sheet1000DAO> DataDb = sheet1000Repo.findById(id);
 
 		if (DataDb.isPresent()) {
 			sheet1000DAO DataUpdate = DataDb.get();
-			DataUpdate.setAmount_1(Data.getAmount_1());
 			sheet1000Repo.save(DataUpdate);
 			Response res = new Response();
 			res.setResponseMessage("Record Updated");
@@ -108,7 +146,7 @@ public class sheet1000_impl implements sheet1000_Service{
 		for(int i =0; i < sheetdata.size(); i++) {
 			
 			ArrayList<Object> data = new ArrayList<>();
-			data.add(sheetdata.get(i).getAmount_1());
+			data.add(sheetdata.get(i).getCol_1());
 		
 			
 			listofLists.add(data);

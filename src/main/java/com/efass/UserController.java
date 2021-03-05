@@ -1,5 +1,6 @@
 package com.efass;
 
+import java.io.FileNotFoundException;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.efass.auth.jwt.user.PassData;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+import com.efass.report.ReportDAO;
+import com.efass.report.ReportService;
 import com.efass.sheet.mmfbr202.sheet202DAO;
 import com.efass.user.UserDAO;
 import com.efass.user.UserRepository;
@@ -35,6 +38,9 @@ public class UserController {
 	UserRepository userRepository;
 
 	Response res = new Response();
+	
+	@Autowired
+	private ReportService reportSvc;
 
 	
 	//FETCH ALL USERS
@@ -46,6 +52,13 @@ public class UserController {
 		res.setResponseCode(00);
 
 		return new ResponseEntity<>(res, HttpStatus.OK);
+	}
+	
+	
+	
+	@RequestMapping("/files")
+	public ResponseEntity<?> fetchAllGeneratedFiles() throws FileNotFoundException {
+	return reportSvc.fetchallActivity();
 	}
 	
 	
@@ -95,6 +108,10 @@ public class UserController {
 		}
 
 	}
+	
+	
+	
+	
 	
 	
 	//User Update Password

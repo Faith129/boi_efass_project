@@ -28,13 +28,13 @@ public class sheet1000DAO {
 	public String decsription;
 	
 	@Column(name="AMOUNT_1")
-	public String amount_1;
+	public String col_1;
 	
 	@Column(name="AMOUNT_2")
-	public String amount_2;
+	public String col_2;
 	
 	@Column(name="AMOUNT_3")
-	public String amount_3;
+	public String col_3;
 
 	public int getId() {
 		return id;
@@ -60,31 +60,30 @@ public class sheet1000DAO {
 		this.decsription = decsription;
 	}
 
-	public String getAmount_1() {
-		return amount_1;
+	public String getCol_1() {
+		return col_1;
 	}
 
-	public void setAmount_1(String amount_1) {
-		this.amount_1 = amount_1;
+	public void setCol_1(String col_1) {
+		this.col_1 = col_1;
 	}
 
-	public String getAmount_2() {
-		return amount_2;
+	public String getCol_2() {
+		return col_2;
 	}
 
-	public void setAmount_2(String amount_2) {
-		this.amount_2 = amount_2;
+	public void setCol_2(String col_2) {
+		this.col_2 = col_2;
 	}
 
-	public String getAmount_3() {
-		return amount_3;
+	public String getCol_3() {
+		return col_3;
 	}
 
-	public void setAmount_3(String amount_3) {
-		this.amount_3 = amount_3;
+	public void setCol_3(String col_3) {
+		this.col_3 = col_3;
 	}
-	
-	
+
 	
 	
 
