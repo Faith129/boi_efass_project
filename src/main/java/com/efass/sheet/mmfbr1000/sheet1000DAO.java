@@ -26,7 +26,7 @@ public class sheet1000DAO {
 	
 	
 	@Column(name="DESCRIPTION")
-	public String decsription;
+	public String description;
 	
 	@Column(name="AMOUNT_1")
 	public String col_1;
@@ -53,12 +53,12 @@ public class sheet1000DAO {
 		this.code = code;
 	}
 
-	public String getDecsription() {
-		return decsription;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDecsription(String decsription) {
-		this.decsription = decsription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getCol_1() {
