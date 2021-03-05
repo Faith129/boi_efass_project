@@ -372,7 +372,7 @@ public class TableImpl implements TableService {
 		data25.setReturnCode("Form MMFBR980");
 		data25.setBankCode("51253");
 		data25.setBankName("NEPTUNE MICROFINANCE BANK LIMITED");
-		data25.setReturnName("Gap Analysis		");
+		data25.setReturnName("Gap Analysis");
 		data25.setStateName("LAGOS");
 		data25.setStateCode("24");
 		data25.setLgaName("Ikeja");
@@ -391,6 +391,111 @@ public class TableImpl implements TableService {
 		data26.setLgaName("Ikeja");
 		data26.setLgaCode("0");
 		table.add(data26);
+		
+		
+		
+		TabSheet data29 = new TabSheet();
+		data29.setSheetNumber("MMFBR300");
+		data29.setReturnCode("Form MMFBR300");
+		data29.setBankCode("51253");
+		data29.setBankName("NEPTUNE MICROFINANCE BANK LIMITED");
+		data29.setReturnName("Monthly Statement of Assets and Liabilities");
+		data29.setStateName("LAGOS");
+		data29.setStateCode("24");
+		data29.setLgaName("Ikeja");
+		data29.setLgaCode("0");
+		table.add(data29);
+
+
+
+
+
+		TabSheet data27 = new TabSheet();
+		data27.setSheetNumber("MMFBR1000");
+		data27.setReturnCode("Form MMFBR1000");
+		data27.setBankCode("51253");
+		data27.setBankName("NEPTUNE MICROFINANCE BANK LIMITED");
+		data27.setReturnName("Monthly Statements of Profit and Loss Account");
+		data27.setStateName("LAGOS");
+		data27.setStateCode("20");
+		data27.setLgaName("Ikeja");
+		data27.setLgaCode("0");
+		table.add(data27);
+
+
+
+
+
+		TabSheet data28 = new TabSheet();
+		data28.setSheetNumber("MMFBR M001");
+		data28.setReturnCode("Form MMFBR M001");
+		data28.setBankCode("51253");
+		data28.setBankName("NEPTUNE MICROFINANCE BANK LIMITED");
+		data28.setReturnName("Memorandum Items");
+		data28.setStateName("LAGOS");
+		data28.setStateCode("20");
+		data28.setLgaName("Ikeja");
+		data28.setLgaCode("0");
+		table.add(data28);
+
+		
+		
+		
+		
+		
+		TabSheet data26 = new TabSheet();
+		data26.setSheetNumber("MMFBR300");
+		data26.setReturnCode("Form MMFBR300");
+		data26.setBankCode("51253");
+		data26.setBankName("NEPTUNE MICROFINANCE BANK LIMITED");
+		data26.setReturnName("Monthly Statement of Assets and Liabilities");
+		data26.setStateName("LAGOS");
+		data26.setStateCode("24");
+		data26.setLgaName("Ikeja");
+		data26.setLgaCode("0");
+		table.add(data26);
+		
+		
+		
+		
+		
+		TabSheet data27 = new TabSheet();
+		data27.setSheetNumber("MMFBR1000");
+		data27.setReturnCode("Form MMFBR1000");
+		data27.setBankCode("51253");
+		data27.setBankName("NEPTUNE MICROFINANCE BANK LIMITED");
+		data27.setReturnName("Monthly Statements of Profit and Loss Account");
+		data27.setStateName("LAGOS");
+		data27.setStateCode("20");
+		data27.setLgaName("Ikeja");
+		data27.setLgaCode("0");
+		table.add(data27);
+		
+		
+		
+		
+		
+		TabSheet data28 = new TabSheet();
+		data28.setSheetNumber("MMFBR M001");
+		data28.setReturnCode("Form MMFBR M001");
+		data28.setBankCode("51253");
+		data28.setBankName("NEPTUNE MICROFINANCE BANK LIMITED");
+		data28.setReturnName("Memorandum Items");
+		data28.setStateName("LAGOS");
+		data28.setStateCode("20");
+		data28.setLgaName("Ikeja");
+		data28.setLgaCode("0");
+		table.add(data28);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		

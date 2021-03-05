@@ -3,6 +3,7 @@ package com.efass.payload;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.efass.sheet.mmfbr1000.sheet1000DAO;
 import com.efass.sheet.mmfbr141.sheet141DAO;
 import com.efass.sheet.mmfbr201.sheet201DAO;
 import com.efass.sheet.mmfbr202.sheet202DAO;
@@ -117,6 +118,51 @@ public class Response {
 	
 	
 	
+	public sheet300DAO s300Data;
+	public Iterable<sheet300DAO> sheet300;
+	
+	
+	
+	public sheet1000DAO s1000Data;
+	public Iterable<sheet1000DAO> sheet1000;
+	
+	
+	
+	
+	
+	public sheet1000DAO getS1000Data() {
+		return s1000Data;
+	}
+
+	public void setS1000Data(sheet1000DAO s1000Data) {
+		this.s1000Data = s1000Data;
+	}
+
+	public Iterable<sheet1000DAO> getSheet1000() {
+		return sheet1000;
+	}
+
+	public void setSheet1000(Iterable<sheet1000DAO> sheet1000) {
+		this.sheet1000 = sheet1000;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public sheet312DAO s312Data;
 	public Iterable<sheet312DAO> sheet312;
@@ -185,6 +231,25 @@ public class Response {
 	public void setS980Data(sheet980DAO s980Data) {
 		this.s980Data = s980Data;
 	}
+
+	public sheet300DAO getS300Data() {
+		return s300Data;
+	}
+
+	public void setS300Data(sheet300DAO s300Data) {
+		this.s300Data = s300Data;
+	}
+
+	public Iterable<sheet300DAO> getSheet300() {
+		return sheet300;
+	}
+
+	public void setSheet300(Iterable<sheet300DAO> sheet300) {
+		this.sheet300 = sheet300;
+	}
+
+	
+
 
 	public Iterable<sheet980DAO> getSheet980() {
 		return sheet980;

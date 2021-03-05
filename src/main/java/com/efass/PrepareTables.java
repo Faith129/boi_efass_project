@@ -132,6 +132,7 @@ public class PrepareTables {
 		populatesheet201();
 		populatesheet980();
 		populatesheet501();
+		populatesheet1000();
 		populatesheet300();
 		}catch(Exception ex) {
 			
@@ -572,6 +573,9 @@ public class PrepareTables {
 	
 	
 	
+
+	
+	
 	public void populatesheet300() {
 		_300Repository.deleteAll();
 
@@ -611,7 +615,7 @@ save300("10960" , "Office Equipment","col1-null" );
 //save300("10970");
 save300("10980" , "Less Accumulated Depraciation","col1-null" );
 //save300("10990");
-//save300("11000");
+//save300("1");
 //save300("20100");
 save300("20110" , "Demand Deposits","col1-null" );
 save300("20120" , "Mandatory Deposits","col1-null" );
@@ -664,9 +668,28 @@ save300("20960" , "Retained Profit/Loss","col1-null" );
 	
 	
 	
-	public void populate1000() {
+	public void populatesheet1000() {
+		_1000Repository.deleteAll();
 		save1000("30000", "Interest Income");	
 		save1000("30100", "Less interest Expenses");
+	
+		
+		save1000("30210", "Commission");
+		save1000("30220", "Fees/Charges");
+		save1000("30230", "Income From Investments");
+		save1000("30240", "Other Income From Non-Financial Services");
+		save1000("31100", "Staff Cost");
+	
+		save1000("31110", "Directors");
+		save1000("31120", "Depreciation");
+		save1000("31130", "Provision For Bad Debts");
+		save1000("31140", "Bad Debts Written-Off");
+		save1000("31150", "Penalties Paid");
+		save1000("31160", "Overheads");
+		save1000("31190", "Less: Provision For Taxation");
+		save1000("31210", "Extra Ordinary items(EOI)");
+		save1000("31220", "Tax On EOI");
+	
 	}
 	
 	

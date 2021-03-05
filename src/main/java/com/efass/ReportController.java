@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.report.ReportService;
+import com.efass.sheet.mmfbr1000.sheet1000DAO;
+import com.efass.sheet.mmfbr1000.sheet1000_Service;
 import com.efass.sheet.mmfbr141.sheet141DAO;
 import com.efass.sheet.mmfbr141.sheet141_Service;
 import com.efass.sheet.mmfbr201.sheet201DAO;
@@ -180,6 +182,11 @@ public class ReportController {
 	
 	@Autowired
 	private sheet980_Service sheet980Svc;
+	
+	
+	@Autowired
+	private sheet1000_Service sheet1000Svc;
+	
 	
 	@Autowired
 	private ReportService reportSvc;
@@ -1764,5 +1771,77 @@ public class ReportController {
 		
 		//####################################################################
 
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		//########################## MMFBR1000 ##########################
+		@GetMapping("/mmfbr1000/{date}")
+		public ResponseEntity<?> getAllData1000(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+			Boolean evt = reportSvc.checkDate(date);
+			if(evt== true) {
+			return sheet1000Svc.fetchAllData();
+			}else {
+				return reportSvc.NoDateFound();
+			}
+		}
+
+		@GetMapping("/mmfbr1000/{date}/{id}")
+		public ResponseEntity<?> getDataById1000(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id) throws ResourceNotFoundException {
+			Boolean evt = reportSvc.checkDate(date);
+			if(evt== true) {
+			return sheet1000Svc.getDataById(id);
+			}else {
+				return reportSvc.NoDateFound();
+			}
+		}
+
+	
+
+		@PutMapping("/mmfbr1000/{date}/{code}")
+		public ResponseEntity<?> updateData1000(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int code, @RequestBody sheet1000DAO Data) throws ResourceNotFoundException {
+	
+			String _code = Integer.toString(code);
+			Boolean evt = reportSvc.checkDate(date);
+			if(evt== true) {
+			return sheet1000Svc.updateData(_code, Data);
+			}else {
+				return reportSvc.NoDateFound();
+			}
+		}
+
+	
+		//####################################################################
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+	
 
 }

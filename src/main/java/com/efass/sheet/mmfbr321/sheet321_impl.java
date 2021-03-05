@@ -15,11 +15,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.sheet.mmfbr221.sheet221DAO;
 import com.efass.sheet.mmfbr311.sheet311DAO;
 import com.efass.sheet.mmfbr311.sheet311Repository;
+import com.efass.sheet.mmfbr312.sheet312DAO;
 
 @Service
 public class sheet321_impl implements sheet321_Service {
@@ -31,11 +33,48 @@ public class sheet321_impl implements sheet321_Service {
 	
 	@Autowired
 	sheet321_Util sheet321Util;
+	
+	@Autowired
+	Validation validation;
 	// ############################## MMFBR311 CRUD OPERATIONS #################################
 
+	public void validate(sheet321DAO data) throws ResourceNotFoundException {
+		String bankCode = validation.checkDataType(data.getBankCode().toString());
+		String bankName = validation.checkDataType(data.getBankName().toString());
+		String tenor = validation.checkDataType(data.getTenor().toString());
+		String maturityDate = validation.checkDataType(data.getMaturity().toString());
+		String amount = validation.checkDataType(data.getAmount().toString());
+		
+			if(!bankCode.equalsIgnoreCase("Alpha")) {
+				throw new ResourceNotFoundException("Bank Code  must be an alphabetic value  " );
+			}
+			
+			else if(!bankName.equalsIgnoreCase("Alpha")) {	
+			throw new ResourceNotFoundException("Bank Name must be an alphabetic value  " );
+		
+			}
+		
+			
+			else if(!tenor.equalsIgnoreCase("Alpha")) {	
+				throw new ResourceNotFoundException("Tenor must be an alphabetic value  " );
+			
+			}
+			
+			else if(!maturityDate.equalsIgnoreCase("Date")) {	
+				throw new ResourceNotFoundException("Maturity Date must be an date value format  " );
+			
+			}
+			
+			else if(!amount.equalsIgnoreCase("Num")) {
+				throw new ResourceNotFoundException("Amount must be a numeric value  " );
+			}
+			
+		}
 
 	
-	 public ResponseEntity<?> createData(sheet321DAO data) {
+	 public ResponseEntity<?> createData(sheet321DAO data) throws ResourceNotFoundException {
+		 
+		 validate(data);
 	     _321Repository.save(data);
 	 	Response res = new Response();
 	 	res.setResponseMessage("Success");
@@ -90,6 +129,8 @@ public class sheet321_impl implements sheet321_Service {
 	}
 
 	public ResponseEntity<?> updateData(int id , sheet321DAO Data) throws ResourceNotFoundException {
+		
+		validate(Data);
 		
 		Optional<sheet321DAO> DataDb = _321Repository.findById(id);
 
