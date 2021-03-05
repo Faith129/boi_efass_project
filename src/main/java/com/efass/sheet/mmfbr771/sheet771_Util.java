@@ -44,7 +44,7 @@ public class sheet771_Util {
 			throws EncryptedDocumentException, InvalidFormatException, IOException, ParseException {
 		
 		
-			System.out.print ("inside 771");
+		
     		String Path =folderPath + "/cbn_MFB_rpt_12345m052087.xlsx";
 			SpecialData sb = new SpecialData();
 			sb.setChildFolderPath(Path);
@@ -58,9 +58,7 @@ public class sheet771_Util {
 			// Access the worksheet, so that we can update / modify it.
 			System.out.print("inside 771 2");
 			int rowNum = 19;
-			
-			System.out.println(">>>>>>>>>"+listOfLists.size());
-			
+		
 				for (int i = 0; i < listOfLists.size(); i++) {
       				System.out.print("inside 771 3");
 				List<Object> listAtI = listOfLists.get(i);

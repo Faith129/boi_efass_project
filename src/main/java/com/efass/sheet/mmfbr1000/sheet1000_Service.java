@@ -15,12 +15,13 @@ public interface sheet1000_Service {
 	
 	public ResponseEntity<?> fetchAllData();
 	
-	public ResponseEntity<?> updateData(String code, sheet1000DAO Data) throws ResourceNotFoundException;
+	public ResponseEntity<?> updateData(int id, sheet1000DAO Data) throws ResourceNotFoundException;
 	public Boolean writesheet1000(LocalDate Date, String folderPath) throws FileNotFoundException, IOException,
 	EncryptedDocumentException, InvalidFormatException, ParseException;
 	
 	
 	public ResponseEntity<?> getDataById(int dataId) throws ResourceNotFoundException;
+
 
 
 

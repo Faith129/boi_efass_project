@@ -1,13 +1,22 @@
 package com.efass.report;
 
+
+import org.springframework.core.io.Resource;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -19,6 +28,7 @@ import com.efass.auth.jwt.JwtRequest;
 import com.efass.payload.Response;
 import com.efass.sheet.mmfbr221.sheet221Repository;
 import com.efass.sheet.mmfbr311.sheet311Repository;
+import com.efass.sheet.mmfbr321.sheet321DAO;
 import com.efass.sheet.mmfbr711.sheet711DAO;
 import com.efass.sheet.mmfbr711.sheet711Repository;
 import com.efass.specials.SpecialFunction;
@@ -26,6 +36,10 @@ import com.efass.specials.SpecialFunction;
 @Service
 public class ReportImpl implements ReportService{
 
+	
+	  private final Path fileStorageLocation = null;
+	  
+	  
 	
 	@Autowired
 	ReportRepository ReportRepo;
@@ -38,7 +52,69 @@ public class ReportImpl implements ReportService{
 	
 
 	
-	
+		public void saveReportActivity(String date, String folderPath,String filename) {
+			
+			//Get Authenication Details
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String currentPrincipalName = authentication.getName();
+			
+			SpecialFunction special = new SpecialFunction();
+			String rand = special.generateRandomString();
+			
+		
+			
+			
+
+			
+			//Save Data
+			ReportDAO data = new ReportDAO();
+			data.setFile_name(filename );
+			data.setFile_path(folderPath + "/cbn_MFB_rpt_12345m052087.xlsx");
+			data.setReport_date(date);
+			data.setUser_id(currentPrincipalName);
+			ReportRepo.save(data);
+			
+		}
+		
+		
+		public ResponseEntity<?> fetchallActivity (){
+			
+			
+			
+			//Get Authenication Details
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String currentPrincipalName = authentication.getName();
+			
+			
+			Iterable<ReportDAO> data =	ReportRepo.findAllByUsername(currentPrincipalName);
+		
+			Response res = new Response();
+			res.setReportData(data);
+			res.setResponseMessage("Success");
+			res.setResponseCode(00);
+			return new ResponseEntity<>(res, HttpStatus.OK);
+			
+			
+		}
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
 	public ResponseEntity<?> selectDate(LocalDate Date)  {
 		
 		
@@ -79,8 +155,8 @@ public class ReportImpl implements ReportService{
 			data.setUser_id(currentPrincipalName);
 			ReportRepo.save(data);
 			
-			//Populate data for sheet711
-			populateSheet711();
+	
+		
 			
 			// Run Procedure to populate the tables on DB
 			res.setResponseMessage("Success,File Created");
@@ -99,35 +175,7 @@ public class ReportImpl implements ReportService{
 	
 	
 	
-	private void populateSheet711() {
-		//Delete all 
-		_711Repository.deleteAll();
-		
-		sheet711DAO data = new sheet711DAO();
-		data.setLendingModel("Individuals");
-		_711Repository.save(data);
-		data.setLendingModel("Solidarity Group");
-		_711Repository.save(data);
-		data.setLendingModel("Neighborhood and Small Group Revolving Funds");
-		_711Repository.save(data);
-		data.setLendingModel("Village Banking");
-		_711Repository.save(data);
-		data.setLendingModel("Wholesale lending");
-		_711Repository.save(data);
-		data.setLendingModel("Credit Unions");
-		_711Repository.save(data);
-		data.setLendingModel("Staff");
-		_711Repository.save(data);
-		data.setLendingModel("Others - Specify");
-		_711Repository.save(data);
-	
-		
-		
-	}
 
-
-	
-	
 
 
 

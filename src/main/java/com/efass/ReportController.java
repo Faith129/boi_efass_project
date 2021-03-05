@@ -1806,13 +1806,13 @@ public class ReportController {
 
 	
 
-		@PutMapping("/mmfbr1000/{date}/{code}")
-		public ResponseEntity<?> updateData1000(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int code, @RequestBody sheet1000DAO Data) throws ResourceNotFoundException {
+		@PutMapping("/mmfbr1000/{date}/{id}")
+		public ResponseEntity<?> updateData1000(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet1000DAO Data) throws ResourceNotFoundException {
 	
-			String _code = Integer.toString(code);
+		
 			Boolean evt = reportSvc.checkDate(date);
 			if(evt== true) {
-			return sheet1000Svc.updateData(_code, Data);
+			return sheet1000Svc.updateData(id, Data);
 			}else {
 				return reportSvc.NoDateFound();
 			}

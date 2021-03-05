@@ -214,10 +214,9 @@ public class SheetController {
 	        
 	        
 	        
-	        
 
-	        sheet501Svc.writesheet501(date, folderPath);
-
+	        String filename = "file~"+ _time;
+	        reportSvc.saveReportActivity(date.toString(), folderPath, filename);
 
 	        
 			status = true;
@@ -269,6 +268,6 @@ public class SheetController {
 	
 	
 	
-//	public void create
+
 
 }

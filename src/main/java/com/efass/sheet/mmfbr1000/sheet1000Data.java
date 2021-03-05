@@ -1,26 +1,28 @@
 package com.efass.sheet.mmfbr1000;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class sheet1000Data {
 
+	
+	
 
+	
+	
+	HashMap<String,codeData> sheet1000Map=new HashMap<String,codeData>();//Creating HashMap.
 
-public String code;
-public ArrayList<String> value;
-public String getCode() {
-return code;
-}
-public void setCode(String code) {
-this.code = code;
-}
-public ArrayList<String> getValue() {
-return value;
-}
-public void setValue(ArrayList<String> value) {
-this.value = value;
-}
+	public HashMap<String, codeData> getSheet1000Map() {
+		return sheet1000Map;
+	}
 
+	public void setSheet1000Map(HashMap<String, codeData> sheet1000Map) {
+		this.sheet1000Map = sheet1000Map;
+	}
+	
+	
 
-
+	
+	
+	
 }

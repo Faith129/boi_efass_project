@@ -26,4 +26,9 @@ public interface ReportRepository extends JpaRepository<ReportDAO, Integer>{
 	ReportDAO findByPathDate(String Date);
 	
 	
+	
+	@Query(value = "SELECT * FROM EFASS.Activity where user_id= ?", nativeQuery = true)
+	Iterable<ReportDAO> findAllByUsername(String currentPrincipalName);
+	
+	
 }

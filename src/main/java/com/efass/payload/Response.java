@@ -3,6 +3,7 @@ package com.efass.payload;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.efass.report.ReportDAO;
 import com.efass.sheet.mmfbr1000.sheet1000DAO;
 import com.efass.sheet.mmfbr1000.sheet1000Data;
 import com.efass.sheet.mmfbr141.sheet141DAO;
@@ -123,6 +124,14 @@ public class Response {
 	public Iterable<sheet300DAO> sheet300;
 	
 	
+	
+	public sheet1000DAO s1000Data;
+	public ArrayList<sheet1000Data> sheet1000;
+	
+	public 	Iterable<ReportDAO> ReportData;
+	
+	
+	
 	public sheet1000DAO getS1000Data() {
 		return s1000Data;
 	}
@@ -131,21 +140,6 @@ public class Response {
 		this.s1000Data = s1000Data;
 	}
 
-	public ArrayList<sheet1000Data> getSheet1000() {
-		return sheet1000;
-	}
-
-	public void setSheet1000(ArrayList<sheet1000Data> sheet1000) {
-		this.sheet1000 = sheet1000;
-	}
-
-	public sheet1000DAO s1000Data;
-	public ArrayList<sheet1000Data> sheet1000;
-	
-	
-	
-	
-	
 
 
 	
@@ -207,24 +201,6 @@ public class Response {
 	public sheet980DAO s980Data;
 	public Iterable<sheet980DAO> sheet980;
 	
-	public sheet300DAO s300Data;
-	public Iterable<sheet300DAO> sheet300;
-	
-	public sheet300DAO getS300Data() {
-		return s300Data;
-	}
-
-	public void setS300Data(sheet300DAO s300Data) {
-		this.s300Data = s300Data;
-	}
-
-	public Iterable<sheet300DAO> getSheet300() {
-		return sheet300;
-	}
-
-	public void setSheet300(Iterable<sheet300DAO> sheet300) {
-		this.sheet300 = sheet300;
-	}
 	
 	public sheet980DAO getS980Data() {
 		return s980Data;
@@ -253,6 +229,14 @@ public class Response {
 	
 
 
+	public Iterable<ReportDAO> getReportData() {
+		return ReportData;
+	}
+
+	public void setReportData(Iterable<ReportDAO> reportData) {
+		ReportData = reportData;
+	}
+
 	public Iterable<sheet980DAO> getSheet980() {
 		return sheet980;
 	}
@@ -260,6 +244,8 @@ public class Response {
 	public void setSheet980(Iterable<sheet980DAO> sheet980) {
 		this.sheet980 = sheet980;
 	}
+
+
 
 	public sheet996DAO getS996Data() {
 		return s996Data;
@@ -370,6 +356,14 @@ public void setColumnNames(ArrayList<String> columnNames) {
 
 	public void setSheet501(Iterable<sheet501DAO> sheet501) {
 		this.sheet501 = sheet501;
+	}
+
+	public ArrayList<sheet1000Data> getSheet1000() {
+		return sheet1000;
+	}
+
+	public void setSheet1000(ArrayList<sheet1000Data> sheet1000) {
+		this.sheet1000 = sheet1000;
 	}
 
 	public sheet201DAO getS201Data() {
