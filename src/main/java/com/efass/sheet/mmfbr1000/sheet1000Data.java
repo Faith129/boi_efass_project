@@ -10,13 +10,13 @@ public class sheet1000Data {
 
 	
 	
-	HashMap<String,codeData> sheet1000Map=new HashMap<String,codeData>();//Creating HashMap.
+	HashMap<String,sheetCodeData> sheet1000Map=new HashMap<String,sheetCodeData>();//Creating HashMap.
 
-	public HashMap<String, codeData> getSheet1000Map() {
+	public HashMap<String, sheetCodeData> getSheet1000Map() {
 		return sheet1000Map;
 	}
 
-	public void setSheet1000Map(HashMap<String, codeData> sheet1000Map) {
+	public void setSheet1000Map(HashMap<String, sheetCodeData> sheet1000Map) {
 		this.sheet1000Map = sheet1000Map;
 	}
 	

@@ -699,7 +699,7 @@ save300("20960" , "Retained Profit/Loss","col1-null" );
 		sheet1000DAO data = new sheet1000DAO();
 		
 		data.setCode(code);
-		data.setDecsription(desc);
+		data.setDescription(desc);
 		_1000Repository.save(data);
 	}
 	

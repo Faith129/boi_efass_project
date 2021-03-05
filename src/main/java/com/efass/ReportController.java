@@ -194,6 +194,10 @@ public class ReportController {
 	@Autowired
 	private sheet300_Service sheet300Svc;
 	
+	
+	@Autowired
+	private sheet1000_Service sheet001Svc;
+	
 	// CHOOSE REPORT DATE
 	// You can consume the path .../report/date/2019-04-25
 	@RequestMapping("/report/date/{date}")
@@ -1826,8 +1830,23 @@ public class ReportController {
 		
 		
 		
+
+		//########################## MMFBR1000 ##########################
+		@GetMapping("/mmfbr001/{date}")
+		public ResponseEntity<?> getAllData001(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+			Boolean evt = reportSvc.checkDate(date);
+			if(evt== true) {
+			return sheet001Svc.fetchAllData();
+			}else {
+				return reportSvc.NoDateFound();
+			}
+		}
 		
 		
+		
+
+		//####################################################################
+
 		
 		
 		

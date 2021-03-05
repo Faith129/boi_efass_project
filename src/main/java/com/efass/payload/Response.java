@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.efass.report.ReportDAO;
+import com.efass.sheet.mmfbr001.sheet001DAO;
 import com.efass.sheet.mmfbr1000.sheet1000DAO;
 import com.efass.sheet.mmfbr1000.sheet1000Data;
 import com.efass.sheet.mmfbr141.sheet141DAO;
@@ -193,7 +194,47 @@ public class Response {
 	public Iterable<sheet951DAO> sheet951;
 	
 	
+	public sheet001DAO  s001Data;
 	
+	public ArrayList sheet001;
+	
+	
+	public ArrayList getSheet001() {
+		return sheet001;
+	}
+
+	public void setSheet001(ArrayList sheet001) {
+		this.sheet001 = sheet001;
+	}
+
+	public sheet001DAO getS001Data() {
+		return s001Data;
+	}
+
+	public void setS001Data(sheet001DAO s001Data) {
+		this.s001Data = s001Data;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	public sheet996DAO s996Data;
 	public Iterable<sheet996DAO> sheet996;
 	
