@@ -100,31 +100,7 @@ public class PrepareTables {
 	public void clearSheetTables() {
 		
 		try {
-//		_311Repository.deleteAll();	
-//		_221Repository.deleteAll();
-		_711Repository.deleteAll();
-//		_746Repository.deleteAll();
-//		_761Repository.deleteAll();
-//		_771Repository.deleteAll();
-//		_762Repository.deleteAll();
-//		_763Repository.deleteAll();
-//		_764Repository.deleteAll();
-//		_811Repository.deleteAll();
-//		_141Repository.deleteAll();
-//		_201Repository.deleteAll();
-//		_202Repository.deleteAll();
-//		_312Repository.deleteAll();
-//		_322Repository.deleteAll();
-//		_451Repository.deleteAll();
-//		_501Repository.deleteAll();
-//		_642Repository.deleteAll();
-//		_651Repository.deleteAll();
-//		_933Repository.deleteAll();
-//		_951Repository.deleteAll();
-//		_996Repository.deleteAll();
-//		_980Repository.deleteAll();
-		
-		
+
 		populateSheet711();
 		populateSheet762();
 		populateSheet763();
@@ -132,7 +108,7 @@ public class PrepareTables {
 		populatesheet201();
 		populatesheet980();
 		populatesheet501();
-		populatesheet1000();
+	//	populatesheet1000();
 		populatesheet300();
 		}catch(Exception ex) {
 			

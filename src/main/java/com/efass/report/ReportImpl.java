@@ -78,9 +78,7 @@ public class ReportImpl implements ReportService{
 		
 		
 		public ResponseEntity<?> fetchallActivity (){
-			
-			
-			
+				
 			//Get Authenication Details
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			String currentPrincipalName = authentication.getName();

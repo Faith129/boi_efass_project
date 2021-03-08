@@ -1,6 +1,8 @@
 
 package com.efass.sheet.mmfbr1000;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,13 +14,13 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "MMFBR1000")
-public class sheet1000DAO {
+public class sheet1000DAO implements Serializable{
 	
 	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "ID")
 	public int id;
 
 	@Column(name="CODE")
@@ -36,6 +38,38 @@ public class sheet1000DAO {
 	
 	@Column(name="AMOUNT_3")
 	public String col_3;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	public sheet1000DAO() {
+
+	}
+
+	public sheet1000DAO(int id, String code, String description, String col_1, String col_2, String col_3) {
+		super();
+		this.id = id;
+		this.code = code;
+		this.description = description;
+		this.col_1 = col_1;
+		this.col_2 = col_2;
+		this.col_3 = col_3;
+	}
 
 	public int getId() {
 		return id;
