@@ -216,7 +216,10 @@ public class SheetController {
 	        
 
 	        String filename = "file~"+ _time;
-	        reportSvc.saveReportActivity(date.toString(), folderPath, filename);
+	        
+	    	SpecialData sb = new SpecialData();
+		
+	        reportSvc.saveReportActivity(date.toString(),sb.getChildFolderPath(), filename);
 
 	        
 			status = true;
@@ -241,6 +244,8 @@ public class SheetController {
 			return new ResponseEntity<>(res, HttpStatus.INTERNAL_SERVER_ERROR);
 
 		}
+		
+	
 
 //		ArrayList<Object> data = new ArrayList<>();
 //		data.add(15);
@@ -265,6 +270,9 @@ public class SheetController {
 //		sheet4Svc.updateSheetList(listOfLists);
 
 	}
+	
+	
+	
 	
 	
 	

@@ -43,6 +43,19 @@ public class ReportDAO{
 	
 	}
 
+	
+	public ReportDAO(int id, String user_id, String report_date, String file_name, String file_path) {
+		super();
+		this.id = id;
+		this.user_id = user_id;
+		this.report_date = report_date;
+		this.file_name = file_name;
+		this.file_path = file_path;
+	}
+
+
+
+
 
 	public int getId() {
 		return id;
