@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Optional;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.CookieValue;
 
 import com.efass.auth.jwt.JwtRequest;
 import com.efass.payload.Response;
+import com.efass.sheet.mmfbr141.sheet141DAO;
 import com.efass.sheet.mmfbr221.sheet221Repository;
 import com.efass.sheet.mmfbr311.sheet311Repository;
 import com.efass.sheet.mmfbr321.sheet321DAO;
@@ -66,13 +68,20 @@ public class ReportImpl implements ReportService{
 			
 
 			
-			//Save Data
-			ReportDAO data = new ReportDAO();
-			data.setFile_name(filename );
-			data.setFile_path(folderPath + "/cbn_MFB_rpt_12345m052087.xlsx");
-			data.setReport_date(date);
-			data.setUser_id(currentPrincipalName);
-			ReportRepo.save(data);
+			//Update Data
+			
+			Optional<ReportDAO> DataDb =  ReportRepo.findByDates(date.toString());
+
+	
+			
+			if (DataDb.isPresent()) {
+				ReportDAO DataUpdate = DataDb.get();
+				DataUpdate.setFile_name(filename );
+				DataUpdate.setFile_path(folderPath + "/cbn_MFB_rpt_12345m052087.xlsx");
+				DataUpdate.setReport_date(date);
+				DataUpdate.setUser_id(currentPrincipalName);
+				ReportRepo.save(DataUpdate);
+			}
 			
 		}
 		
@@ -84,9 +93,9 @@ public class ReportImpl implements ReportService{
 			String currentPrincipalName = authentication.getName();
 			
 			
-			Iterable<ReportDAO> data =	ReportRepo.findAllByUsername(currentPrincipalName);
+			ArrayList<ReportDAO> data =	ReportRepo.findAllByUsername(currentPrincipalName);
 		
-			Response res = new Response();
+			ReportResponse res = new ReportResponse();
 			res.setReportData(data);
 			res.setResponseMessage("Success");
 			res.setResponseCode(00);

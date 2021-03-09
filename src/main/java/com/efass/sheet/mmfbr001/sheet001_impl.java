@@ -17,9 +17,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.sheet.mmfbr001.sheet001DAO;
+import com.efass.sheet.mmfbr141.sheet141DAO;
 import com.efass.sheet.mmfbr001.sheet001DAO;
 
 
@@ -32,6 +34,27 @@ public class sheet001_impl implements sheet001_Service {
 	@Autowired
 	sheet001_Util sheet001Util;
 	
+	@Autowired
+	Validation validation;
+	
+
+	public void validate(sheet001DAO data) throws ResourceNotFoundException {
+		
+		if( data.getNUMBER_1().equals(null) ||!data.getNUMBER_2().equals(null)||!data.getVALUE_1().equals(null)||!data.getVALUE_1().equals(null) ) {
+			throw new ResourceNotFoundException("Input cannot be empty" );	
+		}
+		
+	String number1 = validation.checkDataType(data.getNUMBER_1().toString());
+	String number2 = validation.checkDataType(data.getNUMBER_2().toString());
+	
+	String value1 = validation.checkDataType(data.getVALUE_1().toString());
+	String value2 = validation.checkDataType(data.getVALUE_2().toString());
+		if( !number1.equalsIgnoreCase("Num") ||!number2.equalsIgnoreCase("Num") ||!value1.equalsIgnoreCase("Num")||!value2.equalsIgnoreCase("Num") ) {
+			throw new ResourceNotFoundException("Input must be a numeric value  " );	
+		}
+		
+	}
+	
 	
 	public ResponseEntity<?> fetchAllData() {
 		
@@ -42,26 +65,18 @@ public class sheet001_impl implements sheet001_Service {
 			}
 			
 			ArrayList<String> codes = new ArrayList<String>();
-	        codes.add("21111");	
+	        codes.add("21160");	
+			codes.add("21111");
 			codes.add("21112");
 			codes.add("21121");
 			codes.add("21122");
 			codes.add("21131");
 			codes.add("21132");
+			codes.add("1");
 			codes.add("21141");
-			codes.add("21142");
-			codes.add("21145");
-			codes.add("21146");
-			codes.add("21147");
-			codes.add("21150");
-			codes.add("21151");
-			codes.add("21160");
-			codes.add("21170");
-			codes.add("21171");
-			codes.add("21172");
-			codes.add("21173");
-			codes.add("21174");
-			codes.add("21175");
+			codes.add("21141");
+			
+		
 			
  
 			
@@ -69,11 +84,12 @@ public class sheet001_impl implements sheet001_Service {
 			ArrayList  arrList = new ArrayList();
 			for (String code: codes){
 			
-				
+			
 				sheet001DAO dataValue = sheet001Repo.findColumnsByCode(code);
 				
 				sheetCodeData _codeData = new sheetCodeData();
 				ArrayList<String> values = new ArrayList<>();
+				_codeData.setCode(dataValue.getCode());
 				values.add("col1-"+dataValue.getNUMBER_1());
 				values.add("col2-"+dataValue.getNUMBER_2());
 				values.add("col3-"+dataValue.getVALUE_1());
@@ -81,6 +97,7 @@ public class sheet001_impl implements sheet001_Service {
 				
 				
 				_codeData.setId(dataValue.getId());
+				
 				_codeData.setValues(values);
 		
 		
@@ -111,11 +128,16 @@ public class sheet001_impl implements sheet001_Service {
 	
 	public ResponseEntity<?> updateData(int id, sheet001DAO Data) throws ResourceNotFoundException {
 
-		Optional<sheet001DAO> DataDb = sheet001Repo.findById(id);
+		validate(Data);
+		
+		Optional<sheet001DAO> DataDb = sheet001Repo.findByCode(Data.getCode());
 
 		if (DataDb.isPresent()) {
 			sheet001DAO DataUpdate = DataDb.get();
 			DataUpdate.setNUMBER_1(Data.getNUMBER_1());
+			DataUpdate.setNUMBER_2(Data.getNUMBER_2());
+			DataUpdate.setVALUE_1(Data.getVALUE_1());
+			DataUpdate.setVALUE_2(Data.getVALUE_2());
 			sheet001Repo.save(DataUpdate);
 			Response res = new Response();
 			res.setResponseMessage("Record Updated");
@@ -134,7 +156,7 @@ public class sheet001_impl implements sheet001_Service {
 	
 	
 	
-	public Boolean writesheet001(LocalDate Date, String folderPath) throws FileNotFoundException, IOException,
+	public String writesheet001(LocalDate Date, String folderPath) throws FileNotFoundException, IOException,
 	EncryptedDocumentException, InvalidFormatException, ParseException {
 
 ArrayList<sheet001DAO> sheetdata = new ArrayList<>();
@@ -146,22 +168,18 @@ for(int i =0; i < sheetdata.size(); i++) {
 	
 	ArrayList<Object> data = new ArrayList<>();
 	data.add(sheetdata.get(i).getNUMBER_1());
-	data.add(sheetdata.get(i).getNUMBER_2());
-	
 	data.add(sheetdata.get(i).getVALUE_1());
+	
+	data.add(sheetdata.get(i).getNUMBER_2());
 	data.add(sheetdata.get(i).getVALUE_2());
 	
+	data.add(sheetdata.get(i).getCode());
 	listofLists.add(data);
 
 }
 
-Boolean status = sheet001Util.writeSpecificList(listofLists, Date, folderPath);
-if(status == true) {
-	return true;
-}
-else {
-	return false;
-}
+String status = sheet001Util.writeSpecificList(listofLists, Date, folderPath);
+return status;
 
 
 

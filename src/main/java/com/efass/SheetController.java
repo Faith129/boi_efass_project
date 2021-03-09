@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.efass.payload.Response;
 import com.efass.report.ReportService;
+import com.efass.sheet.mmfbr001.sheet001_Service;
 import com.efass.sheet.mmfbr1000.sheet1000_Service;
 import com.efass.sheet.mmfbr141.sheet141_Service;
 import com.efass.sheet.mmfbr201.sheet201_Service;
@@ -138,6 +139,11 @@ public class SheetController {
 	@Autowired
 	private sheet1000_Service sheet1000Svc;
 
+	
+	@Autowired
+	private sheet001_Service sheet001Svc;
+	
+	
 	@Autowired
 	private ReportService reportSvc;
 	
@@ -203,23 +209,26 @@ public class SheetController {
 	//		sheet933Svc.writesheet933(date, folderPath);
 			
 
-			sheet811Svc.writesheet811(date, folderPath);
+	//		sheet811Svc.writesheet811(date, folderPath);
 			
 //	        sheet201Svc.writesheet201(date, folderPath);
 
 	//        sheet201Svc.writesheet201(date, folderPath);
 
 	 //       sheet501Svc.writesheet501(date, folderPath);
-	        sheet1000Svc.writesheet1000(date, folderPath);
+	  //      sheet1000Svc.writesheet1000(date, folderPath);
+			
+			
+		String path=sheet001Svc.writesheet001(date, folderPath);
 	        
 	        
 	        
 
 	        String filename = "file~"+ _time;
 	        
-	    	SpecialData sb = new SpecialData();
+	    	
 		
-	        reportSvc.saveReportActivity(date.toString(),sb.getChildFolderPath(), filename);
+	        reportSvc.saveReportActivity(date.toString(),path, filename);
 
 	        
 			status = true;

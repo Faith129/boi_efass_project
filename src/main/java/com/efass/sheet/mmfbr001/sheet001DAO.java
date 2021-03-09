@@ -12,7 +12,7 @@ import javax.persistence.Table;
 public class sheet001DAO {
 
 	
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -49,9 +49,6 @@ public class sheet001DAO {
 	
 	
 	
-	
-	@Column(name="PARENT")
-	public String PARENT;
 
 
 
@@ -154,16 +151,6 @@ public class sheet001DAO {
 
 
 
-	public String getPARENT() {
-		return PARENT;
-	}
-
-
-
-
-	public void setPARENT(String pARENT) {
-		PARENT = pARENT;
-	}
 	
 	
 }
