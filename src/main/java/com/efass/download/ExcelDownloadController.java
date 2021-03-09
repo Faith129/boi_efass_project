@@ -38,10 +38,7 @@ import com.efass.sheet.mmfbr980.sheet980DAO;
 	
 //private final static String UPLOAD_DIR = "./datafiles/archives/2019-04-25~1614767134659/cbn_MFB_rpt_12345m052087.xlsx";
 	  
-	  @GetMapping(value = "/test")
-	  public String test() {
-		  return "sea";
-	  }
+	
 
 	  
 		  
