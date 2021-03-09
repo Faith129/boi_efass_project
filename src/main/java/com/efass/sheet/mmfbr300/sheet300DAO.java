@@ -1,5 +1,6 @@
-
 package com.efass.sheet.mmfbr300;
+
+import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "MMFBR300")
-public class sheet300DAO {
+public class sheet300DAO implements Serializable{
 
 	
 	  
@@ -20,9 +21,6 @@ public class sheet300DAO {
 		@Column(name = "id")
 		public int id;
 		
-		
-		
-	
 
 		@Column(name = "CODE")
 		public String code;
@@ -33,19 +31,30 @@ public class sheet300DAO {
 		
 		
 		@Column(name = "AMOUNT_1")
-		public String amount1;
+		public String col_1;
 
 	
 		
 		@Column(name = "AMOUNT_2")
-		public String amount2;
+		public String col_2;
 		
 		
 		@Column(name = "AMOUNT_3")
-		public String amount3;
+		public String col_3;
 		
+		public sheet300DAO() {
+
+		}
 		
-		
+		public sheet300DAO(int id, String code, String itemDescription, String col_1, String col_2, String col_3) {
+			super();
+			this.id = id;
+			this.code = code;
+			this.itemDescription = itemDescription;
+			this.col_1 = col_1;
+			this.col_2 = col_2;
+			this.col_3 = col_3;
+		}
 		
 		
 		public String getCode() {
@@ -83,33 +92,33 @@ public class sheet300DAO {
 		}
 
 
-		public String getAmount1() {
-			return amount1;
+		public String getCol_1() {
+			return col_1;
 		}
 
 
-		public void setAmount1(String amount1) {
-			this.amount1 = amount1;
+		public void setCol_1(String col_1) {
+			this.col_1 = col_1;
 		}
 
 
-		public String getAmount2() {
-			return amount2;
+		public String getCol_2() {
+			return col_2;
 		}
 
 
-		public void setAmount2(String amount2) {
-			this.amount2 = amount2;
+		public void setCol_2(String col_2) {
+			this.col_2 = col_2;
 		}
 
 
-		public String getAmount3() {
-			return amount3;
+		public String getCol_3() {
+			return col_3;
 		}
 
 
-		public void setAmount3(String amount3) {
-			this.amount3 = amount3;
+		public void setCol_3(String col_3) {
+			this.col_3 = col_3;
 		}	
 		
 		
