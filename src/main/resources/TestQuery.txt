@@ -42,8 +42,8 @@ END;
 
 
 
-ALTER TABLE EFASS.activity 
-ADD status VARCHAR2(200 BYTE)  ;
+ALTER TABLE EFASS.mmfbrm001 
+ADD parent VARCHAR2(200 BYTE)  ;
 
 ###################DROP CREATE TABLE WITH AUTOINCREMENT COLUMN ############
 

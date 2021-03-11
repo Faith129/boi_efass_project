@@ -6,18 +6,14 @@ import org.springframework.stereotype.Service;
 public class Validation {
 
 	
-public String checkDataType(String value) {
+	public String checkDataType(String value) {
 		
-		String 	data=null;
-		Boolean date = isDate(value);
-		Boolean alpha = isAlpha(value);
-		Boolean num = isNum(value);
+	Boolean date = isDate(value);
+	Boolean alpha = isAlpha(value);
+	Boolean num = isNum(value);
+	String 	data=null;
 	
-	if (value.equals(null)) {
-		data = "Null";	
-	}
-
-	else if (alpha) {
+if (alpha) {
 		data= "Alpha";
 	}else if(num) {
 		
@@ -28,13 +24,11 @@ public String checkDataType(String value) {
 	else if(date) {
 		data= "Date";
 	}
-	
 
 	return data;
 	
 		
 	}
-	
 	
 	
 	
