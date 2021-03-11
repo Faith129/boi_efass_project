@@ -17,7 +17,7 @@ public interface ReportRepository extends JpaRepository<ReportDAO, Integer>{
 	
 	
 	
-	@Query(value = "SELECT * FROM EFASS.Activity where report_date= ?", nativeQuery = true)
+	@Query(value = "SELECT * FROM EFASS.Activity where report_date= ? ", nativeQuery = true)
 	ReportDAO findByDate(String Date);
 
 	@Query(value = "SELECT * FROM EFASS.Activity where report_date= ?", nativeQuery = true)
@@ -25,8 +25,8 @@ public interface ReportRepository extends JpaRepository<ReportDAO, Integer>{
 	
 	
 	
-	@Query(value = "SELECT * FROM EFASS.Activity where user_id= ?", nativeQuery = true)
-	ArrayList<ReportDAO> findAllByUsername(String currentPrincipalName);
+	@Query(value = "SELECT * FROM EFASS.Activity where user_id= ? and status =?", nativeQuery = true)
+	ArrayList<ReportDAO> findAllByUsername(String currentPrincipalName, String status);
 	
 	
 	@Query(value = "SELECT * FROM EFASS.Activity where report_date= ?", nativeQuery = true)

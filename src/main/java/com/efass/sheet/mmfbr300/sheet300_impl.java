@@ -168,7 +168,7 @@ public class sheet300_impl implements sheet300_Service{
 	}
 	
 
-	public Boolean writesheet1000(LocalDate Date, String folderPath) throws FileNotFoundException, IOException,
+	public Boolean writesheet300(LocalDate Date, String folderPath) throws FileNotFoundException, IOException,
 			EncryptedDocumentException, InvalidFormatException, ParseException {
 		
 		ArrayList<sheet300DAO> sheetdata = new ArrayList<>();
@@ -179,8 +179,20 @@ public class sheet300_impl implements sheet300_Service{
 		for(int i =0; i < sheetdata.size(); i++) {
 			
 			ArrayList<Object> data = new ArrayList<>();
-			data.add(sheetdata.get(i).getCol_1());
+			//data.add(sheetdata.get(i).getCol_1());
+			
+			
+			String amount  = sheetdata.get(i).getCol_1(); 
+			
+			String[] amountList = amount.split("-");
+			String _amount  = amountList[1];
+			
+			if ( _amount.equals("null")) {
+				_amount = null;
 		
+			}
+		
+			data.add(_amount);
 			
 			listofLists.add(data);
 			

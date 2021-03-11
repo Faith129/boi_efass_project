@@ -15,12 +15,13 @@ import com.efass.exceptions.ResourceNotFoundException;
 public interface sheet300_Service {
 
 		public ResponseEntity<?> fetchAllData();
-		
-		public Boolean writesheet1000(LocalDate Date, String folderPath) throws FileNotFoundException, IOException,
-		EncryptedDocumentException, InvalidFormatException, ParseException;
+
 	
 		public ResponseEntity<?> getDataByCode(String dataCode) throws ResourceNotFoundException;
 				
 		public ResponseEntity<?> updateData(String code, sheet300DAO Data) throws ResourceNotFoundException;
+
+		public Boolean writesheet300(LocalDate Date, String folderPath) throws FileNotFoundException, IOException,
+		EncryptedDocumentException, InvalidFormatException, ParseException;
 
 }

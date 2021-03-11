@@ -64,7 +64,7 @@ import com.efass.sheet.mmfbr980.sheet980DAO;
 		String filePath = data.getFile_path();
 		String fileName = data.getFile_name();
 		
-		String UPLOAD_DIR = filePath + fileName;
+		String UPLOAD_DIR = filePath;
 		
 		System.out.println("MY DIRECTORY --->"+UPLOAD_DIR);
 	  File file = new File(UPLOAD_DIR);
