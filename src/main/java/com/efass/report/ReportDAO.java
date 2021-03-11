@@ -35,7 +35,9 @@ public class ReportDAO{
 	
 	@Column(name = "FILE_PATH")
 	public String file_path;
-
+	
+	@Column(name = "STATUS")
+	public String status;
 	
 	
 
@@ -44,14 +46,22 @@ public class ReportDAO{
 	}
 
 	
-	public ReportDAO(int id, String user_id, String report_date, String file_name, String file_path) {
+	
+	
+	
+
+
+	public ReportDAO(int id, String user_id, String report_date, String file_name, String file_path, String status) {
 		super();
 		this.id = id;
 		this.user_id = user_id;
 		this.report_date = report_date;
 		this.file_name = file_name;
 		this.file_path = file_path;
+		this.status = status;
 	}
+
+
 
 
 
@@ -62,9 +72,11 @@ public class ReportDAO{
 	}
 
 
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 
 
 	public String getUser_id() {
@@ -72,9 +84,11 @@ public class ReportDAO{
 	}
 
 
+
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
 	}
+
 
 
 	public String getReport_date() {
@@ -82,9 +96,11 @@ public class ReportDAO{
 	}
 
 
+
 	public void setReport_date(String report_date) {
 		this.report_date = report_date;
 	}
+
 
 
 	public String getFile_name() {
@@ -92,9 +108,11 @@ public class ReportDAO{
 	}
 
 
+
 	public void setFile_name(String file_name) {
 		this.file_name = file_name;
 	}
+
 
 
 	public String getFile_path() {
@@ -102,9 +120,24 @@ public class ReportDAO{
 	}
 
 
+
 	public void setFile_path(String file_path) {
 		this.file_path = file_path;
 	}
+
+
+
+	public String getStatus() {
+		return status;
+	}
+
+
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	
 	
 	
 

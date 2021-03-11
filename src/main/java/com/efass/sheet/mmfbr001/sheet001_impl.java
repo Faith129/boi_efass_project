@@ -98,7 +98,7 @@ public class sheet001_impl implements sheet001_Service {
 				
 				_codeData.setId(dataValue.getId());
 				
-				_codeData.setValues(values);
+				_codeData.setValue(values);
 		
 		
 		

@@ -1,5 +1,6 @@
 package com.efass;
 
+import java.text.ParseException;
 import java.time.LocalDate;
 
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.efass.exceptions.ResourceNotFoundException;
+import com.efass.procedures.ProcedureService;
 import com.efass.report.ReportService;
 import com.efass.sheet.mmfbr001.sheet001DAO;
 import com.efass.sheet.mmfbr001.sheet001_Service;
@@ -200,6 +202,9 @@ public class ReportController {
 	@Autowired
 	private sheet001_Service sheet001Svc;
 	
+	@Autowired
+	private ProcedureService procedureService;
+	
 	// CHOOSE REPORT DATE
 	// You can consume the path .../report/date/2019-04-25
 	@RequestMapping("/report/date/{date}")
@@ -228,6 +233,15 @@ public class ReportController {
 			
 	}
 	
+	
+	
+	//Fetch all table names
+	@RequestMapping("/test")
+	public void testProcdedure() throws ParseException{
+		
+		 procedureService.callPrepareTableProcedure_221("2019-04-25");
+	}
+		
 	
 	
 	

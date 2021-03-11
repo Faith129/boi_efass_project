@@ -77,8 +77,9 @@ public class ReportImpl implements ReportService{
 			if (DataDb.isPresent()) {
 				ReportDAO DataUpdate = DataDb.get();
 				DataUpdate.setFile_name(filename );
-				DataUpdate.setFile_path(folderPath + "/cbn_MFB_rpt_12345m052087.xlsx");
+				DataUpdate.setFile_path(folderPath);
 				DataUpdate.setReport_date(date);
+				DataUpdate.setStatus("approved");
 				DataUpdate.setUser_id(currentPrincipalName);
 				ReportRepo.save(DataUpdate);
 			}
@@ -92,8 +93,8 @@ public class ReportImpl implements ReportService{
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			String currentPrincipalName = authentication.getName();
 			
-			
-			ArrayList<ReportDAO> data =	ReportRepo.findAllByUsername(currentPrincipalName);
+			String status = "approved";
+			ArrayList<ReportDAO> data =	ReportRepo.findAllByUsername(currentPrincipalName, status);
 		
 			ReportResponse res = new ReportResponse();
 			res.setReportData(data);
@@ -159,6 +160,7 @@ public class ReportImpl implements ReportService{
 			data.setFile_name(filename );
 			data.setFile_path(filepath);
 			data.setReport_date(Date.toString());
+			data.setStatus("0");
 			data.setUser_id(currentPrincipalName);
 			ReportRepo.save(data);
 			
