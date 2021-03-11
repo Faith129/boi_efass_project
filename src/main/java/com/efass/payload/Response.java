@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.efass.report.ReportDAO;
 import com.efass.sheet.mmfbr001.sheet001DAO;
-import com.efass.sheet.mmfbr001.sheet001Data;
 import com.efass.sheet.mmfbr1000.sheet1000DAO;
 import com.efass.sheet.mmfbr1000.sheet1000Data;
 import com.efass.sheet.mmfbr141.sheet141DAO;
@@ -125,9 +124,41 @@ public class Response {
 	public sheet300DAO s300Data;
 	public Iterable<sheet300DAO> sheet300;
 	
+	
+	
+	public sheet1000DAO s1000Data;
+	public ArrayList<sheet1000Data> sheet1000;
+	
+	public 	Iterable<ReportDAO> ReportData;
+	
+	
+	
+	public sheet1000DAO getS1000Data() {
+		return s1000Data;
+	}
+
+	public void setS1000Data(sheet1000DAO s1000Data) {
+		this.s1000Data = s1000Data;
+	}
+
+
 
 	
-	public 	ArrayList<ReportDAO> ReportData;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	public sheet312DAO s312Data;
@@ -148,13 +179,6 @@ public class Response {
 	public Iterable<sheet501DAO> sheet501;
 	
 
-
-	public sheet996DAO s996Data;
-	public Iterable<sheet996DAO> sheet996;
-	
-	
-	public sheet980DAO s980Data;
-	public Iterable<sheet980DAO> sheet980;
 	
 	
 	public sheet642DAO s642Data;
@@ -170,56 +194,18 @@ public class Response {
 	public Iterable<sheet951DAO> sheet951;
 	
 	
-
+	public sheet001DAO  s001Data;
 	
-
-	
-	
-	
-	public sheet1000DAO s1000Data;
-	public ArrayList<sheet1000Data> sheet1000;
+	public ArrayList sheet001;
 	
 	
-	
-	
-	public sheet001DAO s001Data;
-	
-	public ArrayList<sheet001Data> sheet001;
-	
-	
-
-	
-	
-	
-	
-	
-	//-----------------------------------------------------
-	
-	
-	
-	
-	
-	
-	public ArrayList<sheet001Data> getSheet001() {
+	public ArrayList getSheet001() {
 		return sheet001;
 	}
 
-	public void setSheet001(ArrayList<sheet001Data> sheet001) {
+	public void setSheet001(ArrayList sheet001) {
 		this.sheet001 = sheet001;
 	}
-
-	
-	public sheet1000DAO getS1000Data() {
-		return s1000Data;
-	}
-
-	public void setS1000Data(sheet1000DAO s1000Data) {
-		this.s1000Data = s1000Data;
-	}
-
-	
-	
-	
 
 	public sheet001DAO getS001Data() {
 		return s001Data;
@@ -249,6 +235,12 @@ public class Response {
 
 
 
+	public sheet996DAO s996Data;
+	public Iterable<sheet996DAO> sheet996;
+	
+	
+	public sheet980DAO s980Data;
+	public Iterable<sheet980DAO> sheet980;
 	
 	
 	public sheet980DAO getS980Data() {
@@ -278,13 +270,11 @@ public class Response {
 	
 
 
-
-
-	public ArrayList<ReportDAO> getReportData() {
+	public Iterable<ReportDAO> getReportData() {
 		return ReportData;
 	}
 
-	public void setReportData(ArrayList<ReportDAO> reportData) {
+	public void setReportData(Iterable<ReportDAO> reportData) {
 		ReportData = reportData;
 	}
 
