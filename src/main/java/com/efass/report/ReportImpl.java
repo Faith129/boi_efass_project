@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.io.FileUtils;
@@ -46,6 +47,9 @@ public class ReportImpl implements ReportService{
 	@Autowired
 	ReportRepository ReportRepo;
 	
+	@Autowired
+	ReportCall reportCall;
+	
 
 	@Autowired
 	sheet711Repository _711Repository;
@@ -71,9 +75,6 @@ public class ReportImpl implements ReportService{
 			//Update Data
 			
 			Optional<ReportDAO> DataDb =  ReportRepo.findByDates(date.toString());
-
-	
-			
 			if (DataDb.isPresent()) {
 				ReportDAO DataUpdate = DataDb.get();
 				DataUpdate.setFile_name(filename );
@@ -190,14 +191,23 @@ public class ReportImpl implements ReportService{
 
 	public Boolean checkDate(LocalDate Date) {
 		
-		 data = ReportRepo.findByDate(Date.toString());
+		
+		String date= null;
+		
+		 //data = ReportRepo.findByDate(Date.toString());
 	
-		if(data== null) {
+		try {
+		 
+			List<ReportDAO> data =reportCall.fetchDate(Date.toString());
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		if(data == null) {
 			
 			return false;
 			
 		}else {
-			System.out.println("Selected Date=" + data.getReport_date());
+			System.out.println("Date Exists");
 			return true;
 		}
 		
