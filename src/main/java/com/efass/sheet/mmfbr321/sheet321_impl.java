@@ -45,8 +45,8 @@ public class sheet321_impl implements sheet321_Service {
 		String maturityDate = validation.checkDataType(data.getMaturity().toString());
 		String amount = validation.checkDataType(data.getAmount().toString());
 		
-			if(!bankCode.equalsIgnoreCase("Alpha")) {
-				throw new ResourceNotFoundException("Bank Code  must be an alphabetic value  " );
+			if(!bankCode.equalsIgnoreCase("Num")) {
+				throw new ResourceNotFoundException("Bank Code  must be numeric value  " );
 			}
 			
 			else if(!bankName.equalsIgnoreCase("Alpha")) {	
@@ -60,10 +60,10 @@ public class sheet321_impl implements sheet321_Service {
 			
 			}
 			
-			else if(!maturityDate.equalsIgnoreCase("Date")) {	
-				throw new ResourceNotFoundException("Maturity Date must be dd/mm/yyyy  " );
-			
-			}
+//			else if(!maturityDate.equalsIgnoreCase("Date")) {	
+//				throw new ResourceNotFoundException("Maturity Date must be dd/mm/yyyy  " );
+//			
+//			}
 			
 			else if(!amount.equalsIgnoreCase("Num")) {
 				throw new ResourceNotFoundException("Amount must be a numeric value  " );

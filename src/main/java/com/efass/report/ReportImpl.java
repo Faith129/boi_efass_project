@@ -196,12 +196,10 @@ public class ReportImpl implements ReportService{
 		
 		 //data = ReportRepo.findByDate(Date.toString());
 	
-		try {
+		
 		 
 			List<ReportDAO> data =reportCall.fetchDate(Date.toString());
-		}catch(Exception ex) {
-			ex.printStackTrace();
-		}
+		
 		if(data == null) {
 			
 			return false;

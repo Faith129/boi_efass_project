@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -133,6 +134,16 @@ public class sheet312_Util {
 			// Get current cell value value and overwrite the value
 			cell7.setCellValue(bankCode);
 			
+			
+			
+			
+			Cell cell01 = null;
+			cell01 = worksheet.getRow(34).getCell(7);
+			String formula= "SUM(H13:H34)";
+			cell01.setCellType(CellType.FORMULA);
+			cell01.setCellFormula(formula);
+
+
 			
 			
 			
