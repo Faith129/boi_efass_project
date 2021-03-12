@@ -10,6 +10,7 @@ import java.util.List;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -114,7 +115,11 @@ public class sheet321_Util {
 				cell6.setCellValue(bankCode);
 				
 				
-				
+				Cell cell01 = null;
+				cell01 = worksheet.getRow(31).getCell(5);
+				String formula= "SUM(F12:F31)";
+				cell01.setCellType(CellType.FORMULA);
+				cell01.setCellFormula(formula);	
 				
 
 				// Close the InputStream

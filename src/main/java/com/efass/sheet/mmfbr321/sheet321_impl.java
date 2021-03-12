@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -44,7 +45,7 @@ public class sheet321_impl implements sheet321_Service {
 		String tenor = validation.checkDataType(data.getTenor().toString());
 		String maturityDate = validation.checkDataType(data.getMaturity().toString());
 		String amount = validation.checkDataType(data.getAmount().toString());
-		
+//		Pattern matcher = Pattern.compile("^\\d$")   && matcher.matcher(tenor).matches();
 			if(!bankCode.equalsIgnoreCase("Alpha")) {
 				throw new ResourceNotFoundException("Bank Code  must be an alphabetic value  " );
 			}
@@ -56,7 +57,7 @@ public class sheet321_impl implements sheet321_Service {
 		
 			
 			else if(!tenor.equalsIgnoreCase("Alpha")) {	
-				throw new ResourceNotFoundException("Tenor must be an alphabetic value  " );
+				throw new ResourceNotFoundException("Tenor must be an alphabetic value" );
 			
 			}
 			

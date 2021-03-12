@@ -40,6 +40,7 @@ public class sheet312_impl implements sheet312_Service{
 	// #################################
 	
 	public void validate(sheet312DAO data) throws ResourceNotFoundException {
+		
 		String bankCode = validation.checkDataType(data.getBankCode().toString());
 		String bankName = validation.checkDataType(data.getNameOfBanks().toString());
 		String rate = validation.checkDataType(data.getRate().toString());

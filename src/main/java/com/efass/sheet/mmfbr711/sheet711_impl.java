@@ -55,7 +55,7 @@ public class sheet711_impl implements sheet711_Service {
 	public ResponseEntity<?> createData(sheet711DAO data) throws ResourceNotFoundException {
 //		_711Repository.save(data);
 		
-		validate(data);
+		//validate(data);
 		Response res = new Response();
 		res.setResponseMessage("Success");
 		res.setResponseCode(00);
@@ -107,7 +107,7 @@ public class sheet711_impl implements sheet711_Service {
 
 	public ResponseEntity<?> updateData(int id, sheet711DAO Data) throws ResourceNotFoundException {
 
-		validate(Data);
+		//validate(Data);
 		Optional<sheet711DAO> DataDb = _711Repository.findById(id);
 
 		if (DataDb.isPresent()) {
