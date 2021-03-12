@@ -570,116 +570,65 @@ public class PrepareTables {
 	}	
 	
 	
-	
-	
-	
 
-	
 	
 	public void populatesheet300() {
 		_300Repository.deleteAll();
 
 
-save300("10110","Notes","col1-null");
-save300("10120", "Coins","col1-null");
+	save300("10110","Notes");
+	save300("10120", "Coins");
+	save300("10610", "Quoted Companies");
+	save300("10620", "Unquoted Companies");
+	save300("10630" , "Subsidiary Companies");
+	save300("10720" , "Small and Medium Enterprises Loans");
+	save300("10725" , "Blls Discounted");
+	save300("10730" , "Hire Purchase");
+	save300("10740" , "Advances Under Micro-Leases");
+	save300("10750" , "Staff Loans");
+	save300("10880" , "Provision for Losses on Other Assets");
+	save300("10910" , "Freehold Land and Building");
+	save300("10920" , "Leasehold Land and Building");
+	save300("10930" , "Plant and Machinery");
+	save300("10940" , "Furniture and Fixtures");
+	save300("10950" , "Motor Vehicles");
+	save300("10960" , "Office Equipment");
+	save300("10980" , "Less Accumulated Depraciation");
+	save300("20110" , "Demand Deposits");
+	save300("20120" , "Mandatory Deposits");
+	save300("20125" , "Voluntary Savings Deposits");
+	save300("20130" , "Time/Term Deposits");
+	save300("20610" , "Federal Government");
+	save300("20620 " , "State Government");
+	save300("20630" , "Local Government");
+	save300("20710" , "Redeemable Debenture");
+	save300("20720" , "Irredeemable Debenture");
+	save300("20810" , "Authorised Share Capital");
+	save300("20830" , "Ordinary Shares");
+	save300("20840"  , "Preference Shares");
+	save300("20910" , "Statutory Reserve");
+	save300("20920" , "Share Premium");
+	save300("20930" , "General Reserve");
+	save300("20935" , "Bonus Reserves");
+	save300("20940" , "Revaluation Reserves");
+	save300("20960" , "Retained Profit/Loss");
 
-save300("10610", "Quoted Companies","col1-null");
-save300("10620", "Unquoted Companies","col1-null" );
-save300("10630" , "Subsidiary Companies","col1-null" );
-//save300("10640");
-//save300("10650");
-//save300("10700");
-//save300("10710");
-save300("10720" , "Small and Medium Enterprises Loans","col1-null" );
-save300("10725" , "Blls Discounted","col1-null" );
-save300("10730" , "Hire Purchase","col1-null" );
-save300("10740" , "Advances Under Micro-Leases","col1-null" );
-//save300("10745");
-save300("10750" , "Staff Loans","col1-null" );
-//save300("10760");
-//save300("10770");
-//save300("10780");
-//save300("10790");
-//save300("10795");
-//save300("10800");
-//save300("10810");
-save300("10880" , "Provision for Losses on Other Assets","col1-null" );
-//save300("10890");
-//save300("10900");
-save300("10910" , "Freehold Land and Building","col1-null" );
-save300("10920" , "Leasehold Land and Building","col1-null" );
-save300("10930" , "Plant and Machinery","col1-null" );
-save300("10940" , "Furniture and Fixtures","col1-null" );
-save300("10950" , "Motor Vehicles","col1-null" );
-save300("10960" , "Office Equipment","col1-null" );
-//save300("10970");
-save300("10980" , "Less Accumulated Depraciation","col1-null" );
-//save300("10990");
-//save300("1");
-//save300("20100");
-save300("20110" , "Demand Deposits","col1-null" );
-save300("20120" , "Mandatory Deposits","col1-null" );
-save300("20125" , "Voluntary Savings Deposits","col1-null" );
-save300("20130" , "Time/Term Deposits","col1-null" );
-//save300("20140");
-//save300("20200");
-//save300("20300");
-//save300("20310");
-//save300("20320");
-//save300("20330");
-//save300("20450");
-//save300("20500");
-//save300("20600");
-save300("20610" , "Federal Government","col1-null" );
-save300("20620 " , "State Government","col1-null" );
-save300("20630" , "Local Government","col1-null" );
-//save300("20640");
-//save300("20650");
-//save300("20660");
-//save300("20700");
-save300("20710" , "Redeemable Debenture","col1-null" );
-save300("20720" , "Irredeemable Debenture","col1-null" );
-//save300("20750");
-//save300("20800");
-save300("20810" , "Authorised Share Capital","col1-null" );
-//save300("20820");
-save300("20830" , "Ordinary Shares","col1-null" );
-save300("20840"  , "Preference Shares","col1-null" );
-//save300("0860");
-//save300("20900");
-save300("20910" , "Statutory Reserve","col1-null" );
-save300("20920" , "Share Premium","col1-null" );
-save300("20930" , "General Reserve","col1-null" );
-//save300("20932");
-save300("20935" , "Bonus Reserves","col1-null" );
-save300("20940" , "Revaluation Reserves","col1-null" );
-//save300("20950");
-save300("20960" , "Retained Profit/Loss","col1-null" );
-//save300("20965");
-//save300("20970");
-//save300("20980");
-//save300("20990");
-//save300("20995");
 
-	
 	}
-	
-	
-	
-	
+
 	
 	public void populatesheet1000() {
 		_1000Repository.deleteAll();
 		save1000("30000", "Interest Income");	
 		save1000("30100", "Less interest Expenses");
-	
+		
 		
 		save1000("30210", "Commission");
 		save1000("30220", "Fees/Charges");
 		save1000("30230", "Income From Investments");
 		save1000("30240", "Other Income From Non-Financial Services");
 		save1000("31100", "Staff Cost");
-	
+		
 		save1000("31110", "Directors");
 		save1000("31120", "Depreciation");
 		save1000("31130", "Provision For Bad Debts");
@@ -689,8 +638,9 @@ save300("20960" , "Retained Profit/Loss","col1-null" );
 		save1000("31190", "Less: Provision For Taxation");
 		save1000("31210", "Extra Ordinary items(EOI)");
 		save1000("31220", "Tax On EOI");
-	
+		
 	}
+	
 	
 	
 	
@@ -704,12 +654,11 @@ save300("20960" , "Retained Profit/Loss","col1-null" );
 	}
 	
 	
-	public void save300(String code, String desc, String amount1) {
+	public void save300(String code, String desc) {
 		
 		sheet300DAO data = new sheet300DAO();
 		data.setCode(code);
-		data.setItemDescription(desc);
-		data.setAmount1(amount1);
+		data.setDescription(desc);
 		_300Repository.save(data);
 	}
 	

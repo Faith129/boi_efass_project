@@ -102,11 +102,7 @@ public class sheet1000_impl implements sheet1000_Service{
 	}
 	
 	
-	
-	
-	
-	
-	
+
 	public ResponseEntity<?> updateData(int id, sheet1000DAO Data) throws ResourceNotFoundException {
 
 		Optional<sheet1000DAO> DataDb = sheet1000Repo.findById(id);

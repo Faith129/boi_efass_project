@@ -318,16 +318,15 @@ public class ReportController {
 		
 	}
 
-
-
-	@PutMapping("/mmfbr300/{date}/{code}")
-	public ResponseEntity<?> updateData300(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, @RequestBody sheet300DAO data) throws ResourceNotFoundException {
+	@PutMapping("/mmfbr300/{date}/{id}")
+	public ResponseEntity<?> updateData300(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, @PathVariable int id, @RequestBody sheet300DAO Data) throws ResourceNotFoundException {
 //		data.setCodcode);
-		String codedata  = data.getCode();
+//		String codedata  = data.getCode();
 		
 		Boolean evt = reportSvc.checkDate(date);
 		if(evt== true) {
-		return sheet300Svc.updateData(codedata, data);
+//		return sheet300Svc.updateData(codedata, data);
+		return sheet300Svc.updateData(id, Data);
 		}else {
 			return reportSvc.NoDateFound();
 		}
