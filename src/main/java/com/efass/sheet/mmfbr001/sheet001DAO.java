@@ -49,9 +49,6 @@ public class sheet001DAO {
 	
 	
 	
-	
-	@Column(name="PARENT")
-	public String PARENT;
 
 
 
@@ -152,18 +149,6 @@ public class sheet001DAO {
 	}
 
 
-
-
-	public String getPARENT() {
-		return PARENT;
-	}
-
-
-
-
-	public void setPARENT(String pARENT) {
-		PARENT = pARENT;
-	}
 	
 	
 }

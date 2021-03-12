@@ -12,6 +12,7 @@ import java.util.List;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -95,6 +96,14 @@ public void insertBorrowers(int rowNum,	Workbook wb,FileInputStream fsIP,String 
 	Sheet worksheet = wb.getSheet("001");
 	// declare a Cell object
 
+	
+	Cell cell01 = null;
+	cell01 = worksheet.getRow(13).getCell(5);
+	String formula= "E15+E16";
+	cell01.setCellType(CellType.FORMULA);
+	cell01.setCellFormula(formula);
+	
+	
 	Cell cell = null;
 	// Access the second cell in second row to update the value
 	cell = worksheet.getRow(14).getCell(5);
