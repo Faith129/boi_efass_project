@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.poi.EncryptedDocumentException;
@@ -19,6 +21,7 @@ import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.sheet.mmfbr141.sheet141DAO;
+import com.efass.sheet.mmfbr202.sheet202DAO;
 
 @Service
 public class sheet202_impl implements sheet202_Service{
@@ -29,6 +32,9 @@ public class sheet202_impl implements sheet202_Service{
 	
 	@Autowired
 	Validation validation;
+	
+	//@Autowired
+	//sheet202_Util sheet202Util;
 	
 	
 
@@ -127,12 +133,47 @@ public class sheet202_impl implements sheet202_Service{
 		}
 	}
 
-	@Override
-	public Boolean writesheet201(LocalDate Date, String folderPath)
-			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public Boolean writesheet202(LocalDate Date, String folderPath)
+//			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException {
+//	
+//		
+//	ArrayList<sheet202DAO> sheetData = new ArrayList<sheet202DAO>();
+//		Boolean status = false;
+//		
+//		sheetData = (ArrayList<sheet202DAO>) _202Repository.findAll();
+//
+//
+//			List<List<Object>> listOfLists = new ArrayList<List<Object>>();
+//			for (int i = 0; i < sheetData.size(); i++) {
+//				ArrayList<Object> data = new ArrayList<>();
+//				data.clear();
+//
+//				data.add(sheetData.get(i).getTypeOfDeposit());
+//				data.add(sheetData.get(i).getOneToHundredNaira());
+//				data.add(sheetData.get(i).getHundredAndOneNaira());
+//			
+//				listOfLists.add(data);
+//			
+//			}
+//			
+//			 status = sheet202Util.writeSpecificList(listOfLists,Date,folderPath);
+//				if (status == true) {
+//					status =  true;
+//				} else {
+//					status =  false;
+//				}
+//		
+//		
+//			
+//			
+//		
+//			
+//			
+//		
+//		return status;
+//		
+//	}
 
 	// ####################################################################################
 

@@ -18,7 +18,7 @@ public interface sheet202_Service {
 		public ResponseEntity<?> deleteById(int dataId) throws ResourceNotFoundException;
 		public ResponseEntity<?> updateData(int id , sheet202DAO Data) throws ResourceNotFoundException;
 		
-		public Boolean writesheet201(LocalDate Date, String folderPath)
-				throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException ;
+		//public Boolean writesheet202(LocalDate Date, String folderPath)
+			//	throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException ;
 		
 }

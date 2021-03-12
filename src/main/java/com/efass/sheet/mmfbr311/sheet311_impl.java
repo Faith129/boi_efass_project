@@ -65,10 +65,10 @@ public class sheet311_impl implements sheet311_Service {
 			
 			}
 			
-			if(!maturityDate.equalsIgnoreCase("Date")) {	
-				throw new ResourceNotFoundException("Maturity Date must be a Date value Format " );
-			
-			}
+//			if(!maturityDate.equalsIgnoreCase("Date")) {	
+//				throw new ResourceNotFoundException("Maturity Date must be a Date value Format " );
+//			
+//			}
 			
 			else if( !amount.equalsIgnoreCase("Num")) {
 				throw new ResourceNotFoundException("Amount must be a numeric value  " );
@@ -134,7 +134,7 @@ public class sheet311_impl implements sheet311_Service {
 
 	public ResponseEntity<?> updateData(int id , sheet311DAO Data) throws ResourceNotFoundException {
 		
-		validate(Data);
+		//validate(Data);
 		
 		Optional<sheet311DAO> DataDb = _311Repository.findById(id);
 
