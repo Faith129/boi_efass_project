@@ -67,7 +67,7 @@ public class JwtAuthenticationController {
 	private PrepareTables prepareSheets;
 
 	
-
+	
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest)
 			throws Exception {

@@ -44,9 +44,12 @@ public class sheet300_Util {
 //			String amount = (String) listAtI.get(0);
 		
 			String amount = ((listAtI.get(0) == null) ? "0" : listAtI.get(0).toString());
-		
+
+
 			
 			int _amount = Integer.parseInt(amount);
+
+
 			
 			
 			if(_amount != 0) {
@@ -91,4 +94,5 @@ public class sheet300_Util {
 
 		return true;
 	}
+
 }

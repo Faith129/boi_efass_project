@@ -36,12 +36,32 @@ public class ReportDAO{
 	@Column(name = "FILE_PATH")
 	public String file_path;
 
-	
+	@Column(name = "STATUS")
+	public String status;
 	
 
 	public ReportDAO() {
 	
 	}
+
+	
+	
+	
+	
+
+	public ReportDAO(int id, String user_id, String report_date, String file_name, String file_path, String status) {
+		super();
+		this.id = id;
+		this.user_id = user_id;
+		this.report_date = report_date;
+		this.file_name = file_name;
+		this.file_path = file_path;
+		this.status = status;
+	}
+
+
+
+
 
 
 	public int getId() {
@@ -92,7 +112,17 @@ public class ReportDAO{
 	public void setFile_path(String file_path) {
 		this.file_path = file_path;
 	}
-	
+
+
+	public String getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	
 
 }

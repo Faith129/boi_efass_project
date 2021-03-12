@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import com.efass.report.ReportDAO;
 import com.efass.report.ReportRepository;
 import com.efass.sheet.mmfbr321.sheet321Repository;
+import com.efass.specials.DateConverter;
 import com.efass.specials.SpecialData;
 
 @Service
@@ -35,7 +36,8 @@ public class sheet771_Util {
 	@Autowired
 	  ReportRepository ReportRepo ;
 
-
+	@Autowired
+	DateConverter dateConvert;
 	
 	SpecialData specialData = new SpecialData();
 	
@@ -86,25 +88,12 @@ public class sheet771_Util {
 			    
 			   CellStyle cellStyle = wb.createCellStyle();
 			   CreationHelper createHelper = wb.getCreationHelper();
-			   cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("yyyy/mm/dd"));
-//			   Date lastRepayment = new SimpleDateFormat("yyyy/MM/dd").parse(_lastRepaymentDate);
-//			   Date pastDueDate = new SimpleDateFormat("yyyy/MM/dd").parse(_pastDueDate);
+			   cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("dd/mm/yyyy"));
 			   
-			 
 			   
-//			   String startDateString = "08-12-2017";
-//			    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-//			    DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-//			    
-//			    String lastRepaymentDate = LocalDate.parse(_lastRepaymentDate, formatter).format(formatter2);
-//			    String pastDueDate = LocalDate.parse(_pastDueDate, formatter).format(formatter2);
-			    
-			    String sDate0=_lastRepaymentDate;
-			    Date lastRepaymentDate1=new SimpleDateFormat("yyyy/MM/dd").parse(sDate0);
-			   
-			    
-			    String sDate1 =_pastDueDate;
-			    Date pastDueDate1=new SimpleDateFormat("yyyy/MM/dd").parse(sDate1);
+		
+
+		
 			   
 			   
 			   
@@ -114,7 +103,7 @@ public class sheet771_Util {
 
 				Cell cell = null;
 				// Access the second cell in second row to update the value
-				cell = worksheet.getRow(rowNum).getCell(13);
+				cell = worksheet.getRow(rowNum).getCell(14);
 				// Get current cell value value and overwrite the value
 				cell.setCellValue(remark);
 
@@ -182,25 +171,47 @@ public class sheet771_Util {
 				cell9.setCellValue(amountGranted);
 				
 				
-				Cell cell10 = null;
-				// int cellNum3 =cellNum-3;
-				// Access the second cell in second row to update the value
-				cell10 = worksheet.getRow(rowNum).getCell(4);
-				// Get current cell value value and overwrite the value
-				
-				cell10.setCellValue(lastRepaymentDate1);
-				cell10.setCellStyle(cellStyle);
 				
 				
-				Cell cell11 = null;
-				// int cellNum3 =cellNum-3;
-				// Access the second cell in second row to update the value
-				cell11 = worksheet.getRow(rowNum).getCell(3);
-				// Get current cell value value and overwrite the value
-				cell11.setCellValue(pastDueDate1);
-				cell11.setCellStyle(cellStyle);
+			    String sDate0=_lastRepaymentDate;
+			    String sDate1 =_pastDueDate;
+			    
+			    
+			    	
+				System.out.println("Last Date : " +sDate0);
+		    	System.out.println("Past Date: "+ sDate1);
+			    
 				
+				String ___lastRepaymentDate =(( sDate0== null) ? "0" : sDate0.toString());
+				String ___pastDueDate =(( sDate1== null) ? "0" : sDate1.toString());
+					
+					    if ( !___lastRepaymentDate.equals("0")) {
+					      	System.out.println("show here");
+					    	System.out.println("show here2");
+					   	 Date lastRepaymentDate1=dateConvert.changeDateToGregorian(sDate0);	
+						Cell cell10 = null;
+						// int cellNum3 =cellNum-3;
+						// Access the second cell in second row to update the value
+						cell10 = worksheet.getRow(rowNum).getCell(4);
+						// Get current cell value value and overwrite the value
+						cell10.setCellValue(lastRepaymentDate1);
+						cell10.setCellStyle(cellStyle);
+						
+					    }else if ( !___pastDueDate.equals("0")) {
+					    	System.out.println("show here33");
+					    	System.out.println("show here333");
+						    Date pastDueDate1=dateConvert.changeDateToGregorian(sDate1);
+						Cell cell11 = null;
+						// int cellNum3 =cellNum-3;
+						// Access the second cell in second row to update the value
+						cell11 = worksheet.getRow(rowNum).getCell(3);
+						// Get current cell value value and overwrite the value
+						cell11.setCellValue(pastDueDate1);
+						cell11.setCellStyle(cellStyle);
+			   
+					    }
 				
+
 				Cell cell12 = null;
 				// int cellNum3 =cellNum-3;
 				// Access the second cell in second row to update the value

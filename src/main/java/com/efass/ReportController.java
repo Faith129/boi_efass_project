@@ -194,6 +194,10 @@ public class ReportController {
 	@Autowired
 	private sheet300_Service sheet300Svc;
 	
+	
+	@Autowired
+	private sheet1000_Service sheet001Svc;
+	
 	// CHOOSE REPORT DATE
 	// You can consume the path .../report/date/2019-04-25
 	@RequestMapping("/report/date/{date}")
@@ -304,29 +308,29 @@ public class ReportController {
 		
 	}
 
-	@GetMapping("/mmfbr300/{date}/{id}")
-	public ResponseEntity<?> getDataById300(@PathVariable int id , @PathVariable   @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) throws ResourceNotFoundException {
+	@GetMapping("/mmfbr300/{date}/{code}")
+	public ResponseEntity<?> getDataByCode300(@PathVariable String code , @PathVariable   @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) throws ResourceNotFoundException {
 		
 //		string codedata2 = data
 		Boolean evt = reportSvc.checkDate(date);
 		if(evt== true) {
 //			String _code =Integer.toString(Code);
-		return sheet300Svc.getDataById(id);
+		return sheet300Svc.getDataByCode(code);
 		}else {
 			return reportSvc.NoDateFound();
 		}
 		
 	}
 
-	@PutMapping("/mmfbr300/{date}/{id}")
-	public ResponseEntity<?> updateData300(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, @PathVariable int id, @RequestBody sheet300DAO Data) throws ResourceNotFoundException {
-//		data.setCodcode);
-//		String codedata  = data.getCode();
+
+
+	@PutMapping("/mmfbr300/{date}/{code}")
+	public ResponseEntity<?> updateData300(@PathVariable String code, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, @RequestBody sheet300DAO Data) throws ResourceNotFoundException {
 		
 		Boolean evt = reportSvc.checkDate(date);
 		if(evt== true) {
-//		return sheet300Svc.updateData(codedata, data);
-		return sheet300Svc.updateData(id, Data);
+		return sheet300Svc.updateData(code, Data);
+
 		}else {
 			return reportSvc.NoDateFound();
 		}
@@ -1825,19 +1829,23 @@ public class ReportController {
 		
 		
 		
+
+		//########################## MMFBR1000 ##########################
+		@GetMapping("/mmfbr001/{date}")
+		public ResponseEntity<?> getAllData001(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+			Boolean evt = reportSvc.checkDate(date);
+			if(evt== true) {
+			return sheet001Svc.fetchAllData();
+			}else {
+				return reportSvc.NoDateFound();
+			}
+		}
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
+		//####################################################################
+
 		
 		
 

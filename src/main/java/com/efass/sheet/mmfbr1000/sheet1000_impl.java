@@ -1,3 +1,4 @@
+
 package com.efass.sheet.mmfbr1000;
 
 import java.io.FileNotFoundException;
@@ -17,10 +18,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.sheet.mmfbr1000.sheet1000DAO;
-import com.efass.sheet.mmfbr312.sheet312DAO;
+
 
 @Service
 public class sheet1000_impl implements sheet1000_Service{
@@ -31,6 +33,25 @@ public class sheet1000_impl implements sheet1000_Service{
 	
 	@Autowired
 	sheet1000_Util sheet1000Util;
+	
+	@Autowired
+	Validation validation;
+	
+	public void validate(sheet1000DAO data) throws ResourceNotFoundException {
+		
+	String amount1 = validation.checkDataType(data.getCol_1().toString());
+	
+		if (amount1.equalsIgnoreCase("Null")) {
+			throw new ResourceNotFoundException("Amount cannot take a null value " );	
+		}
+	
+		if( !amount1.equalsIgnoreCase("Num") ) {
+				throw new ResourceNotFoundException("Amount must be a numeric value  " );	
+		}
+		
+	
+	
+	}
 	
 	
 	public ResponseEntity<?> fetchAllData() {
@@ -63,20 +84,26 @@ public class sheet1000_impl implements sheet1000_Service{
 			sheet1000Data data = new sheet1000Data();
 			
 			
+			
 			ArrayList  arrList = new ArrayList();
 			for (String code: codes){
-				HashMap<String,codeData> sheet1000Map=new HashMap<String,codeData>();//Creating HashMap.
+				HashMap<String,sheetCodeData> sheet1000Map=new HashMap<String,sheetCodeData>();//Creating HashMap.
 				
 				
 				sheet1000DAO dataValue = sheet1000Repo.findColumnsByCode(code);
 				
-				codeData _codeData = new codeData();
-				_codeData.setCol1(dataValue.getCol_1());
+				ArrayList<String>  amountList = new ArrayList<String>( );
+				amountList.add("col1-"+ dataValue.getCol_1());
+				amountList.add("col2-"+ dataValue.getCol_2());
+				amountList.add("col3-"+dataValue.getCol_3());
+				
+				sheetCodeData _codeData = new sheetCodeData();
+				_codeData.setValue(amountList);
+				_codeData.setCode(code);
 				_codeData.setId(dataValue.getId());
 		
-		
-				sheet1000Map.put(code, _codeData);
-				arrList.add(sheet1000Map);
+			
+				arrList.add(_codeData);
 		
 			}
 			Response res = new Response();
@@ -102,13 +129,21 @@ public class sheet1000_impl implements sheet1000_Service{
 	}
 	
 	
-
+	
+	
+	
+	
+	
 	public ResponseEntity<?> updateData(int id, sheet1000DAO Data) throws ResourceNotFoundException {
 
-		Optional<sheet1000DAO> DataDb = sheet1000Repo.findById(id);
+		validate(Data);
+	//	Optional<sheet1000DAO> DataDb = sheet1000Repo.findById(id);
 
+		Optional<sheet1000DAO> DataDb = sheet1000Repo.findByCode(Data.getCode());
+		
 		if (DataDb.isPresent()) {
 			sheet1000DAO DataUpdate = DataDb.get();
+			DataUpdate.setCol_1(Data.getCol_1());
 			sheet1000Repo.save(DataUpdate);
 			Response res = new Response();
 			res.setResponseMessage("Record Updated");
@@ -170,3 +205,4 @@ public class sheet1000_impl implements sheet1000_Service{
 	
 	
 }
+

@@ -61,7 +61,7 @@ public class sheet321_impl implements sheet321_Service {
 			}
 			
 			else if(!maturityDate.equalsIgnoreCase("Date")) {	
-				throw new ResourceNotFoundException("Maturity Date must be an date value format  " );
+				throw new ResourceNotFoundException("Maturity Date must be dd/mm/yyyy  " );
 			
 			}
 			
