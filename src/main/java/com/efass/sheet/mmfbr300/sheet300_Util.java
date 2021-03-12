@@ -21,7 +21,6 @@ import com.efass.specials.SpecialData;
 @Service
 public class sheet300_Util {
 
-	
 	public Boolean writeSpecificList(List<List<Object>> listOfLists, LocalDate Date ,String folderPath)
 			throws EncryptedDocumentException, InvalidFormatException, IOException, ParseException {
 		
@@ -46,8 +45,10 @@ public class sheet300_Util {
 		
 			String amount = ((listAtI.get(0) == null) ? "0" : listAtI.get(0).toString());
 
+
 			
 			int _amount = Integer.parseInt(amount);
+
 
 			
 			

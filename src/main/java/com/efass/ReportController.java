@@ -330,6 +330,7 @@ public class ReportController {
 		Boolean evt = reportSvc.checkDate(date);
 		if(evt== true) {
 		return sheet300Svc.updateData(code, Data);
+
 		}else {
 			return reportSvc.NoDateFound();
 		}
