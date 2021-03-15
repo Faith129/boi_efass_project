@@ -1,3 +1,4 @@
+
 package com.efass.sheet.mmfbr1000;
 
 import java.io.FileNotFoundException;
@@ -17,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.sheet.mmfbr1000.sheet1000DAO;
@@ -31,6 +33,25 @@ public class sheet1000_impl implements sheet1000_Service{
 	
 	@Autowired
 	sheet1000_Util sheet1000Util;
+	
+	@Autowired
+	Validation validation;
+	
+	public void validate(sheet1000DAO data) throws ResourceNotFoundException {
+		
+	String amount1 = validation.checkDataType(data.getCol_1().toString());
+	
+		if (amount1.equalsIgnoreCase("Null")) {
+			throw new ResourceNotFoundException("Amount cannot take a null value " );	
+		}
+	
+		if( !amount1.equalsIgnoreCase("Num") ) {
+				throw new ResourceNotFoundException("Amount must be a numeric value  " );	
+		}
+		
+	
+	
+	}
 	
 	
 	public ResponseEntity<?> fetchAllData() {
@@ -115,6 +136,7 @@ public class sheet1000_impl implements sheet1000_Service{
 	
 	public ResponseEntity<?> updateData(int id, sheet1000DAO Data) throws ResourceNotFoundException {
 
+		validate(Data);
 	//	Optional<sheet1000DAO> DataDb = sheet1000Repo.findById(id);
 
 		Optional<sheet1000DAO> DataDb = sheet1000Repo.findByCode(Data.getCode());
@@ -183,3 +205,4 @@ public class sheet1000_impl implements sheet1000_Service{
 	
 	
 }
+

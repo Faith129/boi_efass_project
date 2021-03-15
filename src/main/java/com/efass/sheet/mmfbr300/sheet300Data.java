@@ -1,4 +1,4 @@
-package com.efass.sheet.mmfbr300;
+
 
 import java.util.HashMap;
 
@@ -17,4 +17,5 @@ public class sheet300Data {
 	public void setSheet300Map(HashMap<String, CodeColData> sheet300Map) {
 		this.sheet300Map = sheet300Map;
 	}
+
 }

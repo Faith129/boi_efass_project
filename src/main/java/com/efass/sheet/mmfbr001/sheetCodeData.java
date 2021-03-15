@@ -6,31 +6,41 @@ public class sheetCodeData {
 	
 	
 	public int id;
-	public ArrayList<String> values;
+	public ArrayList<String> value;
 	
 	public String code;
 	
 	
 	
-	public String getCode() {
-		return code;
-	}
-	public void setCode(String code) {
-		this.code = code;
-	}
+	
+
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	public ArrayList<String> getValues() {
-		return values;
+
+	public ArrayList<String> getValue() {
+		return value;
 	}
-	public void setValues(ArrayList<String> values) {
-		this.values = values;
+
+	public void setValue(ArrayList<String> value) {
+		this.value = value;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 	
+	
+	
+
 	
 	
 

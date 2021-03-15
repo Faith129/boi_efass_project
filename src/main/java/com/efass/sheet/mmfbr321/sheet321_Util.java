@@ -58,7 +58,7 @@ public class sheet321_Util {
 				String bankCode = (String) listAtI.get(0);
 				String bankName = (String) listAtI.get(1);
 				String tenor = (String) listAtI.get(2);
-				String maturity = (String) listAtI.get(3);
+				String maturityDate = (String) listAtI.get(3);
 				
 		
 				int amount = Integer.parseInt(listAtI.get(4).toString());
@@ -77,7 +77,7 @@ public class sheet321_Util {
 				// Access the second cell in second row to update the value
 				cell2 = worksheet.getRow(rowNum).getCell(4);
 				// Get current cell value value and overwrite the value
-				cell2.setCellValue(maturity);
+				cell2.setCellValue(maturityDate);
 
 				Cell cell3 = null;
 				// int cellNum3 =cellNum-3;
@@ -121,6 +121,13 @@ public class sheet321_Util {
 				cell01.setCellType(CellType.FORMULA);
 				cell01.setCellFormula(formula);	
 				
+				Cell cell01 = null;
+				cell01 = worksheet.getRow(31).getCell(5);
+				String formula= "SUM(F12:F31)";
+				cell01.setCellType(CellType.FORMULA);
+				cell01.setCellFormula(formula);
+				
+		
 
 				// Close the InputStream
 				fsIP.close();

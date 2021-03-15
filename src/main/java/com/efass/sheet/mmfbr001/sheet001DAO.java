@@ -12,7 +12,7 @@ import javax.persistence.Table;
 public class sheet001DAO {
 
 	
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -147,8 +147,6 @@ public class sheet001DAO {
 	public void setVALUE_2(String vALUE_2) {
 		VALUE_2 = vALUE_2;
 	}
-
-
 
 
 	

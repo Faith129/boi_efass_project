@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.io.FileUtils;
@@ -46,6 +47,9 @@ public class ReportImpl implements ReportService{
 	@Autowired
 	ReportRepository ReportRepo;
 	
+	@Autowired
+	ReportCall reportCall;
+	
 
 	@Autowired
 	sheet711Repository _711Repository;
@@ -71,14 +75,12 @@ public class ReportImpl implements ReportService{
 			//Update Data
 			
 			Optional<ReportDAO> DataDb =  ReportRepo.findByDates(date.toString());
-
-	
-			
 			if (DataDb.isPresent()) {
 				ReportDAO DataUpdate = DataDb.get();
 				DataUpdate.setFile_name(filename );
-				DataUpdate.setFile_path(folderPath + "/cbn_MFB_rpt_12345m052087.xlsx");
+				DataUpdate.setFile_path(folderPath);
 				DataUpdate.setReport_date(date);
+				DataUpdate.setStatus("approved");
 				DataUpdate.setUser_id(currentPrincipalName);
 				ReportRepo.save(DataUpdate);
 			}
@@ -92,8 +94,8 @@ public class ReportImpl implements ReportService{
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			String currentPrincipalName = authentication.getName();
 			
-			
-			ArrayList<ReportDAO> data =	ReportRepo.findAllByUsername(currentPrincipalName);
+			String status = "approved";
+			ArrayList<ReportDAO> data =	ReportRepo.findAllByUsername(currentPrincipalName, status);
 		
 			ReportResponse res = new ReportResponse();
 			res.setReportData(data);
@@ -159,6 +161,7 @@ public class ReportImpl implements ReportService{
 			data.setFile_name(filename );
 			data.setFile_path(filepath);
 			data.setReport_date(Date.toString());
+			data.setStatus("0");
 			data.setUser_id(currentPrincipalName);
 			ReportRepo.save(data);
 			
@@ -188,14 +191,21 @@ public class ReportImpl implements ReportService{
 
 	public Boolean checkDate(LocalDate Date) {
 		
-		 data = ReportRepo.findByDate(Date.toString());
+		
+		String date= null;
+		
+		 //data = ReportRepo.findByDate(Date.toString());
 	
-		if(data== null) {
+		
+		 
+			List<ReportDAO> data =reportCall.fetchDate(Date.toString());
+		
+		if(data == null) {
 			
 			return false;
 			
 		}else {
-			System.out.println("Selected Date=" + data.getReport_date());
+			System.out.println("Date Exists");
 			return true;
 		}
 		

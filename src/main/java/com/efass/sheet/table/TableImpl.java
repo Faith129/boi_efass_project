@@ -427,7 +427,7 @@ public class TableImpl implements TableService {
 
 
 		TabSheet data28 = new TabSheet();
-		data28.setSheetNumber("MMFBR M001");
+		data28.setSheetNumber("MMFBR001");
 		data28.setReturnCode("Form MMFBR M001");
 		data28.setBankCode("51253");
 		data28.setBankName("NEPTUNE MICROFINANCE BANK LIMITED");
