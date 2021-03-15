@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -122,6 +123,11 @@ public class sheet651_Util {
 			// Get current cell value value and overwrite the value
 			cell6.setCellValue(amountGranted);
 			
+			Cell cell01 = null;
+			cell01 = worksheet.getRow(22).getCell(6);
+			String formula= "SUM(G13:G22)";
+			cell01.setCellType(CellType.FORMULA);
+			cell01.setCellFormula(formula);
 			
 			
 			

@@ -47,7 +47,7 @@ public class sheet501_Impl implements sheet501_Service {
 		String item = validation.checkDataType(data.getItem().toString());
 		String amount = validation.checkDataType(data.getAmount().toString());
 		
-			if(!code.equalsIgnoreCase("Alpha")) {
+			if(!code.equalsIgnoreCase("Num")) {
 				throw new ResourceNotFoundException("Bank Code  must be an alphabetic value  " );
 			}
 			
@@ -118,7 +118,7 @@ public class sheet501_Impl implements sheet501_Service {
 
 	public ResponseEntity<?> updateData(int id, sheet501DAO Data) throws ResourceNotFoundException {
 		
-		validate(Data);
+		//validate(Data);
 
 		Optional<sheet501DAO> DataDb = _501Repository.findById(id);
 

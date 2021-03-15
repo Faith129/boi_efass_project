@@ -44,7 +44,7 @@ public class sheet221_impl implements sheet221_Service {
 	String bankName = validation.checkDataType(data.getBankName().toString());
 	String amount = validation.checkDataType(data.getAmount().toString());
 	
-		if(!bankCode.equalsIgnoreCase("Alpha")) {
+		if(!bankCode.equalsIgnoreCase("Num")) {
 			throw new ResourceNotFoundException("Bank Code  must be an alphabetic value  " );
 		}
 		if(!bankName.equalsIgnoreCase("Alpha")) {	
