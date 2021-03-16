@@ -104,11 +104,7 @@ public class sheet141_Util {
 			
 				
 				
-				Cell cell01 = null;
-				cell01 = worksheet.getRow(46).getCell(3);
-				String formula= "SUM(D12:D46)";
-				cell01.setCellType(CellType.FORMULA);
-				cell01.setCellFormula(formula);
+			
 				
 				
 				

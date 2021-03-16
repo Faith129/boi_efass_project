@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.report.ReportService;
+import com.efass.sheet.mmfbr001.sheet001DAO;
+import com.efass.sheet.mmfbr001.sheet001_Service;
 import com.efass.sheet.mmfbr1000.sheet1000DAO;
 import com.efass.sheet.mmfbr1000.sheet1000_Service;
 import com.efass.sheet.mmfbr141.sheet141DAO;
@@ -196,7 +198,7 @@ public class ReportController {
 	
 	
 	@Autowired
-	private sheet1000_Service sheet001Svc;
+	private sheet001_Service sheet001Svc;
 	
 	// CHOOSE REPORT DATE
 	// You can consume the path .../report/date/2019-04-25
@@ -321,8 +323,8 @@ public class ReportController {
 
 
 
-	@PutMapping("/mmfbr300/{date}/{code}")
-	public ResponseEntity<?> updateData300(@PathVariable int id, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, @RequestBody sheet300DAO Data) throws ResourceNotFoundException {
+	@PutMapping("/mmfbr300/{date}/{id}")
+	public ResponseEntity<?> updateData300( @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet300DAO Data) throws ResourceNotFoundException {
 		
 		Boolean evt = reportSvc.checkDate(date);
 		if(evt== true) {
@@ -1827,7 +1829,7 @@ public class ReportController {
 		
 		
 
-		//########################## MMFBR1000 ##########################
+		//########################## MMFBR001 ##########################
 		@GetMapping("/mmfbr001/{date}")
 		public ResponseEntity<?> getAllData001(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
 			Boolean evt = reportSvc.checkDate(date);
@@ -1839,6 +1841,20 @@ public class ReportController {
 		}
 		
 		
+		
+//
+//		@PutMapping("/mmfbr001/{date}/{id}")
+//		public ResponseEntity<?> updateData001(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,@PathVariable int id, @RequestBody sheet001DAO Data) throws ResourceNotFoundException {
+//	
+//		
+//			Boolean evt = reportSvc.checkDate(date);
+//			if(evt== true) {
+//			return sheet001Svc.updateData(id, Data);
+//			}else {
+//				return reportSvc.NoDateFound();
+//			}
+//		}
+//		
 		
 
 		//####################################################################
