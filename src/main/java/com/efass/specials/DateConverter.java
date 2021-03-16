@@ -25,4 +25,44 @@ public class DateConverter {
 		return newDate;  
         
     	}
+    
+    
+    public String changeDateToGregorian2(String dateStr){
+    
+    	 String newDate=null;
+    	 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+    	 try {
+    	  Date date = sdf.parse(dateStr);
+    	  sdf = new SimpleDateFormat("dd/mm/yyyy");
+    	  newDate = sdf.format(date);
+    	  System.out.println(sdf.format(date));
+    	  
+    	  
+    	 } catch (ParseException e) {
+    	  e.printStackTrace();
+    	 }
+		return newDate;
+    }
+    
+    
+    
+    
+    
+    public String changeDateTime(String dateStr){
+        
+   	 String newDate=null;
+   	 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+   	 try {
+   	  Date date = sdf.parse(dateStr);
+   	  sdf = new SimpleDateFormat("dd/mm/yyyy hh:mm:ss a");
+   	  newDate = sdf.format(date);
+   	  System.out.println(sdf.format(date));
+   	  
+   	  
+   	 } catch (ParseException e) {
+   	  e.printStackTrace();
+   	 }
+		return newDate;
+   }
+    
 }

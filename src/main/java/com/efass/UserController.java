@@ -2,15 +2,19 @@
 package com.efass;
 
 import java.io.FileNotFoundException;
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,9 +26,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.efass.auth.jwt.user.PassData;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+import com.efass.procedures.ProcedureService;
 import com.efass.report.ReportDAO;
 import com.efass.report.ReportService;
 import com.efass.sheet.mmfbr202.sheet202DAO;
+import com.efass.specials.DateConverter;
 import com.efass.user.UserDAO;
 import com.efass.user.UserRepository;
 
@@ -43,6 +49,48 @@ public class UserController {
 	@Autowired
 	private ReportService reportSvc;
 
+	@Autowired
+	ProcedureService prodSvc;
+	
+	@Autowired
+	DateConverter dateSvc;
+
+	
+	@RequestMapping(value ="/testproc/{date}")
+	public ResponseEntity<?> testing(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) throws ParseException {
+		String _date=null;
+		 _date = dateSvc.changeDateToGregorian2(date.toString());
+		prodSvc.callPrepareTableProcedure(_date, "PROC_MMFBR_311");
+		
+		
+		_date = dateSvc.changeDateTime(date.toString());
+	//	prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_141");
+	
+		_date = dateSvc.changeDateTime(date.toString());
+		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_221");
+		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_311");
+		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_312");
+		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_321");
+		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_641");
+		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_711");
+		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_746");
+		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_761");
+		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_771");
+		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_M001");
+	//	prodSvc.callPrepareTableProcedure(date.toString(), "PROD_MMFBR_202");
+
+
+		
+		 return null;
+
+	
+	}
+	
+	
+	
+	
+	
+	
 	
 	//FETCH ALL USERS
 	@RequestMapping("/users")
