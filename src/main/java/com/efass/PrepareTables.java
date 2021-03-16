@@ -1,4 +1,4 @@
-
+ 
 package com.efass;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -208,6 +208,7 @@ public class PrepareTables {
 		
 		
 		
+		
 		sheet762DAO data8 = new sheet762DAO();
 		data8.setSector("Education");
 		_762Repository.save(data8);
@@ -227,6 +228,10 @@ public class PrepareTables {
 		sheet762DAO data11 = new sheet762DAO();
 		data11.setSector("Others (Specify)");
 		_762Repository.save(data11);
+		
+		sheet762DAO data12 = new sheet762DAO();
+		data11.setSector("Rent/Housing");
+		_762Repository.save(data12);
 		
 	}
 	
@@ -685,7 +690,7 @@ save300("20960" , "Retained Profit/Loss","col1-null" );
 		
 		sheet300DAO data = new sheet300DAO();
 		data.setCode(code);
-		data.setItemDescription(desc);
+		data.setDescription(desc);
 		data.setCol_1(amount1);
 		_300Repository.save(data);
 	}

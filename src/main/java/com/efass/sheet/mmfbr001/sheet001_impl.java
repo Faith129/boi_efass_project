@@ -113,19 +113,7 @@ public class sheet001_impl implements sheet001_Service {
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	public ResponseEntity<?> updateData(int id, sheet001DAO Data) throws ResourceNotFoundException {
 
 		validate(Data);
@@ -150,11 +138,7 @@ public class sheet001_impl implements sheet001_Service {
 		}
 	}
 	
-	
-	
-	
-	
-	
+
 	
 	public String writesheet001(LocalDate Date, String folderPath) throws FileNotFoundException, IOException,
 	EncryptedDocumentException, InvalidFormatException, ParseException {

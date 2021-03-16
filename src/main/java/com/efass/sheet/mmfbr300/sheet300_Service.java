@@ -17,9 +17,9 @@ public interface sheet300_Service {
 		public ResponseEntity<?> fetchAllData();
 
 	
-		public ResponseEntity<?> getDataByCode(String dataCode) throws ResourceNotFoundException;
+		public ResponseEntity<?> getDataById(int dataId) throws ResourceNotFoundException;
 				
-		public ResponseEntity<?> updateData(String code, sheet300DAO Data) throws ResourceNotFoundException;
+		public ResponseEntity<?> updateData(int id, sheet300DAO Data) throws ResourceNotFoundException;
 
 		public Boolean writesheet300(LocalDate Date, String folderPath) throws FileNotFoundException, IOException,
 		EncryptedDocumentException, InvalidFormatException, ParseException;

@@ -114,7 +114,7 @@ public class sheet300_impl implements sheet300_Service{
 		
 		
 				//sheet300Map.put(code, _codeData);
-				codeList.add(_codeData);
+				arrList.add(_codeData);
 		
 			}
 			}catch(Exception ex) {
@@ -123,7 +123,7 @@ public class sheet300_impl implements sheet300_Service{
 		
 		Response res = new Response();
 		res.setColumnNames(colname);
-		res.setSheet300(codeList);
+		res.setSheet300(arrList);
 
 		res.setResponseMessage("Success");
 		res.setResponseCode(00);
@@ -142,12 +142,8 @@ public class sheet300_impl implements sheet300_Service{
 		res.setS300Data(data);
 		return new ResponseEntity<>(res, HttpStatus.OK);
 		
-	}catch(Exception ex) {
-		ex.printStackTrace();
 	}
-		return null;
-}
-	
+
 
 	
 	public ResponseEntity<?> updateData(int id, sheet300DAO Data) throws ResourceNotFoundException {
@@ -204,6 +200,7 @@ else {
 
 
 }
+
 
 	
 

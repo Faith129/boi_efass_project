@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -100,21 +101,21 @@ public class sheet933_Util {
 			Cell cell3 = null;
 			// int cellNum3 =cellNum-3;
 			// Access the second cell in second row to update the value
-			cell3 = worksheet.getRow(rowNum).getCell(5);
+			cell3 = worksheet.getRow(rowNum).getCell(4);
 			// Get current cell value value and overwrite the value
 			cell3.setCellValue(purpose);
 			
 			Cell cell4 = null;
 			// int cellNum3 =cellNum-3;
 			// Access the second cell in second row to update the value
-			cell4 = worksheet.getRow(rowNum).getCell(6);
+			cell4 = worksheet.getRow(rowNum).getCell(5);
 			// Get current cell value value and overwrite the value
 			cell4.setCellValue(totAmount);
 			
 			Cell cell5 = null;
 			// int cellNum3 =cellNum-3;
 			// Access the second cell in second row to update the value
-			cell5 = worksheet.getRow(rowNum).getCell(7);
+			cell5 = worksheet.getRow(rowNum).getCell(6);
 			// Get current cell value value and overwrite the value
 			cell5.setCellValue(outstandingDeferred);
 			
@@ -122,9 +123,30 @@ public class sheet933_Util {
 			Cell cell6 = null;
 			// int cellNum3 =cellNum-3;
 			// Access the second cell in second row to update the value
-			cell6 = worksheet.getRow(rowNum).getCell(6);
+			cell6 = worksheet.getRow(rowNum).getCell(7);
 			// Get current cell value value and overwrite the value
 			cell6.setCellValue(amountTransferred);
+			
+			
+			Cell cell01 = null;
+			cell01 = worksheet.getRow(21).getCell(5);
+			String formula= "SUM(F13:F21)";
+			cell01.setCellType(CellType.FORMULA);
+			cell01.setCellFormula(formula);
+			
+			
+			Cell cell02 = null;
+			cell02 = worksheet.getRow(21).getCell(6);
+			String formula2= "SUM(G13:G21)";
+			cell02.setCellType(CellType.FORMULA);
+			cell02.setCellFormula(formula2);
+			
+			
+			Cell cell03 = null;
+			cell03 = worksheet.getRow(21).getCell(7);
+			String formula3= "SUM(H13:H21)";
+			cell03.setCellType(CellType.FORMULA);
+			cell03.setCellFormula(formula3);
 
 			// Close the InputStream
 			fsIP.close();
