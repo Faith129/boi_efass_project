@@ -48,7 +48,6 @@ public class sheet001DAO {
 	public String VALUE_2;
 	
 	
-	
 
 
 
@@ -148,8 +147,6 @@ public class sheet001DAO {
 	public void setVALUE_2(String vALUE_2) {
 		VALUE_2 = vALUE_2;
 	}
-
-
 
 
 	

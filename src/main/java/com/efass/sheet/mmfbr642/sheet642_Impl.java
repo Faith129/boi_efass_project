@@ -82,7 +82,7 @@ public class sheet642_Impl implements sheet642_Service{
 
 	public ResponseEntity<?> createData(sheet642DAO data) throws ResourceNotFoundException {
 		
-		validate(data);
+	//	validate(data);
 		_642Repository.save(data);
 		Response res = new Response();
 		res.setResponseMessage("Success");
@@ -135,7 +135,7 @@ public class sheet642_Impl implements sheet642_Service{
 
 	public ResponseEntity<?> updateData(int id, sheet642DAO Data) throws ResourceNotFoundException {
 		
-		validate(Data);
+		//validate(Data);
 
 		Optional<sheet642DAO> DataDb = _642Repository.findById(id);
 

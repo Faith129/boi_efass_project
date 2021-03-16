@@ -36,7 +36,7 @@ public class sheet322_impl implements sheet322_Service {
 	sheet322Repository _322Repository;
 	
 	@Autowired
-	Validation validation;
+	Validation validation;	
 
 	// ############################## MMFBR322 CRUD OPERATIONS
 	// #################################
@@ -49,7 +49,7 @@ public class sheet322_impl implements sheet322_Service {
 		String maturityDate = validation.checkDataType(data.getMaturityDate().toString());
 		String amount = validation.checkDataType(data.getAmount().toString());
 		
-			if(!bankCode.equalsIgnoreCase("Alpha")) {
+			if(!bankCode.equalsIgnoreCase("Num")) {
 				throw new ResourceNotFoundException("Bank Code  must be an alphabetic value  " );
 			}
 			
@@ -75,7 +75,7 @@ public class sheet322_impl implements sheet322_Service {
 			}
 			
 			else if(!amount.equalsIgnoreCase("Num")) {
-				throw new ResourceNotFoundException("Amount must be a numeric value  " );
+				throw new ResourceNotFoundException("Amount must be a numeric value" );
 			}
 			
 		}

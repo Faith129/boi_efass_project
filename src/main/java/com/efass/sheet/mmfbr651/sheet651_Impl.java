@@ -73,7 +73,7 @@ public class sheet651_Impl implements sheet651_Service{
 
 	public ResponseEntity<?> createData(sheet651DAO data) throws ResourceNotFoundException {
 		
-		validate(data);
+		//validate(data);
 		_651Repository.save(data);
 		Response res = new Response();
 		res.setResponseMessage("Success");
@@ -126,7 +126,7 @@ public class sheet651_Impl implements sheet651_Service{
 
 	public ResponseEntity<?> updateData(int id, sheet651DAO Data) throws ResourceNotFoundException {
 		
-		validate(Data);
+		//validate(Data);
 
 		Optional<sheet651DAO> DataDb = _651Repository.findById(id);
 

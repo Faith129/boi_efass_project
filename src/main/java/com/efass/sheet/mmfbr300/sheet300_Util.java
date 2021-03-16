@@ -11,6 +11,7 @@ import java.util.List;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -52,12 +53,51 @@ public class sheet300_Util {
 
 			
 			
+			Sheet worksheet = wb.getSheet("300");
+			// declare a Cell object
+
+
+			Cell cell01 = null;
+			cell01 = worksheet.getRow(16).getCell(5);
+			String formula= "SUM(D15:D16)";
+			cell01.setCellType(CellType.FORMULA);
+			cell01.setCellFormula(formula);
+
+			
+			
+			Cell cell02 = null;
+			cell02 = worksheet.getRow(16).getCell(6);
+			String formula2= "E17";
+			cell02.setCellType(CellType.FORMULA);
+			cell02.setCellFormula(formula2);
+			
+			
+			
+			Cell cell03 = null;
+			cell03 = worksheet.getRow(20).getCell(4);
+			String formula3= "'221'!D48";
+			cell03.setCellType(CellType.FORMULA);
+			cell03.setCellFormula(formula3);
+			
+			
+			
+			Cell cell04 = null;
+			cell04 = worksheet.getRow(20).getCell(4);
+			String formula4= "'221'!D48";
+			cell04.setCellType(CellType.FORMULA);
+			cell04.setCellFormula(formula3);
+			
+			
+			
+
 			if(_amount != 0) {
 				
 			
 				
-				Sheet worksheet = wb.getSheet("300");
-				// declare a Cell object
+	
+				
+				
+				
 
 				Cell cell = null;
 				// Access the second cell in second row to update the value

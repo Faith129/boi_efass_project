@@ -11,6 +11,7 @@ public class Validation {
 	Boolean date = isDate(value);
 	Boolean alpha = isAlpha(value);
 	Boolean num = isNum(value);
+	Boolean alphaNum = isAlphaNumeric(value);
 	String 	data=null;
 	
 if (alpha) {
@@ -24,6 +25,9 @@ if (alpha) {
 	else if(date) {
 		data= "Date";
 	}
+	else if(alphaNum) {
+		data = "alphaNum";
+	}
 
 	return data;
 	
@@ -32,17 +36,26 @@ if (alpha) {
 	
 	
 	
-	public Boolean isAlphaNum(String str){
-		
-		  for (int i=0; i<str.length(); i++) {
-		        char c = str.charAt(i);
-		        if (c < 0x30 || (c >= 0x3a && c <= 0x40) || (c > 0x5a && c <= 0x60) || c > 0x7a)
-		            return false;
-		    }
-
-		    return true;
-		
-		
+//	public Boolean isAlphaNum(String str){
+//		
+//		  for (int i=0; i<str.length(); i++) {
+//		        char c = str.charAt(i);
+//		        if (c < 0x30 || (c >= 0x3a && c <= 0x40) || (c > 0x5a && c <= 0x60) || c > 0x7a)
+//		            return false;
+//		    }
+//
+//		    return true;
+//		
+//		
+//	}
+	
+	public boolean isAlphaNumeric(String Value){
+		if (Value.matches("^[a-zA-Z0-9]+$")) {
+			return true;
+		}else {
+			return false;
+		}
+	   
 	}
 	
 	

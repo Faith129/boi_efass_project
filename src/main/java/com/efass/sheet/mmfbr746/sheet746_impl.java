@@ -55,9 +55,11 @@ public class sheet746_impl   implements sheet746_Service{
 	
 		if( !namesOfBeneficiary.equalsIgnoreCase("Alpha")) {
 			throw new ResourceNotFoundException("Names Of Beneficiary must be an alphabetic value  " );	
-		}else if(!dateFacilityGranted.equalsIgnoreCase("Date")) {	
-			throw new ResourceNotFoundException("Date Facility Granted  must be a date value  " );
-			}
+		}
+		
+//		else if(!dateFacilityGranted.equalsIgnoreCase("Date")) {	
+//			throw new ResourceNotFoundException("Date Facility Granted  must be a date value  " );
+//			}
 		 else if( !tenor.equalsIgnoreCase("Alpha")) {
 			throw new ResourceNotFoundException("tenor  must be an alphabetic value " );	
 		 }
@@ -130,7 +132,7 @@ public class sheet746_impl   implements sheet746_Service{
 
 	public ResponseEntity<?> updateData(int id , sheet746DAO Data) throws ResourceNotFoundException {
 		
-		validate(Data);
+	//	validate(Data);
 		
 		Optional<sheet746DAO> DataDb = _746Repository.findById(id);
 
@@ -138,6 +140,8 @@ public class sheet746_impl   implements sheet746_Service{
 			sheet746DAO DataUpdate = DataDb.get();
 //			DataUpdate.setId(Data.getId());
 			DataUpdate.setAmountApproved(Data.getAmountApproved());
+			
+			
 			DataUpdate.setDateGranted(Data.getDateGranted());
 			DataUpdate.setNameOfBen(Data.getNameOfBen());
 			DataUpdate.setOutstandingBalance(Data.getOutstandingBalance());

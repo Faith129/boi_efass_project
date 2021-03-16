@@ -51,7 +51,7 @@ public class sheet311_impl implements sheet311_Service {
 		String maturityDate = validation.checkDataType(data.getMaturity_Date().toString());
 		String amount = validation.checkDataType(data.getAmount().toString());
 		
-			if(!bankCode.equalsIgnoreCase("Alpha")) {
+			if(!bankCode.equalsIgnoreCase("Num")) {
 				throw new ResourceNotFoundException("Bank Code  must be an alphabetic value  " );
 			}
 			
@@ -65,12 +65,12 @@ public class sheet311_impl implements sheet311_Service {
 			
 			}
 			
-			if(!maturityDate.equalsIgnoreCase("Date")) {	
-				throw new ResourceNotFoundException("Maturity Date must be a Date value Format " );
+//			if(!maturityDate.equalsIgnoreCase("Date")) {	
+//				throw new ResourceNotFoundException("Maturity Date must be a Date value Format " );
+//			
+//			}
 			
-			}
-			
-			else if( !amount.equalsIgnoreCase("Num")) {
+			else if(!amount.equalsIgnoreCase("Num")) {
 				throw new ResourceNotFoundException("Amount must be a numeric value  " );
 			}
 			
@@ -80,7 +80,7 @@ public class sheet311_impl implements sheet311_Service {
 	
 	 public ResponseEntity<?> createData(sheet311DAO data) throws ResourceNotFoundException {
 		 
-		 validate(data);
+		// validate(data);
 		 
 	     _311Repository.save(data);
 	 	Response res = new Response();
@@ -134,7 +134,7 @@ public class sheet311_impl implements sheet311_Service {
 
 	public ResponseEntity<?> updateData(int id , sheet311DAO Data) throws ResourceNotFoundException {
 		
-		validate(Data);
+		//validate(Data);
 		
 		Optional<sheet311DAO> DataDb = _311Repository.findById(id);
 

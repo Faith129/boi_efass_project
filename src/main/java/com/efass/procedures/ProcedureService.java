@@ -6,8 +6,6 @@ public interface ProcedureService {
 	
 
 
-	void callPrepareTableProcedure_141(String date)throws ParseException;
-	void callPrepareTableProcedure_221(String date)throws ParseException;
-	void callPrepareTableProcedure_311(String date)throws ParseException;
+	public void callPrepareTableProcedure( String date, String procedureName) throws ParseException;
 
 }
