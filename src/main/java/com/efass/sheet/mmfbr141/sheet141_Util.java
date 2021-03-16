@@ -74,6 +74,7 @@ public class sheet141_Util {
 				// declare a Cell object
 				
 
+
 				Cell cell = null;
 				// Access the second cell in second row to update the value
 				cell = worksheet.getRow(rowNum).getCell(0);
@@ -92,6 +93,13 @@ public class sheet141_Util {
 				cell2 = worksheet.getRow(rowNum).getCell(3);
 				// Get current cell value value and overwrite the value
 				cell2.setCellValue(total);
+				
+
+				Cell cell01 = null;
+				cell01 = worksheet.getRow(46).getCell(3);
+				String formula= "SUM(D12:D46)";
+				cell01.setCellType(CellType.FORMULA);
+				cell01.setCellFormula(formula);
 
 			
 				
