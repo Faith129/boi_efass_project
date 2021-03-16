@@ -34,26 +34,7 @@ public class sheet001_impl implements sheet001_Service {
 	@Autowired
 	sheet001_Util sheet001Util;
 	
-	@Autowired
-	Validation validation;
-	
 
-	public void validate(sheet001DAO data) throws ResourceNotFoundException {
-		
-		if( data.getNUMBER_1().equals(null) ||!data.getNUMBER_2().equals(null)||!data.getVALUE_1().equals(null)||!data.getVALUE_1().equals(null) ) {
-			throw new ResourceNotFoundException("Input cannot be empty" );	
-		}
-		
-	String number1 = validation.checkDataType(data.getNUMBER_1().toString());
-	String number2 = validation.checkDataType(data.getNUMBER_2().toString());
-	
-	String value1 = validation.checkDataType(data.getVALUE_1().toString());
-	String value2 = validation.checkDataType(data.getVALUE_2().toString());
-		if( !number1.equalsIgnoreCase("Num") ||!number2.equalsIgnoreCase("Num") ||!value1.equalsIgnoreCase("Num")||!value2.equalsIgnoreCase("Num") ) {
-			throw new ResourceNotFoundException("Input must be a numeric value  " );	
-		}
-		
-	}
 	
 	
 	public ResponseEntity<?> fetchAllData() {
@@ -116,7 +97,7 @@ public class sheet001_impl implements sheet001_Service {
 
 	public ResponseEntity<?> updateData(int id, sheet001DAO Data) throws ResourceNotFoundException {
 
-		validate(Data);
+	
 		
 		Optional<sheet001DAO> DataDb = sheet001Repo.findByCode(Data.getCode());
 

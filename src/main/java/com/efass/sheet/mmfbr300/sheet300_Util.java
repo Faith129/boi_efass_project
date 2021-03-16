@@ -15,13 +15,20 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.efass.Validation;
 import com.efass.specials.SpecialData;
 
 @Service
 public class sheet300_Util {
 
+	
+	@Autowired
+	Validation validation;
+	
+	
 	public Boolean writeSpecificList(List<List<Object>> listOfLists, LocalDate Date ,String folderPath)
 			throws EncryptedDocumentException, InvalidFormatException, IOException, ParseException {
 		
@@ -44,11 +51,13 @@ public class sheet300_Util {
 			
 //			String amount = (String) listAtI.get(0);
 		
-			String amount = ((listAtI.get(0) == null) ? "0" : listAtI.get(0).toString());
+			String _amount = ((listAtI.get(0) == null) ? "0" : listAtI.get(0).toString());
 
 
+			double __amount = Double.parseDouble(_amount);
 			
-			int _amount = Integer.parseInt(amount);
+			int amount = validation.roundUP(__amount);
+			String code = listAtI.get(1).toString();
 
 
 			
@@ -57,76 +66,17 @@ public class sheet300_Util {
 			// declare a Cell object
 
 
-			Cell cell01 = null;
-			cell01 = worksheet.getRow(16).getCell(5);
-			String formula= "SUM(D15:D16)";
-			cell01.setCellType(CellType.FORMULA);
-			cell01.setCellFormula(formula);
-
 			
 			
-			Cell cell02 = null;
-			cell02 = worksheet.getRow(16).getCell(6);
-			String formula2= "E17";
-			cell02.setCellType(CellType.FORMULA);
-			cell02.setCellFormula(formula2);
-			
-			
-			
-			Cell cell03 = null;
-			cell03 = worksheet.getRow(20).getCell(4);
-			String formula3= "'221'!D48";
-			cell03.setCellType(CellType.FORMULA);
-			cell03.setCellFormula(formula3);
-			
-			
-			
-			Cell cell04 = null;
-			cell04 = worksheet.getRow(20).getCell(4);
-			String formula4= "'221'!D48";
-			cell04.setCellType(CellType.FORMULA);
-			cell04.setCellFormula(formula3);
-			
-			
-			
-
-			if(_amount != 0) {
-				
-			
-				
-	
-				
-				
-				
-
-				Cell cell = null;
-				// Access the second cell in second row to update the value
-				cell = worksheet.getRow(rowNum).getCell(4);
-				// Get current cell value value and overwrite the value
-				cell.setCellValue(amount);
-
-				
-				
-				
-
-				// Close the InputStream
-				fsIP.close();
-				// Open FileOutputStream to write updates
-
-				
-				FileOutputStream output_file = new FileOutputStream(new File(Path));
-				// FileOutputStream output_file =new FileOutputStream(new
-				// File(".\\datafiles\\export\\cbn_MFB_rpt_12345m052087.xlsx"));
-				// write changes
-				wb.write(output_file);
-				// close the stream
-				output_file.close();
-				System.out.println("sheet 300 works");
+			if (code.equals("10110") || code.equals("10120") || code.equals("10130")) {
+				insertAssets(Path, wb, fsIP,code , amount);
+			}
+		
 
 				rowNum++;
 				
 				
-			}
+			
 		
 			
 		
@@ -134,5 +84,58 @@ public class sheet300_Util {
 
 		return true;
 	}
+	
+	
+	
+	
+public void insertAssets(String Path, Workbook wb,FileInputStream fsIP, String code, int amount) throws IOException {
+
+	Sheet worksheet = wb.getSheet("001");
+	// declare a Cell object
+
+
+//	
+	
+	Cell cell = null;
+	cell = worksheet.getRow(15).getCell(4);
+	cell.setCellValue(amount);
+
+	
+	Cell cell11 = null;
+	cell11 = worksheet.getRow(16).getCell(4);
+	cell11.setCellValue(amount);
+	
+	
+	Cell cell22 = null;
+	cell22 = worksheet.getRow(17).getCell(5);
+	String formula= "SUM(D15:D16)";
+	cell22.setCellType(CellType.FORMULA);
+	cell22.setCellFormula(formula);
+	
+	
+	Cell cell23 = null;
+	cell23 = worksheet.getRow(17).getCell(6);
+	String formula2= "E17";
+	cell23.setCellType(CellType.FORMULA);
+	cell23.setCellFormula(formula2);
+	
+	
+	
+	
+
+	// Close the InputStream
+	fsIP.close();
+	// Open FileOutputStream to write updates
+
+	
+	FileOutputStream output_file = new FileOutputStream(new File(Path));
+
+	wb.write(output_file);
+	// close the stream
+	output_file.close();
+
+
+	}
+
 
 }
