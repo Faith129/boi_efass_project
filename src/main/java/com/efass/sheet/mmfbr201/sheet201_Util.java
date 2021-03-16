@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -68,8 +69,8 @@ public class sheet201_Util {
 		// Access the workbook
 		Workbook wb = WorkbookFactory.create(fsIP);
 		// Access the worksheet, so that we can update / modify it.
+		insertFormulas(Path,  wb, fsIP);
 
-	
 		for (int i = 0; i < listOfLists.size(); i++) {
 			List<Object> listAtI = listOfLists.get(i);
 			
@@ -92,7 +93,10 @@ public class sheet201_Util {
 			Sheet worksheet = wb.getSheet("201");
 			// declare a Cell object
 
+				
 			
+		
+
 			
 			
 			Cell cell = null;
@@ -102,6 +106,9 @@ public class sheet201_Util {
 			cell.setCellValue(emptyValue);
 			
 			
+			
+			
+			
 			rowNum = rowNum + 1;
 			
 			Cell cell1 = null;
@@ -109,6 +116,10 @@ public class sheet201_Util {
 			cell1 = worksheet.getRow(rowNum).getCell(cellNum);
 			// Get current cell value value and overwrite the value
 			cell1.setCellValue(noOfAccounts);
+			
+	
+			
+			
 
 			
 			
@@ -144,6 +155,94 @@ public class sheet201_Util {
 		return true;
 	
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public void insertFormulas(String Path, Workbook wb,FileInputStream fsIP) throws IOException {
+
+		Sheet worksheet = wb.getSheet("201");
+		// declare a Cell object
+	
+
+		  int i=13;  
+		
+		    do{  
+		
+		    	String total_formulaExpression = "SUM(C"+i+":H"+i+")";
+				Cell celldiv2 = null;
+				celldiv2 = worksheet.getRow(i).getCell(8);
+				String formula2= total_formulaExpression;
+				celldiv2.setCellType(CellType.FORMULA);
+				celldiv2.setCellFormula(formula2);
+		        
+		        
+
+				// Close the InputStream
+				fsIP.close();
+				// Open FileOutputStream to write updates
+
+
+				FileOutputStream output_file = new FileOutputStream(new File(Path));
+
+				wb.write(output_file);
+				// close the stream
+				output_file.close();
+		        
+		    i++;  
+		    }while(i<=33);  
+		 
+
+	
+
+		    
+		    
+		    
+		    
+		    
+		    int k=13;  
+		    int m=32;
+			
+		    do{  
+		    	String percentage_formulaExpression ="I"+k+"/$I"+m+"*100";
+		  
+				
+				Cell celldiv2 = null;
+				celldiv2 = worksheet.getRow(k).getCell(9);
+				String formula2= percentage_formulaExpression;
+				celldiv2.setCellType(CellType.FORMULA);
+				celldiv2.setCellFormula(formula2);
+		        
+		        
+
+				// Close the InputStream
+				fsIP.close();
+				// Open FileOutputStream to write updates
+
+
+				FileOutputStream output_file = new FileOutputStream(new File(Path));
+
+				wb.write(output_file);
+				// close the stream
+				output_file.close();
+		       m++; 
+		    k++;  
+		    }while(k<=33);  
+		 
+		
+
+
+
+
+
+
+
+		}
 
 
 

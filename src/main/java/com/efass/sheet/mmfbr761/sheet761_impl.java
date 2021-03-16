@@ -158,7 +158,7 @@ public class sheet761_impl implements sheet761_Service{
 				for(int i = 0; i < sheetData.size(); i++) {
 					ArrayList<Object> data = new ArrayList<>();
 					data.clear();
-					data.add(sheetData.get(i).getDescription());
+					data.add(sheetData.get(i).getAmount());
 				
 					
 					listOfLists.add(data);

@@ -45,38 +45,38 @@ public class sheet746_impl   implements sheet746_Service{
 	
 	// ############################## MMFBR746 CRUD OPERATIONS #################################
 	
-	public void validate(sheet746DAO data) throws ResourceNotFoundException {
-	String namesOfBeneficiary = validation.checkDataType(data.getNameOfBen().toString());
-	String dateFacilityGranted = validation.checkDataType(data.getDateGranted().toString());
-	String tenor = validation.checkDataType(data.getTenor().toString());
-	String amountApproved = validation.checkDataType(data.getAmountApproved().toString());
-	String outstandingBalance = validation.checkDataType(data.getOutstandingBalance().toString());
-	String statusOfFacility = validation.checkDataType(data.getStatus().toString());
-	
-		if( !namesOfBeneficiary.equalsIgnoreCase("Alpha")) {
-			throw new ResourceNotFoundException("Names Of Beneficiary must be an alphabetic value  " );	
-		}
-		
-//		else if(!dateFacilityGranted.equalsIgnoreCase("Date")) {	
-//			throw new ResourceNotFoundException("Date Facility Granted  must be a date value  " );
-//			}
-		 else if( !tenor.equalsIgnoreCase("Alpha")) {
-			throw new ResourceNotFoundException("tenor  must be an alphabetic value " );	
-		 }
-		 else if( !amountApproved.equalsIgnoreCase("Num")) {
-				throw new ResourceNotFoundException("Amount Approved must be a numeric value  " );	
-			 }
-		 else if( !outstandingBalance.equalsIgnoreCase("Num")) {
-				throw new ResourceNotFoundException("Outstanding Balance must be a numeric value  " );	
-			 }
-		 else if( !statusOfFacility.equalsIgnoreCase("Alpha")) {
-				throw new ResourceNotFoundException("Status Of Facility  must be an alphabetic value " );	
-			 }
-	}
+//	public void validate(sheet746DAO data) throws ResourceNotFoundException {
+//	String namesOfBeneficiary = validation.checkDataType(data.getNameOfBen().toString());
+//	String dateFacilityGranted = validation.checkDataType(data.getDateGranted().toString());
+//	String tenor = validation.checkDataType(data.getTenor().toString());
+//	String amountApproved = validation.checkDataType(data.getAmountApproved().toString());
+//	String outstandingBalance = validation.checkDataType(data.getOutstandingBalance().toString());
+//	String statusOfFacility = validation.checkDataType(data.getStatus().toString());
+//	
+//		if( !namesOfBeneficiary.equalsIgnoreCase("Alpha")) {
+//			throw new ResourceNotFoundException("Names Of Beneficiary must be an alphabetic value  " );	
+//		}
+//		
+////		else if(!dateFacilityGranted.equalsIgnoreCase("Date")) {	
+////			throw new ResourceNotFoundException("Date Facility Granted  must be a date value  " );
+////			}
+//		 else if( !tenor.equalsIgnoreCase("Alpha")) {
+//			throw new ResourceNotFoundException("tenor  must be an alphabetic value " );	
+//		 }
+//		 else if( !amountApproved.equalsIgnoreCase("Num")) {
+//				throw new ResourceNotFoundException("Amount Approved must be a numeric value  " );	
+//			 }
+//		 else if( !outstandingBalance.equalsIgnoreCase("Num")) {
+//				throw new ResourceNotFoundException("Outstanding Balance must be a numeric value  " );	
+//			 }
+//		 else if( !statusOfFacility.equalsIgnoreCase("Alpha")) {
+//				throw new ResourceNotFoundException("Status Of Facility  must be an alphabetic value " );	
+//			 }
+//	}
 
 	 public ResponseEntity<?> createData(sheet746DAO data) throws ResourceNotFoundException {
 		 
-		 validate(data);
+//		 validate(data);
 		 
 	     _746Repository.save(data);
 	 	Response res = new Response();

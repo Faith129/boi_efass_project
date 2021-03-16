@@ -142,12 +142,7 @@ public class sheet312_Util {
 			cell01.setCellFormula(formula);
 
 			
-			
-			Cell cell01 = null;
-			cell01 = worksheet.getRow(34).getCell(7);
-			String formula= "SUM(H13:H34)";
-			cell01.setCellType(CellType.FORMULA);
-			cell01.setCellFormula(formula);
+	
 
 
 			

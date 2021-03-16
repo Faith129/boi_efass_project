@@ -151,6 +151,7 @@ public class sheet711_impl implements sheet711_Service {
 			//data.add(sheetData.get(i).getLendingModel());
 			data.add(sheetData.get(i).getNumbers());
 			data.add(sheetData.get(i).getAmount());
+			data.add(sheetData.get(i).getLendingModel());
 			
 			listOfLists.add(data);
 

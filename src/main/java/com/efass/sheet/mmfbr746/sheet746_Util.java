@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -74,7 +75,7 @@ public class sheet746_Util {
 				String status = (String) listAtI.get(0);
 			
 				
-				Sheet worksheet = wb.getSheet("771");
+				Sheet worksheet = wb.getSheet("746");
 				// declare a Cell object
 
 				Cell cell = null;
@@ -123,6 +124,14 @@ public class sheet746_Util {
 				cell6 = worksheet.getRow(rowNum).getCell(1);
 				// Get current cell value value and overwrite the value
 				cell6.setCellValue(nameOfBen);
+				
+				
+				Cell cell01 = null;
+				cell01 = worksheet.getRow(15).getCell(5);
+				String formula= "SUM(F18:F65536)";
+				cell01.setCellType(CellType.FORMULA);
+				cell01.setCellFormula(formula);
+				
 				
 				
 				
