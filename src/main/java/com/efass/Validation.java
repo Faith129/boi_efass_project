@@ -100,8 +100,7 @@ if (alpha) {
 	
 	
 	
-	
-	
+
 	
 	
 	
@@ -116,6 +115,7 @@ if (alpha) {
 		return (int) d<0 ? -(i+1) : i+1;
 		}
 		}
+
 	
 
 }

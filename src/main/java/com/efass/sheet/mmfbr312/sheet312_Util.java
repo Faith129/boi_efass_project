@@ -141,9 +141,7 @@ public class sheet312_Util {
 			cell01.setCellType(CellType.FORMULA);
 			cell01.setCellFormula(formula);
 
-			
-			
-		
+
 
 
 			

@@ -2,7 +2,6 @@ package com.efass.sheet.mmfbr001;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
@@ -16,13 +15,20 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.efass.Validation;
 import com.efass.specials.SpecialData;
 
 @Service
 public class sheet001_Util {
 
+	
+	
+	@Autowired
+	Validation validation;
+	
 	public String writeSpecificList(List<List<Object>> listOfLists, LocalDate Date ,String folderPath)
 			throws EncryptedDocumentException, InvalidFormatException, IOException, ParseException {
 		
@@ -42,27 +48,33 @@ public class sheet001_Util {
 		for (int i = 0; i < listOfLists.size(); i++) {
 			List<Object> listAtI = listOfLists.get(i);
 			
-			
+	
 
-		
+			int __number1=0 ;
 			String number1 = ((listAtI.get(0) == null) ? "0" : listAtI.get(0).toString());
+			String test = validation.checkDataType(number1);
+			if(test.equals("Alpha")) {
+				String mynum = number1;
+			}else {
+				 __number1 = Integer.parseInt(number1);
+			}
 			String value1 = ((listAtI.get(1) == null) ? "0" : listAtI.get(1).toString());
 			
 			String number2 = ((listAtI.get(2) == null) ? "0" : listAtI.get(2).toString());
 			String value2 = ((listAtI.get(3) == null) ? "0" : listAtI.get(3).toString());
 			String code = listAtI.get(4).toString();
-			int __number1 = Integer.parseInt(number1);
-			int __value1 =Integer.parseInt(value1);
-			int __number2 = Integer.parseInt(number2);
-			int __value2 =Integer.parseInt(value2);
+		
+			double __value1 =Double.parseDouble(value1);
+			double __number2 = Double.parseDouble(number2);
+			double __value2 = Double.parseDouble(value2);
 			
 			
 			//roundUp Numbers
-			int _number1 = (int) Math.ceil(__number1);
-			int _value1 = (int) Math.ceil(__value1);
+			int _number1 = validation.roundUP(__number1);
+			int _value1 = validation.roundUP(__value1);
 			
-			int _number2 = (int) Math.ceil(__number2);
-			int _value2 = (int) Math.ceil(__value2);
+			int _number2 = validation.roundUP(__number2);
+			int _value2 = validation.roundUP(__value2);
 			
 		
 			
@@ -77,6 +89,8 @@ public class sheet001_Util {
 			}else if(listAtI.get(4).equals("21131") || listAtI.get(4).equals("21132") ||listAtI.get(4).equals("21141") ||listAtI.get(4).equals("21145") ||listAtI.get(4).equals("1")) {
 			
 				insertDepositors( rowNum, wb, fsIP, Path,  _value2,  _number2,  _value1,  _number1,code);
+			}else if (listAtI.get(4).equals("21160")) {
+				
 			}
 					
 		

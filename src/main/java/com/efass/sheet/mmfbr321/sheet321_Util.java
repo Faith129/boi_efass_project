@@ -115,11 +115,7 @@ public class sheet321_Util {
 				cell6.setCellValue(bankCode);
 				
 				
-				Cell cell01 = null;
-				cell01 = worksheet.getRow(31).getCell(5);
-				String formula= "SUM(F12:F31)";
-				cell01.setCellType(CellType.FORMULA);
-				cell01.setCellFormula(formula);	
+			
 				
 		
 				
