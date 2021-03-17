@@ -183,17 +183,7 @@ public class TableImpl implements TableService {
 		
 		
 		
-		TabSheet data12 = new TabSheet();
-		data12.setSheetNumber("MMFBR812");
-		data12.setReturnCode("Form MMFBR812");
-		data12.setBankCode(null);
-		data12.setBankName("NEPTUNE MICROFINANCE BANK LIMITED");
-		data12.setReturnName("Schedule of Other Assets");
-		data12.setStateName("LAGOS");
-		data12.setStateCode("20");
-		data12.setLgaName("Ikeja");
-		data12.setLgaCode("0");
-		table.add(data12);
+	
 		
 		
 		

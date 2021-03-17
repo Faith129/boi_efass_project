@@ -46,7 +46,7 @@ public Iterable<UserDAO> allUsers;
 public String token;
 public String filePath;
 
-
+public String fileId;
 
 public Iterable<sheet221DAO> sheet221;
 public sheet221DAO s221Data;
@@ -773,6 +773,14 @@ return sheet771;
 
 public void setSheet771(Iterable<sheet771DAO> sheet771) {
 this.sheet771 = sheet771;
+}
+
+public String getFileId() {
+	return fileId;
+}
+
+public void setFileId(String fileId) {
+	this.fileId = fileId;
 }
 
 }

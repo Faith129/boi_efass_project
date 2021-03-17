@@ -60,6 +60,7 @@ public class sheet501_Util {
 				// declare a Cell object
 				
 				if (bankCode.equals("20530")) {
+					
 					rowNum = rowNum+1;
 					
 				}else  {

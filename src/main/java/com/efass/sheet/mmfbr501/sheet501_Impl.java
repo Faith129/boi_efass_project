@@ -33,35 +33,16 @@ public class sheet501_Impl implements sheet501_Service {
 	@Autowired
 	sheet501Repository _501Repository;
 	
-	@Autowired
 
-	Validation validation; 
+
+	
 
 	 sheet501_Util sheet501Util;
 
 
 	// ############################## MMFBR501 CRUD OPERATIONS
 	// #################################
-	public void validate(sheet501DAO data) throws ResourceNotFoundException {
-		String code = validation.checkDataType(data.getBank_code().toString());
-		String item = validation.checkDataType(data.getItem().toString());
-		String amount = validation.checkDataType(data.getAmount().toString());
-		
-			if(!code.equalsIgnoreCase("Num")) {
-				throw new ResourceNotFoundException("Bank Code  must be an alphabetic value  " );
-			}
-			
-			if(!item.equalsIgnoreCase("Alpha")) {	
-			throw new ResourceNotFoundException("Item must be an alphabetic value  " );
-		
-			}
-			
-			else if(!amount.equalsIgnoreCase("Num")) {
-				throw new ResourceNotFoundException("Amount must be a numeric value  " );
-			}
-			
-		}
-
+	
 
 
 	public ResponseEntity<?> createData(sheet501DAO data) throws ResourceNotFoundException {

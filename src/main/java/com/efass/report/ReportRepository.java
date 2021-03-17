@@ -33,4 +33,20 @@ public interface ReportRepository extends JpaRepository<ReportDAO, Integer>{
 	Optional<ReportDAO> findByDates(String string);
 	
 	
+	
+	@Query(value = "SELECT ID FROM EFASS.Activity where file_name= ?", nativeQuery = true)
+	String findByFilename(String filename);
+
+	@Query(value = "SELECT * FROM EFASS.Activity where status= ?", nativeQuery = true)
+	Iterable<ReportDAO> findAllByStatus(String status);
+	
+	
+	@Query(value = "delete from Efass.Activity where status= ?", nativeQuery = true)
+	void deleteByStatus(String status);
+
+	
+	@Query(value = "SELECT FILE_NAME FROM EFASS.Activity where  ID= ?", nativeQuery = true)
+	String fileReportRepo(int fileId);
+	
+	
 }

@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.efass.payload.Response;
+import com.efass.report.ReportDAO;
+import com.efass.report.ReportRepository;
 import com.efass.report.ReportService;
 import com.efass.sheet.mmfbr001.sheet001_Service;
 import com.efass.sheet.mmfbr1000.sheet1000_Service;
@@ -153,17 +155,20 @@ public class SheetController {
 	@Autowired
 	private ReportService reportSvc;
 	
+	@Autowired
+	private ReportRepository reportRepo;
+	
 	
 
 
 	Response res = new Response();
 
-	@RequestMapping(value = "/generate/{date}")
-	public ResponseEntity<?> loadData(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date)
+	@RequestMapping(value = "/generate/{date}/{fileId}")
+	public ResponseEntity<?> loadData(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, @PathVariable int fileId)
 			throws EncryptedDocumentException, FileNotFoundException, InvalidFormatException, IOException, ParseException, Throwable {
 
 		// Generation for Sheet 221
-		Boolean evt = reportSvc.checkDate(date);
+		Boolean evt = reportSvc.checkByFileId(fileId);
 		Boolean status = null;
 
 		if (evt == true) {
@@ -183,8 +188,8 @@ public class SheetController {
 	
 			
 			//Write On Excel Sheets
-//		sheet221Svc.writesheet221(date,folderPath);
-//			sheet311Svc.writesheet311(date,folderPath);
+		sheet221Svc.writesheet221(date,folderPath);
+			sheet311Svc.writesheet311(date,folderPath);
 //			sheet321Svc.writesheet321(date,folderPath);
 //			sheet711Svc.writesheet711(date,folderPath);
 //			sheet641Svc.writesheet641(date,folderPath);
@@ -215,12 +220,15 @@ public class SheetController {
 //	        sheet201Svc.writesheet201(date, folderPath);
 //	        sheet501Svc.writesheet501(date, folderPath);
 //	        sheet1000Svc.writesheet1000(date, folderPath);
-		sheet300Svc.writesheet300(date, folderPath);
+//			sheet300Svc.writesheet300(date, folderPath);
 			
 	        String path=sheet001Svc.writesheet001(date, folderPath);      
 	        String filename = "file~"+ _time;
-	        reportSvc.saveReportActivity(date.toString(),path, filename);
+	        reportSvc.saveReportActivity(date.toString(),path, filename, fileId);
 
+	        
+	        
+	
 	        
 			status = true;
 		} else if (evt == false) {
@@ -228,20 +236,23 @@ public class SheetController {
 			return reportSvc.NoDateFound();
 		}
 
-		// Create a Subfolder
 
-		// Store Subfolder in db
 
 		if (status == true) {
+			reportRepo.deleteByStatus("0");
 			res.setResponseMessage("Sheet  Updated");
 			res.setResponseCode(00);
 			return new ResponseEntity<>(res, HttpStatus.OK);
 		} else {
+			reportRepo.deleteByStatus("0");
 			res.setResponseMessage("Failed");
 			res.setResponseCode(-1001);
 			return new ResponseEntity<>(res, HttpStatus.INTERNAL_SERVER_ERROR);
 
 		}
+		
+	
+		
 		
 	
 
@@ -270,6 +281,10 @@ public class SheetController {
 	}
 	
 	
+	
+
+	
+
 	
 	
 	
