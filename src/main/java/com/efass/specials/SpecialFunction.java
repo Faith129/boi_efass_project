@@ -61,6 +61,17 @@ public class SpecialFunction {
 	}
 	
 	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
 	public String generateRandomString() {
 		
 		// create a string of all characters
