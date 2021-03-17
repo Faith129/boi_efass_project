@@ -1,3 +1,4 @@
+
 package com.efass.sheet.mmfbr300;
 
 import java.io.FileNotFoundException;
@@ -14,14 +15,15 @@ import com.efass.exceptions.ResourceNotFoundException;
 
 public interface sheet300_Service {
 
-public ResponseEntity<?> fetchAllData();
+		public ResponseEntity<?> fetchAllData();
 
+	
+		public ResponseEntity<?> getDataById(int dataId) throws ResourceNotFoundException;
+				
+		public ResponseEntity<?> updateData(int id, sheet300DAO Data) throws ResourceNotFoundException;
 
-public ResponseEntity<?> getDataByCode(String dataCode) throws ResourceNotFoundException;
-
-public ResponseEntity<?> updateData(String code, sheet300DAO Data) throws ResourceNotFoundException;
-
-public Boolean writesheet300(LocalDate Date, String folderPath) throws FileNotFoundException, IOException,
-EncryptedDocumentException, InvalidFormatException, ParseException;
+		public Boolean writesheet300(LocalDate Date, String folderPath) throws FileNotFoundException, IOException,
+		EncryptedDocumentException, InvalidFormatException, ParseException;
 
 }
+

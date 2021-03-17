@@ -1,4 +1,5 @@
 
+ 
 package com.efass;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -208,6 +209,7 @@ public class PrepareTables {
 		
 		
 		
+		
 		sheet762DAO data8 = new sheet762DAO();
 		data8.setSector("Education");
 		_762Repository.save(data8);
@@ -227,6 +229,10 @@ public class PrepareTables {
 		sheet762DAO data11 = new sheet762DAO();
 		data11.setSector("Others (Specify)");
 		_762Repository.save(data11);
+		
+		sheet762DAO data12 = new sheet762DAO();
+		data12.setSector("Rent/Housing");
+		_762Repository.save(data12);
 		
 	}
 	
@@ -389,11 +395,12 @@ public class PrepareTables {
 		sheet761DAO data1 = new sheet761DAO();
 		data1.setSerialNo("10763");
 		data1.setDescription("Non-Performing (Portfolio-At-Risk)");
+		data1.setAmount("13,280");
 		_761Repository.save(data1);
 		
 		sheet761DAO data2 = new sheet761DAO();
 		data2.setSerialNo("10764");
-		data2.setDescription("Pass and Watch");
+		data2.setDescription("Pass & Watch");
 		_761Repository.save(data2);
 	
 		sheet761DAO data3 = new sheet761DAO();
@@ -454,7 +461,7 @@ public class PrepareTables {
 		
 		
 		save201("DEMAND DEPOSITS", "1-30 Days");
-		save201("DEMAND DEPOSITS", "31-60 Days");
+		save201("DEMAND DEPOSITS", "31-30 Days");
 		save201("DEMAND DEPOSITS", "61-90 Days");
 		save201("DEMAND DEPOSITS", "91-180 Days");
 		save201("DEMAND DEPOSITS", "181-360 Days");
@@ -463,7 +470,7 @@ public class PrepareTables {
 		
 		
 		save201("MADATORY SAVINGS", "1-30 Days");
-		save201("MADATORY SAVINGS", "31-60 Days");
+		save201("MADATORY SAVINGS", "31-30 Days");
 		save201("MADATORY SAVINGS", "61-90 Days");
 		save201("MADATORY SAVINGS", "91-180 Days");
 		save201("MADATORY SAVINGS", "181-360 Days");
@@ -471,7 +478,7 @@ public class PrepareTables {
 		
 		
 		save201("VOLUNTARY SAVINGS", "1-30 Days");
-		save201("VOLUNTARY SAVINGS", "31-60 Days");
+		save201("VOLUNTARY SAVINGS", "31-30 Days");
 		save201("VOLUNTARY SAVINGS", "61-90 Days");
 		save201("VOLUNTARY SAVINGS", "91-180 Days");
 		save201("VOLUNTARY SAVINGS", "181-360 Days");
@@ -484,7 +491,7 @@ public class PrepareTables {
 		
 		
 		save201("TERM/TIME DEPOSITS", "1-30 Days");
-		save201("TERM/TIME DEPOSITS", "31-60 Days");
+		save201("TERM/TIME DEPOSITS", "31-30 Days");
 		save201("TERM/TIME DEPOSITS", "61-90 Days");
 		save201("TERM/TIME DEPOSITS", "91-180 Days");
 		save201("TERM/TIME DEPOSITS", "181-360 Days");
@@ -493,7 +500,7 @@ public class PrepareTables {
 		
 		
 		save201("SPECIAL DEPOSITS", "1-30 Days");
-		save201("SPECIAL DEPOSITS", "31-60 Days");
+		save201("SPECIAL DEPOSITS", "31-30 Days");
 		save201("SPECIAL DEPOSITS", "61-90 Days");
 		save201("SPECIAL DEPOSITS", "91-180 Days");
 		save201("SPECIAL DEPOSITS", "181-360 Days");
@@ -502,7 +509,7 @@ public class PrepareTables {
 		
 		
 		save201("OTHER DEPOSITS(SPECIFY)", "1-30 Days");
-		save201("OTHER DEPOSITS(SPECIFY)", "31-60 Days");
+		save201("OTHER DEPOSITS(SPECIFY)", "31-30 Days");
 		save201("OTHER DEPOSITS(SPECIFY)", "61-90 Days");
 		save201("OTHER DEPOSITS(SPECIFY)", "91-180 Days");
 		save201("OTHER DEPOSITS(SPECIFY)", "181-360 Days");
@@ -706,4 +713,5 @@ save300("20960" , "Retained Profit/Loss" );
 		
 	}
 }
+
 
