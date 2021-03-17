@@ -92,6 +92,8 @@ public class sheet001_Util {
 			}else if (listAtI.get(4).equals("21160")) {
 				
 			}
+			
+			insertTotalFormula( rowNum, wb, fsIP, Path,  _value2,  _number2,  _value1,  _number1,code);
 					
 		
 		}
@@ -111,11 +113,41 @@ public void insertBorrowers(int rowNum,	Workbook wb,FileInputStream fsIP,String 
 	// declare a Cell object
 
 	
+	
+	
+
+	
+	
+	
+	//Adding formulas
+	
+	Cell cell00 = null;
+	cell00 = worksheet.getRow(13).getCell(5);
+	String formula00= "F15+F16";
+	cell00.setCellType(CellType.FORMULA);
+	cell00.setCellFormula(formula00);
+	
+	
 	Cell cell01 = null;
-	cell01 = worksheet.getRow(13).getCell(5);
+	cell01 = worksheet.getRow(13).getCell(4);
 	String formula= "E15+E16";
 	cell01.setCellType(CellType.FORMULA);
 	cell01.setCellFormula(formula);
+	
+	
+
+	Cell cell001 = null;
+	cell001 = worksheet.getRow(13).getCell(3);
+	String formula1= "D15+D16";
+	cell001.setCellType(CellType.FORMULA);
+	cell001.setCellFormula(formula1);
+	
+	Cell cell002 = null;
+	cell002 = worksheet.getRow(13).getCell(2);
+	String formula2= "C15+C16";
+	cell002.setCellType(CellType.FORMULA);
+	cell002.setCellFormula(formula2);
+	
 	
 	
 	Cell cell = null;
@@ -224,6 +256,43 @@ public void insertClientsDropOut(int rowNum,Workbook wb,FileInputStream fsIP,Str
 	Sheet worksheet = wb.getSheet("001");
 	// declare a Cell object
 
+	
+	
+	
+	
+	//Adding formulas
+	
+	Cell cell00 = null;
+	cell00 = worksheet.getRow(16).getCell(5);
+	String formula00= "F18+F19";
+	cell00.setCellType(CellType.FORMULA);
+	cell00.setCellFormula(formula00);
+	
+	Cell cell01 = null;
+	cell01 = worksheet.getRow(16).getCell(4);
+	String formula01= "E18+E19";
+	cell01.setCellType(CellType.FORMULA);
+	cell01.setCellFormula(formula01);
+	
+	
+	Cell cell02 = null;
+	cell02 = worksheet.getRow(16).getCell(3);
+	String formula02= "D18+D19";
+	cell02.setCellType(CellType.FORMULA);
+	cell02.setCellFormula(formula02);
+	
+	
+	Cell cell03 = null;
+	cell03 = worksheet.getRow(16).getCell(2);
+	String formula03= "C18+C19";
+	cell03.setCellType(CellType.FORMULA);
+	cell03.setCellFormula(formula03);
+	
+	
+
+			
+			
+			
 	Cell cell = null;
 	// Access the second cell in second row to update the value
 	cell = worksheet.getRow(17).getCell(5);
@@ -334,6 +403,39 @@ public void insertDepositors(int rowNum,Workbook wb,FileInputStream fsIP,String 
 	if (code.equals("21131")) {
 	Sheet worksheet = wb.getSheet("001");
 	// declare a Cell object
+	
+	
+	
+	
+	//Adding formulas
+	
+	Cell cell00 = null;
+	cell00 = worksheet.getRow(19).getCell(5);
+	String formula00= "F21+F22";
+	cell00.setCellType(CellType.FORMULA);
+	cell00.setCellFormula(formula00);
+	
+	Cell cell01 = null;
+	cell01 = worksheet.getRow(19).getCell(4);
+	String formula01= "E21+E22";
+	cell01.setCellType(CellType.FORMULA);
+	cell01.setCellFormula(formula01);
+	
+	
+	Cell cell02 = null;
+	cell02 = worksheet.getRow(19).getCell(3);
+	String formula02= "D21+D22";
+	cell02.setCellType(CellType.FORMULA);
+	cell02.setCellFormula(formula02);
+	
+	
+	Cell cell03 = null;
+	cell03 = worksheet.getRow(19).getCell(2);
+	String formula03= "C21+C22";
+	cell03.setCellType(CellType.FORMULA);
+	cell03.setCellFormula(formula03);
+	
+	
 
 	Cell cell = null;
 	// Access the second cell in second row to update the value
@@ -575,5 +677,72 @@ else if (code.equals("1")) {
 }
 	
 }
+
+
+
+
+public void insertTotalFormula(int rowNum,Workbook wb,FileInputStream fsIP,String Path, int _value2, int _number2, int _value1, int _number1, String code) throws IOException {
+	
+	
+	Sheet worksheet = wb.getSheet("001");
+	// declare a Cell object
+	
+	
+	
+	
+	//Adding formulas
+	
+	Cell cell00 = null;
+	cell00 = worksheet.getRow(25).getCell(5);
+	String formula00= "SUM(F24:F25)";
+	cell00.setCellType(CellType.FORMULA);
+	cell00.setCellFormula(formula00);
+	
+	Cell cell01 = null;
+	cell01 = worksheet.getRow(19).getCell(4);
+	String formula01= "SUM(E24:E25)";
+	cell01.setCellType(CellType.FORMULA);
+	cell01.setCellFormula(formula01);
+	
+	
+	Cell cell02 = null;
+	cell02 = worksheet.getRow(19).getCell(3);
+	String formula02= "SUM(D24:D25)";
+	cell02.setCellType(CellType.FORMULA);
+	cell02.setCellFormula(formula02);
+	
+	
+	Cell cell03 = null;
+	cell03 = worksheet.getRow(19).getCell(2);
+	String formula03= "SUM(C24:C25)";
+	cell03.setCellType(CellType.FORMULA);
+	cell03.setCellFormula(formula03);
+	
+	
+
+	
+
+	
+
+	// Close the InputStream
+	fsIP.close();
+	// Open FileOutputStream to write updates
+
+	
+	FileOutputStream output_file = new FileOutputStream(new File(Path));
+
+	wb.write(output_file);
+	// close the stream
+	output_file.close();
+
+
+	
+	
+
+
+}
+
+
+
 
 }
