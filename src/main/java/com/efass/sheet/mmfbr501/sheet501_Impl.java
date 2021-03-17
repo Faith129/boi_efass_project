@@ -34,9 +34,9 @@ public class sheet501_Impl implements sheet501_Service {
 	sheet501Repository _501Repository;
 	
 	@Autowired
-
 	Validation validation; 
 
+	@Autowired
 	 sheet501_Util sheet501Util;
 
 
@@ -159,15 +159,21 @@ public class sheet501_Impl implements sheet501_Service {
 			List<List<Object>> listofLists = new ArrayList<List<Object>>();
 			
 			for(int i = 0; i < sheetdata.size(); i++ ) {
-				
+				System.out.println("This is amount "+sheetdata.get(i).getAmount());
+				System.out.println("This is bank code "+sheetdata.get(i).getBank_code());
 				ArrayList<Object> data = new ArrayList<>();
+				
 				data.add(sheetdata.get(i).getAmount());
 				data.add(sheetdata.get(i).getBank_code());
 				listofLists.add(data);
 		
 			}
-				
-			Boolean status = sheet501Util.writeSpecificList(listofLists, Date, folderPath);
+			Boolean status=null;
+			try {
+			 status= sheet501Util.writeSpecificList(listofLists, Date, folderPath);
+			}catch(Exception ex) {
+				ex.printStackTrace();
+			}
 			
 			if(status == true) {
 				return true;

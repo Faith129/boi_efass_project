@@ -47,9 +47,15 @@ public class sheet501_Util {
 				for (int i = 0; i < listOfLists.size(); i++) {
 				List<Object> listAtI = listOfLists.get(i);
 				
-		
+//			String amount = listAtI.get(0).toString();
 				
 				String amount =(( listAtI.get(0) == null) ? "0" : listAtI.get(0).toString());
+				
+				System.out.println("This is the new amount"+amount);
+				
+//				if(amount.equals(null)) {
+//					amount = "0";
+//				}
 
 				int _amount = Integer.parseInt(amount);
 				

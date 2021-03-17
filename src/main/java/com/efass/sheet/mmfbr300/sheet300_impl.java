@@ -81,9 +81,9 @@ public class sheet300_impl implements sheet300_Service{
 		
 			try {
 			for (String code: codes){
-				HashMap<String,CodeColData> sheet300Map=new HashMap<String,CodeColData>();//Creating HashMap.
-
+			
 				
+			
 				sheet300DAO dataValue = _300Repository.findColumnsByCode(code);
 				
 				System.out.println("codes = "+code);
@@ -101,6 +101,7 @@ public class sheet300_impl implements sheet300_Service{
 					_codeData.setId(dataValue.getId());
 			
 			
+				
 					//sheet300Map.put(code, _codeData);
 					arrList.add(_codeData);	
 				}

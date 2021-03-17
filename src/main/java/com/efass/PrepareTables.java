@@ -102,18 +102,18 @@ public class PrepareTables {
 	public void clearSheetTables() {
 		
 		try {
-
+			
 		populateSheet711();
 		populateSheet762();
 		populateSheet763();
 		populateSheet761();
 		populatesheet201();
-		populatesheet980();
 		populatesheet501();
+		populatesheet980();	
 	//	populatesheet1000();
 		populatesheet300();
 		}catch(Exception ex) {
-			
+			ex.printStackTrace();
 		}
 	}
 	
@@ -235,6 +235,10 @@ public class PrepareTables {
 		_762Repository.save(data12);
 		
 	}
+	
+
+	
+	
 	
 	
 	
@@ -521,19 +525,10 @@ public class PrepareTables {
 		
 	}
 	
-	
-	
-	public void save980(String items) {
-		
-		sheet980DAO data = new sheet980DAO();
-		data.setItems(items);
-		_980Repository.save(data);	
-	}
-	
-	
-	
-	
 	public void populatesheet501() {
+		_501Repository.deleteAll();
+		
+		
 		
 		save501("20510", "Accounts Payable (Provide Breakdown");
 		save501("20515", "Unearned Income");
@@ -551,6 +546,18 @@ public class PrepareTables {
 		save501("20575", "Miscellaneous (Specify)");
 		
 	}	
+	
+	
+	
+	public void save980(String items) {
+		
+		sheet980DAO data = new sheet980DAO();
+		data.setItems(items);
+		_980Repository.save(data);	
+	}
+	
+	
+	
 	
 	
 	
@@ -614,7 +621,7 @@ save300("20130" , "Time/Term Deposits" );
 //save300("20500");
 //save300("20600");
 save300("20610" , "Federal Government" );
-save300("20620 " , "State Government" );
+save300("20620" , "State Government" );
 save300("20630" , "Local Government" );
 //save300("20640");
 //save300("20650");

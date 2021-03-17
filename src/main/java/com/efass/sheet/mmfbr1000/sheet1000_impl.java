@@ -70,7 +70,6 @@ public class sheet1000_impl implements sheet1000_Service{
 			codes.add("30230");
 			codes.add("30240");
 			codes.add("31100");
-			codes.add("31100");
 			codes.add("31110");
 			codes.add("31120");
 			codes.add("31130");
