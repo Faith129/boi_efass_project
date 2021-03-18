@@ -217,8 +217,8 @@ public class SheetController {
 //
 //			sheet811Svc.writesheet811(date, folderPath);
 //			sheet201Svc.writesheet201(date, folderPath);
-//	        sheet201Svc.writesheet201(date, folderPath);
-//	        sheet501Svc.writesheet501(date, folderPath);
+	        sheet201Svc.writesheet201(date, folderPath);
+	        sheet501Svc.writesheet501(date, folderPath);
 //	        sheet1000Svc.writesheet1000(date, folderPath);
 //			sheet300Svc.writesheet300(date, folderPath);
 			
@@ -237,14 +237,15 @@ public class SheetController {
 		}
 
 
-
+		try {reportRepo.deleteByStatus("none");}catch(Exception ex) {
+			
+		}
 		if (status == true) {
-			reportRepo.deleteByStatus("0");
+			
 			res.setResponseMessage("Sheet  Updated");
 			res.setResponseCode(00);
 			return new ResponseEntity<>(res, HttpStatus.OK);
 		} else {
-			reportRepo.deleteByStatus("0");
 			res.setResponseMessage("Failed");
 			res.setResponseCode(-1001);
 			return new ResponseEntity<>(res, HttpStatus.INTERNAL_SERVER_ERROR);
