@@ -31,8 +31,6 @@ public class sheet201_impl implements sheet201_Service{
 	sheet201Repository _201Repository;
 
 	
-	@Autowired
-	Validation validation;
 	
 	@Autowired 
 	sheet201_Util sheet201Util;
@@ -42,22 +40,11 @@ public class sheet201_impl implements sheet201_Service{
 	// #################################
 
 	
-	
-	
-	public void validate(sheet201DAO data) throws ResourceNotFoundException {
-		String typeOfDeposit = validation.checkDataType(data.getTypeOfDeposit().toString());
-		
-		 if(!typeOfDeposit.equalsIgnoreCase("Alpha")) {	
-				throw new ResourceNotFoundException("typeOfDeposit  must be an alphabetic value  " );	
-			}
-		 
-		
-	}
+
 	
 	
 	public ResponseEntity<?> createData(sheet201DAO data) throws ResourceNotFoundException {
-		//Validation
-		validate(data);
+		
 		
 //		_201Repository.save(data);
 		Response res = new Response();
@@ -117,9 +104,6 @@ public class sheet201_impl implements sheet201_Service{
 
 		Optional<sheet201DAO> DataDb = _201Repository.findById(id);
 
-		
-				//Validation
-				validate(Data);
 				
 		if (DataDb.isPresent()) {
 			sheet201DAO DataUpdate = DataDb.get();

@@ -16,6 +16,7 @@ import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -101,6 +102,12 @@ public class sheet771_Util {
 				Sheet worksheet = wb.getSheet("771");
 				// declare a Cell object
 
+				
+				//Add All Formulas
+				insertExcelFormulas( wb,worksheet);
+				
+				
+				
 				Cell cell = null;
 				// Access the second cell in second row to update the value
 				cell = worksheet.getRow(rowNum).getCell(14);
@@ -186,8 +193,7 @@ public class sheet771_Util {
 				String ___pastDueDate =(( sDate1== null) ? "0" : sDate1.toString());
 					
 					    if ( !___lastRepaymentDate.equals("0")) {
-					      	System.out.println("show here");
-					    	System.out.println("show here2");
+					 
 					   	 Date lastRepaymentDate1=dateConvert.changeDateToGregorian(sDate0);	
 						Cell cell10 = null;
 						// int cellNum3 =cellNum-3;
@@ -198,8 +204,7 @@ public class sheet771_Util {
 						cell10.setCellStyle(cellStyle);
 						
 					    }else if ( !___pastDueDate.equals("0")) {
-					    	System.out.println("show here33");
-					    	System.out.println("show here333");
+					    	
 						    Date pastDueDate1=dateConvert.changeDateToGregorian(sDate1);
 						Cell cell11 = null;
 						// int cellNum3 =cellNum-3;
@@ -249,6 +254,33 @@ public class sheet771_Util {
 
 			return true;
 		}
+	
+	
+	
+	
+	
+	public void insertExcelFormulas(Workbook wb,Sheet worksheet) throws IOException {
+		
+		
+		
+	}
+	
+	
+	
+	
+	public void insertFormula(Workbook wb,Sheet worksheet,String formula,int rowNum,int cellNum  ) {
+		
+		Cell cell = null;
+		cell = worksheet.getRow(rowNum).getCell(cellNum);
+		String cellFormula= formula;
+		cell.setCellType(CellType.FORMULA);
+		cell.setCellFormula(cellFormula);
+	}
+	
+	
+	
+	
+	
 	
 	public String getFolderPathWithDate(LocalDate date) {
 

@@ -161,7 +161,7 @@ public class ReportImpl implements ReportService{
 			data.setFile_name(filename);
 			data.setFile_path(filepath);
 			data.setReport_date(Date.toString());
-			data.setStatus("0");
+			data.setStatus("none");
 			data.setUser_id(currentPrincipalName);
 			ReportRepo.save(data);
 			

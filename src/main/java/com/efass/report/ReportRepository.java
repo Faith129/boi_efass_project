@@ -41,7 +41,7 @@ public interface ReportRepository extends JpaRepository<ReportDAO, Integer>{
 	Iterable<ReportDAO> findAllByStatus(String status);
 	
 	
-	@Query(value = "delete from Efass.Activity where status= ?", nativeQuery = true)
+	@Query(value = "DELETE FROM Efass.Activity where status= ?", nativeQuery = true)
 	void deleteByStatus(String status);
 
 	
