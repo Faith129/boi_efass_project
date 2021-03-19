@@ -56,9 +56,12 @@ public class sheet300_Util {
 			Sheet worksheet = wb.getSheet("300");
 			// declare a Cell object
 
-			if (code.equals("10110") || code.equals("10120") || code.equals("10130")) {
-				insertAssets(Path, wb, fsIP, code, amount);
-			}
+//			if (code.equals("10110") || code.equals("10120") || code.equals("10130")) {
+//				insertAssets(Path, wb, fsIP, code, amount);
+//			}
+			
+			
+			insertDueFrom(Path, wb, fsIP, code, amount);
 
 			rowNum++;
 
@@ -67,43 +70,43 @@ public class sheet300_Util {
 		return true;
 	}
 
-	public void insertAssets(String Path, Workbook wb, FileInputStream fsIP, String code, int amount)
-			throws IOException {
-
-		Sheet worksheet = wb.getSheet("001");
-		// declare a Cell object
-
-		Cell cell = null;
-		cell = worksheet.getRow(15).getCell(4);
-		cell.setCellValue(amount);
-
-		Cell cell11 = null;
-		cell11 = worksheet.getRow(16).getCell(4);
-		cell11.setCellValue(amount);
-
-		Cell cell22 = null;
-		cell22 = worksheet.getRow(17).getCell(5);
-		String formula = "SUM(D15:D16)";
-		cell22.setCellType(CellType.FORMULA);
-		cell22.setCellFormula(formula);
-
-		Cell cell23 = null;
-		cell23 = worksheet.getRow(17).getCell(6);
-		String formula2 = "E17";
-		cell23.setCellType(CellType.FORMULA);
-		cell23.setCellFormula(formula2);
-
-		// Close the InputStream
-		fsIP.close();
-		// Open FileOutputStream to write updates
-
-		FileOutputStream output_file = new FileOutputStream(new File(Path));
-
-		wb.write(output_file);
-		// close the stream
-		output_file.close();
-
-	}
+//	public void insertAssets(String Path, Workbook wb, FileInputStream fsIP, String code, int amount)
+//			throws IOException {
+//
+//		Sheet worksheet = wb.getSheet("001");
+//		// declare a Cell object
+//
+//		Cell cell = null;
+//		cell = worksheet.getRow(15).getCell(4);
+//		cell.setCellValue(amount);
+//
+//		Cell cell11 = null;
+//		cell11 = worksheet.getRow(16).getCell(4);
+//		cell11.setCellValue(amount);
+//
+//		Cell cell22 = null;
+//		cell22 = worksheet.getRow(17).getCell(5);
+//		String formula = "SUM(D15:D16)";
+//		cell22.setCellType(CellType.FORMULA);
+//		cell22.setCellFormula(formula);
+//
+//		Cell cell23 = null;
+//		cell23 = worksheet.getRow(17).getCell(6);
+//		String formula2 = "E17";
+//		cell23.setCellType(CellType.FORMULA);
+//		cell23.setCellFormula(formula2);
+//
+//		// Close the InputStream
+//		fsIP.close();
+//		// Open FileOutputStream to write updates
+//
+//		FileOutputStream output_file = new FileOutputStream(new File(Path));
+//
+//		wb.write(output_file);
+//		// close the stream
+//		output_file.close();
+//
+//	}
 
 	public void insertDueFrom(String Path, Workbook wb, FileInputStream fsIP, String code, int amount)
 			throws IOException {
@@ -112,6 +115,19 @@ public class sheet300_Util {
 		// declare a Cell object
 
 		// Insert Formula
+		Cell cell023 = null;
+		cell023 = worksheet.getRow(20).getCell(4);
+		String formula02 = "SUM(D15:D16)";
+		cell023.setCellType(CellType.FORMULA);
+		cell023.setCellFormula(formula02);
+
+		Cell cell024 = null;
+		cell024 = worksheet.getRow(20).getCell(5);
+		String formula024 = "E17";
+		cell024.setCellType(CellType.FORMULA);
+		cell024.setCellFormula(formula024);
+		
+		
 		Cell cell23 = null;
 		cell23 = worksheet.getRow(20).getCell(4);
 		String formula2 = "'221'!D48";
@@ -174,7 +190,14 @@ public class sheet300_Util {
 
 		// insert value
 
-		if (code.equals("10610")) {
+		
+		//Cash
+		if (code.equals("10110")) {
+			insertValue(wb, worksheet, amount, 15, 4);
+		} else if (code.equals("10120")) {
+			insertValue(wb, worksheet, amount, 16, 4);
+		} 	
+		else if (code.equals("10610")) {
 			insertValue(wb, worksheet, amount, 29, 4);
 		} else if (code.equals("10620")) {
 			insertValue(wb, worksheet, amount, 30, 4);
@@ -237,7 +260,87 @@ public class sheet300_Util {
 		}else if (code.equals("20310")) {
 			insertFormula(wb, worksheet, "'312'!H35", 72, 4);
 		}else if (code.equals("20320")) {
-			insertFormula(wb, worksheet, "'SUM(D65:D69)", 72, 4);
+			insertFormula(wb, worksheet, "'322'!G22", 73, 4);
+		}else if (code.equals("20330")) {
+			insertFormula(wb, worksheet, "'SUM(D72:D73)", 74, 5);
+			insertFormula(wb, worksheet, "E74", 74, 5);
+		}else if (code.equals("20450")) {
+			insertFormula(wb, worksheet, "451!G22", 75, 5);
+			insertFormula(wb, worksheet, "D75", 75, 5);
+			insertFormula(wb, worksheet, "E75", 75, 5);
+		}else if (code.equals("20500")) {
+			insertFormula(wb, worksheet, "'501'!D26", 76, 4);
+			insertFormula(wb, worksheet, "D76", 76, 5);
+			insertFormula(wb, worksheet, "E76", 76, 6);
+		}else if (code.equals("20610")) {
+			insertValue(wb, worksheet, amount, 78, 4);
+		}else if (code.equals("20620")) {
+			insertValue(wb, worksheet, amount, 79, 4);
+		}else if (code.equals("20630")) {
+			insertValue(wb, worksheet, amount, 80, 4);
+		}else if (code.equals("20640")) {
+			insertFormula(wb, worksheet, "'642'!H23", 81, 4);
+		}else if (code.equals("20650")) {
+			insertFormula(wb, worksheet, "'651'!G23", 82, 4);
+		}else if (code.equals("20660")) {
+			insertFormula(wb, worksheet, "SUM(D78:D82)", 83, 5);
+			insertFormula(wb, worksheet, "E87", 83, 6);
+		}else if (code.equals("20710")) {
+			insertValue(wb, worksheet, amount, 85, 4);	
+		}else if (code.equals("20720")) {
+			insertValue(wb, worksheet, amount, 86, 4);
+		}else if (code.equals("20750")) {
+			insertFormula(wb, worksheet, "SUM(D85:D86)", 87, 5);
+			insertFormula(wb, worksheet, "E87", 87, 5);
+		}else if (code.equals("20810")) {
+			insertValue(wb, worksheet, amount, 89, 4);
+			insertFormula(wb, worksheet, "D89", 89, 6);
+		}else if (code.equals("20830")) {
+			insertValue(wb, worksheet, amount, 91, 4);
+		}else if (code.equals("20840")) {
+			insertValue(wb, worksheet, amount, 92, 4);
+		}else if (code.equals("20860")) {
+			insertFormula(wb, worksheet, "SUM(D91:D92)", 93, 5);
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		else if (code.equals("20910")) {
+			insertValue(wb, worksheet, amount, 95, 4);
+		}
+		else if (code.equals("20920")) {
+			insertValue(wb, worksheet, amount, 96, 4);
+		}else if (code.equals("20930")) {
+			insertFormula(wb, worksheet, "'933'!H22", 97, 4);
+		}else if (code.equals("20935")) {
+			insertValue(wb, worksheet, amount, 98, 4);
+		}else if (code.equals("20935")) {
+			insertValue(wb, worksheet, amount, 99, 4);
+		}else if (code.equals("20940")) {
+			insertValue(wb, worksheet, amount, 100, 4);
+		}		else if (code.equals("20950")) {
+			insertFormula(wb, worksheet, "'951'!D24", 92, 4);
+		}
+		else if (code.equals("20960")) {
+			insertValue(wb, worksheet, amount, 102, 4);
+		}else if (code.equals("20960")) {
+			insertFormula(wb, worksheet, "IF('1000'!F39<0,'1000'!F39,\"\")", 103, 5);
+		}else if (code.equals("20965")) {
+			insertFormula(wb, worksheet, "IF('1000'!F39<0,'1000'!F39,\"\")", 92, 5);
+		}else if (code.equals("20970")) {
+			insertFormula(wb, worksheet, "SUM(D95:D103)", 104, 5);
+		}else if (code.equals("20980")) {
+			insertFormula(wb, worksheet, "E93+E104", 105, 6);
+		}else if (code.equals("20990")) {
+			insertFormula(wb, worksheet, "F70+F87+F83+F76+F75+F74+F105", 106, 6);
+		}else if (code.equals("20995")) {
+			insertFormula(wb, worksheet, "'996'!D23", 107, 6);
 		}
 		
 		
