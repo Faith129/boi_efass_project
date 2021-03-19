@@ -22,95 +22,63 @@ import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.sheet.mmfbr300.sheet300DAO;
 
-
-
 @Service
-public class sheet300_impl implements sheet300_Service{
-	
+public class sheet300_impl implements sheet300_Service {
 
 	@Autowired
 	sheet300Repository _300Repository;
-	
 
 	@Autowired
 	sheet300_Util sheet300Util;
 
-
 	// ############################## MMFBR300 CRUD OPERATIONS
 	// #################################
-	
+
 	public ResponseEntity<?> fetchAllData() {
 
 		Iterable<sheet300DAO> data = _300Repository.findAll();
-			
 
-		  Field[] fields = sheet300DAO.class.getFields();
-			ArrayList<String> colname = new ArrayList<String>();
-			for(Field f: fields){
-			   colname.add(f.getName()) ;
-			}
-			
+		Field[] fields = sheet300DAO.class.getFields();
+		ArrayList<String> colname = new ArrayList<String>();
+		for (Field f : fields) {
+			colname.add(f.getName());
+		}
 
-		ArrayList<String> codes = new ArrayList<String>( 
-				Arrays.asList(
-						"10110"	,"10120","10610",
-						"10620","10630","10720",
-						"10725","10730",
-						"10740","10750","10880",
-						"10910",
-						"10920","10930","10940",
-						"10950",
-						"10960",
-						"10980","20110","20120",
-						"20125","20130","20610",
-						"20620",
-						"20630",
-						"20710",
-						"20720","20810","20830",
-						"20840","20910","20920",
-						"20930","20935","20940",
-						"20960"
-						));
-	    
+		ArrayList<String> codes = new ArrayList<String>(Arrays.asList("10110", "10120", "10610", "10620", "10630",
+				"10720", "10725", "10730", "10740", "10750", "10880", "10910", "10920", "10930", "10940", "10950",
+				"10960", "10980", "20110", "20120", "20125", "20130", "20610", "20620", "20630", "20710", "20720",
+				"20810", "20830", "20840", "20910", "20920", "20930", "20935", "20940", "20960"));
 
-			
-	
+		ArrayList arrList = new ArrayList();
 
-			
-			ArrayList  arrList = new ArrayList();
-		
-			try {
-			for (String code: codes){
-				HashMap<String,CodeColData> sheet300Map=new HashMap<String,CodeColData>();//Creating HashMap.
+		try {
+			for (String code : codes) {
+				HashMap<String, CodeColData> sheet300Map = new HashMap<String, CodeColData>();// Creating HashMap.
 
-				
 				sheet300DAO dataValue = _300Repository.findColumnsByCode(code);
-				
-				System.out.println("codes = "+code);
-				if(dataValue != null) {
-					
-					ArrayList<String>  amountList = new ArrayList<String>( );
-					amountList.add("col1-"+ dataValue.getCol_1());
-					amountList.add("col2-"+ dataValue.getCol_2());
-					amountList.add("col3-"+dataValue.getCol_3());
-					
+
+				System.out.println("codes = " + code);
+				if (dataValue != null) {
+
+					ArrayList<String> amountList = new ArrayList<String>();
+					amountList.add("col1-" + dataValue.getCol_1());
+					amountList.add("col2-" + dataValue.getCol_2());
+					amountList.add("col3-" + dataValue.getCol_3());
 
 					CodeColData _codeData = new CodeColData();
 					_codeData.setValue(amountList);
 					_codeData.setCode(code);
 					_codeData.setId(dataValue.getId());
-			
-			
-					//sheet300Map.put(code, _codeData);
-					arrList.add(_codeData);	
+
+					// sheet300Map.put(code, _codeData);
+					arrList.add(_codeData);
 				}
-			
-		
+
 			}
-			}catch(Exception ex) {
-				ex.printStackTrace();
-			}
-		
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
 		Response res = new Response();
 		res.setColumnNames(colname);
 		res.setSheet300(arrList);
@@ -120,8 +88,6 @@ public class sheet300_impl implements sheet300_Service{
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 
-
-	
 	public ResponseEntity<?> getDataById(int dataId) throws ResourceNotFoundException {
 		sheet300DAO data = _300Repository.findById(dataId)
 				.orElseThrow(() -> new ResourceNotFoundException("Record not found for this id :: " + dataId));
@@ -131,19 +97,16 @@ public class sheet300_impl implements sheet300_Service{
 		res.setResponseCode(00);
 		res.setS300Data(data);
 		return new ResponseEntity<>(res, HttpStatus.OK);
-		
+
 	}
 
-
-	
 	public ResponseEntity<?> updateData(int id, sheet300DAO Data) throws ResourceNotFoundException {
 
 		Optional<sheet300DAO> DataDb = _300Repository.findByCode(Data.getCode());
 
-		
 		if (DataDb.isPresent()) {
 			sheet300DAO DataUpdate = DataDb.get();
-			
+
 			DataUpdate.setCol_1(Data.getCol_1());
 			DataUpdate.setCol_2(Data.getCol_2());
 			DataUpdate.setCol_3(Data.getCol_3());
@@ -158,75 +121,112 @@ public class sheet300_impl implements sheet300_Service{
 			throw new ResourceNotFoundException("Record not found : " + Data.getCode());
 		}
 	}
-	
 
 	public Boolean writesheet300(LocalDate Date, String folderPath) throws FileNotFoundException, IOException,
-	EncryptedDocumentException, InvalidFormatException, ParseException {
+			EncryptedDocumentException, InvalidFormatException, ParseException {
 
 		ArrayList<sheet300DAO> sheetdata = new ArrayList<>();
 		sheetdata = (ArrayList<sheet300DAO>) _300Repository.findAll();
 
-List<List<Object>> listofLists = new ArrayList<List<Object>>();
+		List<List<Object>> listofLists = new ArrayList<List<Object>>();
 
-for(int i =0; i < sheetdata.size(); i++) {
+		ArrayList<sheet300DAO> outerCodes = FetchAllCodes();
+
+		for (int k = 0; k < outerCodes.size(); k++) {
+
+			String outCode = outerCodes.get(k).getCode();
+			for (int i = 0; i < sheetdata.size(); i++) {
+				ArrayList<Object> data = new ArrayList<>();
+				
+				if (sheetdata.get(i).getCode().contains(outerCodes.get(k).getCode())) {
+					data.add(sheetdata.get(i).getCol_1());
+					data.add(sheetdata.get(i).getCode());
+					
 	
-	ArrayList<Object> data = new ArrayList<>();
-	data.add(sheetdata.get(i).getCol_1());
-	data.add(sheetdata.get(i).getCode());
+			
+				} else {
 
-	
-	listofLists.add(data);
-	
-	
-}
+					data.add(outerCodes.get(k).getCode());
+					data.add(null);
+				
+				}
 
-Boolean status = sheet300Util.writeSpecificList(listofLists, Date, folderPath);
-if(status == true) {
-	return true;
-}
-else {
-	return false;
-}
+			
 
+				listofLists.add(data);
 
+			}
+		}
 
-}
+		Boolean status = sheet300Util.writeSpecificList(listofLists, Date, folderPath);
+		if (status == true) {
+			return true;
+		} else {
+			return false;
+		}
 
+	}
 
-	
+	public ArrayList<sheet300DAO> FetchAllCodes() {
 
+		ArrayList<String> codes = new ArrayList<String>(Arrays.asList("10000", "10100", "10110", "10120", "10130",
+				"10200", "10210", "10220", "10300", "10310", "10320", "10330", "10400", "10500", "10510", "10600",
+				"10610", "10620", "10630", "10640", "10650", "10700", "10710", "10720", "10725", "10730", "10740",
+				"10745", "10750", "10760", "10770", "10780", "10790", "10795", "10800", "10810", "10880", "10890",
+				"10900", "10910", "10920", "10930", "10940", "10950", "10960", "10970", "10980", "10990", "11000",
+				"20100", "20110", "20120", "20125", "20130", "20140", "20200", "20300", "20310", "20320", "20330",
+				"20450", "20500", "20600", "20610", "20620", "20630", "20640", "20650", "20660", "20700", "20710",
+				"20720", "20750", "20800", "20810", "20820", "20830", "20840", "20860", "20900", "20910", "20920",
+				"20930", "20932", "20935", "20940", "20950", "20960", "20965", "20970", "20980", "20990", "20995"));
+		ArrayList<sheet300DAO> data = new ArrayList<sheet300DAO>();
+
+		for (String code : codes) {
+
+			sheet300DAO data300 = getAssets(code);
+			data.add(data300);
+		}
+		return data;
+
+	}
+
+	public sheet300DAO getAssets(String code) {
+		sheet300DAO data = new sheet300DAO();
+		data.setCode(code);
+		data.setCol_1(null);
+		return data;
+
+	}
 
 // 	public Boolean writesheet300(LocalDate Date, String folderPath) throws FileNotFoundException, IOException,
 // 			EncryptedDocumentException, InvalidFormatException, ParseException {
-		
+
 // 		ArrayList<sheet300DAO> sheetdata = new ArrayList<>();
 // 				sheetdata = (ArrayList<sheet300DAO>) _300Repository.findAll();
-		
+
 // 		List<List<Object>> listofLists = new ArrayList<List<Object>>();
-		
+
 // 		for(int i =0; i < sheetdata.size(); i++) {
-			
+
 // 			ArrayList<Object> data = new ArrayList<>();
 // 			//data.add(sheetdata.get(i).getCol_1());
-			
-			
+
 // 			String amount  = sheetdata.get(i).getCol_1(); 
-			
+
 // 			String[] amountList = amount.split("-");
 // 			String _amount  = amountList[1];
-			
+
 // 			if ( _amount.equals("null")) {
 // 				_amount = null;
-		
+
 // 			}
-		
+
 // 			data.add(_amount);
-			
+
 // 			listofLists.add(data);
-			
+
 // 			System.out.println(">>>>>>>>>>>>>"+listofLists);
 // 		}
-		
+
 // 		Boolean status = sheet300Util.writeSpecificList(listofLists, Date, folderPath);
 // 		if(status == true) {
 // 			return true;
@@ -234,13 +234,7 @@ else {
 // 		else {
 // 			return false;
 // 		}
-		
-		
-		
+
 // 	}
 
-
-
-
-	
 }
