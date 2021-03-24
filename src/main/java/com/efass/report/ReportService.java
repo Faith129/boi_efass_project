@@ -18,7 +18,8 @@ public interface ReportService {
 	
 	public ResponseEntity<?> fetchallActivity () throws FileNotFoundException;
 	
-	public void saveReportActivity(String date, String folderPath,String filename);
+	public void saveReportActivity(String date, String folderPath,String filename,int fileId);
+	public Boolean checkByFileId(int fileId);
 	
 	
 

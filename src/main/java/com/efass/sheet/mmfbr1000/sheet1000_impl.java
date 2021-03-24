@@ -1,4 +1,5 @@
 
+
 package com.efass.sheet.mmfbr1000;
 
 import java.io.FileNotFoundException;
@@ -177,6 +178,7 @@ public class sheet1000_impl implements sheet1000_Service{
 			
 			ArrayList<Object> data = new ArrayList<>();
 			data.add(sheetdata.get(i).getCol_1());
+			data.add(sheetdata.get(i).getCode());
 		
 			
 			listofLists.add(data);

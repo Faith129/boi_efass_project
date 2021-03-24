@@ -170,7 +170,16 @@ public class sheet501_Impl implements sheet501_Service {
 			}
 			Boolean status=null;
 			try {
+
+				
+				if(!listofLists.isEmpty()) {
 			 status= sheet501Util.writeSpecificList(listofLists, Date, folderPath);
+				}else {
+				
+					System.out.println("MMFBR501 Has No Value");
+					return false; 
+				}
+
 			}catch(Exception ex) {
 				ex.printStackTrace();
 			}

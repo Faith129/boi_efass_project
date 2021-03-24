@@ -15,21 +15,30 @@ public class ReportCall {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
-	
+
 
 	
 	
 	
-	public List<ReportDAO> fetchDate(String date) {
-		List<ReportDAO> listReport = null;
-		
+	public String fetchDate(String date) {
+
+		String newDate = null;
 		try {
-			String sql = "SELECT * FROM  EFASS.Activity  where report_date= ?";
-			listReport = jdbcTemplate.query(sql, new Object[] { date },
-					BeanPropertyRowMapper.newInstance(ReportDAO.class));
-			return listReport;
+//			String sql = "SELECT * FROM  EFASS.Activity  where report_date= ?";
+//			listReport = jdbcTemplate.query(sql, new Object[] { date },
+//					BeanPropertyRowMapper.newInstance(ReportDAO.class));
+//			System.out.println(listReport.get(0).getReport_date());
+			
+	
+		
+			     String query = "select report_date from Efass.Activity where report_date=?";
+					Object[] inputs = new Object[] { date };
+					 newDate = jdbcTemplate.queryForObject(query, inputs, String.class);
+			    
+			return newDate;
 		} catch (EmptyResultDataAccessException e) {
-			return listReport;
+			e.printStackTrace();
+			return newDate;
 		}
 		
 		

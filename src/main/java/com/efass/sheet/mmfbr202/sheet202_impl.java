@@ -32,26 +32,16 @@ public class sheet202_impl implements sheet202_Service{
 	@Autowired
 	sheet202Repository _202Repository;
 	
+
+	
+
 	@Autowired
-	Validation validation;
-	
-
-	//@Autowired
-	//sheet202_Util sheet202Util;
+	sheet202_Util sheet202Util;
 	
 
 	
 
-	public void validate(sheet202DAO data) throws ResourceNotFoundException {
 
-	String depositType = validation.checkDataType(data.getTypeOfDeposit().toString());
-		
-		 if(!depositType.equalsIgnoreCase("Alpha")) {	
-			throw new ResourceNotFoundException("typeOfDeposit  must be an alphabetic value  " );
-			
-		}
-		
-	}
 	
 	
 
@@ -60,7 +50,7 @@ public class sheet202_impl implements sheet202_Service{
 
 	public ResponseEntity<?> createData(sheet202DAO data) throws ResourceNotFoundException {
 		
-		validate(data);
+	
 		
 		_202Repository.save(data);
 		Response res = new Response();
@@ -114,8 +104,7 @@ public class sheet202_impl implements sheet202_Service{
 
 	public ResponseEntity<?> updateData(int id, sheet202DAO Data) throws ResourceNotFoundException {
 		
-		validate(Data);
-		
+
 
 		Optional<sheet202DAO> DataDb = _202Repository.findById(id);
 
@@ -138,47 +127,47 @@ public class sheet202_impl implements sheet202_Service{
 	}
 
 
-//	@Override
-//	public Boolean writesheet202(LocalDate Date, String folderPath)
-//			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException {
-//	
-//		
-//	ArrayList<sheet202DAO> sheetData = new ArrayList<sheet202DAO>();
-//		Boolean status = false;
-//		
-//		sheetData = (ArrayList<sheet202DAO>) _202Repository.findAll();
-//
-//
-//			List<List<Object>> listOfLists = new ArrayList<List<Object>>();
-//			for (int i = 0; i < sheetData.size(); i++) {
-//				ArrayList<Object> data = new ArrayList<>();
-//				data.clear();
-//
-//				data.add(sheetData.get(i).getTypeOfDeposit());
-//				data.add(sheetData.get(i).getOneToHundredNaira());
-//				data.add(sheetData.get(i).getHundredAndOneNaira());
-//			
-//				listOfLists.add(data);
-//			
-//			}
-//			
-//			 status = sheet202Util.writeSpecificList(listOfLists,Date,folderPath);
-//				if (status == true) {
-//					status =  true;
-//				} else {
-//					status =  false;
-//				}
-//		
-//		
-//			
-//			
-//		
-//			
-//			
-//		
-//		return status;
-//		
-//	}
+	@Override
+	public Boolean writesheet202(LocalDate Date, String folderPath)
+			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException {
+	
+		
+	ArrayList<sheet202DAO> sheetData = new ArrayList<sheet202DAO>();
+		Boolean status = false;
+		
+		sheetData = (ArrayList<sheet202DAO>) _202Repository.findAll();
+
+
+			List<List<Object>> listOfLists = new ArrayList<List<Object>>();
+			for (int i = 0; i < sheetData.size(); i++) {
+				ArrayList<Object> data = new ArrayList<>();
+				data.clear();
+
+				data.add(sheetData.get(i).getTypeOfDeposit());
+				data.add(sheetData.get(i).getOneToHundredNaira());
+				data.add(sheetData.get(i).getHundredAndOneNaira());
+			
+				listOfLists.add(data);
+			
+			}
+			
+			 status = sheet202Util.writeSpecificList(listOfLists,Date,folderPath);
+				if (status == true) {
+					status =  true;
+				} else {
+					status =  false;
+				}
+		
+		
+			
+			
+		
+			
+			
+		
+		return status;
+		
+	}
 
 
 	// ####################################################################################

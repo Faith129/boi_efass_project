@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -45,17 +46,23 @@ public class sheet001_impl implements sheet001_Service {
 			   colname.add(f.getName()) ;
 			}
 			
-			ArrayList<String> codes = new ArrayList<String>();
-	        codes.add("21160");	
-			codes.add("21111");
-			codes.add("21112");
-			codes.add("21121");
-			codes.add("21122");
-			codes.add("21131");
-			codes.add("21132");
-			codes.add("1");
-			codes.add("21141");
-			codes.add("21141");
+			ArrayList<String> codes = new ArrayList<String>(
+					
+					
+					Arrays.asList(
+							"21160","21111","21112","21121","21131","21132","1","21141","21142"
+							)
+					);
+//	        codes.add("21160");	
+//			codes.add("21111");
+//			codes.add("21112");
+//			codes.add("21121");
+//			codes.add("21122");
+//			codes.add("21131");
+//			codes.add("21132");
+//			codes.add("1");
+//			codes.add("21141");
+//			codes.add("21141");
 			
 		
 			

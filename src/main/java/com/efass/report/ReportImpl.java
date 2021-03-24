@@ -58,7 +58,7 @@ public class ReportImpl implements ReportService{
 	
 
 	
-		public void saveReportActivity(String date, String folderPath,String filename) {
+		public void saveReportActivity(String date, String folderPath,String filename,int fileId) {
 			
 			//Get Authenication Details
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -74,7 +74,7 @@ public class ReportImpl implements ReportService{
 			
 			//Update Data
 			
-			Optional<ReportDAO> DataDb =  ReportRepo.findByDates(date.toString());
+			Optional<ReportDAO> DataDb =  ReportRepo.findById(fileId);
 			if (DataDb.isPresent()) {
 				ReportDAO DataUpdate = DataDb.get();
 				DataUpdate.setFile_name(filename );
@@ -128,16 +128,16 @@ public class ReportImpl implements ReportService{
 		
 		
 		//Check if Date Exists
-		Boolean isDate=checkDate(Date);
-		if(isDate == true) {
-		
-		
-			Response res = new Response();
-			res.setResponseMessage("Success,File Exists");
-			res.setResponseCode(00);
-			res.setFilePath(data.getFile_path());
-			return new ResponseEntity<>(res, HttpStatus.OK);	
-		}
+//		Boolean isDate=checkDate(Date);
+//		if(isDate == true) {
+//		
+//		
+//			Response res = new Response();
+//			res.setResponseMessage("Success,File Exists");
+//			res.setResponseCode(00);
+//			res.setFilePath(data.getFile_path());
+//			return new ResponseEntity<>(res, HttpStatus.OK);	
+//		}
 		
 		
 		String selectedDate = Date.toString();
@@ -158,20 +158,22 @@ public class ReportImpl implements ReportService{
 			
 			//Save Data
 			ReportDAO data = new ReportDAO();
-			data.setFile_name(filename );
+			data.setFile_name(filename);
 			data.setFile_path(filepath);
 			data.setReport_date(Date.toString());
-			data.setStatus("0");
+			data.setStatus("none");
 			data.setUser_id(currentPrincipalName);
 			ReportRepo.save(data);
 			
 	
-		
+			//search with filename and return date
+			String fileId = ReportRepo.findByFilename(filename);
 			
 			// Run Procedure to populate the tables on DB
 			res.setResponseMessage("Success,File Created");
 			res.setResponseCode(00);
 			res.setFilePath(filepath);
+			res.setFileId(fileId);
 			return new ResponseEntity<>(res, HttpStatus.OK);
 		} else {
 			res.setResponseMessage("Failed To Prepare For Generation");
@@ -191,28 +193,42 @@ public class ReportImpl implements ReportService{
 
 	public Boolean checkDate(LocalDate Date) {
 		
+		return true;
 		
-		String date= null;
-		
-		 //data = ReportRepo.findByDate(Date.toString());
-	
-		
-		 
-			List<ReportDAO> data =reportCall.fetchDate(Date.toString());
-		
-		if(data == null) {
-			
-			return false;
-			
-		}else {
-			System.out.println("Date Exists");
-			return true;
-		}
+//		String date= null;
+//		
+//		 //data = ReportRepo.findByDate(Date.toString());
+//	
+//		
+//		 
+//			String data =reportCall.fetchDate(Date.toString());
+//		
+//		if(data.equals(null)) {
+//			
+//			return false;
+//			
+//		}else {
+//			System.out.println("Date Exists");
+//			return true;
+//		}
 		
 	}
 	
 
-	
+	public Boolean checkByFileId(int fileId) {
+		//check if file exists in db
+		
+		
+		
+		String filename= ReportRepo.fileReportRepo(fileId);
+		
+		if (filename == null || filename.isEmpty()) {
+			return false;
+		}else {
+			return true;
+		}
+		
+	}
 	
 	
 	public ReportDAO findDate(LocalDate Date) {

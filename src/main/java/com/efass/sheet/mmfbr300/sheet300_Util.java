@@ -24,19 +24,15 @@ import com.efass.specials.SpecialData;
 @Service
 public class sheet300_Util {
 
-	
 	@Autowired
 	Validation validation;
-	
-	
-	public Boolean writeSpecificList(List<List<Object>> listOfLists, LocalDate Date ,String folderPath)
+
+	public Boolean writeSpecificList(List<List<Object>> listOfLists, LocalDate Date, String folderPath)
 			throws EncryptedDocumentException, InvalidFormatException, IOException, ParseException {
-		
-		String Path =folderPath + "/cbn_MFB_rpt_12345m052087.xlsx";
+
+		String Path = folderPath + "/cbn_MFB_rpt_12345m052087.xlsx";
 		SpecialData sb = new SpecialData();
 		sb.setChildFolderPath(Path);
-		
-	
 
 		// Read the spreadsheet that needs to be updated
 		FileInputStream fsIP = new FileInputStream(new File(Path));
@@ -47,95 +43,338 @@ public class sheet300_Util {
 		int rowNum = 12;
 		for (int i = 0; i < listOfLists.size(); i++) {
 			List<Object> listAtI = listOfLists.get(i);
-			
-			
+
 //			String amount = (String) listAtI.get(0);
-		
+
 			String _amount = ((listAtI.get(0) == null) ? "0" : listAtI.get(0).toString());
 
-
 			double __amount = Double.parseDouble(_amount);
-			
+
 			int amount = validation.roundUP(__amount);
 			String code = listAtI.get(1).toString();
 
-
-			
-			
 			Sheet worksheet = wb.getSheet("300");
 			// declare a Cell object
 
+//			if (code.equals("10110") || code.equals("10120") || code.equals("10130")) {
+//				insertAssets(Path, wb, fsIP, code, amount);
+//			}
+			
+			
+			insertDueFrom(Path, wb, fsIP, code, amount);
 
-			
-			
-			if (code.equals("10110") || code.equals("10120") || code.equals("10130")) {
-				insertAssets(Path, wb, fsIP,code , amount);
-			}
-		
+			rowNum++;
 
-				rowNum++;
-				
-				
-			
-		
-			
-		
 		}
 
 		return true;
 	}
-	
-	
-	
-	
-public void insertAssets(String Path, Workbook wb,FileInputStream fsIP, String code, int amount) throws IOException {
 
-	Sheet worksheet = wb.getSheet("001");
-	// declare a Cell object
+//	public void insertAssets(String Path, Workbook wb, FileInputStream fsIP, String code, int amount)
+//			throws IOException {
+//
+//		Sheet worksheet = wb.getSheet("001");
+//		// declare a Cell object
+//
+//		Cell cell = null;
+//		cell = worksheet.getRow(15).getCell(4);
+//		cell.setCellValue(amount);
+//
+//		Cell cell11 = null;
+//		cell11 = worksheet.getRow(16).getCell(4);
+//		cell11.setCellValue(amount);
+//
+//		Cell cell22 = null;
+//		cell22 = worksheet.getRow(17).getCell(5);
+//		String formula = "SUM(D15:D16)";
+//		cell22.setCellType(CellType.FORMULA);
+//		cell22.setCellFormula(formula);
+//
+//		Cell cell23 = null;
+//		cell23 = worksheet.getRow(17).getCell(6);
+//		String formula2 = "E17";
+//		cell23.setCellType(CellType.FORMULA);
+//		cell23.setCellFormula(formula2);
+//
+//		// Close the InputStream
+//		fsIP.close();
+//		// Open FileOutputStream to write updates
+//
+//		FileOutputStream output_file = new FileOutputStream(new File(Path));
+//
+//		wb.write(output_file);
+//		// close the stream
+//		output_file.close();
+//
+//	}
 
+	public void insertDueFrom(String Path, Workbook wb, FileInputStream fsIP, String code, int amount)
+			throws IOException {
 
-//	
-	
-	Cell cell = null;
-	cell = worksheet.getRow(15).getCell(4);
-	cell.setCellValue(amount);
+		Sheet worksheet = wb.getSheet("001");
+		// declare a Cell object
 
-	
-	Cell cell11 = null;
-	cell11 = worksheet.getRow(16).getCell(4);
-	cell11.setCellValue(amount);
-	
-	
-	Cell cell22 = null;
-	cell22 = worksheet.getRow(17).getCell(5);
-	String formula= "SUM(D15:D16)";
-	cell22.setCellType(CellType.FORMULA);
-	cell22.setCellFormula(formula);
-	
-	
-	Cell cell23 = null;
-	cell23 = worksheet.getRow(17).getCell(6);
-	String formula2= "E17";
-	cell23.setCellType(CellType.FORMULA);
-	cell23.setCellFormula(formula2);
-	
-	
-	
-	
+		// Insert Formula
+		Cell cell023 = null;
+		cell023 = worksheet.getRow(20).getCell(4);
+		String formula02 = "SUM(D15:D16)";
+		cell023.setCellType(CellType.FORMULA);
+		cell023.setCellFormula(formula02);
 
-	// Close the InputStream
-	fsIP.close();
-	// Open FileOutputStream to write updates
+		Cell cell024 = null;
+		cell024 = worksheet.getRow(20).getCell(5);
+		String formula024 = "E17";
+		cell024.setCellType(CellType.FORMULA);
+		cell024.setCellFormula(formula024);
+		
+		
+		Cell cell23 = null;
+		cell23 = worksheet.getRow(20).getCell(4);
+		String formula2 = "'221'!D48";
+		cell23.setCellType(CellType.FORMULA);
+		cell23.setCellFormula(formula2);
 
-	
-	FileOutputStream output_file = new FileOutputStream(new File(Path));
+		Cell cell24 = null;
+		cell24 = worksheet.getRow(20).getCell(5);
+		String formula24 = "D20";
+		cell24.setCellType(CellType.FORMULA);
+		cell24.setCellFormula(formula24);
 
-	wb.write(output_file);
-	// close the stream
-	output_file.close();
+		Cell cell25 = null;
+		cell25 = worksheet.getRow(22).getCell(4);
+		String formula25 = "'311'!F39";
+		cell25.setCellType(CellType.FORMULA);
+		cell25.setCellFormula(formula25);
 
+		Cell cell26 = null;
+		cell26 = worksheet.getRow(23).getCell(4);
+		String formula26 = "'321'!F32";
+		cell26.setCellType(CellType.FORMULA);
+		cell26.setCellFormula(formula25);
+
+		Cell cell27 = null;
+		cell27 = worksheet.getRow(24).getCell(5);
+		String formula27 = "SUM(D22:D23)";
+		cell27.setCellType(CellType.FORMULA);
+		cell27.setCellFormula(formula27);
+
+		Cell cell28 = null;
+		cell28 = worksheet.getRow(25).getCell(6);
+		String formula28 = "SUM(E20:E24)";
+		cell28.setCellType(CellType.FORMULA);
+		cell28.setCellFormula(formula28);
+
+		Cell cell29 = null;
+		cell29 = worksheet.getRow(27).getCell(5);
+		String formula29 = "D27";
+		cell28.setCellType(CellType.FORMULA);
+		cell28.setCellFormula(formula29);
+
+		Cell cell30 = null;
+		cell30 = worksheet.getRow(32).getCell(4);
+		String formula30 = "'641'!D42";
+		cell30.setCellType(CellType.FORMULA);
+		cell30.setCellFormula(formula30);
+
+		Cell cell31 = null;
+		cell31 = worksheet.getRow(33).getCell(5);
+		String formula31 = "SUM(D29:D32)";
+		cell31.setCellType(CellType.FORMULA);
+		cell31.setCellFormula(formula31);
+
+		Cell cell32 = null;
+		cell32 = worksheet.getRow(33).getCell(6);
+		String formula32 = "E33";
+		cell32.setCellType(CellType.FORMULA);
+		cell32.setCellFormula(formula32);
+
+		// insert value
+
+		
+		//Cash
+		if (code.equals("10110")) {
+			insertValue(wb, worksheet, amount, 15, 4);
+		} else if (code.equals("10120")) {
+			insertValue(wb, worksheet, amount, 16, 4);
+		} 	
+		else if (code.equals("10610")) {
+			insertValue(wb, worksheet, amount, 29, 4);
+		} else if (code.equals("10620")) {
+			insertValue(wb, worksheet, amount, 30, 4);
+		} else if (code.equals("10630")) {
+			insertValue(wb, worksheet, amount, 31, 4);
+		} else if (code.equals("10720")) {
+			insertValue(wb, worksheet, amount, 36, 4);
+		} else if (code.equals("10725")) {
+			insertValue(wb, worksheet, amount, 37, 4);
+		} else if (code.equals("10730")) {
+			insertValue(wb, worksheet, amount, 38, 4);
+		} else if (code.equals("10740")) {
+			insertValue(wb, worksheet, amount, 39, 4);
+		} else if (code.equals("10750")) {
+			insertValue(wb, worksheet, amount, 41, 4);
+		} else if (code.equals("10880")) {
+			insertValue(wb, worksheet, amount, 49, 4);
+		}else if (code.equals("10890")) {
+			insertFormula(wb, worksheet, "D48-D49", 50, 5);
+			insertFormula(wb, worksheet, "E50", 50, 6);
+		}else if (code.equals("10910")) {
+			insertValue(wb, worksheet, amount, 52, 4);
+			
+		}else if (code.equals("10920")) {
+			insertValue(wb, worksheet, amount, 53, 4);
+		}else if (code.equals("10930")) {
+			insertValue(wb, worksheet, amount, 54, 4);
+		}else if (code.equals("10940")) {
+			insertValue(wb, worksheet, amount, 55, 4);
+		}else if (code.equals("10950")) {
+			insertValue(wb, worksheet, amount, 56, 4);
+		}else if (code.equals("10960")) {
+			insertValue(wb, worksheet, amount, 57, 4);
+		}else if (code.equals("10970")) {
+			insertFormula(wb, worksheet, "SUM(D52:D57)", 58, 5);
+		}else if (code.equals("10980")) {
+			insertFormula(wb, worksheet, "D59", 59, 5);
+		}else if (code.equals("10990")) {
+			insertFormula(wb, worksheet, "E58-E59", 60, 6);
+		}else if (code.equals("11000")) {
+			insertFormula(wb, worksheet, "F60+F50+F46+F33+F27+F25+F17", 60, 6);
+		}
+		
+		
+		//Liabilities
+		
+		if (code.equals("20110")) {
+			insertValue(wb, worksheet, amount, 65, 4);
+		} else if (code.equals("20120")) {
+			insertValue(wb, worksheet, amount, 66, 4);
+		} 	else if (code.equals("20125")) {
+			insertValue(wb, worksheet, amount, 67, 4);
+		} else if (code.equals("20130")) {
+			insertValue(wb, worksheet, amount, 68, 4);
+		}  else if (code.equals("20140")) {
+			insertFormula(wb, worksheet, "'141'!D47", 69, 4);
+		} else if (code.equals("20200")) {
+			insertFormula(wb, worksheet, "SUM(D65:D69)", 70, 5);
+			insertFormula(wb, worksheet, "E70", 70, 6);
+		}else if (code.equals("20310")) {
+			insertFormula(wb, worksheet, "'312'!H35", 72, 4);
+		}else if (code.equals("20320")) {
+			insertFormula(wb, worksheet, "'322'!G22", 73, 4);
+		}else if (code.equals("20330")) {
+			insertFormula(wb, worksheet, "'SUM(D72:D73)", 74, 5);
+			insertFormula(wb, worksheet, "E74", 74, 5);
+		}else if (code.equals("20450")) {
+			insertFormula(wb, worksheet, "451!G22", 75, 5);
+			insertFormula(wb, worksheet, "D75", 75, 5);
+			insertFormula(wb, worksheet, "E75", 75, 5);
+		}else if (code.equals("20500")) {
+			insertFormula(wb, worksheet, "'501'!D26", 76, 4);
+			insertFormula(wb, worksheet, "D76", 76, 5);
+			insertFormula(wb, worksheet, "E76", 76, 6);
+		}else if (code.equals("20610")) {
+			insertValue(wb, worksheet, amount, 78, 4);
+		}else if (code.equals("20620")) {
+			insertValue(wb, worksheet, amount, 79, 4);
+		}else if (code.equals("20630")) {
+			insertValue(wb, worksheet, amount, 80, 4);
+		}else if (code.equals("20640")) {
+			insertFormula(wb, worksheet, "'642'!H23", 81, 4);
+		}else if (code.equals("20650")) {
+			insertFormula(wb, worksheet, "'651'!G23", 82, 4);
+		}else if (code.equals("20660")) {
+			insertFormula(wb, worksheet, "SUM(D78:D82)", 83, 5);
+			insertFormula(wb, worksheet, "E87", 83, 6);
+		}else if (code.equals("20710")) {
+			insertValue(wb, worksheet, amount, 85, 4);	
+		}else if (code.equals("20720")) {
+			insertValue(wb, worksheet, amount, 86, 4);
+		}else if (code.equals("20750")) {
+			insertFormula(wb, worksheet, "SUM(D85:D86)", 87, 5);
+			insertFormula(wb, worksheet, "E87", 87, 5);
+		}else if (code.equals("20810")) {
+			insertValue(wb, worksheet, amount, 89, 4);
+			insertFormula(wb, worksheet, "D89", 89, 6);
+		}else if (code.equals("20830")) {
+			insertValue(wb, worksheet, amount, 91, 4);
+		}else if (code.equals("20840")) {
+			insertValue(wb, worksheet, amount, 92, 4);
+		}else if (code.equals("20860")) {
+			insertFormula(wb, worksheet, "SUM(D91:D92)", 93, 5);
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		else if (code.equals("20910")) {
+			insertValue(wb, worksheet, amount, 95, 4);
+		}
+		else if (code.equals("20920")) {
+			insertValue(wb, worksheet, amount, 96, 4);
+		}else if (code.equals("20930")) {
+			insertFormula(wb, worksheet, "'933'!H22", 97, 4);
+		}else if (code.equals("20935")) {
+			insertValue(wb, worksheet, amount, 98, 4);
+		}else if (code.equals("20935")) {
+			insertValue(wb, worksheet, amount, 99, 4);
+		}else if (code.equals("20940")) {
+			insertValue(wb, worksheet, amount, 100, 4);
+		}		else if (code.equals("20950")) {
+			insertFormula(wb, worksheet, "'951'!D24", 92, 4);
+		}
+		else if (code.equals("20960")) {
+			insertValue(wb, worksheet, amount, 102, 4);
+		}else if (code.equals("20960")) {
+			insertFormula(wb, worksheet, "IF('1000'!F39<0,'1000'!F39,\"\")", 103, 5);
+		}else if (code.equals("20965")) {
+			insertFormula(wb, worksheet, "IF('1000'!F39<0,'1000'!F39,\"\")", 92, 5);
+		}else if (code.equals("20970")) {
+			insertFormula(wb, worksheet, "SUM(D95:D103)", 104, 5);
+		}else if (code.equals("20980")) {
+			insertFormula(wb, worksheet, "E93+E104", 105, 6);
+		}else if (code.equals("20990")) {
+			insertFormula(wb, worksheet, "F70+F87+F83+F76+F75+F74+F105", 106, 6);
+		}else if (code.equals("20995")) {
+			insertFormula(wb, worksheet, "'996'!D23", 107, 6);
+		}
+		
+		
+		
+
+		// Ended at no. 49, begins at no.10890
+
+		// Close the InputStream
+		fsIP.close();
+		// Open FileOutputStream to write updates
+
+		FileOutputStream output_file = new FileOutputStream(new File(Path));
+
+		wb.write(output_file);
+		// close the stream
+		output_file.close();
 
 	}
+	
+	
+	
+	public void insertFormula(Workbook wb,Sheet worksheet,String formula,int rowNum,int cellNum  ) {
+		
+		Cell cell = null;
+		cell = worksheet.getRow(rowNum).getCell(cellNum);
+		String cellFormula= formula;
+		cell.setCellType(CellType.FORMULA);
+		cell.setCellFormula(cellFormula);
+	}
 
+	public void insertValue(Workbook wb, Sheet worksheet, int amount, int rowNum, int cellNum) {
 
+		Cell cell = null;
+		cell = worksheet.getRow(rowNum).getCell(cellNum);
+		cell.setCellValue(amount);
+	}
 }
