@@ -39,30 +39,30 @@ public class sheet811_impl implements sheet811_Service{
 	// ############################## MMFBR811 CRUD OPERATIONS
 	// #################################
 
-	public void validate(sheet811DAO data) throws ResourceNotFoundException {
-		
-		String code = validation.checkDataType(data.getCode().toString());
-		String item = validation.checkDataType(data.getItem().toString());
-		String perfoming = validation.checkDataType(data.getPerforming().toString());
-		String nonPerforming = validation.checkDataType(data.getNonPerforming().toString());
-//		String total = validation.checkDataType(data.ge.toString()); 
-		
-		if( !code.equalsIgnoreCase("num")) {
-			throw new ResourceNotFoundException("code must be a numeric value  " );	
-		}
-		else if( !item.equalsIgnoreCase("Alpha")) {
-			throw new ResourceNotFoundException("item must be an alphabetic value  " );	
-		}else if(!perfoming.equalsIgnoreCase("num")) {	
-			throw new ResourceNotFoundException("perfoming must be a numeric value  " );
-			}
-		 else if( !nonPerforming.equalsIgnoreCase("num")) {
-			throw new ResourceNotFoundException("nonPerforming  must be an numeric value " );	
-		 }
-		
-	}
+//	public void validate(sheet811DAO data) throws ResourceNotFoundException {
+//		
+//		String code = validation.checkDataType(data.getCode().toString());
+//		String item = validation.checkDataType(data.getItem().toString());
+//		String perfoming = validation.checkDataType(data.getPerforming().toString());
+//		String nonPerforming = validation.checkDataType(data.getNonPerforming().toString());
+////		String total = validation.checkDataType(data.ge.toString()); 
+//		
+//		if( !code.equalsIgnoreCase("num")) {
+//			throw new ResourceNotFoundException("code must be a numeric value  " );	
+//		}
+//		else if( !item.equalsIgnoreCase("Alpha")) {
+//			throw new ResourceNotFoundException("item must be an alphabetic value  " );	
+//		}else if(!perfoming.equalsIgnoreCase("num")) {	
+//			throw new ResourceNotFoundException("perfoming must be a numeric value  " );
+//			}
+//		 else if( !nonPerforming.equalsIgnoreCase("num")) {
+//			throw new ResourceNotFoundException("nonPerforming  must be an numeric value " );	
+//		 }
+//		
+//	}
 	public ResponseEntity<?> createData(sheet811DAO data) throws ResourceNotFoundException {
 		
-		validate(data);
+		//validate(data);
 		
 		//_811Repository.save(data);
 		Response res = new Response();
@@ -116,7 +116,7 @@ public class sheet811_impl implements sheet811_Service{
 
 	public ResponseEntity<?> updateData(int id, sheet811DAO Data) throws ResourceNotFoundException {
 
-		validate(Data);
+	//	validate(Data);
 		
 		Optional<sheet811DAO> DataDb = _811Repository.findById(id);
 
@@ -124,7 +124,7 @@ public class sheet811_impl implements sheet811_Service{
 			sheet811DAO DataUpdate = DataDb.get();
 			DataUpdate.setId(Data.getId());
 			DataUpdate.setCode(Data.getCode());
-			DataUpdate.setItem(Data.getNonPerforming());
+			DataUpdate.setItem(Data.getItem());
 			DataUpdate.setNonPerforming(Data.getNonPerforming());
 			DataUpdate.setPerforming(Data.getPerforming());
 			
@@ -156,6 +156,7 @@ public class sheet811_impl implements sheet811_Service{
 			
 			data.add(sheetdata.get(i).getPerforming());
 			data.add(sheetdata.get(i).getNonPerforming());
+			data.add(sheetdata.get(i).getItem());
 		
 			
 			

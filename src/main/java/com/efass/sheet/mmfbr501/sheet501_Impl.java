@@ -154,7 +154,7 @@ public class sheet501_Impl implements sheet501_Service {
 
 			ArrayList<sheet501DAO> sheetdata = new ArrayList<>();
 			
-			sheetdata = (ArrayList<sheet501DAO>) _501Repository.findAll();
+			sheetdata = (ArrayList<sheet501DAO>) _501Repository.findAllByBankCode();
 			
 			List<List<Object>> listofLists = new ArrayList<List<Object>>();
 			

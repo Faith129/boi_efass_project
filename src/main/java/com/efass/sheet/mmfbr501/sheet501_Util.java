@@ -14,6 +14,7 @@ import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -65,8 +66,14 @@ public class sheet501_Util {
 				Sheet worksheet = wb.getSheet("501");
 				// declare a Cell object
 				
-				if (bankCode.equals("20530")) {
-					rowNum = rowNum+1;
+				if (rowNum == 15) {
+					//rowNum = rowNum+1;
+					Cell cell01 = null;
+					cell01 = worksheet.getRow(15).getCell(3);
+					String formula= "IF('1000'!F39>0,'1000'!F39,0)";
+					cell01.setCellType(CellType.FORMULA);
+					cell01.setCellFormula(formula);
+					
 					
 				}else  {
 					Cell cell = null;
@@ -77,6 +84,14 @@ public class sheet501_Util {
 					
 				}
 			
+			
+				
+				Cell cell02 = null;
+				cell02 = worksheet.getRow(25).getCell(3);
+				String formula1= "SUM(D12:D25)";
+				cell02.setCellType(CellType.FORMULA);
+				cell02.setCellFormula(formula1);
+
 				
 
 			
