@@ -33,16 +33,35 @@ public class sheet501_Impl implements sheet501_Service {
 	@Autowired
 	sheet501Repository _501Repository;
 	
+	@Autowired
+	Validation validation; 
 
-
-	
-
+	@Autowired
 	 sheet501_Util sheet501Util;
 
 
 	// ############################## MMFBR501 CRUD OPERATIONS
 	// #################################
-	
+	public void validate(sheet501DAO data) throws ResourceNotFoundException {
+		String code = validation.checkDataType(data.getBank_code().toString());
+		String item = validation.checkDataType(data.getItem().toString());
+		String amount = validation.checkDataType(data.getAmount().toString());
+		
+			if(!code.equalsIgnoreCase("Num")) {
+				throw new ResourceNotFoundException("Bank Code  must be an alphabetic value  " );
+			}
+			
+			if(!item.equalsIgnoreCase("Alpha")) {	
+			throw new ResourceNotFoundException("Item must be an alphabetic value  " );
+		
+			}
+			
+			else if(!amount.equalsIgnoreCase("Num")) {
+				throw new ResourceNotFoundException("Amount must be a numeric value  " );
+			}
+			
+		}
+
 
 
 	public ResponseEntity<?> createData(sheet501DAO data) throws ResourceNotFoundException {
@@ -135,20 +154,33 @@ public class sheet501_Impl implements sheet501_Service {
 
 			ArrayList<sheet501DAO> sheetdata = new ArrayList<>();
 			
-			sheetdata = (ArrayList<sheet501DAO>) _501Repository.findAll();
+			sheetdata = (ArrayList<sheet501DAO>) _501Repository.findAllByBankCode();
 			
 			List<List<Object>> listofLists = new ArrayList<List<Object>>();
 			
 			for(int i = 0; i < sheetdata.size(); i++ ) {
-				
+				System.out.println("This is amount "+sheetdata.get(i).getAmount());
+				System.out.println("This is bank code "+sheetdata.get(i).getBank_code());
 				ArrayList<Object> data = new ArrayList<>();
+				
 				data.add(sheetdata.get(i).getAmount());
 				data.add(sheetdata.get(i).getBank_code());
 				listofLists.add(data);
 		
 			}
+			Boolean status=null;
+			try {
 				
-			Boolean status = sheet501Util.writeSpecificList(listofLists, Date, folderPath);
+				if(!listofLists.isEmpty()) {
+			 status= sheet501Util.writeSpecificList(listofLists, Date, folderPath);
+				}else {
+				
+					System.out.println("MMFBR501 Has No Value");
+					return false; 
+				}
+			}catch(Exception ex) {
+				ex.printStackTrace();
+			}
 			
 			if(status == true) {
 				return true;

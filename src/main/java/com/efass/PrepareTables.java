@@ -436,7 +436,7 @@ public class PrepareTables {
 	}
 
 	public void populatesheet501() {
-
+		_501Repository.deleteAll();
 		save501("20510", "Accounts Payable (Provide Breakdown");
 		save501("20515", "Unearned Income");
 		save501("20520", "Interest Accrued not Paid");

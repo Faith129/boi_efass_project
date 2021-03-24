@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.util.ArrayUtils;
+
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.sheet.mmfbr300.sheet300DAO;
@@ -126,7 +128,7 @@ public class sheet300_impl implements sheet300_Service {
 			EncryptedDocumentException, InvalidFormatException, ParseException {
 
 		ArrayList<sheet300DAO> sheetdata = new ArrayList<>();
-		sheetdata = (ArrayList<sheet300DAO>) _300Repository.findAll();
+		sheetdata = (ArrayList<sheet300DAO>) _300Repository.findAllOrderByCode();
 
 		List<List<Object>> listofLists = new ArrayList<List<Object>>();
 
@@ -138,16 +140,27 @@ public class sheet300_impl implements sheet300_Service {
 			for (int i = 0; i < sheetdata.size(); i++) {
 				ArrayList<Object> data = new ArrayList<>();
 				
-				if (sheetdata.get(i).getCode().contains(outerCodes.get(k).getCode())) {
-					data.add(sheetdata.get(i).getCol_1());
-					data.add(sheetdata.get(i).getCode());
-					
-	
+//				if (sheetdata.get(i).getCode().contains(outerCodes.get(k).getCode())) {
+//					data.add(sheetdata.get(i).getCol_1());
+//					data.add(sheetdata.get(i).getCode());
+//					
+//	
+//			
+//				} 
+				
+				String sheetCode = sheetdata.get(i).getCode();
+				String outerCode = outerCodes.get(k).getCode();
+				
 			
-				} else {
+				if(sheetCode.equals(outerCode)) {
+				
+					outerCodes.remove(k);
 
-					data.add(outerCodes.get(k).getCode());
-					data.add(null);
+				}
+				else {
+
+					data.add(sheetdata.get(i).getCode());
+					data.add(sheetdata.get(i).getCol_1());
 				
 				}
 
@@ -157,6 +170,16 @@ public class sheet300_impl implements sheet300_Service {
 
 			}
 		}
+		
+		
+		//loop through outerArraylist and perform insert
+//		for(int i = 0; i < outerCodes.size(); i++) {
+//			
+//			data.add(sheetdata.get(i).getCode());
+//			data.add(null);
+//			
+//		}
+		
 
 		Boolean status = sheet300Util.writeSpecificList(listofLists, Date, folderPath);
 		if (status == true) {

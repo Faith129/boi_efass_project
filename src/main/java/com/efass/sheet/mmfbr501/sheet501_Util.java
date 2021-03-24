@@ -14,18 +14,22 @@ import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.efass.Validation;
 import com.efass.specials.SpecialData;
 
 @Service
 public class sheet501_Util {
 
-	
+@Autowired
+Validation validation;
 	
 	public Boolean writeSpecificList(List<List<Object>> listOfLists, LocalDate Date ,String folderPath)
 			throws EncryptedDocumentException, InvalidFormatException, IOException, ParseException {
@@ -47,31 +51,49 @@ public class sheet501_Util {
 				for (int i = 0; i < listOfLists.size(); i++) {
 				List<Object> listAtI = listOfLists.get(i);
 				
+//			String amount = listAtI.get(0).toString();
+				
+				String _amount =(( listAtI.get(0) == null) ? "0" : listAtI.get(0).toString());
+				
 		
+		
+				Double dblAmount = Double.parseDouble(_amount);
+				int   amount = validation.roundUP(dblAmount);
 				
-				String amount =(( listAtI.get(0) == null) ? "0" : listAtI.get(0).toString());
-
-				int _amount = Integer.parseInt(amount);
-				
-				String bankCode = listAtI.get(1).toString();
+				//String bankCode = listAtI.get(1).toString();
 				
 				
 				Sheet worksheet = wb.getSheet("501");
 				// declare a Cell object
 				
-				if (bankCode.equals("20530")) {
+				if (rowNum == 15) {
+					//rowNum = rowNum+1;
+					Cell cell01 = null;
+					cell01 = worksheet.getRow(15).getCell(3);
+					String formula= "IF('1000'!F39>0,'1000'!F39,0)";
+					cell01.setCellType(CellType.FORMULA);
+					cell01.setCellFormula(formula);
 					
-					rowNum = rowNum+1;
 					
 				}else  {
+			
+			
 					Cell cell = null;
 					// Access the second cell in second row to update the value
 					cell = worksheet.getRow(rowNum).getCell(3);
 					// Get current cell value value and overwrite the value
-					cell.setCellValue(_amount);
-					
+					cell.setCellValue(amount);
+				
 				}
 			
+			
+				
+				Cell cell02 = null;
+				cell02 = worksheet.getRow(25).getCell(3);
+				String formula1= "SUM(D12:D25)";
+				cell02.setCellType(CellType.FORMULA);
+				cell02.setCellFormula(formula1);
+
 				
 
 			

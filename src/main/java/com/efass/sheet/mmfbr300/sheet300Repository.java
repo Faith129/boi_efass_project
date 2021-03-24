@@ -1,6 +1,7 @@
 
 package com.efass.sheet.mmfbr300;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
@@ -21,6 +22,12 @@ public interface sheet300Repository extends CrudRepository<sheet300DAO, Integer>
 
 	@Query(value = "SELECT * FROM EFASS.MMFBR300 where code=?", nativeQuery = true)
 	sheet300DAO findColumnsByCode(String code);
+
+
+	
+	
+	@Query(value = "SELECT * FROM EFASS.MMFBR300 ORDER BY CODE ASC", nativeQuery = true)
+	ArrayList<sheet300DAO> findAllOrderByCode();
 
 
 }
