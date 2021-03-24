@@ -32,6 +32,7 @@ import com.efass.sheet.mmfbr763.sheet763DAO;
 import com.efass.sheet.mmfbr763.sheet763Repository;
 import com.efass.sheet.mmfbr764.sheet764Repository;
 import com.efass.sheet.mmfbr771.sheet771Repository;
+import com.efass.sheet.mmfbr811.sheet811DAO;
 import com.efass.sheet.mmfbr811.sheet811Repository;
 import com.efass.sheet.mmfbr933.sheet933Repository;
 import com.efass.sheet.mmfbr951.sheet951Repository;
@@ -99,19 +100,81 @@ public class PrepareTables {
 
 		try {
 
-			populateSheet711();
-			populateSheet762();
-			populateSheet763();
-			populateSheet761();
-			populatesheet201();
-			populatesheet980();
-			populatesheet501();
-			// populatesheet1000();
-			populatesheet300();
-		} catch (Exception ex) {
-
+		populateSheet811();
+		populateSheet711();
+		populateSheet762();
+		populateSheet763();
+		populateSheet761();
+		populatesheet201();
+		populatesheet501();
+		populatesheet980();	
+	//	populatesheet1000();
+		populatesheet300();
+		}catch(Exception ex) {
+			ex.printStackTrace();
 		}
 	}
+	
+	private void populateSheet811() {
+		//Delete all
+		_811Repository.deleteAll();
+
+		sheet811DAO data = new sheet811DAO();
+		data.setCode("10815");
+		data.setItem("Accounts Receivable [Provide Breakdown]");
+		_811Repository.save(data);
+
+		sheet811DAO data2 = new sheet811DAO();
+		data2.setCode("10820");
+		data2.setItem("Accrued Interest Receivable [Provide Breakdown]");
+		_811Repository.save(data2);
+
+
+		sheet811DAO data3 = new sheet811DAO();
+		data3.setCode("10825");
+		data3.setItem("Cheques for Collection /Transit Items [Provide Breakdown]");
+		_811Repository.save(data3);
+
+
+		sheet811DAO data4 = new sheet811DAO();
+		data4.setCode("10835");
+		data4.setItem("Prepaid Interest [Provide Breakdown]");
+		_811Repository.save(data4);
+
+		sheet811DAO data5 = new sheet811DAO();
+		data5.setCode("10840");
+		data5.setItem("Prepaid Rent [Provide Breakdown]");
+		_811Repository.save(data5);
+
+		sheet811DAO data6 = new sheet811DAO();
+		data6.setCode("10845");
+		data6.setItem("Stationery [Provide Breakdown]");
+		_811Repository.save(data6);
+
+		sheet811DAO data7 = new sheet811DAO();
+		data7.setCode("10850");
+		data7.setItem("Other Prepayments [Provide Breakdown] ");
+		_811Repository.save(data7);
+
+
+		sheet811DAO data8 = new sheet811DAO();
+		data8.setCode("10855");
+		data8.setItem("Suspense Account [Provide Breakdown]");
+		_811Repository.save(data8);
+
+		sheet811DAO data9 = new sheet811DAO();
+		data9.setCode("10860");
+		data9.setItem("Goodwill and Other Intangible Assets [Provide Breakdown]");
+		_811Repository.save(data9);
+
+		sheet811DAO data10 = new sheet811DAO();
+		data10.setCode("10865");
+		data10.setItem("Miscellaneous [Provide Breakdown]");
+		_811Repository.save(data10);
+
+		}
+	
+
 
 	private void populateSheet711() {
 		// Delete all
@@ -169,8 +232,8 @@ public class PrepareTables {
 
 		sheet762DAO data3 = new sheet762DAO();
 		data3.setSector("Trade & Commerce");
-		data3.setNoOfLoans("40");
-		data3.setAmountGranted("8270");
+//		data3.setNoOfLoans("40");
+//		data3.setAmountGranted("8270");
 		_762Repository.save(data3);
 
 		sheet762DAO data4 = new sheet762DAO();
@@ -182,36 +245,34 @@ public class PrepareTables {
 		_762Repository.save(data5);
 
 		sheet762DAO data6 = new sheet762DAO();
-		data6.setSector("Consumer/Personal");
-		data6.setNoOfLoans("18");
-		data6.setAmountGranted("5010");
+		data6.setSector("Rent/Housing");
 		_762Repository.save(data6);
 
 		sheet762DAO data7 = new sheet762DAO();
-		data7.setSector("Health");
+		data7.setSector("Consumer/Personal");
+//		data7.setNoOfLoans("18");
+//		data7.setAmountGranted("5010");
 		_762Repository.save(data7);
-
+    
 		sheet762DAO data8 = new sheet762DAO();
-		data8.setSector("Education");
+		data8.setSector("Health");
 		_762Repository.save(data8);
 
 		sheet762DAO data9 = new sheet762DAO();
-		data9.setSector("Tourism & Hospitality");
+		data9.setSector("Education");
 		_762Repository.save(data9);
 
 		sheet762DAO data10 = new sheet762DAO();
-		data10.setSector("Purchase of Shares");
+		data10.setSector("Tourism & Hospitality");
 		_762Repository.save(data10);
 
 		sheet762DAO data11 = new sheet762DAO();
-		data11.setSector("Others (Specify)");
+		data11.setSector("Purchase of Shares");
 		_762Repository.save(data11);
 
 		sheet762DAO data12 = new sheet762DAO();
-		data12.setSector("Rent/Housing");
+		data12.setSector("Others (Specify)");
 		_762Repository.save(data12);
-
-	}
 
 	public void populateSheet763() {
 		// delete all
@@ -428,6 +489,7 @@ public class PrepareTables {
 
 	}
 
+
 	public void save980(String items) {
 
 		sheet980DAO data = new sheet980DAO();
@@ -453,6 +515,7 @@ public class PrepareTables {
 		save501("20575", "Miscellaneous (Specify)");
 
 	}
+
 
 	public void populatesheet300() {
 		_300Repository.deleteAll();
@@ -493,6 +556,7 @@ public class PrepareTables {
 		save300("20935", "Bonus Reserves");
 		save300("20940", "Revaluation Reserves");
 		save300("20960", "Retained Profit/Loss");
+
 
 	}
 
