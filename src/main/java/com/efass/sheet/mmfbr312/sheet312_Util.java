@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import com.efass.report.ReportRepository;
 import com.efass.sheet.mmfbr312.sheet312Repository;
+import com.efass.specials.DateConverter;
 import com.efass.specials.SpecialData;
 
 
@@ -36,6 +37,9 @@ public class sheet312_Util {
 
 	@Autowired
 	  sheet312Repository _312Repo;
+	
+	@Autowired
+	DateConverter convert;
 
 	
 	SpecialData specialData = new SpecialData();
@@ -68,6 +72,7 @@ public class sheet312_Util {
 			String rate = (String) listAtI.get(2);
 			String tenor = (String) listAtI.get(3);
 			String _effectiveDate = (String) listAtI.get(4);
+			
 			String _maturityDate = (String) listAtI.get(5);
 			
 			Date effectiveDate = new SimpleDateFormat("dd/MM/yyyy").parse(_effectiveDate);  

@@ -27,24 +27,60 @@ public class DateConverter {
     	}
     
     
-    public String changeDateToGregorian2(String dateStr){
-    
-    	 String newDate=null;
-    	 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
-    	 try {
-    	  Date date = sdf.parse(dateStr);
-    	  sdf = new SimpleDateFormat("dd/mm/yyyy");
-    	  newDate = sdf.format(date);
-    	  System.out.println(sdf.format(date));
-    	  
-    	  
-    	 } catch (ParseException e) {
-    	  e.printStackTrace();
-    	 }
-		return newDate;
-    }
-    
-    
+    public String changeDateToGregorian2(String dateStr, String format) throws ParseException{
+
+
+
+    	String newDate=null;
+    	SimpleDateFormat sdf = new SimpleDateFormat(format);
+    	try {
+    	Date date = sdf.parse(dateStr);
+    	sdf = new SimpleDateFormat("dd/mm/yyyy");
+    	newDate = sdf.format(date);
+    	System.out.println(sdf.format(date));
+
+
+    	} catch (ParseException e) {
+
+
+    	try {
+    	SimpleDateFormat sdf2 = new SimpleDateFormat("dd/mm/yyyy");
+    	Date date = sdf2.parse(dateStr);
+    	sdf2 = new SimpleDateFormat("dd/mm/yyyy");
+    	newDate = sdf2.format(date);
+    	System.out.println(sdf2.format(date));
+
+    	}catch(ParseException ex) {
+
+    	try {
+    	SimpleDateFormat sdf3 = new SimpleDateFormat("dd-mm-yyyy");
+    	Date date = sdf3.parse(dateStr);
+    	sdf3 = new SimpleDateFormat("dd/mm/yyyy");
+    	newDate = sdf3.format(date);
+    	System.out.println(sdf3.format(date));
+
+
+
+
+    	}catch(ParseException ex3) {
+
+    	SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-mm-dd");
+    	Date date = sdf3.parse(dateStr);
+    	sdf3 = new SimpleDateFormat("dd/mm/yyyy");
+    	newDate = sdf3.format(date);
+    	System.out.println(sdf3.format(date));
+
+    	}
+
+
+    	}
+
+
+
+    	// e.printStackTrace();
+    	}
+    	return newDate;
+    	}
     
     
     

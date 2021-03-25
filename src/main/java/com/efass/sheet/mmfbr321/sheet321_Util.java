@@ -4,13 +4,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.List;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.efass.report.ReportRepository;
-import com.efass.sheet.mmfbr321.sheet321Repository;
+import com.efass.specials.DateConverter;
 import com.efass.specials.SpecialData;
 
 @Service
@@ -31,11 +31,15 @@ public class sheet321_Util {
 	@Autowired
 	  sheet321Repository _321Repo;
 	
+	@Autowired
+	DateConverter convert;
+
+	
 	SpecialData specialData = new SpecialData();
 	
 	
 	public Boolean writeSpecificList(List<List<Object>> listOfLists, LocalDate Date ,String folderPath)
-			throws EncryptedDocumentException, InvalidFormatException, IOException {
+			throws EncryptedDocumentException, InvalidFormatException, IOException, ParseException {
 
 			
 			String Path =folderPath + "/cbn_MFB_rpt_12345m052087.xlsx";
@@ -59,6 +63,8 @@ public class sheet321_Util {
 				String bankName = (String) listAtI.get(1);
 				String tenor = (String) listAtI.get(2);
 				String maturityDate = (String) listAtI.get(3);
+//				String maturityDate = convert.changeDateToGregorian2(_maturityDate, "dd/mm/yyyy");
+
 				
 		
 				int amount = Integer.parseInt(listAtI.get(4).toString());
