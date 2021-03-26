@@ -59,7 +59,7 @@ public class UserController {
 	@RequestMapping(value ="/testproc/{date}")
 	public ResponseEntity<?> testing(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) throws ParseException {
 		String _date=null;
-		 _date = dateSvc.changeDateToGregorian2(date.toString());
+		 _date = dateSvc.changeDateToGregorian2(date.toString(), "yyyy-MM-dd");
 		prodSvc.callPrepareTableProcedure(_date, "PROC_MMFBR_311");
 		
 		

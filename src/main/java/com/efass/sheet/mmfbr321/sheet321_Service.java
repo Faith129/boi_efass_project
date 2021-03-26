@@ -2,6 +2,7 @@ package com.efass.sheet.mmfbr321;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.time.LocalDate;
 
 import org.apache.poi.EncryptedDocumentException;
@@ -25,6 +26,6 @@ public interface sheet321_Service {
 
 
 	public Boolean writesheet321(LocalDate Date, String folderPath)
-			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException;
+			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException, ParseException;
 	
 }

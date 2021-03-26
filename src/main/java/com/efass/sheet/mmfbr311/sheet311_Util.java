@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -18,9 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.efass.report.ReportRepository;
-import com.efass.sheet.mmfbr311.sheet311Repository;
+import com.efass.specials.DateConverter;
 import com.efass.specials.SpecialData;
-import com.efass.specials.SpecialFunction;
 
 
 @Service
@@ -33,6 +33,9 @@ public class sheet311_Util {
 
 	@Autowired
 	  sheet311Repository _311Repo;
+	
+	@Autowired
+	DateConverter convert;
 
 	
 
@@ -41,7 +44,7 @@ public class sheet311_Util {
 	
 	
 	public Boolean writeSpecificList(List<List<Object>> listOfLists, LocalDate Date ,String folderPath)
-			throws EncryptedDocumentException, InvalidFormatException, IOException {
+			throws EncryptedDocumentException, InvalidFormatException, IOException, ParseException {
 
 
 		
@@ -72,7 +75,7 @@ public class sheet311_Util {
 			String bankName = (String) listAtI.get(1);
 			String tenor = (String) listAtI.get(2);
 			String maturity = (String) listAtI.get(3);
-			
+//			String maturity = convert.changeDateToGregorian2(_maturity, "dd/mm/yyyy");
 	
 			int amount = Integer.parseInt(listAtI.get(4).toString());
 		
