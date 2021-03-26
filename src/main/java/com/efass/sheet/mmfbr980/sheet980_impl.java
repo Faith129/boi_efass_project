@@ -33,28 +33,14 @@ public class sheet980_impl implements sheet980_Service {
 	
 	@Autowired
 	sheet980_Util sheet980Util;
-	
-	@Autowired
-	Validation validation;
-	
-	
+
 	// ############################## MMFBR980 CRUD OPERATIONS
 	// #################################
 	
-	public void validate(sheet980DAO data) throws ResourceNotFoundException {
-	String item = validation.checkDataType(data.getItems().toString());
-	
-		if( !item.equalsIgnoreCase("Alpha")) {
-			throw new ResourceNotFoundException("item must be an alphabetic value " );	
-		}else {
-			System.out.println("Correct");
-		}
-	}
+
 
 	public ResponseEntity<?> createData(sheet980DAO data) throws ResourceNotFoundException {
-		
-		validate(data);
-		
+
 		//_980Repository.save(data);
 		Response res = new Response();
 		res.setResponseMessage("Failed");
@@ -88,6 +74,10 @@ public class sheet980_impl implements sheet980_Service {
 		res.setS980Data(data);
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
+	
+	
+	
+	
 
 	public ResponseEntity<?> deleteById(int dataId) throws ResourceNotFoundException {
 
@@ -105,10 +95,11 @@ public class sheet980_impl implements sheet980_Service {
 
 	}
 
+	
+	
+	
 	public ResponseEntity<?> updateData(int id, sheet980DAO Data) throws ResourceNotFoundException {
 
-		validate(Data);
-		
 		Optional<sheet980DAO> DataDb = _980Repository.findById(id);
 
 		if (DataDb.isPresent()) {

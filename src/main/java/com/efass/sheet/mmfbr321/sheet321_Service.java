@@ -22,8 +22,8 @@ public interface sheet321_Service {
 	public ResponseEntity<?> getDataById(int dataId) throws ResourceNotFoundException;
 
 	public ResponseEntity<?> deleteById(int dataId) throws ResourceNotFoundException;
-
-	public ResponseEntity<?> updateData(int id, sheet312DAO Data) throws ResourceNotFoundException, ParseException;
+	
+	public ResponseEntity<?> updateData(int id , sheet321DAO Data) throws ResourceNotFoundException;
 
 
 	public Boolean writesheet321(LocalDate Date, String folderPath)

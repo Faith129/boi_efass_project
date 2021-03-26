@@ -36,6 +36,7 @@ public class sheet300_impl implements sheet300_Service {
 	// ############################## MMFBR300 CRUD OPERATIONS
 	// #################################
 
+	@SuppressWarnings("unchecked")
 	public ResponseEntity<?> fetchAllData() {
 
 		Iterable<sheet300DAO> data = _300Repository.findAll();
