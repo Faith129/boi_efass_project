@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import com.efass.report.ReportDAO;
 import com.efass.report.ReportRepository;
 import com.efass.sheet.mmfbr321.sheet321Repository;
+import com.efass.specials.DateConverter;
 import com.efass.specials.SpecialData;
 
 @Service
@@ -35,6 +36,9 @@ public class sheet746_Util {
 
 	@Autowired
 	  sheet746Repository _746Repo;
+	
+	@Autowired
+	DateConverter convert;
 	
 	SpecialData specialData = new SpecialData();
 	
@@ -67,7 +71,7 @@ public class sheet746_Util {
 				String nameOfBen = (String) listAtI.get(5);
 				String _dateGranted = (String) listAtI.get(4);
 				
-			    Date dateGranted=new SimpleDateFormat("dd/MM/yyyy").parse(_dateGranted);  
+			    String  dateGranted=convert.changeDateToGregorian2(_dateGranted, "dd/mm/yyyy");  
 				
 				String tenor = (String) listAtI.get(3);
 				int amountApproved =  Integer.parseInt(listAtI.get(2).toString());

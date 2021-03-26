@@ -190,24 +190,24 @@ public class SheetController {
         sheet501Svc.writesheet501(date, folderPath);
 			
 			//Write On Excel Sheets
-		sheet221Svc.writesheet221(date,folderPath);
-			sheet311Svc.writesheet311(date,folderPath);
+//works		sheet221Svc.writesheet221(date,folderPath);
+//works			sheet311Svc.writesheet311(date,folderPath);
 //			sheet321Svc.writesheet321(date,folderPath);
 //			sheet711Svc.writesheet711(date,folderPath);
 
 //			sheet221Svc.writesheet221(date,folderPath);
-			sheet321Svc.writesheet321(date,folderPath);
+//works			sheet321Svc.writesheet321(date,folderPath);
 //			sheet711Svc.writesheet711(date,folderPath);
 			
 //		    sheet746Svc.writesheet746(date, folderPath);  Date Format not working
 			
 //  		sheet771Svc.writesheet771(date, folderPath);
 //	        sheet762Svc.writesheet762(date, folderPath);
-			sheet641Svc.writesheet641(date,folderPath);
+//works			sheet641Svc.writesheet641(date,folderPath);
 //			
-//			sheet763Svc.writesheet763(date, folderPath); Not working
+		//	sheet763Svc.writesheet763(date, folderPath); 
 			sheet141Svc.writesheet141(date, folderPath); 
-			sheet312Svc.writesheet312(date, folderPath);
+		//	sheet312Svc.writesheet312(date, folderPath);
 			sheet322Svc.writesheet322(date, folderPath);
 //			
 			sheet451Svc.writesheet451(date, folderPath);

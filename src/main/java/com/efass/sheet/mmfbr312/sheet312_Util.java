@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import com.efass.report.ReportRepository;
 import com.efass.sheet.mmfbr312.sheet312Repository;
+import com.efass.specials.DateConverter;
 import com.efass.specials.SpecialData;
 
 
@@ -36,6 +37,9 @@ public class sheet312_Util {
 
 	@Autowired
 	  sheet312Repository _312Repo;
+	
+	@Autowired
+	DateConverter convert;
 
 	
 	SpecialData specialData = new SpecialData();
@@ -70,9 +74,10 @@ public class sheet312_Util {
 			String _effectiveDate = (String) listAtI.get(4);
 			String _maturityDate = (String) listAtI.get(5);
 			
-			Date effectiveDate = new SimpleDateFormat("dd/MM/yyyy").parse(_effectiveDate);  
+	
+			String effectiveDate =convert.changeDateToGregorian2(_effectiveDate, "dd/mm/yyyy");  
 			
-			Date maturityDate = new SimpleDateFormat("dd/MM/yyyy").parse(_maturityDate);  
+			String maturityDate =convert.changeDateToGregorian2(_maturityDate, "dd/mm/yyyy");  
 	
 			int amount = Integer.parseInt(listAtI.get(6).toString());
 		
