@@ -75,9 +75,10 @@ public class sheet312_Util {
 			
 			String _maturityDate = (String) listAtI.get(5);
 			
-			Date effectiveDate = new SimpleDateFormat("dd/MM/yyyy").parse(_effectiveDate);  
+	
+			String effectiveDate =convert.changeDateToGregorian2(_effectiveDate, "dd/mm/yyyy");  
 			
-			Date maturityDate = new SimpleDateFormat("dd/MM/yyyy").parse(_maturityDate);  
+			String maturityDate =convert.changeDateToGregorian2(_maturityDate, "dd/mm/yyyy");  
 	
 			int amount = Integer.parseInt(listAtI.get(6).toString());
 		

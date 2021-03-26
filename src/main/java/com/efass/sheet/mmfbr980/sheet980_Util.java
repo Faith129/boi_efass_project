@@ -73,59 +73,63 @@ public class sheet980_Util {
 				
 				
 				
-				String _1 =(( listAtI.get(1)== null) ? "0" : listAtI.get(1).toString());
+				String _one_to_30_days =(( listAtI.get(1)== null) ? "0" : listAtI.get(1).toString());
 				
-				String _2 =(( listAtI.get(2) == null) ? "0" : listAtI.get(2).toString());
+				String _thirty_one_to_60_days =(( listAtI.get(2) == null) ? "0" : listAtI.get(2).toString());
 				
-				String _3 =(( listAtI.get(3) == null) ? "0" : listAtI.get(3).toString());
+				String _sixty_one_to_90_days =(( listAtI.get(3) == null) ? "0" : listAtI.get(3).toString());
 				
-				String _4 =(( listAtI.get(4) == null) ? "0" : listAtI.get(4).toString());
-				String _5 =(( listAtI.get(5) == null) ? "0" : listAtI.get(5).toString());
-				
-				String _6 =(( listAtI.get(6) == null) ? "0" : listAtI.get(6).toString());
-				
-			
-				
-				
-				
-		
-			    
-			    
-			    
-			    
-			   CellStyle cellStyle = wb.createCellStyle();
-			   CreationHelper createHelper = wb.getCreationHelper();
-			   cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("yyyy/mm/dd"));
-//			   Date lastRepayment = new SimpleDateFormat("yyyy/MM/dd").parse(_lastRepaymentDate);
-//			   Date pastDueDate = new SimpleDateFormat("yyyy/MM/dd").parse(_pastDueDate);
-			   
-			 
-			   
-//			   String startDateString = "08-12-2017";
-//			    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-//			    DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-//			    
-//			    String lastRepaymentDate = LocalDate.parse(_lastRepaymentDate, formatter).format(formatter2);
-//			    String pastDueDate = LocalDate.parse(_pastDueDate, formatter).format(formatter2);
-			 
-			   
-			   
-			   
-				
+				String _ninety_one_to_180_days =(( listAtI.get(4) == null) ? "0" : listAtI.get(4).toString());
+				String _one_eighty_one_to_360_days =(( listAtI.get(5) == null) ? "0" : listAtI.get(5).toString());
+
 				Sheet worksheet = wb.getSheet("980");
 				// declare a Cell object
 
 			
 				
-//				
-//				Cell cell13 = null;
-//				// int cellNum3 =cellNum-3;
-//				cell13 = worksheet.getRow(rowNum).getCell(1);
-//				// Get current cell value value and overwrite the value
-//				cell13.setCellValue(customerCode);
+				
+				Cell cell01 = null;
+				// int cellNum3 =cellNum-3;
+				cell01 = worksheet.getRow(rowNum).getCell(1);
+				// Get current cell value value and overwrite the value
+				cell01.setCellValue(_one_to_30_days);
+				
+				Cell cell02 = null;
+				// int cellNum3 =cellNum-3;
+				cell02 = worksheet.getRow(rowNum).getCell(2);
+				// Get current cell value value and overwrite the value
+				cell02.setCellValue(_thirty_one_to_60_days);
+				
+				
+				Cell cell03 = null;
+				// int cellNum3 =cellNum-3;
+				cell03 = worksheet.getRow(rowNum).getCell(3);
+				// Get current cell value value and overwrite the value
+				cell03.setCellValue(_sixty_one_to_90_days);
+				
+				Cell cell04 = null;
+				// int cellNum3 =cellNum-3;
+				cell04 = worksheet.getRow(rowNum).getCell(4);
+				// Get current cell value value and overwrite the value
+				cell04.setCellValue(_one_to_30_days);
+				
+				Cell cell05 = null;
+				// int cellNum3 =cellNum-3;
+				cell05 = worksheet.getRow(rowNum).getCell(5);
+				// Get current cell value value and overwrite the value
+				cell05.setCellValue(_ninety_one_to_180_days);
+				
+				Cell cell06 = null;
+				// int cellNum3 =cellNum-3;
+				cell06 = worksheet.getRow(rowNum).getCell(6);
+				// Get current cell value value and overwrite the value
+				cell06.setCellValue(_one_eighty_one_to_360_days);
 				
 				
 				
+//				if(rowNum == 15) {
+//					
+//				}else if () {}
 				
 				
 				
@@ -142,7 +146,7 @@ public class sheet980_Util {
 				wb.write(output_file);
 				// close the stream
 				output_file.close();
-				System.out.println("sheet 771works");
+				System.out.println("sheet 980 works");
 
 				rowNum++;
 			}

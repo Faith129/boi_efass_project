@@ -277,113 +277,65 @@ public class PrepareTables {
 	public void populateSheet763() {
 		// delete all
 		_763Repository.deleteAll();
+				
+		save763("MICRO-LOANS", "1-30 Days");
+		save763("MICRO-LOANS", "31-60 Days");
+		save763("MICRO-LOANS", "61-90 Days");
+		save763("MICRO-LOANS", "91-180 Days");
+		save763("MICRO-LOANS", "181-360 Days");
+		save763("MICRO-LOANS", "Above 360 Days");
 
-		sheet763DAO data = new sheet763DAO();
-		data.setLoanId("1");
-		data.setTypeOfLoans("MICRO-LOANS");
-		_763Repository.save(data);
+		save763("SMALL & MEDIUM ENTERPRISES LOANS", "1-30 Days");
+		save763("SMALL & MEDIUM ENTERPRISES LOANS", "31-60 Days");
+		save763("SMALL & MEDIUM ENTERPRISES LOANS", "61-90 Days");
+		save763("SMALL & MEDIUM ENTERPRISES LOANS", "91-180 Days");
+		save763("SMALL & MEDIUM ENTERPRISES LOANS", "181-360 Days");
+		save763("SMALL & MEDIUM ENTERPRISES LOANS", "Above 360 Days");
 
-		sheet763DAO data1 = new sheet763DAO();
-		data1.setTypeOfLoans("Number of accounts");
-		data1.setTypeId("1");
-		_763Repository.save(data1);
+		save763("HIRE PURCHASE", "1-30 Days");
+		save763("HIRE PURCHASE", "31-60 Days");
+		save763("HIRE PURCHASE", "61-90 Days");
+		save763("HIRE PURCHASE", "91-180 Days");
+		save763("HIRE PURCHASE", "181-360 Days");
+		save763("HIRE PURCHASE", "Above 360 Days");
 
-		sheet763DAO data2 = new sheet763DAO();
-		data2.setTypeOfLoans("Amount (₦)");
-		data2.setTypeId("1");
-		_763Repository.save(data2);
+		save763("MICRO-LEASES", "1-30 Days");
+		save763("MICRO-LEASES", "31-60 Days");
+		save763("MICRO-LEASES", "61-90 Days");
+		save763("MICRO-LEASES", "91-180 Days");
+		save763("MICRO-LEASES", "181-360 Days");
+		save763("MICRO-LEASES", "Above 360 Days");
 
-		sheet763DAO data3 = new sheet763DAO();
-		data.setLoanId("2");
-		data3.setTypeOfLoans("SMALL & MEDIUM ENTERPRISES LOANS");
-		_763Repository.save(data3);
+		save763("OTHER LOANS (SPECIFY)", "1-30 Days");
+		save763("OTHER LOANS (SPECIFY)", "31-60 Days");
+		save763("OTHER LOANS (SPECIFY)", "61-90 Days");
+		save763("OTHER LOANS (SPECIFY)", "91-180 Days");
+		save763("OTHER LOANS (SPECIFY)", "181-360 Days");
+		save763("OTHER LOANS (SPECIFY)", "Above 360 Days");
 
-		sheet763DAO data4 = new sheet763DAO();
-		data4.setTypeOfLoans("Number of accounts");
-		data4.setTypeId("2");
-		_763Repository.save(data4);
+		save763("STAFF LOANS", "1-30 Days");
+		save763("STAFF LOANS", "31-60 Days");
+		save763("STAFF LOANS", "61-90 Days");
+		save763("STAFF LOANS", "91-180 Days");
+		save763("STAFF LOANS", "181-360 Days");
+		save763("STAFF LOANS", "Above 360 Days");
 
-		sheet763DAO data5 = new sheet763DAO();
-		data5.setTypeOfLoans("Amount (₦)");
-		data5.setTypeId("2");
-		_763Repository.save(data4);
-
-		sheet763DAO data6 = new sheet763DAO();
-		data.setLoanId("3");
-		data6.setTypeOfLoans("HIRE PURCHASE");
-		_763Repository.save(data5);
-
-		sheet763DAO data7 = new sheet763DAO();
-		data7.setTypeOfLoans("Number of accounts");
-		data7.setTypeId("3");
-		_763Repository.save(data7);
-
-		sheet763DAO data8 = new sheet763DAO();
-		data8.setTypeOfLoans("Amount (₦)");
-		data8.setTypeId("3");
-		_763Repository.save(data8);
-
-		sheet763DAO data9 = new sheet763DAO();
-		data.setLoanId("4");
-		data9.setTypeOfLoans("HIRE PURCHASE");
-		_763Repository.save(data9);
-
-		sheet763DAO data10 = new sheet763DAO();
-		data10.setTypeOfLoans("Number of accounts");
-		data10.setTypeId("4");
-		_763Repository.save(data10);
-
-		sheet763DAO data11 = new sheet763DAO();
-		data11.setTypeOfLoans("Amount (₦)");
-		data11.setTypeId("4");
-		_763Repository.save(data11);
-
-		sheet763DAO data12 = new sheet763DAO();
-		data.setLoanId("5");
-		data12.setTypeOfLoans("MICRO-LEASES");
-		_763Repository.save(data12);
-
-		sheet763DAO data13 = new sheet763DAO();
-		data13.setTypeOfLoans("Amount (₦)");
-		data13.setTypeId("5");
-		_763Repository.save(data13);
-
-		sheet763DAO data14 = new sheet763DAO();
-		data14.setTypeOfLoans("Number of accounts");
-		data14.setTypeId("5");
-		_763Repository.save(data14);
-
-		sheet763DAO data15 = new sheet763DAO();
-		data.setLoanId("6");
-		data15.setTypeOfLoans("OTHER LOANS (SPECIFY)");
-		_763Repository.save(data15);
-
-		sheet763DAO data16 = new sheet763DAO();
-		data16.setTypeOfLoans("Amount (₦)");
-		data16.setTypeId("6");
-		_763Repository.save(data16);
-
-		sheet763DAO data17 = new sheet763DAO();
-		data17.setTypeOfLoans("Number of accounts");
-		data17.setTypeId("6");
-		_763Repository.save(data17);
-
-		sheet763DAO data18 = new sheet763DAO();
-		data18.setTypeOfLoans("STAFF LOANS");
-		_763Repository.save(data18);
-
-		sheet763DAO data19 = new sheet763DAO();
-		data19.setTypeOfLoans("Amount (₦)");
-		data19.setTypeId("7");
-		_763Repository.save(data19);
-
-		sheet763DAO data20 = new sheet763DAO();
-		data20.setTypeOfLoans("Number of accounts");
-		data20.setTypeId("7");
-		_763Repository.save(data20);
 
 	}
 
+	
+	
+	
+	public void save763(String type_of_loan, String duration) {
+
+		sheet763DAO data = new sheet763DAO();
+		data.setType_of_loan(type_of_loan);
+		data.setDuration(duration);
+		_763Repository.save(data);
+	}
+
+	
+	
 	private void populateSheet761() {
 		_761Repository.deleteAll();
 

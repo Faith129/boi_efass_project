@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.sheet.mmfbr311.sheet311DAO;
+import com.efass.sheet.mmfbr312.sheet312DAO;
 
 public interface sheet321_Service {
 
@@ -22,7 +23,7 @@ public interface sheet321_Service {
 
 	public ResponseEntity<?> deleteById(int dataId) throws ResourceNotFoundException;
 
-	public ResponseEntity<?> updateData(int id, sheet321DAO Data) throws ResourceNotFoundException;
+	public ResponseEntity<?> updateData(int id, sheet312DAO Data) throws ResourceNotFoundException, ParseException;
 
 
 	public Boolean writesheet321(LocalDate Date, String folderPath)

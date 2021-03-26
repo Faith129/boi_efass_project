@@ -59,6 +59,7 @@ public class sheet201_impl implements sheet201_Service{
 	public ResponseEntity<?> fetchAllData() {
 		Iterable<sheet201DAO> data = _201Repository.findAll();
 		
+		
 		  Field[] fields = sheet201DAO.class.getFields();
 			ArrayList<String> colname = new ArrayList<String>();
 			for(Field f: fields){
@@ -150,9 +151,7 @@ public class sheet201_impl implements sheet201_Service{
 		Boolean status = null ;
 		for(String duration : DurationArr)
 		{
-	
-		    
-		    
+   
 		    sheetData = fetchDataByDuration( duration); 
 			List<List<Object>> listOfLists = new ArrayList<List<Object>>();
 			for (int i = 0; i < sheetData.size(); i++) {
@@ -175,21 +174,10 @@ public class sheet201_impl implements sheet201_Service{
 				} else {
 					status =  false;
 				}
-		
-		
-			
-			
-		
-			
-			
+
 		}
 		return status;
 		
-		
-
-		
-		
-
 	}
 
 

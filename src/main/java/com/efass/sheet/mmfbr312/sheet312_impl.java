@@ -22,6 +22,7 @@ import com.efass.payload.Response;
 import com.efass.sheet.mmfbr221.sheet221DAO;
 import com.efass.sheet.mmfbr311.sheet311DAO;
 import com.efass.sheet.mmfbr321.sheet321_Util;
+import com.efass.specials.DateConverter;
 
 @Service
 public class sheet312_impl implements sheet312_Service{
@@ -34,62 +35,18 @@ public class sheet312_impl implements sheet312_Service{
 	sheet312Repository _312Repository;
 	
 	@Autowired
-	Validation validation;
+	DateConverter converter;
 
 	// ############################## MMFBR312 CRUD OPERATIONS
 	// #################################
 	
-	public void validate(sheet312DAO data) throws ResourceNotFoundException {
-		
-		String bankCode = validation.checkDataType(data.getBankCode().toString());
-		String bankName = validation.checkDataType(data.getNameOfBanks().toString());
-		String rate = validation.checkDataType(data.getRate().toString());
-		String tenor = validation.checkDataType(data.getTenor().toString());
-		String effectiveDate = validation.checkDataType(data.getEffectiveDate().toString());
-		String maturityDate = validation.checkDataType(data.getMaturityDate().toString());
-		String amount = validation.checkDataType(data.getAmount().toString());
-		
-			if(!bankCode.equalsIgnoreCase("Alpha")) {
-				throw new ResourceNotFoundException("Bank Code  must be an alphabetic value  " );
-			}
-			
-			if(!bankName.equalsIgnoreCase("Alpha")) {	
-			throw new ResourceNotFoundException("Bank Name must be an alphabetic value  " );
-		
-			}
-			
-			if(!rate.equalsIgnoreCase("Num")) {	
-				throw new ResourceNotFoundException("Rate must be a numeric value  " );
-			
-			}
-			
-			if(!tenor.equalsIgnoreCase("Alpha")) {	
-				throw new ResourceNotFoundException("Tenor must be an alphabetic value  " );
-			
-			}
-			
-			if(!effectiveDate.equalsIgnoreCase("Date")) {	
-				throw new ResourceNotFoundException("Effective Date must be an Date value format  " );
-			
-			}
-			
-			
-			if(!maturityDate.equalsIgnoreCase("Date")) {	
-				throw new ResourceNotFoundException("Maturity Date must be an Date value format  " );
-			
-			}
-			
-			else if(!amount.equalsIgnoreCase("Num")) {
-				throw new ResourceNotFoundException("Amount must be a numeric value  " );
-			}
-			
-		}
+	
 
 	
 
 	public ResponseEntity<?> createData(sheet312DAO data) throws ResourceNotFoundException {
 		
-		validate(data);
+	
 		_312Repository.save(data);
 		Response res = new Response();
 		res.setResponseMessage("Success");
@@ -100,6 +57,9 @@ public class sheet312_impl implements sheet312_Service{
 
 	public ResponseEntity<?> fetchAllData() {
 		Iterable<sheet312DAO> data = _312Repository.findAll();
+		
+	
+		
 
 		  Field[] fields = sheet312DAO.class.getFields();
 			ArrayList<String> colname = new ArrayList<String>();
@@ -141,9 +101,9 @@ public class sheet312_impl implements sheet312_Service{
 
 	}
 
-	public ResponseEntity<?> updateData(int id, sheet312DAO Data) throws ResourceNotFoundException {
+	public ResponseEntity<?> updateData(int id, sheet312DAO Data) throws ResourceNotFoundException, ParseException {
 		
-		validate(Data);
+		
 
 		Optional<sheet312DAO> DataDb = _312Repository.findById(id);
 
@@ -152,8 +112,17 @@ public class sheet312_impl implements sheet312_Service{
 			DataUpdate.setId(Data.getId());
 			DataUpdate.setAmount(Data.getAmount());
 			DataUpdate.setBankCode(Data.getBankCode());
-			DataUpdate.setEffectiveDate(Data.getEffectiveDate());
-			DataUpdate.setMaturityDate(Data.getMaturityDate());
+			
+			
+			//yyyy-mm-dd
+			//dd/mm/yyyy
+			
+			
+			String _effectiveDate = converter.changeDateToFrontGregorian(Data.getEffectiveDate(), "yyyy-mm-dd");
+			String _maturiyDate = converter.changeDateToFrontGregorian(Data.getMaturityDate(), "yyyy-mm-dd");
+			
+			DataUpdate.setEffectiveDate(_effectiveDate);
+			DataUpdate.setMaturityDate(_maturiyDate);
 			DataUpdate.setNameOfBanks(Data.getNameOfBanks());
 			DataUpdate.setRate(Data.getRate());
 			DataUpdate.setTenor(Data.getTenor());
