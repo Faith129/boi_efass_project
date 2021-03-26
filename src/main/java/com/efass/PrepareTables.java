@@ -273,6 +273,8 @@ public class PrepareTables {
 		sheet762DAO data12 = new sheet762DAO();
 		data12.setSector("Others (Specify)");
 		_762Repository.save(data12);
+	}
+	
 
 	public void populateSheet763() {
 		// delete all

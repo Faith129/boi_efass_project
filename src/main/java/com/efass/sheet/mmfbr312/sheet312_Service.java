@@ -18,7 +18,7 @@ public interface sheet312_Service {
 		public ResponseEntity<?> fetchAllData();
 		public ResponseEntity<?> getDataById(int dataId) throws ResourceNotFoundException;
 		public ResponseEntity<?> deleteById(int dataId) throws ResourceNotFoundException;
-		public ResponseEntity<?> updateData(int id , sheet312DAO Data) throws ResourceNotFoundException;
+		public ResponseEntity<?> updateData(int id, sheet312DAO Data) throws ResourceNotFoundException;
 		
 		public Boolean writesheet312 (LocalDate Date, String folderPath) throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException, ParseException;
 		

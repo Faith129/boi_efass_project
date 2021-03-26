@@ -101,7 +101,7 @@ public class sheet312_impl implements sheet312_Service{
 
 	}
 
-	public ResponseEntity<?> updateData(int id, sheet312DAO Data) throws ResourceNotFoundException, ParseException {
+	public ResponseEntity<?> updateData(int id, sheet312DAO Data) throws ResourceNotFoundException {
 		
 		
 
@@ -113,16 +113,8 @@ public class sheet312_impl implements sheet312_Service{
 			DataUpdate.setAmount(Data.getAmount());
 			DataUpdate.setBankCode(Data.getBankCode());
 			
-			
-			//yyyy-mm-dd
-			//dd/mm/yyyy
-			
-			
-			String _effectiveDate = converter.changeDateToFrontGregorian(Data.getEffectiveDate(), "yyyy-mm-dd");
-			String _maturiyDate = converter.changeDateToFrontGregorian(Data.getMaturityDate(), "yyyy-mm-dd");
-			
-			DataUpdate.setEffectiveDate(_effectiveDate);
-			DataUpdate.setMaturityDate(_maturiyDate);
+			DataUpdate.setEffectiveDate(Data.getEffectiveDate());
+			DataUpdate.setMaturityDate(Data.getMaturityDate());
 			DataUpdate.setNameOfBanks(Data.getNameOfBanks());
 			DataUpdate.setRate(Data.getRate());
 			DataUpdate.setTenor(Data.getTenor());

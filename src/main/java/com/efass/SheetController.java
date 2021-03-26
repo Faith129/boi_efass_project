@@ -191,14 +191,11 @@ public class SheetController {
         sheet501Svc.writesheet501(date, folderPath);
 			
 			//Write On Excel Sheets
-<<<<<<< HEAD
+        sheet300Svc.writesheet300(date, folderPath);
+
 //works		sheet221Svc.writesheet221(date,folderPath);
 //works			sheet311Svc.writesheet311(date,folderPath);
-=======
-		sheet221Svc.writesheet221(date,folderPath);
-			sheet311Svc.writesheet311(date,folderPath);
 
->>>>>>> 745680d6166aeb9494b9b310af71738557565b9d
 //			sheet321Svc.writesheet321(date,folderPath);
 //			sheet711Svc.writesheet711(date,folderPath);
 
