@@ -49,27 +49,27 @@ public class sheet762_impl implements sheet762_Service{
 	
 	// ############################## MMFBR746 CRUD OPERATIONS #################################
 
-	public void validate(sheet762DAO data) throws ResourceNotFoundException {
-	String sector = validation.checkDataType(data.getSector().toString());
-	String amountGranted = validation.checkDataType(data.getAmountGranted().toString());
-	String numberOfLoans = validation.checkDataType(data.getNoOfLoans().toString());
+//	public void validate(sheet762DAO data) throws ResourceNotFoundException {
+//	String sector = validation.checkDataType(data.getSector().toString());
+//	String amountGranted = validation.checkDataType(data.getAmountGranted().toString());
+//	String numberOfLoans = validation.checkDataType(data.getNoOfLoans().toString());
 
 	
-		if( !sector.equalsIgnoreCase("Alpha")) {
-			throw new ResourceNotFoundException("Names Of Beneficiary must be a numeric value  " );	
-		}
-		 else if( !amountGranted.equalsIgnoreCase("Num")) {
-				throw new ResourceNotFoundException("Amount granted must be a numeric value  " );	
-			 }
-		 else if( !numberOfLoans.equalsIgnoreCase("Num")) {
-				throw new ResourceNotFoundException("Number Of Loans must be a numeric value  " );	
-		 }
-	}
-
-				
+//		if( !sector.equalsIgnoreCase("Alpha")) {
+//			throw new ResourceNotFoundException("Names Of Beneficiary must be a numeric value  " );	
+//		}
+//		 else if( !amountGranted.equalsIgnoreCase("Num")) {
+//				throw new ResourceNotFoundException("Amount granted must be a numeric value  " );	
+//			 }
+//		 else if( !numberOfLoans.equalsIgnoreCase("Num")) {
+//				throw new ResourceNotFoundException("Number Of Loans must be a numeric value  " );	
+//		 }
+//	}
+//
+//				
 		 public ResponseEntity<?> createData(sheet762DAO data) throws ResourceNotFoundException {
 			 
-			 validate(data);
+			// validate(data);
 			 
 		     _762Repository.save(data);
 		 	Response res = new Response();
@@ -125,7 +125,7 @@ public class sheet762_impl implements sheet762_Service{
 
 		public ResponseEntity<?> updateData(int id , sheet762DAO Data) throws ResourceNotFoundException {
 			
-			validate(Data);
+		//	validate(Data);
 			
 			Optional<sheet762DAO> DataDb = _762Repository.findById(id);
 
@@ -168,6 +168,11 @@ public class sheet762_impl implements sheet762_Service{
 
 			List<List<Object>> listOfLists = new ArrayList<List<Object>>();
 			for (int i = 0; i < sheetData.size(); i++) {
+				System.out.println("This is number of loans "+sheetData.get(i).getNoOfLoans());
+				System.out.println("This is bank amount "+sheetData.get(i).getAmountGranted());
+				
+				
+				
 				ArrayList<Object> data = new ArrayList<>();
 				data.clear();
 				data.add(sheetData.get(i).getSector());

@@ -53,7 +53,9 @@ Validation validation;
 				
 //			String amount = listAtI.get(0).toString();
 				
+
 				String _amount =(( listAtI.get(0) == null) ? "0" : listAtI.get(0).toString());
+
 				
 		
 		

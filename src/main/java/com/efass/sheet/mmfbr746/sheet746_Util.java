@@ -37,8 +37,15 @@ public class sheet746_Util {
 	@Autowired
 	  sheet746Repository _746Repo;
 	
+<<<<<<< HEAD
 	@Autowired
 	DateConverter convert;
+=======
+
+	@Autowired
+	DateConverter convert;
+
+>>>>>>> 745680d6166aeb9494b9b310af71738557565b9d
 	
 	SpecialData specialData = new SpecialData();
 	
@@ -71,7 +78,14 @@ public class sheet746_Util {
 				String nameOfBen = (String) listAtI.get(5);
 				String _dateGranted = (String) listAtI.get(4);
 				
+<<<<<<< HEAD
 			    String  dateGranted=convert.changeDateToGregorian2(_dateGranted, "dd/mm/yyyy");  
+=======
+
+				String dateGranted = convert.changeDateToGregorian2(_dateGranted, "dd/mm/yyyy");
+
+//			    Date dateGranted=new SimpleDateFormat("dd/MM/yyyy").parse(_dateGranted);  
+>>>>>>> 745680d6166aeb9494b9b310af71738557565b9d
 				
 				String tenor = (String) listAtI.get(3);
 				int amountApproved =  Integer.parseInt(listAtI.get(2).toString());
