@@ -56,35 +56,35 @@ public class UserController {
 	DateConverter dateSvc;
 
 	
-	@RequestMapping(value ="/testproc/{date}")
-	public ResponseEntity<?> testing(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) throws ParseException {
-		String _date=null;
-		 _date = dateSvc.changeDateToGregorian2(date.toString(), "yyyy-MM-dd");
-		prodSvc.callPrepareTableProcedure(_date, "PROC_MMFBR_311");
-		
-		
-		_date = dateSvc.changeDateTime(date.toString());
-	//	prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_141");
-	
-		_date = dateSvc.changeDateTime(date.toString());
-		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_221");
-		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_311");
-		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_312");
-		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_321");
-		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_641");
-		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_711");
-		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_746");
-		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_761");
-		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_771");
-		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_M001");
-	//	prodSvc.callPrepareTableProcedure(date.toString(), "PROD_MMFBR_202");
-
-
-		
-		 return null;
-
-	
-	}
+//	@RequestMapping(value ="/testproc/{date}")
+//	public ResponseEntity<?> testing(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) throws ParseException {
+//		String _date=null;
+//		 _date = dateSvc.changeDateToGregorian2(date.toString(), "yyyy-MM-dd");
+//		prodSvc.callPrepareTableProcedure(_date, "PROC_MMFBR_311");
+//		
+//		
+//		_date = dateSvc.changeDateTime(date.toString());
+//	//	prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_141");
+//	
+//		_date = dateSvc.changeDateTime(date.toString());
+//		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_221");
+//		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_311");
+//		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_312");
+//		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_321");
+//		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_641");
+//		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_711");
+//		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_746");
+//		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_761");
+//		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_771");
+//		prodSvc.callPrepareTableProcedure(date.toString(), "PROC_MMFBR_M001");
+//	//	prodSvc.callPrepareTableProcedure(date.toString(), "PROD_MMFBR_202");
+//
+//
+//		
+//		 return null;
+//
+//	
+//	}
 	
 	
 	
@@ -122,15 +122,7 @@ public class UserController {
 		String encryptedPassword = encoder.encode(password);
 		user.setPassword(encryptedPassword);
 
-//		String userdata = userRepository.findByUsername(user.getUsername());
-//	
-//		
-//		if(!userdata.equals(null)) {
-//			
-//			res.setResponseMessage("User Already Exists");
-//			res.setResponseCode(-1001);	
-//			return new ResponseEntity<>(res, HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
+
 		try {
 			
 			
@@ -140,7 +132,7 @@ public class UserController {
 				
 				res.setResponseMessage("User Already Exists");
 				res.setResponseCode(-1001);	
-				return new ResponseEntity<>(res, HttpStatus.INTERNAL_SERVER_ERROR);	
+				return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);	
 			}
 			
 			UserDAO _user = userRepository.save(user);

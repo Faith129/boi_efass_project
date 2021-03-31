@@ -41,45 +41,11 @@ public class sheet321_impl implements sheet321_Service {
 	Validation validation;
 	// ############################## MMFBR311 CRUD OPERATIONS #################################
 
-	public void validate(sheet321DAO data) throws ResourceNotFoundException {
-		String bankCode = validation.checkDataType(data.getBankCode().toString());
-		String bankName = validation.checkDataType(data.getBankName().toString());
-		String tenor = validation.checkDataType(data.getTenor().toString());
-		String maturityDate = validation.checkDataType(data.getMaturity().toString());
-		String amount = validation.checkDataType(data.getAmount().toString());
-
-//		Pattern matcher = Pattern.compile("^\\d$")   && matcher.matcher(tenor).matches();
-			if(!bankCode.equalsIgnoreCase("Alpha")) {
-				throw new ResourceNotFoundException("Bank Code  must be an alphabetic value  " );
-
-			}
-			
-			else if(!bankName.equalsIgnoreCase("Alpha")) {	
-			throw new ResourceNotFoundException("Bank Name must be an alphabetic value  " );
-		
-			}
-		
-			
-			else if(!tenor.equalsIgnoreCase("Alpha")) {	
-				throw new ResourceNotFoundException("Tenor must be an alphabetic value" );
-			
-			}
-			
-//			else if(!maturityDate.equalsIgnoreCase("Date")) {	
-//				throw new ResourceNotFoundException("Maturity Date must be dd/mm/yyyy  " );
-//			
-//			}
-			
-			else if(!amount.equalsIgnoreCase("Num")) {
-				throw new ResourceNotFoundException("Amount must be a numeric value  " );
-			}
-			
-		}
-
+	
 	
 	 public ResponseEntity<?> createData(sheet321DAO data) throws ResourceNotFoundException {
 		 
-		 validate(data);
+
 	     _321Repository.save(data);
 	 	Response res = new Response();
 	 	res.setResponseMessage("Success");
@@ -201,7 +167,7 @@ public class sheet321_impl implements sheet321_Service {
 		}
 
 	}
-
+ 
 
 	
 	//##################################################################################

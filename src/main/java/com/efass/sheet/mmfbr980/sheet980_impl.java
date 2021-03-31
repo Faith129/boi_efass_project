@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+import com.efass.sheet.mmfbr201.sheet201DAO;
 import com.efass.sheet.mmfbr221.sheet221DAO;
 import com.efass.sheet.mmfbr951.sheet951DAO;
 import com.efass.sheet.mmfbr980.sheet980DAO;
@@ -43,7 +45,7 @@ public class sheet980_impl implements sheet980_Service {
 
 		//_980Repository.save(data);
 		Response res = new Response();
-		res.setResponseMessage("Failed");
+		res.setResponseMessage("You Cannot Create Data");
 		res.setResponseCode(-1001);
 		res.setS980Data(data);
 		return new ResponseEntity<>(res, HttpStatus.NOT_ACCEPTABLE);
@@ -105,13 +107,10 @@ public class sheet980_impl implements sheet980_Service {
 		if (DataDb.isPresent()) {
 			sheet980DAO DataUpdate = DataDb.get();
 			DataUpdate.setId(Data.getId());
-			DataUpdate.setAbove_360_days(Data.getAbove_360_days());
+			DataUpdate.setDuration(Data.getDuration());
 			DataUpdate.setItems(Data.getItems());
-			DataUpdate.setNinety_one_to_180_days(Data.getNinety_one_to_180_days());
-			DataUpdate.setOne_eighty_one_to_360_days(Data.getOne_eighty_one_to_360_days());
-			DataUpdate.setOne_to_30_days(Data.getOne_to_30_days());
-			DataUpdate.setSixty_one_to_90_days(Data.getSixty_one_to_90_days());
-			DataUpdate.setThirty_one_to_60_days(Data.getThirty_one_to_60_days());
+			DataUpdate.setAmount(Data.getAmount());
+
 			
 			_980Repository.save(DataUpdate);
 			Response res = new Response();
@@ -139,38 +138,100 @@ public class sheet980_impl implements sheet980_Service {
 	public Boolean writesheet980(LocalDate Date, String folderPath) throws FileNotFoundException, IOException,
 			EncryptedDocumentException, InvalidFormatException, ParseException {
 	
-		ArrayList<sheet980DAO> sheetdata = new ArrayList<>();
+		ArrayList<sheet980DAO> sheetData = new ArrayList<>();
 		
-		sheetdata = (ArrayList<sheet980DAO>) _980Repository.findAll();
+		//sheetdata = (ArrayList<sheet980DAO>) _980Repository.findAll();
 		
-		List<List<Object>> listofLists = new ArrayList<List<Object>>();
+		ArrayList<String> DurationArr = new ArrayList<String> (
+				Arrays.asList(  "1-30 Days","31-60 Days", "61-90 Days", "91-180 Days","181-360 Days","Above 360 Days")
+				
+				);
 		
-		for (int i = 0; i<sheetdata.size(); i++) {
+		
+		
+		Boolean status = null ;
+		for(String duration : DurationArr)
+		{
+   
+		    sheetData = fetchDataByDuration( duration); 
+		    
+		
+		    
+			List<List<Object>> listOfLists = new ArrayList<List<Object>>();
+			for (int i = 0; i < sheetData.size(); i++) {
+				ArrayList<Object> data = new ArrayList<>();
+				data.clear();
+
+//				data.add(sheetData.get(i).getDuration());
+//				data.add(sheetData.get(i).getItems());
+				data.add(sheetData.get(i).getAmount());
+				
 			
-			ArrayList<Object> data = new ArrayList<>();
+				listOfLists.add(data);
 			
-			data.add(sheetdata.get(i).getItems());
-			data.add(sheetdata.get(i).getOne_to_30_days());
-			data.add(sheetdata.get(i).getThirty_one_to_60_days());
-			data.add(sheetdata.get(i).getSixty_one_to_90_days());
-			data.add(sheetdata.get(i).getNinety_one_to_180_days());
-			data.add(sheetdata.get(i).getOne_eighty_one_to_360_days());
-					
-			listofLists.add(data);
-	
-		
+			}
+			
+			
+
+			
+			
+			 status = sheet980Util.writeSpecificList(listOfLists,Date,folderPath, duration);
+				if (status == true) {
+					status =  true;
+				} else {
+					status =  false;
+				}
+
 		}
 		
-		Boolean status = sheet980Util.writeSpecificList(listofLists, Date, folderPath);
+		return status;
 		
-		if (status == true) {
-			return true;
-		}else {
-			return false;
-		}
+		
+//		List<List<Object>> listofLists = new ArrayList<List<Object>>();
+//		
+//		for (int i = 0; i<sheetdata.size(); i++) {
+//			
+//			ArrayList<Object> data = new ArrayList<>();
+//			
+//			data.add(sheetdata.get(i).getItems());
+//			data.add(sheetdata.get(i).getOne_to_30_days());
+//			data.add(sheetdata.get(i).getThirty_one_to_60_days());
+//			data.add(sheetdata.get(i).getSixty_one_to_90_days());
+//			data.add(sheetdata.get(i).getNinety_one_to_180_days());
+//			data.add(sheetdata.get(i).getOne_eighty_one_to_360_days());
+//					
+//			listofLists.add(data);
+//	
+//		
+//		}
+//		
+//		Boolean status = sheet980Util.writeSpecificList(listofLists, Date, folderPath);
+//		
+//		if (status == true) {
+//			return true;
+//		}else {
+//			return false;
+//		}
 	
 	}
+	
 
 	// ##################################################################################
+	
+	
+	
+	
+	
+	
+	
+	public ArrayList<sheet980DAO> fetchDataByDuration(String Duration){
+		
+		 ArrayList<sheet980DAO> sheetData = new ArrayList<sheet980DAO>();
+		 
+		sheetData = _980Repository.findByDuration(Duration);
+		 
+		 return sheetData;
+		
+	}
 
 }

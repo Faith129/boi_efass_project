@@ -5,12 +5,14 @@ package com.efass;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
+import java.util.Date;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -183,11 +185,14 @@ public class SheetController {
 			SpecialFunction sp = new SpecialFunction();
 			String folderPath = sp.createFolderDirectory(date.toString(), _time);
 			
-			SpecialData sd = new SpecialData();
-			sd.setFolderPath(folderPath);
+//			SpecialData sd = new SpecialData();
+//			sd.setFolderPath(folderPath);
 	
 			
 
+			sheet980Svc.writesheet980(date, folderPath);
+			
+			
         sheet501Svc.writesheet501(date, folderPath);
 			
 			//Write On Excel Sheets
@@ -231,8 +236,12 @@ public class SheetController {
 	//	sheet300Svc.writesheet300(date, folderPath);
 
 			
-	        String path=sheet001Svc.writesheet001(date, folderPath);      
-	        String filename = "file~"+ _time;
+	        String path=sheet001Svc.writesheet001(date, folderPath);    
+	        
+	        String pattern = "dd-MM-yyyy";
+			String dateInString =new SimpleDateFormat(pattern).format(new Date());
+			
+	        String filename = "file~"+ dateInString +"~"+_time;
 	        reportSvc.saveReportActivity(date.toString(),path, filename, fileId);
 
 	        
