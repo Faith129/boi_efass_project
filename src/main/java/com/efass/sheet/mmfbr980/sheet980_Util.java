@@ -140,7 +140,7 @@ public class sheet980_Util {
 				wb.write(output_file);
 				// close the stream
 				output_file.close();
-				System.out.println("sheet 201 works");
+				System.out.println("sheet 980 works");
 
 				rowNum++;
 			}
@@ -174,7 +174,7 @@ public class sheet980_Util {
 		insertFormula(wb,worksheet,"D22+E21",21,4);
 		insertFormula(wb,worksheet,"E22+F21",21,5);
 		insertFormula(wb,worksheet,"F22+G21",21,6);
-		insertFormula(wb,worksheet,"H21-H22",21,7);
+		insertFormula(wb,worksheet,"H21+G22",21,7);
 		
 		
 		//Total Formula
@@ -210,7 +210,7 @@ public class sheet980_Util {
 
 	private void insertTotal_B_excelFormulas(Workbook wb, Sheet worksheet) {
 		
-		insertFormula(wb,worksheet,"SUM(C17:C18",18,2);
+		insertFormula(wb,worksheet,"SUM(C17:C18)",18,2);
 		insertFormula(wb,worksheet,"SUM(D17:D18)",18,3);
 		insertFormula(wb,worksheet,"SUM(E17:E18)",18,4);
 		insertFormula(wb,worksheet,"SUM(F17:F18)",18,5);
@@ -231,7 +231,7 @@ public class sheet980_Util {
 
 	private void insertTotal_A_excelFormulas(Workbook wb, Sheet worksheet) {
 	
-		insertFormula(wb,worksheet,"SUM(C14:C15",15,2);
+		insertFormula(wb,worksheet,"SUM(C14:C15)",15,2);
 		insertFormula(wb,worksheet,"SUM(D13:D15)",15,3);
 		insertFormula(wb,worksheet,"SUM(E13:E15)",15,4);
 		insertFormula(wb,worksheet,"SUM(F13:F15)",15,5);

@@ -392,6 +392,16 @@ public class PrepareTables {
 		save980("LOANS", "91-180 Days");
 		save980("LOANS", "181-360 Days");
 		save980("LOANS", "Above 360 Days");
+		
+		
+		
+		save980("INVESTMENTS", "1-30 Days");
+		save980("INVESTMENTS", "31-60 Days");
+		save980("INVESTMENTS", "61-90 Days");
+		save980("INVESTMENTS", "91-180 Days");
+		save980("INVESTMENTS", "181-360 Days");
+		save980("INVESTMENTS", "Above 360 Days");
+		
 
 		save980("OTHER ASSETS", "1-30 Days");
 		save980("OTHER ASSETS", "31-60 Days");

@@ -229,6 +229,11 @@ public class sheet980_impl implements sheet980_Service {
 		 ArrayList<sheet980DAO> sheetData = new ArrayList<sheet980DAO>();
 		 
 		sheetData = _980Repository.findByDuration(Duration);
+		
+		
+		
+		// ArrayList<String> test =_980Repository.findByamountTest(Duration);
+		 
 		 
 		 return sheetData;
 		

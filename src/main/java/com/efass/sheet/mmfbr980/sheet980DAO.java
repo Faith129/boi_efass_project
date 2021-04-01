@@ -14,7 +14,7 @@ public class sheet980DAO {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "ID")
 	public int id;
 	
 	
@@ -27,6 +27,9 @@ public class sheet980DAO {
 	
 	@Column(name = "AMOUNT")
 	public String amount;
+	
+	@Column(name = "CREATE_DT")
+	public String createDt;
 
 	public int getId() {
 		return id;
@@ -59,7 +62,16 @@ public class sheet980DAO {
 	public void setAmount(String amount) {
 		this.amount = amount;
 	}
-	
+
+	public String getCreateDt() {
+		return createDt;
+	}
+
+	public void setCreateDt(String createDt) {
+		this.createDt = createDt;
+	}
+
+
 	
 
 	

@@ -12,8 +12,14 @@ import com.efass.sheet.mmfbr201.sheet201DAO;
 public interface sheet980Repository extends CrudRepository<sheet980DAO, Integer>{
 
 
-	@Query(value = "select * from EFASS.MMFBR980 where DURATION=? order by CREATE_DT ", nativeQuery = true)
+	@Query(value = "select * from EFASS.MMFBR980 where DURATION=? order by ID ", nativeQuery = true)
 	ArrayList<sheet980DAO> findByDuration(String duration);
+	
+	
+	
+
+//	@Query(value = "select AMOUNT from EFASS.MMFBR980 where DURATION=? order by CREATE_DT ", nativeQuery = true)
+//	ArrayList<String> findByamountTest(String duration);
 	
 	
 }
