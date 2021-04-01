@@ -16,21 +16,21 @@ public class sheet501DAO {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private int id;
+	public int id;
 	
 	
 	
 	@Column(name = "BANK_CODE")
-	private String bank_code;
+	public String bank_code;
 	
 	
 	
 	@Column(name = "ITEM")
-	private String item;
+	public String item;
 	
 	
 	@Column(name = "AMOUNT")
-	private String amount;
+	public String amount;
 
 
 	public int getId() {

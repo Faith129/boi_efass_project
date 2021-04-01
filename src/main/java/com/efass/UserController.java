@@ -134,9 +134,9 @@ public class UserController {
 		try {
 			
 			
-			String userdata = userRepository.findByUsername(user.getUsername());
+			UserDAO userdata = userRepository.findByUsername(user.getUsername());
 			
-			if(!userdata.equals(null)) {
+			if(userdata != null) {
 				
 				res.setResponseMessage("User Already Exists");
 				res.setResponseCode(-1001);	

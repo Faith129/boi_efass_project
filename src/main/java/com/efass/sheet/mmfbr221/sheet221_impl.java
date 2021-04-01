@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.poi.EncryptedDocumentException;
@@ -63,7 +64,7 @@ public class sheet221_impl implements sheet221_Service {
 	
 	 public ResponseEntity<?> createData(sheet221DAO data) throws ResourceNotFoundException {
 		 
-		 validate(data);
+		// validate(data);
 		 
 	     _221Repository.save(data);     
 	   	 	Response res = new Response();
@@ -120,7 +121,7 @@ public class sheet221_impl implements sheet221_Service {
 
 	public ResponseEntity<?> updateData(int id , sheet221DAO Data) throws ResourceNotFoundException {
 		
-		validate(Data);
+		//validate(Data);
 		
 		Optional<sheet221DAO> DataDb = _221Repository.findById(id);
 
@@ -143,12 +144,7 @@ public class sheet221_impl implements sheet221_Service {
 	}
 
 
-	@Override
-	public Boolean writesheet221(LocalDate Date, String folderPath)
-			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	// ####################################################################################
 
@@ -169,36 +165,36 @@ public class sheet221_impl implements sheet221_Service {
 	// ############################## EXCEL MANIPULATIONS  #################################
 	
 	
-//	
-//	@Override
-//	public Boolean writesheet221(LocalDate Date, String folderPath)
-//			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException {
-//
-//		ArrayList<sheet221DAO> sheetData = new ArrayList<sheet221DAO>();
-//		sheetData = (ArrayList<sheet221DAO>) _221Repository.findAll();
-//
-//		List<List<Object>> listOfLists = new ArrayList<List<Object>>();
-//		for (int i = 0; i < sheetData.size(); i++) {
-//			ArrayList<Object> data = new ArrayList<>();
-//			data.clear();
-//			data.add(sheetData.get(i).getAmount());
-//			data.add(sheetData.get(i).getBankName());
-//			data.add(sheetData.get(i).getBankCode());
-//			listOfLists.add(data);
-//
-//		}
-//	
-//		Boolean status = sheet221Util.writeSpecificList(listOfLists,Date,folderPath);
-//		if (status == true) {
-//			return true;
-//		} else {
-//			return false;
-//		}
-//
-//	}
-//
-//
-//	
+	
+	@Override
+	public Boolean writesheet221(LocalDate Date, String folderPath)
+			throws FileNotFoundException, IOException, EncryptedDocumentException, InvalidFormatException {
+
+		ArrayList<sheet221DAO> sheetData = new ArrayList<sheet221DAO>();
+		sheetData = (ArrayList<sheet221DAO>) _221Repository.findAll();
+
+		List<List<Object>> listOfLists = new ArrayList<List<Object>>();
+		for (int i = 0; i < sheetData.size(); i++) {
+			ArrayList<Object> data = new ArrayList<>();
+			data.clear();
+			data.add(sheetData.get(i).getAmount());
+			data.add(sheetData.get(i).getBankName());
+			data.add(sheetData.get(i).getBankCode());
+			listOfLists.add(data);
+
+		}
+	
+		Boolean status = sheet221Util.writeSpecificList(listOfLists,Date,folderPath);
+		if (status == true) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+
+	
 	
 
 	

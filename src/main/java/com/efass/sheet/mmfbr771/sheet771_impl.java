@@ -82,7 +82,7 @@ public class sheet771_impl implements sheet771_Service {
 
 
 	public ResponseEntity<?> createData(sheet771DAO data) throws ResourceNotFoundException {
-		validate(data);
+		//validate(data);
 		
 		_771Repository.save(data);
 		Response res = new Response();
@@ -137,7 +137,7 @@ public class sheet771_impl implements sheet771_Service {
 
 	public ResponseEntity<?> updateData(int id, sheet771DAO Data) throws ResourceNotFoundException {
 
-		validate(Data);
+	//	validate(Data);
 		
 		Optional<sheet771DAO> DataDb = _771Repository.findById(id);
 

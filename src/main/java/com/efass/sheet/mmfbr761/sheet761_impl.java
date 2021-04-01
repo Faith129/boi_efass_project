@@ -53,7 +53,7 @@ public class sheet761_impl implements sheet761_Service{
 
 				
 		 public ResponseEntity<?> createData(sheet761DAO data) throws ResourceNotFoundException {
-			 validate(data);
+//			 validate(data);
 			 
 		  //   _761Repository.save(data);
 		 	Response res = new Response();
@@ -109,7 +109,7 @@ public class sheet761_impl implements sheet761_Service{
 
 		public ResponseEntity<?> updateData(int id , sheet761DAO Data) throws ResourceNotFoundException {
 			
-			validate(Data);
+//			validate(Data);
 			
 			Optional<sheet761DAO> DataDb = _761Repository.findById(id);
 
@@ -159,6 +159,7 @@ public class sheet761_impl implements sheet761_Service{
 					ArrayList<Object> data = new ArrayList<>();
 					data.clear();
 					data.add(sheetData.get(i).getAmount());
+					data.add(sheetData.get(i).getDescription());
 				
 					
 					listOfLists.add(data);

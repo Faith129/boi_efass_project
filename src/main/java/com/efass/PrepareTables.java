@@ -9,6 +9,7 @@ import com.efass.sheet.mmfbr1000.sheet1000Repository;
 import com.efass.sheet.mmfbr141.sheet141Repository;
 import com.efass.sheet.mmfbr201.sheet201DAO;
 import com.efass.sheet.mmfbr201.sheet201Repository;
+import com.efass.sheet.mmfbr202.sheet202DAO;
 import com.efass.sheet.mmfbr202.sheet202Repository;
 import com.efass.sheet.mmfbr221.sheet221Repository;
 import com.efass.sheet.mmfbr300.sheet300DAO;
@@ -30,6 +31,7 @@ import com.efass.sheet.mmfbr762.sheet762DAO;
 import com.efass.sheet.mmfbr762.sheet762Repository;
 import com.efass.sheet.mmfbr763.sheet763DAO;
 import com.efass.sheet.mmfbr763.sheet763Repository;
+import com.efass.sheet.mmfbr764.sheet764DAO;
 import com.efass.sheet.mmfbr764.sheet764Repository;
 import com.efass.sheet.mmfbr771.sheet771Repository;
 import com.efass.sheet.mmfbr811.sheet811DAO;
@@ -99,13 +101,15 @@ public class PrepareTables {
 	public void clearSheetTables() {
 
 		try {
-
+			
 		populateSheet811();
+		populateSheet764();
 		populateSheet711();
 		populateSheet762();
 		populateSheet763();
 		populateSheet761();
 		populatesheet201();
+		populatesheet202();
 		populatesheet501();
 		populatesheet980();	
 	//	populatesheet1000();
@@ -213,6 +217,38 @@ public class PrepareTables {
 		_711Repository.save(data8);
 
 	}
+	
+
+	private void populateSheet764() {
+		// Delete all
+		_764Repository.deleteAll();
+
+		sheet764DAO data = new sheet764DAO();
+		data.setAccount_type("Loans and Advances");
+		_764Repository.save(data);
+
+		sheet764DAO data2 = new sheet764DAO();
+		data2.setAccount_type("Hire Purchase");
+		_764Repository.save(data2);
+
+		sheet764DAO data3 = new sheet764DAO();
+		data3.setAccount_type("Micro Leases");
+		_764Repository.save(data3);
+		
+		sheet764DAO data4 = new sheet764DAO();
+		data4.setAccount_type("Savings Deposits");
+		_764Repository.save(data4);
+
+		sheet764DAO data5 = new sheet764DAO();
+		data5.setAccount_type("Time/Term Deposits");
+		_764Repository.save(data5);
+
+		sheet764DAO data6 = new sheet764DAO();
+		data6.setAccount_type("Target Deposits");
+		_764Repository.save(data6);
+
+	}
+
 
 	public void populateSheet762() {
 		// delete all
@@ -340,47 +376,57 @@ public class PrepareTables {
 	
 	private void populateSheet761() {
 		_761Repository.deleteAll();
-
-		sheet761DAO data = new sheet761DAO();
-		data.setSerialNo("10762");
-		data.setDescription("Performing");
-		_761Repository.save(data);
-
-		sheet761DAO data1 = new sheet761DAO();
-		data1.setSerialNo("10763");
-		data1.setDescription("Non-Performing (Portfolio-At-Risk)");
-		data1.setAmount("13,280");
-		_761Repository.save(data1);
-
-		sheet761DAO data2 = new sheet761DAO();
-		data2.setSerialNo("10764");
-		data2.setDescription("Pass & Watch");
-		_761Repository.save(data2);
-
-		sheet761DAO data3 = new sheet761DAO();
-		data3.setSerialNo("10765");
-		data3.setDescription("Substandard");
-		_761Repository.save(data3);
-
-		sheet761DAO data4 = new sheet761DAO();
-		data4.setSerialNo("10766");
-		data4.setDescription("Doubtful");
-		_761Repository.save(data4);
-
-		sheet761DAO data5 = new sheet761DAO();
-		data5.setSerialNo("10767");
-		data5.setDescription("Lost");
-		_761Repository.save(data5);
-
-		sheet761DAO data6 = new sheet761DAO();
-		data6.setSerialNo("10768");
-		data6.setDescription("Total Porfolio-At-Risk");
-		_761Repository.save(data4);
-
-		sheet761DAO data7 = new sheet761DAO();
-		data7.setSerialNo("");
-		data7.setDescription("Interest In Suspense");
-		_761Repository.save(data4);
+		
+		
+		save761("10762", "Performing","");
+		save761("10763", "Non-Performing (Portfolio-At-Risk)","");
+		save761("10764", "Pass & Watch", "");
+		save761("10765", "Substandard", "");
+		save761("10766", "Doubtful", "");
+		save761("10767", "Lost", "");
+		save761("10768", "Total Porfolio-At-Risk", "");
+		save761("", "Interest In Suspense", "");
+	
+//		sheet761DAO data = new sheet761DAO();
+//		data.setSerialNo("10762");
+//		data.setDescription("Performing");
+//		//data.setAmount("13,280");
+//		_761Repository.save(data);
+//
+//		sheet761DAO data1 = new sheet761DAO();
+//		data1.setSerialNo("10763");
+//		data1.setDescription("Non-Performing (Portfolio-At-Risk)");	
+//		_761Repository.save(data1);
+//
+//		sheet761DAO data2 = new sheet761DAO();
+//		data2.setSerialNo("10764");
+//		data2.setDescription("Pass & Watch");
+//		_761Repository.save(data2);
+//
+//		sheet761DAO data3 = new sheet761DAO();
+//		data3.setSerialNo("10765");
+//		data3.setDescription("Substandard");
+//		_761Repository.save(data3);
+//
+//		sheet761DAO data4 = new sheet761DAO();
+//		data4.setSerialNo("10766");
+//		data4.setDescription("Doubtful");
+//		_761Repository.save(data4);
+//
+//		sheet761DAO data5 = new sheet761DAO();
+//		data5.setSerialNo("10767");
+//		data5.setDescription("Lost");
+//		_761Repository.save(data5);
+//
+//		sheet761DAO data6 = new sheet761DAO();
+//		data6.setSerialNo("10768");
+//		data6.setDescription("Total Porfolio-At-Risk");
+//		_761Repository.save(data4);
+//
+//		sheet761DAO data7 = new sheet761DAO();
+//		data7.setSerialNo("");
+//		data7.setDescription("Interest In Suspense");
+//		_761Repository.save(data4);
 
 	}
 
@@ -443,7 +489,23 @@ public class PrepareTables {
 
 	}
 
+	public void populatesheet202() {
+		_202Repository.deleteAll();
+		
+		save202("DEMAND DEPOSIT", "1-100,000");
+		save202("DEMAND DEPOSIT", "100,001 & Above");
+		
+		save202("SAVINGS DEPOSIT",  "1-100,000");
+		save202("SAVINGS DEPOSIT",  "100,001 & Above");
+		
+		save202("TERM/TIME DEPOSIT", "1-100,000");
+		save202("TERM/TIME DEPOSIT", "100,001 & Above");
+		
+		save202("SPECIAL/OTHER DEPOSITS", "1-100,000");
+		save202("SPECIAL/OTHER DEPOSITS", "100,001 & Above");
+	}
 
+	
 	public void save980(String items) {
 
 		sheet980DAO data = new sheet980DAO();
@@ -568,6 +630,25 @@ public class PrepareTables {
 		data.setTypeOfDeposit(TypeOfDeposit);
 		data.setDuration(duration);
 		_201Repository.save(data);
+
+	}
+	
+	public void save202(String TypeOfDeposit, String priceRange) {
+
+		sheet202DAO data = new sheet202DAO();
+		data.setTypeOfDeposit(TypeOfDeposit);
+		data.setPriceRange(priceRange);
+		_202Repository.save(data);
+
+	}
+	
+	public void save761(String serialNo, String description, String amount) {
+
+		sheet761DAO data = new sheet761DAO();
+		data.setSerialNo(serialNo);
+		data.setDescription(description);
+		data.setAmount(amount);
+		_761Repository.save(data);
 
 	}
 }

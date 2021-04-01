@@ -79,7 +79,7 @@ public class sheet321_impl implements sheet321_Service {
 	
 	 public ResponseEntity<?> createData(sheet321DAO data) throws ResourceNotFoundException {
 		 
-		 validate(data);
+		// validate(data);
 	     _321Repository.save(data);
 	 	Response res = new Response();
 	 	res.setResponseMessage("Success");

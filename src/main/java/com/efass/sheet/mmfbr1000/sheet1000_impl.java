@@ -144,6 +144,7 @@ public class sheet1000_impl implements sheet1000_Service{
 		if (DataDb.isPresent()) {
 			sheet1000DAO DataUpdate = DataDb.get();
 			DataUpdate.setCol_1(Data.getCol_1());
+			
 			sheet1000Repo.save(DataUpdate);
 			Response res = new Response();
 			res.setResponseMessage("Record Updated");
