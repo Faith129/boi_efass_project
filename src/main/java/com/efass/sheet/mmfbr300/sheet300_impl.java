@@ -196,7 +196,7 @@ public class sheet300_impl implements sheet300_Service {
 
 	public ArrayList<sheet300DAO> FetchAllCodes() {
 
-		ArrayList<String> codes = new ArrayList<String>(Arrays.asList("10000", "10100", "10110", "10120", "10130",
+		ArrayList<String> codes = new ArrayList<String>(Arrays.asList("10000", "10100", "10110", "10130",
 				"10200", "10210", "10220", "10300", "10310", "10320", "10330", "10400", "10500", "10510", "10600",
 				"10610", "10620", "10630", "10640", "10650", "10700", "10710", "10720", "10725", "10730", "10740",
 				"10745", "10750", "10760", "10770", "10780", "10790", "10795", "10800", "10810", "10880", "10890",

@@ -386,13 +386,57 @@ public class PrepareTables {
 
 	public void populatesheet980() {
 		_980Repository.deleteAll();
-		save980("Loans");
-		save980("Investments");
-		save980("Other Assets");
-		save980("Deposits");
-		save980("CDs and Other Liablities");
-		save980("Equity (C)");
-		save980("Net Periodic Gap A -(B+C)");
+        save980("LOANS", "1-30 Days");
+		save980("LOANS", "31-60 Days");
+		save980("LOANS", "61-90 Days");
+		save980("LOANS", "91-180 Days");
+		save980("LOANS", "181-360 Days");
+		save980("LOANS", "Above 360 Days");
+		
+		
+		
+		save980("INVESTMENTS", "1-30 Days");
+		save980("INVESTMENTS", "31-60 Days");
+		save980("INVESTMENTS", "61-90 Days");
+		save980("INVESTMENTS", "91-180 Days");
+		save980("INVESTMENTS", "181-360 Days");
+		save980("INVESTMENTS", "Above 360 Days");
+		
+
+		save980("OTHER ASSETS", "1-30 Days");
+		save980("OTHER ASSETS", "31-60 Days");
+		save980("OTHER ASSETS", "61-90 Days");
+		save980("OTHER ASSETS", "91-180 Days");
+		save980("OTHER ASSETS", "181-360 Days");
+		save980("OTHER ASSETS", "Above 360 Days");
+
+		save980("DEPOSITS", "1-30 Days");
+		save980("DEPOSITS", "31-60 Days");
+		save980("DEPOSITS", "61-90 Days");
+		save980("DEPOSITS", "91-180 Days");
+		save980("DEPOSITS", "181-360 Days");
+		save980("DEPOSITS", "Above 360 Days");
+
+		save980("CDS AND OTHER LIABILITY", "1-30 Days");
+		save980("CDS AND OTHER LIABILITY", "31-60 Days");
+		save980("CDS AND OTHER LIABILITY", "61-90 Days");
+		save980("CDS AND OTHER LIABILITY", "91-180 Days");
+		save980("CDS AND OTHER LIABILITY", "181-360 Days");
+		save980("CDS AND OTHER LIABILITY", "Above 360 Days");
+
+		save980("EQUITY (C)", "1-30 Days");
+		save980("EQUITY (C)", "31-60 Days");
+		save980("EQUITY (C)", "61-90 Days");
+		save980("EQUITY (C)", "91-180 Days");
+		save980("EQUITY (C)", "181-360 Days");
+		save980("EQUITY (C)", "Above 360 Days");
+
+		save980("NET PERIODIC GAP A- (B + C)", "1-30 Days");
+		save980("NET PERIODIC GAP A- (B + C)", "31-60 Days");
+		save980("NET PERIODIC GAP A- (B + C)", "61-90 Days");
+		save980("NET PERIODIC GAP A- (B + C)", "91-180 Days");
+		save980("NET PERIODIC GAP A- (B + C)", "181-360 Days");
+		save980("NET PERIODIC GAP A- (B + C)", "Above 360 Days");
 
 	}
 
@@ -444,10 +488,11 @@ public class PrepareTables {
 	}
 
 
-	public void save980(String items) {
+	public void save980(String items, String duration) {
 
 		sheet980DAO data = new sheet980DAO();
 		data.setItems(items);
+		data.setDuration(duration);
 		_980Repository.save(data);
 	}
 

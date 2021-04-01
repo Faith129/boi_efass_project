@@ -5,12 +5,14 @@ package com.efass;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
+import java.util.Date;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -183,15 +185,18 @@ public class SheetController {
 			SpecialFunction sp = new SpecialFunction();
 			String folderPath = sp.createFolderDirectory(date.toString(), _time);
 			
-			SpecialData sd = new SpecialData();
-			sd.setFolderPath(folderPath);
+//			SpecialData sd = new SpecialData();
+//			sd.setFolderPath(folderPath);
 	
 			
 
-        sheet501Svc.writesheet501(date, folderPath);
+//works			sheet980Svc.writesheet980(date, folderPath);
+			
+			
+//        sheet501Svc.writesheet501(date, folderPath);
 			
 			//Write On Excel Sheets
-        sheet300Svc.writesheet300(date, folderPath);
+//        sheet300Svc.writesheet300(date, folderPath);
 
 //works		sheet221Svc.writesheet221(date,folderPath);
 //works			sheet311Svc.writesheet311(date,folderPath);
@@ -211,28 +216,32 @@ public class SheetController {
 //			
         //test
 		//	sheet763Svc.writesheet763(date, folderPath); 
-			sheet141Svc.writesheet141(date, folderPath); 
+//			sheet141Svc.writesheet141(date, folderPath); 
 		//	sheet312Svc.writesheet312(date, folderPath);
-			sheet322Svc.writesheet322(date, folderPath);
+//			sheet322Svc.writesheet322(date, folderPath);
 //			
-			sheet451Svc.writesheet451(date, folderPath);
-			sheet642Svc.writesheet642(date,folderPath);
-			sheet651Svc.writesheet651(date, folderPath);
-			sheet951Svc.writesheet951(date, folderPath);
-			sheet996Svc.writesheet996(date, folderPath);
-			sheet933Svc.writesheet933(date, folderPath);
+//			sheet451Svc.writesheet451(date, folderPath);
+//			sheet642Svc.writesheet642(date,folderPath);
+//			sheet651Svc.writesheet651(date, folderPath);
+//			sheet951Svc.writesheet951(date, folderPath);
+//			sheet996Svc.writesheet996(date, folderPath);
+//			sheet933Svc.writesheet933(date, folderPath);
 //			
 //
-			sheet811Svc.writesheet811(date, folderPath);
+//			sheet811Svc.writesheet811(date, folderPath);
 //			sheet201Svc.writesheet201(date, folderPath);
 
 	        
 //	        sheet1000Svc.writesheet1000(date, folderPath);
-	//	sheet300Svc.writesheet300(date, folderPath);
+	sheet300Svc.writesheet300(date, folderPath);
 
 			
-	        String path=sheet001Svc.writesheet001(date, folderPath);      
-	        String filename = "file~"+ _time;
+	        String path=sheet001Svc.writesheet001(date, folderPath);    
+	        
+	        String pattern = "dd-MM-yyyy";
+			String dateInString =new SimpleDateFormat(pattern).format(new Date());
+			
+	        String filename = "file~"+ dateInString +"~"+_time;
 	        reportSvc.saveReportActivity(date.toString(),path, filename, fileId);
 
 	        
