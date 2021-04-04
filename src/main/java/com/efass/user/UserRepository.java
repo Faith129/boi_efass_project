@@ -20,8 +20,8 @@ public interface UserRepository extends JpaRepository<UserDAO, Integer>{
 	  
 	
 	  
-		@Query(value = "SELECT USER_ID FROM EFASS.EFASS_USERS where username=?", nativeQuery = true)  
-	String findByUsername(String username);	
+		@Query(value = "SELECT * FROM EFASS.EFASS_USERS where username=?", nativeQuery = true)  
+		UserDAO findByUsername(String username);	
 	  
 
 	  

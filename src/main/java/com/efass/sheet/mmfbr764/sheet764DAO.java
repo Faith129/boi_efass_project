@@ -39,11 +39,11 @@ public class sheet764DAO {
 	public String ninety_one_to_180_days;
 	
 	
-	@Column(name = "  ONE_EIGHTY_ONE_TO_360_DAYS")
+	@Column(name = "ONE_EIGHTY_ONE_TO_360_DAYS")
 	public String   one_eighty_one_to_360_days;
 	
 	
-	@Column(name = " ABOVE_360_DAYS")
+	@Column(name = "ABOVE_360_DAYS")
 	public String  above_360_days;
 
 

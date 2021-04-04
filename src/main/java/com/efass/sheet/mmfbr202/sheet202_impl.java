@@ -21,7 +21,7 @@ import com.efass.Validation;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.sheet.mmfbr141.sheet141DAO;
-
+import com.efass.sheet.mmfbr201.sheet201DAO;
 import com.efass.sheet.mmfbr202.sheet202DAO;
 
 
@@ -111,9 +111,10 @@ public class sheet202_impl implements sheet202_Service{
 		if (DataDb.isPresent()) {
 			sheet202DAO DataUpdate = DataDb.get();
 			DataUpdate.setId(Data.getId());
-			DataUpdate.setHundredAndOneNaira(Data.getHundredAndOneNaira());
-			DataUpdate.setOneToHundredNaira(Data.getOneToHundredNaira());
 			DataUpdate.setTypeOfDeposit(Data.getTypeOfDeposit());
+			DataUpdate.setPriceRange(Data.getPriceRange());
+			DataUpdate.setNumberOfAccount(Data.getNumberOfAccount());
+			DataUpdate.setAmount(Data.getAmount());
 			_202Repository.save(DataUpdate);
 			Response res = new Response();
 			res.setResponseMessage("Record Updated");
@@ -133,25 +134,32 @@ public class sheet202_impl implements sheet202_Service{
 	
 		
 	ArrayList<sheet202DAO> sheetData = new ArrayList<sheet202DAO>();
-		Boolean status = false;
-		
-		sheetData = (ArrayList<sheet202DAO>) _202Repository.findAll();
+	
+	ArrayList<String> priceRangeArr = new ArrayList<String> (
+			Arrays.asList(  "1-100,000","100,001 & above")
+			
+			);
+	
 
-
+		Boolean status = null;
+		for(String pricerange : priceRangeArr)
+		{
+		sheetData = fetchDataByPriceRange(pricerange);
 			List<List<Object>> listOfLists = new ArrayList<List<Object>>();
 			for (int i = 0; i < sheetData.size(); i++) {
 				ArrayList<Object> data = new ArrayList<>();
 				data.clear();
 
 				data.add(sheetData.get(i).getTypeOfDeposit());
-				data.add(sheetData.get(i).getOneToHundredNaira());
-				data.add(sheetData.get(i).getHundredAndOneNaira());
+				data.add(sheetData.get(i).getPriceRange());
+				data.add(sheetData.get(i).getNumberOfAccount());
+				data.add(sheetData.get(i).getAmount());
 			
 				listOfLists.add(data);
 			
 			}
 			
-			 status = sheet202Util.writeSpecificList(listOfLists,Date,folderPath);
+			 status = sheet202Util.writeSpecificList(listOfLists,Date,folderPath,pricerange);
 				if (status == true) {
 					status =  true;
 				} else {
@@ -162,10 +170,20 @@ public class sheet202_impl implements sheet202_Service{
 			
 			
 		
-			
+		}
 			
 		
 		return status;
+		
+	}
+	
+	
+	public ArrayList<sheet202DAO> fetchDataByPriceRange(String Pricerange){
+		
+		 ArrayList<sheet202DAO> sheetData = new ArrayList<sheet202DAO>();
+		sheetData = _202Repository.findByPriceRange(Pricerange);
+		 
+		 return sheetData;
 		
 	}
 

@@ -35,7 +35,8 @@ public class sheet764_impl implements sheet764_Service {
 
 	Validation validation;
 
-	sheet771_Util sheet764Util; 
+	@Autowired
+	sheet764_Util sheet764Util; 
 
 
 	// ############################## MMFBR746 CRUD OPERATIONS
@@ -63,6 +64,7 @@ public class sheet764_impl implements sheet764_Service {
 	}
 
 	public ResponseEntity<?> fetchAllData() {
+		Iterable<sheet764DAO> data = _764Repository.findAll();
 		
 		  Field[] fields = sheet764DAO.class.getFields();
 				ArrayList<String> colname = new ArrayList<String>();
@@ -70,7 +72,6 @@ public class sheet764_impl implements sheet764_Service {
 				   colname.add(f.getName()) ;
 				}
 				
-		Iterable<sheet764DAO> data = _764Repository.findAll();
 		Response res = new Response();
 		res.setSheet764(data);
 		res.setResponseMessage("Success");
