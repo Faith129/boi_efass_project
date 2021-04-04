@@ -89,7 +89,7 @@ END;
 
 
 ALTER TABLE EFASS.MMFBR762 MODIFY (AMOUNT_GRANTED NOT NULL);
-
+alter table table_name set unused (column_name);
 
   
   

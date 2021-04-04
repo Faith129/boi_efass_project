@@ -107,7 +107,7 @@ public class sheet1000_Util {
 		// Adding formulas
 		Cell cell00 = null;
 		cell00 = worksheet.getRow(15).getCell(5);
-		String formula00 = "SUM(D14:D15)";
+		String formula00 = "D14-D15";
 		cell00.setCellType(CellType.FORMULA);
 		cell00.setCellFormula(formula00);
 

@@ -65,8 +65,7 @@ import com.efass.sheet.mmfbr980.sheet980DAO;
 		String fileName = data.getFile_name();
 		
 		String UPLOAD_DIR = filePath;
-		
-		System.out.println("MY DIRECTORY --->"+UPLOAD_DIR);
+	
 	  File file = new File(UPLOAD_DIR);
 	  
 	  ByteArrayInputStream in =  retrieveByteArrayInputStream(file);

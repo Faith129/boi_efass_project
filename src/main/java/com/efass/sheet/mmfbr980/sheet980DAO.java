@@ -14,7 +14,7 @@ public class sheet980DAO {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "ID")
 	public int id;
 	
 	
@@ -22,23 +22,14 @@ public class sheet980DAO {
 	public String items;
 	
 	
-	@Column(name = "ONE_TO_30_DAYS")
-	public String one_to_30_days;
+	@Column(name = "DURATION")
+	public String duration;
 	
-	@Column(name = "THIRTY_ONE_TO_60_DAYS")
-	public String thirty_one_to_60_days;
+	@Column(name = "AMOUNT")
+	public String amount;
 	
-	@Column(name = "SIXTY_ONE_TO_90_DAYS")
-	public String sixty_one_to_90_days;
-	
-	@Column(name = "NINETY_ONE_TO_180_DAYS")
-	public String ninety_one_to_180_days;
-	
-	@Column(name = "ONE_EIGHTY_ONE_TO_360_DAYS")
-	public String one_eighty_one_to_360_days;
-	
-	@Column(name = "ABOVE_360_DAYS")
-	public String above_360_days;
+	@Column(name = "CREATE_DT")
+	public String createDt;
 
 	public int getId() {
 		return id;
@@ -56,53 +47,34 @@ public class sheet980DAO {
 		this.items = items;
 	}
 
-	public String getOne_to_30_days() {
-		return one_to_30_days;
+	public String getDuration() {
+		return duration;
 	}
 
-	public void setOne_to_30_days(String one_to_30_days) {
-		this.one_to_30_days = one_to_30_days;
+	public void setDuration(String duration) {
+		this.duration = duration;
 	}
 
-	public String getThirty_one_to_60_days() {
-		return thirty_one_to_60_days;
+	public String getAmount() {
+		return amount;
 	}
 
-	public void setThirty_one_to_60_days(String thirty_one_to_60_days) {
-		this.thirty_one_to_60_days = thirty_one_to_60_days;
+	public void setAmount(String amount) {
+		this.amount = amount;
 	}
 
-	public String getSixty_one_to_90_days() {
-		return sixty_one_to_90_days;
+	public String getCreateDt() {
+		return createDt;
 	}
 
-	public void setSixty_one_to_90_days(String sixty_one_to_90_days) {
-		this.sixty_one_to_90_days = sixty_one_to_90_days;
+	public void setCreateDt(String createDt) {
+		this.createDt = createDt;
 	}
 
-	public String getNinety_one_to_180_days() {
-		return ninety_one_to_180_days;
-	}
 
-	public void setNinety_one_to_180_days(String ninety_one_to_180_days) {
-		this.ninety_one_to_180_days = ninety_one_to_180_days;
-	}
+	
 
-	public String getOne_eighty_one_to_360_days() {
-		return one_eighty_one_to_360_days;
-	}
-
-	public void setOne_eighty_one_to_360_days(String one_eighty_one_to_360_days) {
-		this.one_eighty_one_to_360_days = one_eighty_one_to_360_days;
-	}
-
-	public String getAbove_360_days() {
-		return above_360_days;
-	}
-
-	public void setAbove_360_days(String above_360_days) {
-		this.above_360_days = above_360_days;
-	}
+	
 
 	
 
