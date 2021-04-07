@@ -200,7 +200,7 @@ public class sheet811_Util {
 				
 				Cell cell3 = null;
 				cell3 = worksheet.getRow(16).getCell(4);
-				String total= "SUM(C17:D17)";
+				String total= "SUM(C18:D18)";
 				cell3.setCellType(CellType.FORMULA);
 				cell3.setCellFormula(total);
 				

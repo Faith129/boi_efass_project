@@ -261,6 +261,9 @@ public class sheet771_Util {
 	
 	public void insertExcelFormulas(Workbook wb,Sheet worksheet) throws IOException {
 		
+		//Total Formula
+		insertFormula(wb,worksheet,"(0.05*J20)+(0.2*K20)+(0.5*L20)+M20",19,4);
+		insertFormula(wb,worksheet,"(0.05*J21)+(0.2*K21)+(0.5*L21)+M21",20,4);
 		
 		
 	}
