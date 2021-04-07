@@ -37,7 +37,7 @@ public class sheet202_Util {
 		if(pricerange ==  "1-100,000") {
 			rowNum = 12;
 			cellNum= 3;
-		}else if (pricerange == "100,001 & above") {
+		}else if (pricerange == "100,001 Above") {
 			rowNum = 12;
 			cellNum= 4;
 			

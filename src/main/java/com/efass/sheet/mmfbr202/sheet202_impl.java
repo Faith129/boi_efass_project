@@ -136,7 +136,7 @@ public class sheet202_impl implements sheet202_Service{
 	ArrayList<sheet202DAO> sheetData = new ArrayList<sheet202DAO>();
 	
 	ArrayList<String> priceRangeArr = new ArrayList<String> (
-			Arrays.asList(  "1-100,000","100,001 & above")
+			Arrays.asList(  "1-100,000","100,001 Above")
 			
 			);
 	
