@@ -48,5 +48,8 @@ public interface ReportRepository extends JpaRepository<ReportDAO, Integer>{
 	@Query(value = "SELECT FILE_NAME FROM EFASS.Activity where  ID= ?", nativeQuery = true)
 	String fileReportRepo(int fileId);
 	
+	@Query(value = "DELETE FROM EFASS.Activity where ID= ? AND STATUS='approved'", nativeQuery = true)
+	int deletefileById(int id);
+
 	
 }

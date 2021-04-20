@@ -69,6 +69,11 @@ public class sheet771DAO {
 	public String nintyOneToModeDays;
 	
 	
+	@Column(name = "BANK_PROVISION")
+	public String bankprovision;
+	
+
+
 	@Column(name = "REMARKS")
 	public String remarks;
 
@@ -201,6 +206,17 @@ public class sheet771DAO {
 	public void setNintyOneToModeDays(String nintyOneToModeDays) {
 		this.nintyOneToModeDays = nintyOneToModeDays;
 	}
+	
+	
+	public String getBankprovision() {
+		return bankprovision;
+	}
+
+
+	public void setBankprovision(String bankprovision) {
+		this.bankprovision = bankprovision;
+	}
+
 
 
 	public String getRemarks() {
@@ -211,7 +227,13 @@ public class sheet771DAO {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
-	
+
+
+//	public void setTotalNonPerformingCredit(int i) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//	
 	
 
 	

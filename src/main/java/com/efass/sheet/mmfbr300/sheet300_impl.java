@@ -22,6 +22,7 @@ import org.yaml.snakeyaml.util.ArrayUtils;
 
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
+import com.efass.sheet.mmfbr201.sheet201DAO;
 import com.efass.sheet.mmfbr300.sheet300DAO;
 
 @Service
@@ -30,6 +31,12 @@ public class sheet300_impl implements sheet300_Service {
 	@Autowired
 	sheet300Repository _300Repository;
 
+	
+	
+	@Autowired
+	sheet300TemporaryRepository _300TemporaryRepository;
+	
+	
 	@Autowired
 	sheet300_Util sheet300Util;
 
@@ -47,7 +54,7 @@ public class sheet300_impl implements sheet300_Service {
 			colname.add(f.getName());
 		}
 
-		ArrayList<String> codes = new ArrayList<String>(Arrays.asList("10110", "10120", "10610", "10620", "10630",
+		ArrayList<String> codes = new ArrayList<String>(Arrays.asList("10110", "10120","10510", "10610", "10620", "10630",
 				"10720", "10725", "10730", "10740", "10750", "10880", "10910", "10920", "10930", "10940", "10950",
 				"10960", "10980", "20110", "20120", "20125", "20130", "20610", "20620", "20630", "20710", "20720",
 				"20810", "20830", "20840", "20910", "20920", "20930", "20935", "20940", "20960"));
@@ -72,6 +79,10 @@ public class sheet300_impl implements sheet300_Service {
 					CodeColData _codeData = new CodeColData();
 					_codeData.setValue(amountList);
 					_codeData.setCode(code);
+					
+					System.out.println(amountList + "*****");
+					System.out.println(code + "*****");
+					
 					_codeData.setId(dataValue.getId());
 
 
@@ -134,58 +145,59 @@ public class sheet300_impl implements sheet300_Service {
 		ArrayList<sheet300DAO> sheetdata = new ArrayList<>();
 		sheetdata = (ArrayList<sheet300DAO>) _300Repository.findAllOrderByCode();
 
-		List<List<Object>> listofLists = new ArrayList<List<Object>>();
+		System.out.println("*************************** I'm here"+sheetdata);
+//		List<List<Object>> listofLists = new ArrayList<List<Object>>(); 
 
-		ArrayList<sheet300DAO> outerCodes = FetchAllCodes();
 
-		for (int k = 0; k < outerCodes.size(); k++) {
 
-			String outCode = outerCodes.get(k).getCode();
+
+
 			for (int i = 0; i < sheetdata.size(); i++) {
-				ArrayList<Object> data = new ArrayList<>();
 				
-//				if (sheetdata.get(i).getCode().contains(outerCodes.get(k).getCode())) {
-//					data.add(sheetdata.get(i).getCol_1());
-//					data.add(sheetdata.get(i).getCode());
-//					
-//	
-//			
-//				} 
+
+				System.out.println("*************************** Entered here again "+sheetdata);
+				ArrayList<sheet300TemporaryDAO> data = new ArrayList<>();
+
 				
 				String sheetCode = sheetdata.get(i).getCode();
-				String outerCode = outerCodes.get(k).getCode();
+				String col1 = sheetdata.get(i).getCol_1();
+				String col2 = sheetdata.get(i).getCol_2();
+				String col3 =sheetdata.get(i).getCol_3();
 				
-			
-				if(sheetCode.equals(outerCode)) {
-				
-					outerCodes.remove(k);
-
-				}
-				else {
-
-					data.add(sheetdata.get(i).getCode());
-					data.add(sheetdata.get(i).getCol_1());
-				
-				}
-
-			
-
-				listofLists.add(data);
-
+				sheet300TemporaryDAO dt = new sheet300TemporaryDAO();
+				dt.setCode(sheetCode);
+				dt.setCol_1(col1);
+				dt.setCol_2(col2);
+				dt.setCol_3(col3);
+				_300TemporaryRepository.save(dt);
 			}
-		}
+			FetchAndSaveStaticCodes();
 		
-		
-		//loop through outerArraylist and perform insert
-//		for(int i = 0; i < outerCodes.size(); i++) {
-//			
-//			data.add(sheetdata.get(i).getCode());
-//			data.add(null);
-//			
-//		}
-		
+			
+			
+			
+			//Fetch Values from temporary table and save in arraylist
+			ArrayList<sheet300TemporaryDAO> sheetData = new ArrayList<sheet300TemporaryDAO>();
+			 sheetData = _300TemporaryRepository.findAllOrderByCode(); 
+			 
+				List<List<Object>> listOfLists = new ArrayList<List<Object>>();
+				
+				for (int i = 0; i < sheetData.size(); i++) {
+					ArrayList<Object> data = new ArrayList<>();
+					data.clear();
 
-		Boolean status = sheet300Util.writeSpecificList(listofLists, Date, folderPath);
+					data.add(sheetData.get(i).getCol_1());
+					data.add(sheetData.get(i).getCode());
+					data.add(sheetData.get(i).getCol_2());
+					data.add(sheetData.get(i).getCol_3());
+					
+				
+					listOfLists.add(data);
+				
+				}
+				
+
+		Boolean status = sheet300Util.writeSpecificList(listOfLists, Date, folderPath);
 		if (status == true) {
 			return true;
 		} else {
@@ -194,32 +206,25 @@ public class sheet300_impl implements sheet300_Service {
 
 	}
 
-	public ArrayList<sheet300DAO> FetchAllCodes() {
 
-		ArrayList<String> codes = new ArrayList<String>(Arrays.asList("10000", "10100", "10110", "10130",
-				"10200", "10210", "10220", "10300", "10310", "10320", "10330", "10400", "10500", "10510", "10600",
-				"10610", "10620", "10630", "10640", "10650", "10700", "10710", "10720", "10725", "10730", "10740",
-				"10745", "10750", "10760", "10770", "10780", "10790", "10795", "10800", "10810", "10880", "10890",
-				"10900", "10910", "10920", "10930", "10940", "10950", "10960", "10970", "10980", "10990", "11000",
-				"20100", "20110", "20120", "20125", "20130", "20140", "20200", "20300", "20310", "20320", "20330",
-				"20450", "20500", "20600", "20610", "20620", "20630", "20640", "20650", "20660", "20700", "20710",
-				"20720", "20750", "20800", "20810", "20820", "20830", "20840", "20860", "20900", "20910", "20920",
-				"20930", "20932", "20935", "20940", "20950", "20960", "20965", "20970", "20980", "20990", "20995"));
-		ArrayList<sheet300DAO> data = new ArrayList<sheet300DAO>();
+	public void FetchAndSaveStaticCodes() {
+		
+		ArrayList<String> codes = new ArrayList<String>(Arrays.asList("10100","10130","10220","10310","10320","10330","10400","10500","10600","10640","10650","10700","10710","10745","10760","10770","10780","10790","10795","10800","10810","10890","10900","10970","10990","11000","20100","20140","20200","20300","20310","20320","20450","20500","20600","20640","20650","20660","20700","20750","20800","20810","20820","20860","20900","20930","20932","20950","20965","20970","20980","20990","20995"));
+
 
 		for (String code : codes) {
-
-			sheet300DAO data300 = getAssets(code);
-			data.add(data300);
+			sheet300TemporaryDAO data300 = SaveStaticCodes(code);
 		}
-		return data;
+		
 
 	}
 
-	public sheet300DAO getAssets(String code) {
-		sheet300DAO data = new sheet300DAO();
+	public sheet300TemporaryDAO SaveStaticCodes(String code) {
+		sheet300TemporaryDAO data = new sheet300TemporaryDAO();
 		data.setCode(code);
 		data.setCol_1(null);
+		//add to repository 
+		_300TemporaryRepository.save(data);
 		return data;
 
 	}

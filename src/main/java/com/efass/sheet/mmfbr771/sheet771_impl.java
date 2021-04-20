@@ -41,43 +41,43 @@ public class sheet771_impl implements sheet771_Service {
 	// #################################
 	
 	public void validate(sheet771DAO data) throws ResourceNotFoundException {
-	String customerCode = validation.checkDataType(data.getCustomerCode().toString());
-	String customerName = validation.checkDataType(data.getCustomerName().toString());
-	String pastDueDate = validation.checkDataType(data.getPastDueDate().toString());
-	String lastDateRepayment = validation.checkDataType(data.getLastRepaymentDate().toString());
-	String amountGranted = validation.checkDataType(data.getAmountGranted().toString());
-	String principalPaymentDue = validation.checkDataType(data.getPrincipalPaymentDueUnpaid().toString());
-	String accruedInterest = validation.checkDataType(data.getAccruedInterestUnpaid().toString());
-	String totalNonPerformingCredit = validation.checkDataType(data.getTotalNonPerformingCredit().toString());
-//	String bankProvision = validation.checkDataType(data.get.toString());
-	String remarks = validation.checkDataType(data.getRemarks().toString());
-	
-		if( !customerCode.equalsIgnoreCase("Alpha")) {
-			throw new ResourceNotFoundException("customerCode must be an alphabetic value  " );	
-		}else if(!customerName.equalsIgnoreCase("Alpha")) {	
-			throw new ResourceNotFoundException("customerName  must be an alphabetic value   " );
-			}
-		 else if( !pastDueDate.equalsIgnoreCase("Date")) {
-			throw new ResourceNotFoundException("pastDueDate  must be a date value " );	
-		 }
-		 else if( !lastDateRepayment.equalsIgnoreCase("Date")) {
-				throw new ResourceNotFoundException("lastDateRepayment must be a date value  " );	
-			 }
-		 else if( !amountGranted.equalsIgnoreCase("Num")) {
-				throw new ResourceNotFoundException("amountGranted must be a numeric value  " );	
-			 }
-		 else if( !principalPaymentDue.equalsIgnoreCase("Num")) {
-				throw new ResourceNotFoundException("principalPaymentDue  must be a numeric value " );	
-			 }
-		 else if( !accruedInterest.equalsIgnoreCase("Num")) {
-				throw new ResourceNotFoundException("accruedInterest Of Facility  must be a numeric value " );	
-			 }
-		 else if( !totalNonPerformingCredit.equalsIgnoreCase("Num")) {
-				throw new ResourceNotFoundException("totalNonPerformingCredit  must be a numeric value " );	
-			 }
-		 else if( !remarks.equalsIgnoreCase("Alpha")) {
-				throw new ResourceNotFoundException("remarks  must be an alphabetic value " );	
-			 }
+//	String customerCode = validation.checkDataType(data.getCustomerCode().toString());
+//	String customerName = validation.checkDataType(data.getCustomerName().toString());
+//	String pastDueDate = validation.checkDataType(data.getPastDueDate().toString());
+//	String lastDateRepayment = validation.checkDataType(data.getLastRepaymentDate().toString());
+//	String amountGranted = validation.checkDataType(data.getAmountGranted().toString());
+//	String principalPaymentDue = validation.checkDataType(data.getPrincipalPaymentDueUnpaid().toString());
+//	String accruedInterest = validation.checkDataType(data.getAccruedInterestUnpaid().toString());
+//	String totalNonPerformingCredit = validation.checkDataType(data.getTotalNonPerformingCredit().toString());
+////	String bankProvision = validation.checkDataType(data.get.toString());
+//	String remarks = validation.checkDataType(data.getRemarks().toString());
+//	
+//		if( !customerCode.equalsIgnoreCase("Alpha")) {
+//			throw new ResourceNotFoundException("customerCode must be an alphabetic value  " );	
+//		}else if(!customerName.equalsIgnoreCase("Alpha")) {	
+//			throw new ResourceNotFoundException("customerName  must be an alphabetic value   " );
+//			}
+//		 else if( !pastDueDate.equalsIgnoreCase("Date")) {
+//			throw new ResourceNotFoundException("pastDueDate  must be a date value " );	
+//		 }
+//		 else if( !lastDateRepayment.equalsIgnoreCase("Date")) {
+//				throw new ResourceNotFoundException("lastDateRepayment must be a date value  " );	
+//			 }
+//		 else if( !amountGranted.equalsIgnoreCase("Num")) {
+//				throw new ResourceNotFoundException("amountGranted must be a numeric value  " );	
+//			 }
+//		 else if( !principalPaymentDue.equalsIgnoreCase("Num")) {
+//				throw new ResourceNotFoundException("principalPaymentDue  must be a numeric value " );	
+//			 }
+//		 else if( !accruedInterest.equalsIgnoreCase("Num")) {
+//				throw new ResourceNotFoundException("accruedInterest Of Facility  must be a numeric value " );	
+//			 }
+//		 else if( !totalNonPerformingCredit.equalsIgnoreCase("Num")) {
+//				throw new ResourceNotFoundException("totalNonPerformingCredit  must be a numeric value " );	
+//			 }
+//		 else if( !remarks.equalsIgnoreCase("Alpha")) {
+//				throw new ResourceNotFoundException("remarks  must be an alphabetic value " );	
+//			 }
 	}
 
 
@@ -156,7 +156,25 @@ public class sheet771_impl implements sheet771_Service {
 			DataUpdate.setRemarks(Data.getRemarks());
 			DataUpdate.setSixyOneToNintyDays(Data.getSixyOneToNintyDays());
 			DataUpdate.setThirtyOneToSixtyDays(Data.getThirtyOneToSixtyDays());
-			DataUpdate.setTotalNonPerformingCredit(Data.getTotalNonPerformingCredit());
+			int accruedInterest = Integer.parseInt(Data.getAccruedInterestUnpaid());
+			int principalPayment = Integer.parseInt(Data.getPrincipalPaymentDueUnpaid());
+			int Total = accruedInterest + principalPayment;
+			String Final = Integer.toString(Total);
+			System.out.println("This is the total " +Final);
+			
+			double onetothirty = Integer.parseInt(Data.getOneToThirtyDays());
+			double thirtyonetosixty = Integer.parseInt(Data.getThirtyOneToSixtyDays());
+			double sixtyonetoninety = Integer.parseInt(Data.getSixyOneToNintyDays());
+			double ninetyonemore = Integer.parseInt(Data.getNintyOneToModeDays());
+			
+			double bankProvision = (0.05 * onetothirty) + (0.2 * thirtyonetosixty) + (0.5 * sixtyonetoninety) + ninetyonemore ;
+			
+			String FinalbankProvision = Double.toString(bankProvision);
+			System.out.println("This is the total1 " +FinalbankProvision);
+			
+			DataUpdate.setTotalNonPerformingCredit(Final);
+			DataUpdate.setBankprovision(FinalbankProvision);
+			
 			_771Repository.save(DataUpdate);
 			Response res = new Response();
 			res.setResponseMessage("Record Updated");
@@ -195,6 +213,7 @@ public class sheet771_impl implements sheet771_Service {
 			data.add(sheetdata.get(i).getThirtyOneToSixtyDays());
 			data.add(sheetdata.get(i).getSixyOneToNintyDays());
 			data.add(sheetdata.get(i).getNintyOneToModeDays());
+			data.add(sheetdata.get(i).getBankprovision());
 			data.add(sheetdata.get(i).getRemarks());
 			
 			listofLists.add(data);
