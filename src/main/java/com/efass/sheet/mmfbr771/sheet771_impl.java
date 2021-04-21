@@ -190,7 +190,7 @@ public class sheet771_impl implements sheet771_Service {
 			data.add(sheetdata.get(i).getAmountGranted());
 			data.add(sheetdata.get(i).getPrincipalPaymentDueUnpaid());
 			data.add(sheetdata.get(i).getAccruedInterestUnpaid());
-			data.add(sheetdata.get(i).getTotalNonPerformingCredit());
+//			data.add(sheetdata.get(i).getTotalNonPerformingCredit());
 			data.add(sheetdata.get(i).getOneToThirtyDays());
 			data.add(sheetdata.get(i).getThirtyOneToSixtyDays());
 			data.add(sheetdata.get(i).getSixyOneToNintyDays());

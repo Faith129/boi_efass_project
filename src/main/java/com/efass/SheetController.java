@@ -193,47 +193,42 @@ public class SheetController {
 
 			
 			//Write On Excel Sheets
-//        sheet300Svc.writesheet300(date, folderPath);  not working **************
+
 
 			sheet980Svc.writesheet980(date, folderPath);  //works
-			
-			
-        sheet501Svc.writesheet501(date, folderPath);
-			
-
-
-
-
-			
 
 //			Date Format not working
 			
+
 			 sheet762Svc.writesheet762(date, folderPath);   // not computing excel check rules nd percentage column not computing
 			
 			 sheet763Svc.writesheet763(date, folderPath);   //	sheet works !!! procedure error Percentage calculation & check rules      	
-			 sheet201Svc.writesheet201(date, folderPath); 	 //sheet works !!! procedure error Percentage calculation & check rules
-					
-			 sheet202Svc.writesheet202(date, folderPath); 	 //********Missing Utils
+		    sheet201Svc.writesheet201(date, folderPath); 	 //sheet works !!! procedure error Percentage calculation & check rules
+//					
+			 sheet202Svc.writesheet202(date, folderPath); 	
+//			 
+			 sheet771Svc.writesheet771(date, folderPath); 
 					
 		        
 			 sheet1000Svc.writesheet1000(date, folderPath);  //sheet works !!!  computation error
-			 
-			 
+//			 
+			sheet300Svc.writesheet300(date, folderPath);  	
 //	************************************************************************************************		
 			 sheet764Svc.writesheet764(date, folderPath); 	//sheet works !!!
-			sheet321Svc.writesheet321(date,folderPath);  	//sheet works !!!		
-		
-			sheet312Svc.writesheet312(date, folderPath);  	//sheet works !!!			
-			sheet501Svc.writesheet501(date, folderPath);  	//sheet works !!!
-	
-			sheet221Svc.writesheet221(date,folderPath);		//sheet works !!!
-			sheet311Svc.writesheet311(date,folderPath);		//sheet works !!!
-			sheet711Svc.writesheet711(date,folderPath); 	//sheet works !!!
-			sheet321Svc.writesheet321(date,folderPath); 	//sheet works !!!
-		    sheet746Svc.writesheet746(date, folderPath);   	//sheet works !!!
-			sheet641Svc.writesheet641(date,folderPath);		//sheet works !!!
-			sheet141Svc.writesheet141(date, folderPath); 	//sheet works !!!
+			 sheet321Svc.writesheet321(date,folderPath);  	//sheet works !!!		
+//		
+			 sheet312Svc.writesheet312(date, folderPath);  	//sheet works !!!			
+			 sheet501Svc.writesheet501(date, folderPath);  	//sheet works !!!
+//	
+			 sheet221Svc.writesheet221(date,folderPath);		//sheet works !!!
+			 sheet311Svc.writesheet311(date,folderPath);		//sheet works !!!
+			 sheet711Svc.writesheet711(date,folderPath); 	//sheet works !!!
+			 sheet321Svc.writesheet321(date,folderPath); 	//sheet works !!!
+		     sheet746Svc.writesheet746(date, folderPath);   	//sheet works !!!
+			 sheet641Svc.writesheet641(date,folderPath);		//sheet works !!!
+			 sheet141Svc.writesheet141(date, folderPath); 	//sheet works !!!
 			sheet322Svc.writesheet322(date, folderPath);	//sheet works !!!
+
 	
 			sheet451Svc.writesheet451(date, folderPath);	//sheet works !!!
 			sheet642Svc.writesheet642(date,folderPath);		//sheet works !!!

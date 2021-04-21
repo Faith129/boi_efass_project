@@ -66,12 +66,12 @@ public class sheet771_Util {
       				System.out.print("inside 771 3");
 				List<Object> listAtI = listOfLists.get(i);
 				
-				String remark = (String) listAtI.get(12);
-				String ninetyOnedays = (String) listAtI.get(11);
-				String sixtyOneNinety = (String) listAtI.get(10);
-				String thirtyOneSix = (String) listAtI.get(9);
-				String oneThirty = (String) listAtI.get(8);
-				String thotNonPerfCred = (String) listAtI.get(7);
+				String remark = (String) listAtI.get(11);
+				String ninetyOnedays = (String) listAtI.get(10);
+				String sixtyOneNinety = (String) listAtI.get(9);
+				String thirtyOneSix = (String) listAtI.get(8);
+				String oneThirty = (String) listAtI.get(7);
+//				String thotNonPerfCred = (String) listAtI.get(7);
 				String accruedIntUnpaid = (String) listAtI.get(6);
 				String prinPaymentDueUnpaid = (String) listAtI.get(5);
 				String amountGranted = (String) listAtI.get(4);
@@ -151,31 +151,24 @@ public class sheet771_Util {
 				Cell cell6 = null;
 				// int cellNum3 =cellNum-3;
 				// Access the second cell in second row to update the value
-				cell6 = worksheet.getRow(rowNum).getCell(8);
+				cell6 = worksheet.getRow(rowNum).getCell(7);
 				// Get current cell value value and overwrite the value
-				cell6.setCellValue(thotNonPerfCred);
+				cell6.setCellValue(accruedIntUnpaid);
 				
 				Cell cell7 = null;
 				// int cellNum3 =cellNum-3;
 				// Access the second cell in second row to update the value
-				cell7 = worksheet.getRow(rowNum).getCell(7);
+				cell7 = worksheet.getRow(rowNum).getCell(6);
 				// Get current cell value value and overwrite the value
+				cell7.setCellValue(prinPaymentDueUnpaid);
 				
 				
 				Cell cell8 = null;
 				// int cellNum3 =cellNum-3;
 				// Access the second cell in second row to update the value
-				cell8 = worksheet.getRow(rowNum).getCell(6);
+				cell8 = worksheet.getRow(rowNum).getCell(5);
 				// Get current cell value value and overwrite the value
-				cell8.setCellValue(prinPaymentDueUnpaid);
-				
-				
-				Cell cell9 = null;
-				// int cellNum3 =cellNum-3;
-				// Access the second cell in second row to update the value
-				cell9 = worksheet.getRow(rowNum).getCell(5);
-				// Get current cell value value and overwrite the value
-				cell9.setCellValue(amountGranted);
+				cell8.setCellValue(amountGranted);
 				
 				
 				
@@ -192,27 +185,33 @@ public class sheet771_Util {
 				String ___lastRepaymentDate =(( sDate0== null) ? "0" : sDate0.toString());
 				String ___pastDueDate =(( sDate1== null) ? "0" : sDate1.toString());
 					
-					    if ( !___lastRepaymentDate.equals("0")) {
-					 
-					   	 Date lastRepaymentDate1=dateConvert.changeDateToGregorian(sDate0);	
-						Cell cell10 = null;
-						// int cellNum3 =cellNum-3;
-						// Access the second cell in second row to update the value
-						cell10 = worksheet.getRow(rowNum).getCell(4);
-						// Get current cell value value and overwrite the value
-						cell10.setCellValue(lastRepaymentDate1);
-						cell10.setCellStyle(cellStyle);
-						
-					    }else if ( !___pastDueDate.equals("0")) {
+					    if ( !___pastDueDate.equals("0")) {
 					    	
-						    Date pastDueDate1=dateConvert.changeDateToGregorian(sDate1);
+					    	System.out.println("Last Date : " +___pastDueDate);
+						    
+//						    Date pastDueDate1=dateConvert.changeDateToGregorian(sDate1);
 						Cell cell11 = null;
 						// int cellNum3 =cellNum-3;
 						// Access the second cell in second row to update the value
 						cell11 = worksheet.getRow(rowNum).getCell(3);
 						// Get current cell value value and overwrite the value
-						cell11.setCellValue(pastDueDate1);
+						cell11.setCellValue(___pastDueDate);
 						cell11.setCellStyle(cellStyle);
+						
+					    } 
+					    if ( !___lastRepaymentDate.equals("0")) {
+					    						
+						System.out.println("last repayment Date: "+ sDate0);
+				    	
+//					   	 Date lastRepaymentDate1=dateConvert.changeDateToGregorian(sDate0);	
+						Cell cell10 = null;
+						// int cellNum3 =cellNum-3;
+						// Access the second cell in second row to update the value
+						cell10 = worksheet.getRow(rowNum).getCell(4);
+						// Get current cell value value and overwrite the value
+						
+						cell10.setCellValue(___lastRepaymentDate);
+						cell10.setCellStyle(cellStyle);
 			   
 					    }
 				
@@ -265,6 +264,11 @@ public class sheet771_Util {
 		insertFormula(wb,worksheet,"(0.05*J20)+(0.2*K20)+(0.5*L20)+M20",19,4);
 		insertFormula(wb,worksheet,"(0.05*J21)+(0.2*K21)+(0.5*L21)+M21",20,4);
 		
+		Cell cell62 = null;
+		cell62 = worksheet.getRow(80).getCell(13);
+		String formula62 = "(0.05*J81)+(0.2*K81)+(0.5*L81)+M81";
+		cell62.setCellType(CellType.FORMULA);
+		cell62.setCellFormula(formula62);
 		
 	}
 	
