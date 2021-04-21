@@ -14,6 +14,8 @@ import com.efass.sheet.mmfbr202.sheet202Repository;
 import com.efass.sheet.mmfbr221.sheet221Repository;
 import com.efass.sheet.mmfbr300.sheet300DAO;
 import com.efass.sheet.mmfbr300.sheet300Repository;
+import com.efass.sheet.mmfbr300.sheet300TemporaryDAO;
+import com.efass.sheet.mmfbr300.sheet300TemporaryRepository;
 import com.efass.sheet.mmfbr311.sheet311Repository;
 import com.efass.sheet.mmfbr312.sheet312Repository;
 import com.efass.sheet.mmfbr322.sheet322Repository;
@@ -94,6 +96,9 @@ public class PrepareTables {
 
 	@Autowired
 	sheet300Repository _300Repository;
+	
+	@Autowired
+	sheet300TemporaryRepository _300TemporaryRepository;
 
 	@Autowired
 	sheet1000Repository _1000Repository;
@@ -114,6 +119,7 @@ public class PrepareTables {
 		populatesheet980();	
 	//	populatesheet1000();
 		populatesheet300();
+		populatesheet300_Temp();
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
@@ -582,6 +588,7 @@ public class PrepareTables {
 
 		save300("10110", "Notes");
 		save300("10120", "Coins");
+		save300("10510", "Treasury Bills");
 		save300("10610", "Quoted Companies");
 		save300("10620", "Unquoted Companies");
 		save300("10630", "Subsidiary Companies");
@@ -603,7 +610,7 @@ public class PrepareTables {
 		save300("20125", "Voluntary Savings Deposits");
 		save300("20130", "Time/Term Deposits");
 		save300("20610", "Federal Government");
-		save300("20620 ", "State Government");
+		save300("20620", "State Government");
 		save300("20630", "Local Government");
 		save300("20710", "Redeemable Debenture");
 		save300("20720", "Irredeemable Debenture");
@@ -620,6 +627,51 @@ public class PrepareTables {
 
 	}
 
+	public void populatesheet300_Temp() {
+		_300TemporaryRepository.deleteAll();
+
+		save300_Temp("10110", "Notes");
+		save300_Temp("10120", "Coins");
+		save300_Temp("10510", "Treasury Bills");
+		save300_Temp("10610", "Quoted Companies");
+		save300_Temp("10620", "Unquoted Companies");
+		save300_Temp("10630", "Subsidiary Companies");
+		save300_Temp("10720", "Small and Medium Enterprises Loans");
+		save300_Temp("10725", "Blls Discounted");
+		save300_Temp("10730", "Hire Purchase");
+		save300_Temp("10740", "Advances Under Micro-Leases");
+		save300_Temp("10750", "Staff Loans");
+		save300_Temp("10880", "Provision for Losses on Other Assets");
+		save300_Temp("10910", "Freehold Land and Building");
+		save300_Temp("10920", "Leasehold Land and Building");
+		save300_Temp("10930", "Plant and Machinery");
+		save300_Temp("10940", "Furniture and Fixtures");
+		save300_Temp("10950", "Motor Vehicles");
+		save300_Temp("10960", "Office Equipment");
+		save300_Temp("10980", "Less Accumulated Depraciation");
+		save300_Temp("20110", "Demand Deposits");
+		save300_Temp("20120", "Mandatory Deposits");
+		save300_Temp("20125", "Voluntary Savings Deposits");
+		save300_Temp("20130", "Time/Term Deposits");
+		save300_Temp("20610", "Federal Government");
+		save300_Temp("20620", "State Government");
+		save300_Temp("20630", "Local Government");
+		save300_Temp("20710", "Redeemable Debenture");
+		save300_Temp("20720", "Irredeemable Debenture");
+		save300_Temp("20810", "Authorised Share Capital");
+		save300_Temp("20830", "Ordinary Shares");
+		save300_Temp("20840", "Preference Shares");
+		save300_Temp("20910", "Statutory Reserve");
+		save300_Temp("20920", "Share Premium");
+		save300_Temp("20930", "General Reserve");
+		save300_Temp("20935", "Bonus Reserves");
+		save300_Temp("20940", "Revaluation Reserves");
+		save300_Temp("20960", "Retained Profit/Loss");
+
+
+	}
+
+	
 	public void populatesheet1000() {
 		_1000Repository.deleteAll();
 		save1000("30000", "Interest Income");
@@ -659,7 +711,15 @@ public class PrepareTables {
 		data.setDescription(desc);
 		_300Repository.save(data);
 	}
+	
+	public void save300_Temp(String code, String desc) {
 
+		sheet300TemporaryDAO data = new sheet300TemporaryDAO();
+		data.setCode(code);
+		data.setDescription(desc);
+		_300TemporaryRepository.save(data);
+	}
+	
 	public void save501(String bankCode, String item) {
 
 		sheet501DAO data = new sheet501DAO();
