@@ -1,4 +1,5 @@
 
+
 package com.efass;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -163,7 +164,7 @@ public class PrepareTables {
 
 		sheet811DAO data7 = new sheet811DAO();
 		data7.setCode("10850");
-		data7.setItem("Other Prepayments [Provide Breakdown]");
+		data7.setItem("Other Prepayments [Provide Breakdown] ");
 		_811Repository.save(data7);
 
 
@@ -543,16 +544,16 @@ public class PrepareTables {
 		_202Repository.deleteAll();
 		
 		save202("DEMAND DEPOSIT", "1-100,000");
-		save202("DEMAND DEPOSIT", "100,001 Above");
+		save202("DEMAND DEPOSIT", "100,001 & Above");
 		
 		save202("SAVINGS DEPOSIT",  "1-100,000");
-		save202("SAVINGS DEPOSIT",  "100,001 Above");
+		save202("SAVINGS DEPOSIT",  "100,001 & Above");
 		
 		save202("TERM/TIME DEPOSIT", "1-100,000");
-		save202("TERM/TIME DEPOSIT", "100,001 Above");
+		save202("TERM/TIME DEPOSIT", "100,001 & Above");
 		
 		save202("SPECIAL/OTHER DEPOSITS", "1-100,000");
-		save202("SPECIAL/OTHER DEPOSITS", "100,001 Above");
+		save202("SPECIAL/OTHER DEPOSITS", "100,001 & Above");
 	}
 
 
@@ -756,3 +757,4 @@ public class PrepareTables {
 
 	}
 }
+

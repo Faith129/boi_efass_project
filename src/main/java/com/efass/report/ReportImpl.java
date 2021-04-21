@@ -185,6 +185,29 @@ public class ReportImpl implements ReportService{
 	} 
 	
 	
+	public ResponseEntity<?> DeleteGeneratedFile(int id) {
+		
+		System.out.println("I am inside delete");
+		
+		Response res = new Response();
+	try {
+		ReportRepo.deleteById(id);
+//		res.setResponseMessage("Failed To Prepare For Generation");
+//		res.setResponseCode(00);
+		return ResponseEntity.noContent().header("Content-Length", "0").build();
+
+	} catch (Exception e) {
+		// TODO: handle exception
+		res.setResponseMessage("Failed To Prepare For Generation");
+		res.setResponseCode(00);
+		return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
+	}
+		
+		
+	
+		
+	}
+	
 	
 	
 
