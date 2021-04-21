@@ -152,10 +152,12 @@ public class sheet300_impl implements sheet300_Service {
 
 
 
+
 			for (int i = 0; i < sheetdata.size(); i++) {
 				
 
 				System.out.println("*************************** Entered here again "+sheetdata);
+
 				ArrayList<sheet300TemporaryDAO> data = new ArrayList<>();
 
 				
@@ -172,7 +174,7 @@ public class sheet300_impl implements sheet300_Service {
 				_300TemporaryRepository.save(dt);
 			}
 			FetchAndSaveStaticCodes();
-		
+
 			
 			
 			
@@ -192,12 +194,15 @@ public class sheet300_impl implements sheet300_Service {
 					data.add(sheetData.get(i).getCol_3());
 					
 				
+
 					listOfLists.add(data);
 				
 				}
 				
 
+
 		Boolean status = sheet300Util.writeSpecificList(listOfLists, Date, folderPath);
+
 		if (status == true) {
 			return true;
 		} else {
@@ -209,7 +214,9 @@ public class sheet300_impl implements sheet300_Service {
 
 	public void FetchAndSaveStaticCodes() {
 		
+
 		ArrayList<String> codes = new ArrayList<String>(Arrays.asList("10100","10130","10220","10310","10320","10330","10400","10500","10600","10640","10650","10700","10710","10745","10760","10770","10780","10790","10795","10800","10810","10890","10900","10970","10990","11000","20100","20140","20200","20300","20310","20320","20450","20500","20600","20640","20650","20660","20700","20750","20800","20810","20820","20860","20900","20930","20932","20950","20965","20970","20980","20990","20995"));
+
 
 
 		for (String code : codes) {
