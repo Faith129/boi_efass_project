@@ -471,11 +471,13 @@ public class sheet300_Util {
 		} else if (code.equals("10120")) {
 			insertValue(wb, worksheet, amount, 15, 3);
 		 
+
 		} else if (code.equals("10510")) {
 			insertValue(wb, worksheet, amount, 26, 3);
 		} 
 		else if (code.equals("10610")) {
 			insertValue(wb, worksheet, amount, 28, 3);
+
 		} else if (code.equals("10620")) {
 			insertValue(wb, worksheet, amount, 29, 3);
 		} else if (code.equals("10630")) {
@@ -493,9 +495,6 @@ public class sheet300_Util {
 		} else if (code.equals("10880")) {
 			insertValue(wb, worksheet, amount, 48, 3);
 		}
-//		}else if (code.equals("10890")) {
-//			insertFormula(wb, worksheet, "D48-D49", 50, 5);
-//			insertFormula(wb, worksheet, "E50", 50, 6);
 		else if (code.equals("10910")) {
 			insertValue(wb, worksheet, amount, 51, 3);
 			
@@ -509,6 +508,7 @@ public class sheet300_Util {
 			insertValue(wb, worksheet, amount, 55, 3);
 		}else if (code.equals("10960")) {
 			insertValue(wb, worksheet, amount, 56, 3);
+
 //		}else if (code.equals("10970")) {
 //			insertFormula(wb, worksheet, "SUM(D52:D57)", 58, 5);
 		}else if (code.equals("10980")) {
@@ -520,6 +520,7 @@ public class sheet300_Util {
 		}
 		
 		
+
 		// Liabilities
 
 		if (code.equals("20110")) {
@@ -616,65 +617,7 @@ public class sheet300_Util {
 
 // Ended at no. 49, begins at no.10890
 
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		//Liabilities
 //		
 //		if (code.equals("20110")) {
@@ -803,6 +746,7 @@ public class sheet300_Util {
 		String cellFormula= formula;
 		cell.setCellType(CellType.FORMULA);
 		cell.setCellFormula(cellFormula);
+		
 	}
 
 	public void insertValue(Workbook wb, Sheet worksheet, int amount, int rowNum, int cellNum) {
