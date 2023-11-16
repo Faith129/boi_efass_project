@@ -40,16 +40,16 @@ public class UserController {
 	private UserDao userDao;
 
 	Response res = new Response();
-	
+
 	@Autowired
 	private ReportService reportSvc;
 
 	@Autowired
 	ProcedureService prodSvc;
-	
+
 	@Autowired
 	DateConverter dateSvc;
-	
+
 	//FETCH ALL USERS
 	@RequestMapping("/users")
 	public ResponseEntity<?> fetchAllUsers() {
@@ -66,15 +66,15 @@ public class UserController {
 	return reportSvc.fetchallActivity();
 	}
 
-	/*//DELETE FILE 
+	/*//DELETE FILE
 	@DeleteMapping("/deletefile/{id}")
 	public ResponseEntity<?> deletefiles(@PathVariable int id) {
-		
+
 		return reportSvc.DeleteGeneratedFile(id);
-		
+
 	}
 	*/
-	
+
 	//CREATE A USER
 //	@RequestMapping(value = "/users", method = RequestMethod.POST)
 	@PostMapping("/createUser")
@@ -123,7 +123,7 @@ public class UserController {
 		}
 
 	}
-	
+
 	//User Update Password
 	@RequestMapping(value = "/user", method = RequestMethod.PUT)
 	public ResponseEntity<?>  updatePassword(@Valid @RequestBody PassData user)throws ResourceNotFoundException{
@@ -133,49 +133,49 @@ public class UserController {
 			res.setResponseMessage("Confirmation Password doesn't match");
 			res.setResponseCode(-1001);
 			return new ResponseEntity<>(res, HttpStatus.INTERNAL_SERVER_ERROR);
-			
+
 		}
 		UserDAO userdata = userRepository.findUserdetails(user.getUsername());
-		
-		
+
+
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		if (encoder.matches(user.getOld_password(), userdata.getPassword())) {
-			
-			
+
+
 			Optional<UserDAO> DataDb = userRepository.findUserdetails2(user.getUsername());
 
 			if (DataDb.isPresent()) {
-				
-				
+
+
 				BCryptPasswordEncoder encodedPass = new BCryptPasswordEncoder();
 				String encryptedPassword = encodedPass.encode(user.getPassword());
-				
-				
-				
+
+
+
 				UserDAO DataUpdate = DataDb.get();
 				DataUpdate.setPassword(encryptedPassword);
 				userRepository.save(DataUpdate);
 				Response res = new Response();
 				res.setResponseMessage("Password Changed");
-			
+
 				return new ResponseEntity<>(res, HttpStatus.OK);
 
 			} else {
 				throw new ResourceNotFoundException("Could not change Password " );
 			}
-			
-			
-			
-			
-		
+
+
+
+
+
 		}else {
-			
+
 			res.setResponseMessage("Old Password doesn't match");
 			res.setResponseCode(-1001);
-			return new ResponseEntity<>(res, HttpStatus.INTERNAL_SERVER_ERROR);	
-			
-		}	
-		
+			return new ResponseEntity<>(res, HttpStatus.INTERNAL_SERVER_ERROR);
+
+		}
+
 	}
 
 	//FETCH USER BY ID
