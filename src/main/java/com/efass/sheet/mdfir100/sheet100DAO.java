@@ -24,7 +24,6 @@ public class sheet100DAO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "id")
     public Integer id;
     @Column(name = "CODE")
