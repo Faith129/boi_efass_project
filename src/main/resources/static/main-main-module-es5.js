@@ -8896,6 +8896,11 @@
 
             this.reportHistoryService.postReportDate(reportSelectedDate).subscribe({
               next: function next(res) {
+<<<<<<< HEAD
+=======
+                console.log(res);
+
+>>>>>>> upstream/main
                 _this5.notifierService.showNotification("Selected ".concat(reportSelectedDate), 'OK', 'success');
               },
               error: function error(err) {
@@ -8911,6 +8916,11 @@
             this.reportHistoryService.postCbnDate(CBNSelectedDate).subscribe({
               next: function next(res) {
                 _this6.notifierService.showNotification("Selected ".concat(CBNSelectedDate), 'OK', 'success');
+<<<<<<< HEAD
+=======
+
+                console.log(res);
+>>>>>>> upstream/main
               },
               error: function error(err) {
                 _this6.notifierService.showNotification('Unable to select date', 'OK', 'error');
@@ -8979,6 +8989,10 @@
         }, {
           key: "selectCbnDate",
           value: function selectCbnDate(value) {
+<<<<<<< HEAD
+=======
+            console.log(this.CBNSelectedDate);
+>>>>>>> upstream/main
             this.CBNSelectedDate = value;
             console.log(this.CBNSelectedDate);
             this.postCbnDate(value);

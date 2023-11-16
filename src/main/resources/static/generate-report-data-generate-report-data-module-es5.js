@@ -424,6 +424,10 @@
             this.reportRequestSubscription = this.reportService.getReports(this.reportName).subscribe(function () {
               _this2.isLoading = false;
               _this2.tableData = _this2.reportService.tableData;
+<<<<<<< HEAD
+=======
+              console.log();
+>>>>>>> upstream/main
               _this2.tableData[0].serial_number = 0;
 
               for (var i = 0; i < _this2.tableData.length; i++) {
@@ -552,6 +556,10 @@
             console.log(endpoint);
             this.download(endpoint).subscribe(function (blob) {
               var a = document.createElement('a');
+<<<<<<< HEAD
+=======
+              console.log(blob);
+>>>>>>> upstream/main
               var objectUrl = URL.createObjectURL(blob);
               a.href = objectUrl;
               a.download = 'Reports downloaded for ' + _this3.reportSelectedDate + '.zip';

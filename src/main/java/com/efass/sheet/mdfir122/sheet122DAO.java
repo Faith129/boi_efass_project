@@ -22,25 +22,25 @@ public class sheet122DAO {
 	@Column(name = "ITEM_DESCRIPTION")
 	public String description;
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public BigDecimal getAmount() {
-		return amount;
-	}
+    public BigDecimal getAmount() {
+        return amount;
+    }
 
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
-	}
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
 	public void setDescription(String description) {
 		this.description = description;

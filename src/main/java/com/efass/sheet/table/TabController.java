@@ -18,7 +18,11 @@ public class TabController {
 
 @Autowired
 TableService tableService;
+<<<<<<< HEAD
     private static ReportGroupEnum reportGroupEnum = ReportGroupEnum.MONTHLY;
+=======
+    private static ReportGroupEnum reportGroupEnum;
+>>>>>>> upstream/main
 
     @GetMapping("/tableList/{report_group}")
     public ResponseEntity<?> getDataByMonth( @PathVariable String report_group) throws ResourceNotFoundException {

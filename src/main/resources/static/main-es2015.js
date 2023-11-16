@@ -93,8 +93,19 @@ const environment = {
     // baseUrl: 'http://10.100.80.189:9006',
     // baseApi: 'http://10.100.80.189:9006/api/v1',
     //faith ip
+<<<<<<< HEAD
     baseUrl: 'http://10.100.80.177:9006',
     baseApi: 'http://10.100.80.177:9006/api/v1',
+=======
+    // baseUrl: 'http://10.100.80.177:9006',
+    // baseApi: 'http://10.100.80.177:9006/api/v1',
+    //timi ip
+    // baseUrl: 'http://10.100.80.144:9006',
+    // baseApi: 'http://10.100.80.144:9006/api/v1',
+    // HP Ip
+    baseUrl: 'http://localhost:9006',
+    baseApi: 'http://localhost:9006/api/v1',
+>>>>>>> upstream/main
 };
 /*
  * For easier debugging in development mode, you can import the following file

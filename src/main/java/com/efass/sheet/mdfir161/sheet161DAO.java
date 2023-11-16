@@ -17,16 +17,16 @@ public class sheet161DAO {
 	public Integer id;
 
     @Column(name = "NAME_OF_INSTITUTION")
-	public String bank_name;
+    public String bank_name;
 
     @Column(name = "INSTITUTION_CODE")
-	public String bank_code;
+    public String bank_code;
 
     @Column(name = "TYPE_OF_BALANCE")
-   	public String type_of_balance;
+    public String type_of_balance;
 
     @Column(name = "ACCOUNT_NUMBER")
-	public String account_number;
+    public String account_number;
 
 	@Column(name = "AMOUNT")
 	public BigDecimal amount;
@@ -38,45 +38,45 @@ public class sheet161DAO {
 		return id;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getBank_name() {
-		return bank_name;
-	}
+    public String getBank_name() {
+        return bank_name;
+    }
 
-	public void setBank_name(String bank_name) {
-		this.bank_name = bank_name;
-	}
+    public void setBank_name(String bank_name) {
+        this.bank_name = bank_name;
+    }
 
-	public String getBank_code() {
-		return bank_code;
-	}
+    public String getBank_code() {
+        return bank_code;
+    }
 
-	public void setBank_code(String bank_code) {
-		this.bank_code = bank_code;
-	}
+    public void setBank_code(String bank_code) {
+        this.bank_code = bank_code;
+    }
 
-	public String getType_of_balance() {
-		return type_of_balance;
-	}
+    public String getType_of_balance() {
+        return type_of_balance;
+    }
 
-	public void setType_of_balance(String type_of_balance) {
-		this.type_of_balance = type_of_balance;
-	}
+    public void setType_of_balance(String type_of_balance) {
+        this.type_of_balance = type_of_balance;
+    }
 
-	public String getAccount_number() {
-		return account_number;
-	}
+    public String getAccount_number() {
+        return account_number;
+    }
 
-	public void setAccount_number(String account_number) {
-		this.account_number = account_number;
-	}
+    public void setAccount_number(String account_number) {
+        this.account_number = account_number;
+    }
 
-	public BigDecimal getAmount() {
-		return amount;
-	}
+    public BigDecimal getAmount() {
+        return amount;
+    }
 
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;

@@ -8636,6 +8636,10 @@ class MainPage {
     postReportDate(reportSelectedDate) {
         this.reportHistoryService.postReportDate(reportSelectedDate).subscribe({
             next: (res) => {
+<<<<<<< HEAD
+=======
+                console.log(res);
+>>>>>>> upstream/main
                 this.notifierService.showNotification(`Selected ${reportSelectedDate}`, 'OK', 'success');
             }, error: err => {
                 this.notifierService.showNotification('Unable to select date', 'OK', 'error');
@@ -8646,6 +8650,10 @@ class MainPage {
         this.reportHistoryService.postCbnDate(CBNSelectedDate).subscribe({
             next: (res) => {
                 this.notifierService.showNotification(`Selected ${CBNSelectedDate}`, 'OK', 'success');
+<<<<<<< HEAD
+=======
+                console.log(res);
+>>>>>>> upstream/main
             }, error: err => {
                 this.notifierService.showNotification('Unable to select date', 'OK', 'error');
             }
@@ -8698,6 +8706,10 @@ class MainPage {
         // })
     }
     selectCbnDate(value) {
+<<<<<<< HEAD
+=======
+        console.log(this.CBNSelectedDate);
+>>>>>>> upstream/main
         this.CBNSelectedDate = value;
         console.log(this.CBNSelectedDate);
         this.postCbnDate(value);

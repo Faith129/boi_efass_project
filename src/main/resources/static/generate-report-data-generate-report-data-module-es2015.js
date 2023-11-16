@@ -218,6 +218,10 @@ class GenerateReportDataPage {
         this.reportRequestSubscription = this.reportService.getReports(this.reportName).subscribe(() => {
             this.isLoading = false;
             this.tableData = this.reportService.tableData;
+<<<<<<< HEAD
+=======
+            console.log();
+>>>>>>> upstream/main
             this.tableData[0].serial_number = 0;
             for (let i = 0; i < this.tableData.length; i++) {
                 this.tableData[i].serial_number = 1 + i;
@@ -317,6 +321,10 @@ class GenerateReportDataPage {
         this.download(endpoint)
             .subscribe(blob => {
             const a = document.createElement('a');
+<<<<<<< HEAD
+=======
+            console.log(blob);
+>>>>>>> upstream/main
             const objectUrl = URL.createObjectURL(blob);
             a.href = objectUrl;
             a.download = 'Reports downloaded for ' + this.reportSelectedDate + '.zip';

@@ -17,41 +17,41 @@ public class sheet193DAO {
 	public Integer id;
     
     @Column(name = "ITEM_DESCRIPTION")
-	public String description;
-    
-	@Column(name = "AMOUNT_CURRENT_MONTH")
-	public BigDecimal amount_current_month;
-	
-	@Column(name = "AMOUNT_YEAR_TO_DATE")
-	public BigDecimal amount_year_to_date;
+    public String description;
 
-	public Integer getId() {
-		return id;
-	}
+    @Column(name = "AMOUNT_CURRENT_MONTH")
+    public BigDecimal amount_current_month;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    @Column(name = "AMOUNT_YEAR_TO_DATE")
+    public BigDecimal amount_year_to_date;
 
-	public String getDescription() {
-		return description;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public BigDecimal getAmount_current_month() {
-		return amount_current_month;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setAmount_current_month(BigDecimal amount_current_month) {
-		this.amount_current_month = amount_current_month;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public BigDecimal getAmount_year_to_date() {
-		return amount_year_to_date;
-	}
+    public BigDecimal getAmount_current_month() {
+        return amount_current_month;
+    }
+
+    public void setAmount_current_month(BigDecimal amount_current_month) {
+        this.amount_current_month = amount_current_month;
+    }
+
+    public BigDecimal getAmount_year_to_date() {
+        return amount_year_to_date;
+    }
 
 	public void setAmount_year_to_date(BigDecimal amount_year_to_date) {
 		this.amount_year_to_date = amount_year_to_date;

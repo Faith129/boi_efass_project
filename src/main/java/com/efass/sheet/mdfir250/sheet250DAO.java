@@ -22,46 +22,46 @@ public class sheet250DAO {
 	@Column(name = "PERCENTAGE")
 	public BigDecimal percentage;
 
-	public sheet250DAO() {
-	}
+    public sheet250DAO() {
+    }
 
-	public sheet250DAO(Integer id, String code, String description, BigDecimal percentage) {
-		this.id = id;
-		this.code = code;
-		this.description = description;
-		this.percentage = percentage;
-	}
+    public sheet250DAO(Integer id, String code, String description, BigDecimal percentage) {
+        this.id = id;
+        this.code = code;
+        this.description = description;
+        this.percentage = percentage;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public BigDecimal getPercentage() {
-		return percentage;
-	}
+    public BigDecimal getPercentage() {
+        return percentage;
+    }
 
-	public void setPercentage(BigDecimal percentage) {
-		this.percentage = percentage;
-	}
+    public void setPercentage(BigDecimal percentage) {
+        this.percentage = percentage;
+    }
 
 }
