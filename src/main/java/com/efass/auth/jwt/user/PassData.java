@@ -9,12 +9,8 @@ public class PassData {
 	public String password;
 	public String confirm_password;
 	
-	
-	
-	
 	public PassData() {
-		
-		
+			
 	}
 	
 	public String getUsername() {
@@ -43,9 +39,6 @@ public class PassData {
 	public void setOld_password(String old_password) {
 		this.old_password = old_password;
 	}
-	
-	
-	
 	
 }
 

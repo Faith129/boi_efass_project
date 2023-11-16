@@ -10,8 +10,9 @@ import com.efass.payload.folderData;
 
 public class SpecialFunction {
 
-	private final String UPLOAD_DIR = "./datafiles/archives/";
-	
+	private final String HOME_DIR = System.getProperty("user.home");
+//	private final String UPLOAD_DIR = "./datafiles/archives/";
+	private final String UPLOAD_DIR = HOME_DIR + "/" +"datafiles/archives/";
 
 	public String createFolderDirectory(String fName,String rand) {
 		// Check if folder exists/create a folder path with report_id
@@ -27,7 +28,8 @@ public class SpecialFunction {
 					fd.setFilepath(filename);
 						filename = filePath ;
 						
-						copyDirectory("./datafiles/cbn_MFB_rpt_12345m052087.xlsx",filePath);
+//						copyDirectory("./datafiles/cbn_MFB_rpt_12345m052087.xlsx",filePath);
+						copyDirectory(HOME_DIR + "/datafiles/cbn_MFB_rpt_12345m052087.xlsx",filePath);
 
 				} catch (Exception ex) {
 					ex.printStackTrace();

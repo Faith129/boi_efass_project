@@ -102,24 +102,6 @@ alter table table_name set unused (column_name);
   ######################################################################
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   DROP TABLE EFASS.MMFBR746 CASCADE CONSTRAINTS;
 
 

@@ -1,6 +1,5 @@
 package com.efass.sheet.table;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TableResponse {
@@ -25,11 +24,6 @@ public void setResponseCode(int responseCode) {
 public int responseCode;
 	
 	List<TabSheet>  Data;
-	
-	
-	
-	
-
 
 	public List<TabSheet> getData() {
 		return Data;

@@ -17,25 +17,25 @@ import org.springframework.data.jpa.repository.Query;
 public interface UserRepository extends JpaRepository<UserDAO, Integer>{
 
 
-	  
-	
-	  
-		@Query(value = "SELECT * FROM EFASS.EFASS_USERS where username=?", nativeQuery = true)  
-		UserDAO findByUsername(String username);	
-	  
 
-	  
-	  
-		@Query(value = "SELECT * FROM EFASS.EFASS_USERS where username=?", nativeQuery = true)  
+
+
+		@Query(value = "SELECT * FROM BOIEFASS.EFASS_USERS where username=?", nativeQuery = true)
+		UserDAO findByUsername(String username);
+
+
+
+
+		@Query(value = "SELECT * FROM BOIEFASS.EFASS_USERS where username=?", nativeQuery = true)
 	UserDAO findUserdetails(String username);
 
 
-		@Query(value = "SELECT * FROM EFASS.EFASS_USERS where username=?", nativeQuery = true) 
+		@Query(value = "SELECT * FROM BOIEFASS.EFASS_USERS where username=?", nativeQuery = true)
 		Optional<UserDAO> findUserdetails2(String username);
 
-	  
-	
-	  
-	    
+
+
+
+
 }
 

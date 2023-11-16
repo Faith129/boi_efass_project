@@ -56,6 +56,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
       source.registerCorsConfiguration("/**", configuration);
       return source;
+
+
+//	  CorsConfiguration configuration = new CorsConfiguration();
+//	  configuration.setAllowCredentials(true);
+//	  configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000","http://10.100.80.144:3000/"));
+//	  configuration.setAllowedHeaders(Arrays.asList("Origin", "Access-Control-Allow-Origin", "Content-Type",
+//			  "Accept", "Jwt-Token", "Authorization", "X-Requested-With",
+//			  "Access-Control-Request-Method", "Access-Control-Request-Headers"));
+//	  configuration.setExposedHeaders(Arrays.asList("X-Auth-Token","Origin", "Content-Type", "Accept", "Jwt-Token", "Authorization",
+//			  "Access-Control-Allow-Origin", "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "Filename"));
+//	  configuration.setAllowedMethods(Arrays.asList("HEAD","GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+//	  configuration.setMaxAge(3600L);
+//	  UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//	  source.registerCorsConfiguration("/**", configuration);
+//	  return source;
   }
   
 	
@@ -89,7 +104,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// We don't need CSRF for this example
 		httpSecurity.csrf().disable()
 				// dont authenticate this particular request
-				.authorizeRequests().antMatchers("/authenticate","/api/v1/download/**").permitAll().
+				.authorizeRequests().antMatchers("/", "/error", "/api/all","/api/v1/memo","/api/v1/memo/**",
+//						"/api/v1/bank","/api/v1/bank/**","/api/v1/tableList/**",
+						"/api/auth/**", "/oauth2/**", "/index.html", "/*.js",
+						"/v2/api-docs", "/v3/api-docs", "/v3/api-docs/**",
+                                "/swagger-resources", "/swagger-resources/**", "/configuration/ui",
+                                "/configuration/security", "/swagger-ui/**", "/webjars/**",
+                                "/resources/**", "/assests/**",
+                                "/swagger-ui.html",
+						"/*.js.map", "/*.css", "/assets/img/*.png", "/assets/img/login-background.png", "/favicon.ico",
+						"/authenticate", "/path","/api/v1/download/**").permitAll().
 				// all other requests need to be authenticated
 				anyRequest().authenticated().and().
 				// make sure we use stateless session; session won't be used to

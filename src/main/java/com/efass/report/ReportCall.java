@@ -10,55 +10,31 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class ReportCall {
-	
-	
+
+
 	@Autowired
 	JdbcTemplate jdbcTemplate;
-	
 
-
-	
-	
-	
 	public String fetchDate(String date) {
 
 		String newDate = null;
 		try {
-//			String sql = "SELECT * FROM  EFASS.Activity  where report_date= ?";
+//			String sql = "SELECT * FROM  BOIEFASS.Activity  where report_date= ?";
 //			listReport = jdbcTemplate.query(sql, new Object[] { date },
 //					BeanPropertyRowMapper.newInstance(ReportDAO.class));
 //			System.out.println(listReport.get(0).getReport_date());
-			
-	
-		
-			     String query = "select report_date from Efass.Activity where report_date=?";
+
+
+
+			     String query = "select report_date from BOIEFASS.Activity where report_date=?";
 					Object[] inputs = new Object[] { date };
 					 newDate = jdbcTemplate.queryForObject(query, inputs, String.class);
-			    
+
 			return newDate;
 		} catch (EmptyResultDataAccessException e) {
 			e.printStackTrace();
 			return newDate;
 		}
-		
-		
-		
-		
-//		 String sql = "SELECT * FROM FROM EFASS.Activity  where report_date= ? ";
-//		 Object[] inputs = new Object[] { date };
-//	        List data = jdbcTemplate.query(
-//	                sql,inputs,
-//	                new BeanPropertyRowMapper(ReportDAO.class));
-//	        return data;
-//	        
-		
-		
-		
-//		
-//		String query = "SELECT report_date FROM EFASS.Activity where report_date= ? LIMIT 1";
-//		Object[] inputs = new Object[] { date };
-//		String _date = jdbcTemplate.queryForObject(query, inputs, String.class);
-//		return _date;
 	}
 
 }

@@ -12,10 +12,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "activity")
 public class ReportDAO{
-
-
-
-    
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,11 +40,6 @@ public class ReportDAO{
 	
 	}
 
-	
-	
-	
-	
-
 	public ReportDAO(int id, String user_id, String report_date, String file_name, String file_path, String status) {
 		super();
 		this.id = id;
@@ -58,11 +49,6 @@ public class ReportDAO{
 		this.file_path = file_path;
 		this.status = status;
 	}
-
-
-
-
-
 
 	public int getId() {
 		return id;

@@ -34,13 +34,10 @@ public class DateConverter {
         
     	}
     
-    
-
     public String changeDateToGregorian2(String dateStr, String format) throws ParseException{
 
-
-
     	String newDate=null;
+    	
     	SimpleDateFormat sdf = new SimpleDateFormat(format);
     	try {
     	Date date = sdf.parse(dateStr);
@@ -62,18 +59,18 @@ public class DateConverter {
     	}catch(ParseException ex) {
 
     	try {
-    	SimpleDateFormat sdf3 = new SimpleDateFormat("dd-mm-yyyy");
+    	//SimpleDateFormat sdf3 = new SimpleDateFormat("dd-mm-yyyy");
+    	SimpleDateFormat sdf3 = new SimpleDateFormat("dd/mm/yyyy");
     	Date date = sdf3.parse(dateStr);
     	sdf3 = new SimpleDateFormat("dd/mm/yyyy");
     	newDate = sdf3.format(date);
     	System.out.println(sdf3.format(date));
 
+    	}
+    	catch(ParseException ex3) {
 
-
-
-    	}catch(ParseException ex3) {
-
-    	SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-mm-dd");
+    	//SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-mm-dd");
+    	SimpleDateFormat sdf3 = new SimpleDateFormat("dd/mm/yyyy");
     	Date date = sdf3.parse(dateStr);
     	sdf3 = new SimpleDateFormat("dd/mm/yyyy");
     	newDate = sdf3.format(date);
@@ -81,26 +78,15 @@ public class DateConverter {
 
     	}
 
-
     	}
-
-
 
     	// e.printStackTrace();
     	}
     	return newDate;
     	}
 
-    
-    
-  
-    
-    
-    
     public  static String changeDateToFrontGregorian(String dateStr, String format) throws ParseException{
-        
-        
-    	
+     
    	 String newDate=null;
    	 SimpleDateFormat sdf = new SimpleDateFormat(format);
    	 try {
@@ -146,10 +132,6 @@ public class DateConverter {
 
         return false;
     }
-    
-    
-    
-    
     
     public String changeDateTime(String dateStr){
         

@@ -1,7 +1,6 @@
 package com.efass.payload;
 
 public class folderData {
-
 	
 	public String filepath;
 

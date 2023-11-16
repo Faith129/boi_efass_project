@@ -30,24 +30,8 @@ if (alpha) {
 	}
 
 	return data;
-	
 		
 	}
-	
-	
-	
-//	public Boolean isAlphaNum(String str){
-//		
-//		  for (int i=0; i<str.length(); i++) {
-//		        char c = str.charAt(i);
-//		        if (c < 0x30 || (c >= 0x3a && c <= 0x40) || (c > 0x5a && c <= 0x60) || c > 0x7a)
-//		            return false;
-//		    }
-//
-//		    return true;
-//		
-//		
-//	}
 	
 	public boolean isAlphaNumeric(String Value){
 		if (Value.matches("^[a-zA-Z0-9]+$")) {
@@ -79,12 +63,6 @@ if (alpha) {
 		}	
 	}
 	
-	
-
-	
-	
-	
-	
 	public Boolean isNum(String strNum) {
 		
 		if (strNum == null) {
@@ -99,12 +77,6 @@ if (alpha) {
 	}
 	
 	
-	
-
-	
-	
-	
-	
 	public int roundUP(double d){
 		double dAbs = Math.abs(d);
 		int i = (int) dAbs;
@@ -114,8 +86,5 @@ if (alpha) {
 		}else{
 		return (int) d<0 ? -(i+1) : i+1;
 		}
-		}
-
-	
-
+	}
 }
