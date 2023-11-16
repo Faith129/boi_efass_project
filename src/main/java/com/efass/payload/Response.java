@@ -2,6 +2,7 @@ package com.efass.payload;
 
 import java.util.ArrayList;
 
+import com.efass.auth.jwt.user.DAOUser;
 import com.efass.report.ReportDAO;
 import com.efass.sheet.mcfpr1.sheetMcfpr1DAO;
 import com.efass.sheet.mdfir100.sheet100DAO;
@@ -104,6 +105,7 @@ public class Response {
 	public String responseMessage;
 	public int responseCode;
 	public UserDAO user;
+	public DAOUser daoUser;
 	public Iterable<UserDAO> allUsers;
 	public String token;
 	public String filePath;
@@ -583,6 +585,9 @@ public class Response {
 	public void setUser(UserDAO user) {
 		this.user = user;
 	}
+
+	public DAOUser getDaoUser() {return daoUser;}
+	public void setDaoUser(DAOUser daoUser) {this.daoUser = daoUser;}
 
 	public Iterable<UserDAO> getAllUsers() {
 		return allUsers;

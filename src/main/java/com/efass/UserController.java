@@ -6,17 +6,15 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.efass.auth.jwt.user.DAOUser;
+import com.efass.auth.jwt.user.UserDao;
+import com.efass.user.SignUpRequest;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.efass.auth.jwt.user.PassData;
 import com.efass.exceptions.ResourceNotFoundException;
@@ -32,10 +30,14 @@ import com.efass.user.UserRepository;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("api/v1")
+@Log4j2
 public class UserController {
 
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	private UserDao userDao;
 
 	Response res = new Response();
 	
@@ -74,30 +76,42 @@ public class UserController {
 	*/
 	
 	//CREATE A USER
-	@RequestMapping(value = "/users", method = RequestMethod.POST)
-	public ResponseEntity<?> createUser(@Valid @RequestBody UserDAO user) throws ResourceNotFoundException {
+//	@RequestMapping(value = "/users", method = RequestMethod.POST)
+	@PostMapping("/createUser")
+	public ResponseEntity<?> createUser(@Valid @RequestBody SignUpRequest signUpRequest) throws ResourceNotFoundException {
 
-		String password = user.getPassword();
+		DAOUser user = new DAOUser();
+//		UserDAO user = new UserDAO();
+		String password = signUpRequest.getPassword();
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String encryptedPassword = encoder.encode(password);
-		user.setPassword(encryptedPassword);
-
+//		user.setPassword(encryptedPassword);
 
 		try {
-			
-			
-			UserDAO userdata = userRepository.findByUsername(user.getUsername());
-			
-			if(userdata != null) {
-				
-				res.setResponseMessage("User Already Exists");
-				res.setResponseCode(-1001);	
-				return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);	
-			}
-			
-			UserDAO _user = userRepository.save(user);
 
-			res.setUser(_user);
+
+
+//			UserDAO userdata = userRepository.findByUsername(signUpRequest.getUsername());
+			DAOUser userDaoData = userDao.findByUsername(signUpRequest.getUsername());
+//
+//			if(userdata != null) {
+
+			if(userDaoData != null) {
+
+				res.setResponseMessage("User Already Exists");
+				res.setResponseCode(-1001);
+				return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+			}
+//			}
+			user.setPassword(encryptedPassword);
+			user.setUsername(signUpRequest.getUsername());
+			user.setRole("ADMIN_ROLE");
+			log.info(user.toString());
+//			UserDAO _user = userRepository.save(user);
+			DAOUser _user = userDao.save(user);
+			log.info("Username {}",_user.getUsername());
+
+			res.setDaoUser(_user);
 			res.setResponseMessage("User Created");
 			res.setResponseCode(00);
 			return new ResponseEntity<>(res, HttpStatus.CREATED);
