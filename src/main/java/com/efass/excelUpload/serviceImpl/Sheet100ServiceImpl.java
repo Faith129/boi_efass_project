@@ -1,6 +1,6 @@
 package com.efass.excelUpload.serviceImpl;
 
-import com.efass.excelUpload.service.Sheet100Service;
+import com.efass.excelUpload.service.UploadSheetService;
 import com.efass.sheet.mdfir100.sheet100DAO;
 import com.efass.sheet.mdfir100.sheet100Repository;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +22,13 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class Sheet100ServiceImpl implements Sheet100Service {
+public class Sheet100ServiceImpl implements UploadSheetService {
 
     private final sheet100Repository sheet100Repo;
     @Value("${app.contentType}")
     private static String contentType;
     @Override
-    public void saveSheetToDataBase(MultipartFile file, String sheetNo) {
+    public void saveSheet100ToDataBase(MultipartFile file, String sheetNo) {
         if (isValidExcelFile(file)) {
             try {
                 List<sheet100DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
@@ -40,7 +40,7 @@ public class Sheet100ServiceImpl implements Sheet100Service {
         }
     }
         private static List<sheet100DAO> getSheetDataFromExcel(InputStream inputStream,String sheetNumber) {
-            List<sheet100DAO> sheet193s = new ArrayList<>();
+            List<sheet100DAO> sheet100s = new ArrayList<>();
             try {
                 XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
                 XSSFSheet sheet = workbook.getSheet(sheetNumber.trim());
@@ -73,7 +73,7 @@ public class Sheet100ServiceImpl implements Sheet100Service {
                             }
                             cellIndex++;
                         }
-                        sheet193s.add(sheet100);
+                        sheet100s.add(sheet100);
                     }
                 }
                 else {
@@ -84,7 +84,7 @@ public class Sheet100ServiceImpl implements Sheet100Service {
                 e.printStackTrace();
                 throw new RuntimeException("file too large");
             }
-            return sheet193s;
+            return sheet100s;
         }
 
     private static boolean isValidExcelFile(MultipartFile file) {
