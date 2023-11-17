@@ -18,7 +18,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.google.common.collect.ImmutableList;
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -47,18 +47,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
       final CorsConfiguration configuration = new CorsConfiguration();
-      configuration.setAllowedOrigins(ImmutableList.of("*"));
-      configuration.setAllowedMethods(ImmutableList.of("HEAD",
-              "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+      configuration.setAllowedOrigins(Collections.singletonList("*"));
+      configuration.setAllowedMethods(Collections.singletonList("*"));
       //configuration.setAllowCredentials(true);
-      configuration.setAllowedHeaders(ImmutableList.of("*"));
-      configuration.setExposedHeaders(ImmutableList.of("X-Auth-Token","Authorization","Access-Control-Allow-Origin","Access-Control-Allow-Credentials"));
+      configuration.setAllowedHeaders(Collections.singletonList("*"));
+//      configuration.setExposedHeaders(Collections.singletonList("X-Auth-Token","Authorization","Access-Control-Allow-Origin","Access-Control-Allow-Credentials"));
       final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
       source.registerCorsConfiguration("/**", configuration);
       return source;
   }
-  
-	
+
 	
 
 	@Autowired
@@ -84,14 +82,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 	
 		httpSecurity.cors();
-	
-		
+
+
 		// We don't need CSRF for this example
 		httpSecurity.csrf().disable()
 				// dont authenticate this particular request
 				.authorizeRequests().antMatchers("/", "/error", "/api/all", "/api/auth/**", "/oauth2/**", "/index.html", "/*.js",
 						"/*.js.map", "/*.css", "/assets/img/*.png", "/assets/img/login-background.png", "/favicon.ico",
-						"/authenticate", "/path","/api/v1/download/**","/api/v1/createUser/**","/api/excel/uploadSheet/**").permitAll().
+						"/authenticate", "/path","/api/v1/download/**","/api/v1/createUser/**","/api/excel/uploadSheet/**", "/api/v1/auth/**", "/v2/api-docs", "/v3/api-docs", "/v3/api-docs/**",
+						"/swagger-resources", "/swagger-resources/**", "/configuration/ui",
+						"/configuration/security", "/swagger-ui/**", "/webjars/**",
+						"/swagger-ui.html").permitAll().
 				// all other requests need to be authenticated
 				anyRequest().authenticated().and().
 				// make sure we use stateless session; session won't be used to
