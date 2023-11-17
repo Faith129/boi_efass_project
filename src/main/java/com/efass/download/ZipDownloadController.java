@@ -2,20 +2,14 @@ package com.efass.download;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-<<<<<<< HEAD
 import org.springframework.web.bind.annotation.RequestMapping;
-=======
->>>>>>> upstream/main
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
-<<<<<<< HEAD
 @RequestMapping("api/v1")
-=======
->>>>>>> upstream/main
 public class ZipDownloadController {
 
     private final DownloadService downloadService;

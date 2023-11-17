@@ -82,11 +82,7 @@ import com.efass.sheet.mdfir450_7.sheet450_7_Impl;
 import com.efass.sheet.mdfir450_8.sheet450_8_Impl;
 import com.efass.sheet.mdfir450_9.sheet450_9_Impl;
 import com.efass.sheet.mdfir453.sheet453_Impl;
-<<<<<<< HEAD
 import com.efass.sheet.mdfir533.mdfir455.sheet455_Impl;
-=======
-import com.efass.sheet.mdfir455.sheet455_Impl;
->>>>>>> upstream/main
 import com.efass.sheet.mdfir493.sheet493_Impl;
 import com.efass.sheet.mdfir533.sheet533_Impl;
 import com.efass.sheet.mdfir600.sheet600_Impl;
@@ -415,11 +411,7 @@ public class DownloadServiceImpl implements DownloadService {
 
     @Override
     public void downloadZipFile(HttpServletResponse response, List<String> listOfFileNames) {
-<<<<<<< HEAD
         logger.info("data", listOfFileNames.toString());
-=======
-
->>>>>>> upstream/main
         logger.info("GENERATING ZIPPED XMLs FOR REPORTS : " + listOfFileNames.toString());
        // System.out.println("fILE COUNT: " + listOfFileNames.size());
        // System.out.println( listOfFileNames.toString());
@@ -431,11 +423,7 @@ public class DownloadServiceImpl implements DownloadService {
 
         try (ZipOutputStream zipOutputStream = new ZipOutputStream(response.getOutputStream())) {
             for (String fileName : listOfFileNames) {
-<<<<<<< HEAD
             	System.out.println("fileName : "+ fileName);
-=======
-            	//System.out.println("fileName : "+ fileName);
->>>>>>> upstream/main
                 fileName = fileName.trim().toUpperCase();
                 xmlFactory(fileName);
                 FileSystemResource fileSystemResource = new FileSystemResource(fileName + ".xml");
@@ -460,10 +448,7 @@ public class DownloadServiceImpl implements DownloadService {
     }
 
     private void xmlFactory(String className) throws JAXBException, IOException, ClassNotFoundException {
-<<<<<<< HEAD
         System.out.println("rehzsbsuidjashsij"+ TabController.getReportGroupEnum());
-=======
->>>>>>> upstream/main
         if (TabController.getReportGroupEnum().compareTo(ReportGroupEnum.MONTHLY) == 0) {
             monthly(className);
         }

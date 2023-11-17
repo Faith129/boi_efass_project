@@ -2,10 +2,7 @@ package com.efass.auth.jwt.user;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-<<<<<<< HEAD
-=======
 import lombok.Data;
->>>>>>> upstream/main
 
 import javax.persistence.*;
 
@@ -25,13 +22,10 @@ public class DAOUser {
 	@JsonIgnore
 	private String password;
 
-<<<<<<< HEAD
-=======
 	@Column(name="role")
 	@JsonIgnore
 	private String role; //Added role for user authentication
 
->>>>>>> upstream/main
 	public String getUsername() {
 		return username;
 	}
@@ -40,24 +34,17 @@ public class DAOUser {
 		this.username = username;
 	}
 
-<<<<<<< HEAD
 	public String getPassword() {
 		return password;
 	}
-=======
-	public String getPassword() {return password;}
->>>>>>> upstream/main
 
 	public void setPassword(String password) {
 		this.password = password;
 	}
-<<<<<<< HEAD
-=======
 
 	public String getRole(String role) { return role;}
 
 	public void setRole(String role) {
 		this.role = role;
 	}
->>>>>>> upstream/main
 }
