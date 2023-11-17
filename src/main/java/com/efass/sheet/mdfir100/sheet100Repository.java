@@ -17,7 +17,7 @@ public interface sheet100Repository extends CrudRepository<sheet100DAO, Integer>
 
     Optional<sheet100DAO> findById(int id);
 
-    @Query(value = "SELECT * FROM BOIEFASS.MDFIR100 where code=?", nativeQuery = true)
+//    @Query(value = "SELECT * FROM BOIEFASS.MDFIR100 where code=?", nativeQuery = true)
     Optional<sheet100DAO> findByCode(String code);
 
     @Query(value = "SELECT * FROM BOIEFASS.MDFIR100 where code=?", nativeQuery = true)
