@@ -2,13 +2,8 @@ package com.efass.sheet.mdfir333;
 
 import com.efass.exceptions.ResourceNotFoundException;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.time.LocalDate;
-
-import org.apache.poi.EncryptedDocumentException;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface sheet333_Service {
 	public ResponseEntity<?> createData(sheet333DAO data) throws ResourceNotFoundException;
@@ -26,5 +21,6 @@ public interface sheet333_Service {
 
 	public ResponseEntity<?> callPrepareTableProcedures(String start_date, String end_date)
 			throws ResourceNotFoundException;
+	public void saveSheet333ToDataBase(MultipartFile file, String sheetNo);
 
 }

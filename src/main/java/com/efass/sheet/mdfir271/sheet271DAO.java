@@ -29,7 +29,7 @@ public class sheet271DAO {
     public BigDecimal amount;
 
     @Column(name = "REMARKS")
-    public String remarks;
+    public BigDecimal remarks;
 
     public Integer getId() {
         return id;
@@ -71,11 +71,11 @@ public class sheet271DAO {
         this.amount = amount;
     }
 
-    public String getRemarks() {
+    public BigDecimal getRemarks() {
         return remarks;
     }
 
-    public void setRemarks(String remarks) {
+    public void setRemarks(BigDecimal remarks) {
         this.remarks = remarks;
     }
 }

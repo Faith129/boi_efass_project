@@ -1,18 +1,27 @@
 package com.efass.sheet.mdfir291;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.efass.ReportGroupEnum;
 import com.efass.download.xmlModels.GenericXml;
 import com.efass.download.xmlModels.XmlParameters;
+import com.efass.sheet.mdfir271.sheet271DAO;
 import com.efass.sheet.table.TabController;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -20,10 +29,11 @@ import org.springframework.stereotype.Service;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.payload.ResponseQuarterly;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class sheet291_Impl implements sheet291_Service {
-
+    private static final String contentType ="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 	@Autowired
 	Qdfir291Repo qdfir291Repo;
 
@@ -277,6 +287,98 @@ public class sheet291_Impl implements sheet291_Service {
 			throws ResourceNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public void saveSheet291ToDataBase(MultipartFile file, String sheetNo) {
+		if (isValidExcelFile(file)) {
+			try {
+				List<sheet291DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
+				_291Repository.saveAll(excelData);
+
+			} catch (IOException e) {
+				throw new IllegalArgumentException("File is not a valid excel file");
+			}
+		}
+	}
+	private static List<sheet291DAO> getSheetDataFromExcel(InputStream inputStream, String sheetNumber) {
+		List<sheet291DAO> sheet291s = new ArrayList<>();
+		try {
+			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+			XSSFSheet sheet = workbook.getSheet(sheetNumber.trim());
+
+
+			if (sheet != null) {
+
+				int rowIndex = 0;
+				for (Row row : sheet) {
+					if (rowIndex == 0) {
+						rowIndex++;
+						continue;
+					}
+					Iterator<Cell> cellIterator = row.iterator();
+					int cellIndex = 0;
+
+					sheet291DAO sheet291 = new sheet291DAO();
+					while (cellIterator.hasNext()) {
+						Cell cell = cellIterator.next();
+						switch (cellIndex) {
+							case 0 ->
+									sheet291.setId((int) cell.getNumericCellValue());
+
+							case 1 ->
+									sheet291.setBankName(cell.getStringCellValue());
+
+							case 2->
+								sheet291.setBankCode(cell.getStringCellValue());
+
+							case 3->
+								sheet291.setType_of_placements(cell.getStringCellValue());
+
+							case 4->
+								sheet291.setAccount_number(cell.getStringCellValue());
+
+							case 5->
+								sheet291.setAmount(BigDecimal.valueOf(cell.getNumericCellValue()));
+
+							case 6->
+								sheet291.setAmount_2(BigDecimal.valueOf(cell.getNumericCellValue()));
+
+							case 7->
+								sheet291.setTenor(cell.getStringCellValue());
+							case 8->
+								sheet291.setEffective_date(cell.getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+
+							case 9->
+								sheet291.setMaturity_date(cell.getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+							case 10->
+								sheet291.setInterest_rate(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 11->
+								sheet291.setUpfront_interest_received(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 12->
+								sheet291.setAccrued_interest_receivable(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 13->
+								sheet291.setTimes_rolled_over(BigDecimal.valueOf(cell.getNumericCellValue()));
+							default -> {
+
+							}
+						}
+						cellIndex++;
+					}
+					sheet291s.add(sheet291);
+				}
+			}
+			else {
+				throw new RuntimeException("Sheet is null. Verify the sheet name in the Excel file.");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException("file too large");
+		}
+		return sheet291s;
+	}
+	private static boolean isValidExcelFile(MultipartFile file) {
+		return Objects.equals(file.getContentType(), contentType);
 	}
 
 }

@@ -7,22 +7,30 @@ import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.payload.ResponseQuarterly;
 import com.efass.sheet.table.TabController;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class sheet311_Impl implements sheet311_Service {
-
+	@Value("${app.contentType}")
+	private static String contentType;
 	@Autowired
 	Qdfir311Repo qdfir311Repo;
 
@@ -294,5 +302,100 @@ public class sheet311_Impl implements sheet311_Service {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+	@Override
+	public void saveSheet311ToDataBase(MultipartFile file, String sheetNo) {
+		if (isValidExcelFile(file)) {
+			try {
+				List<sheet311DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
+				_311Repository.saveAll(excelData);
+
+			} catch (IOException e) {
+				throw new IllegalArgumentException("File is not a valid excel file");
+			}
+		}
+	}
+	private static List<sheet311DAO> getSheetDataFromExcel(InputStream inputStream, String sheetNumber) {
+		List<sheet311DAO> sheet311s = new ArrayList<>();
+		try {
+			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+			XSSFSheet sheet = workbook.getSheet(sheetNumber.trim());
+
+
+			if (sheet != null) {
+
+				int rowIndex = 0;
+				for (Row row : sheet) {
+					if (rowIndex == 0) {
+						rowIndex++;
+						continue;
+					}
+					Iterator<Cell> cellIterator = row.iterator();
+					int cellIndex = 0;
+
+					sheet311DAO sheet311 = new sheet311DAO();
+					while (cellIterator.hasNext()) {
+						Cell cell = cellIterator.next();
+						switch (cellIndex) {
+							case 0 ->
+									sheet311.setId((int) cell.getNumericCellValue());
+
+							case 1 ->
+									sheet311.setBankName(cell.getStringCellValue());
+
+							case 2->
+									sheet311.setBankCode(cell.getStringCellValue());
+
+							case 3->
+									sheet311.setType_of_placements(cell.getStringCellValue());
+
+							case 4->
+									sheet311.setAccount_number(cell.getStringCellValue());
+
+							case 5->
+									sheet311.setAmount(BigDecimal.valueOf(cell.getNumericCellValue()));
+
+							case 6->
+									sheet311.setAmount_2(BigDecimal.valueOf(cell.getNumericCellValue()));
+
+							case 7->
+									sheet311.setTenor(cell.getStringCellValue());
+							case 8->
+									sheet311.setEffective_date(cell.getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+
+							case 9->
+									sheet311.setMaturity_date(cell.getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+							case 10->
+									sheet311.setInterest_rate(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 11->
+									sheet311.setUpfront_interest_received(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 12->
+									sheet311.setAccrued_interest_receivable(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 13->
+									sheet311.setTimes_rolled_over(BigDecimal.valueOf(cell.getNumericCellValue()));
+							default -> {
+
+							}
+						}
+						cellIndex++;
+					}
+					sheet311s.add(sheet311);
+				}
+			}
+			else {
+				throw new RuntimeException("Sheet is null. Verify the sheet name in the Excel file.");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException("file too large");
+		}
+		return sheet311s;
+	}
+	private static boolean isValidExcelFile(MultipartFile file) {
+		return Objects.equals(file.getContentType(), contentType);
+	}
+
 
 }

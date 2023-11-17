@@ -6,27 +6,29 @@ import com.efass.download.xmlModels.XmlParameters;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.payload.ResponseQuarterly;
-import com.efass.sheet.mdfir371_1.sheet371_1DAO;
-import com.efass.sheet.mdfir371_1.sheet371_1Repository;
-import com.efass.sheet.mdfir371_1.sheet371_1_Service;
-import com.efass.sheet.mdfir371_1.sheetQdfir371_1DAO;
-import com.efass.sheet.mdfir371_2.sheetQdfir371_2DAO;
 import com.efass.sheet.table.TabController;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class sheet371_3_Impl implements sheet371_3_Service {
-
+    @Value("${app.contentType}")
+    private static String contentType;
     @Autowired
     Qdfir371_3Repo qdfir371_3Repo;
     @Autowired
@@ -242,4 +244,73 @@ public class sheet371_3_Impl implements sheet371_3_Service {
 	            throw new ResourceNotFoundException("Record not found with id : " + Data.getId());
 	        }
 	}
+
+    @Override
+    public void saveSheet371_3ToDataBase(MultipartFile file, String sheetNo) {
+        if (isValidExcelFile(file)) {
+            try {
+                List<sheet371_3DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
+                _371_3Repository.saveAll(excelData);
+
+            } catch (IOException e) {
+                throw new IllegalArgumentException("File is not a valid excel file");
+            }
+        }
+    }
+    private static List<sheet371_3DAO> getSheetDataFromExcel(InputStream inputStream, String sheetNumber) {
+        List<sheet371_3DAO> sheet371_3s = new ArrayList<>();
+        try {
+            XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+            XSSFSheet sheet = workbook.getSheet(sheetNumber.trim());
+
+
+            if (sheet != null) {
+
+                int rowIndex = 0;
+                for (Row row : sheet) {
+                    if (rowIndex == 0) {
+                        rowIndex++;
+                        continue;
+                    }
+                    Iterator<Cell> cellIterator = row.iterator();
+                    int cellIndex = 0;
+
+                    sheet371_3DAO sheet371_3 = new sheet371_3DAO();
+                    while (cellIterator.hasNext()) {
+                        Cell cell = cellIterator.next();
+                        switch (cellIndex) {
+                            case 0 ->
+                                    sheet371_3.setId((int) cell.getNumericCellValue());
+
+                            case 1 ->
+                                    sheet371_3.setCarrying_value(BigDecimal.valueOf(cell.getNumericCellValue()));
+
+                            case 2->
+                                    sheet371_3.setDerivative_financial_assets(cell.getStringCellValue());
+
+                            case 3->
+                                    sheet371_3.setNotional_amount(BigDecimal.valueOf(cell.getNumericCellValue()));
+
+                            default -> {
+
+                            }
+                        }
+                        cellIndex++;
+                    }
+                    sheet371_3s.add(sheet371_3);
+                }
+            }
+            else {
+                throw new RuntimeException("Sheet is null. Verify the sheet name in the Excel file.");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("file too large");
+        }
+        return sheet371_3s;
+    }
+    private static boolean isValidExcelFile(MultipartFile file) {
+        return Objects.equals(file.getContentType(), contentType);
+    }
 }

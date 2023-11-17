@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface sheet371_3_Service{
 	 public ResponseEntity<?> createData(sheet371_3DAO data) throws ResourceNotFoundException;
@@ -23,5 +24,6 @@ public interface sheet371_3_Service{
 			public ResponseEntity<?> deleteByIdQ(int dataId) throws ResourceNotFoundException;
 			public ResponseEntity<?> updateDataQ(int id , sheetQdfir371_3DAO Data) throws ResourceNotFoundException;
 		public ResponseEntity<?> callPrepareTableProcedures(String start_date, String end_date) throws ResourceNotFoundException;
+	public void saveSheet371_3ToDataBase(MultipartFile file, String sheetNo);
 
 }

@@ -6,26 +6,30 @@ import com.efass.download.xmlModels.XmlParameters;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.payload.ResponseQuarterly;
-import com.efass.sheet.mdfir192.sheet192DAO;
-import com.efass.sheet.mdfir192.sheetQdfir192DAO;
-import com.efass.sheet.mdfir250.sheet250DAO;
-import com.efass.sheet.mdfir321.sheet321DAO;
 import com.efass.sheet.table.TabController;
+import lombok.extern.log4j.Log4j2;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
+@Log4j2
 public class sheet271_Impl implements sheet271_Service {
-
+	//@Value("${app.contentType}")
+	private static final String contentType ="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 	@Autowired
 	Qdfir271Repo qdfir271Repo;
 	@Autowired
@@ -85,7 +89,8 @@ public class sheet271_Impl implements sheet271_Service {
 				result.add(e.getAccount_number() == null ? "" : e.getAccount_number());
 				result.add(e.getAmount().toString() == null ? ".00"
 						: String.valueOf(e.getAmount().setScale(2, RoundingMode.HALF_EVEN)));
-				result.add(e.getRemarks()  == null ? "" : e.getRemarks());
+				result.add(e.getRemarks().toString() == null ? ".00"
+                    : String.valueOf(e.getAmount().setScale(2, RoundingMode.HALF_EVEN)));
 			});
 			GenericXml.writeIntoXmlFormat(XmlParameters.builder().genericXmls(genericXmls).prefix("").result(result)
 					.daoClass(daoClass).reportName(reportName).isNoneSpecialWithPrefix(true).isIdPresent(true).build());
@@ -241,5 +246,84 @@ public class sheet271_Impl implements sheet271_Service {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public void saveSheet271ToDataBase(MultipartFile file, String sheetNo) {
+		if (isValidExcelFile(file)) {
+			try {
+				List<sheet271DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
+				sheet271Repository.saveAll(excelData);
+
+			} catch (IOException e) {
+				throw new IllegalArgumentException("File is not a valid excel file");
+			}
+		}
+	}
+	private static List<sheet271DAO> getSheetDataFromExcel(InputStream inputStream, String sheetNumber) {
+		List<ExcelSheetData> sheetData = new ArrayList<>();
+        List<sheet271DAO> sheet271s = new ArrayList<>();
+		try {
+			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+			XSSFSheet sheet = workbook.getSheet(sheetNumber.trim());
+
+			if (sheet != null) {
+
+				int rowIndex = 0;
+				for (Row row : sheet) {
+					if (rowIndex == 0) {
+						rowIndex++;
+						continue;
+					}
+					Iterator<Cell> cellIterator = row.iterator();
+					int cellIndex = 0;
+                    ExcelSheetData excelSheetData = new ExcelSheetData();
+
+					while (cellIterator.hasNext()) {
+						Cell cell = cellIterator.next();
+//                        if (cellIndex == 0) {
+//                            cellIndex++;
+//                            continue;
+//                        }
+
+						switch (cellIndex) {
+                            case 0-> excelSheetData.setId((int) cell.getNumericCellValue());
+                   			case 1 -> excelSheetData.setBank_name(cell.getStringCellValue());
+							case 2 -> excelSheetData.setBank_code(String.format("% .0f",cell.getNumericCellValue()));
+							case 3 -> excelSheetData.setAccount_number(String.format("% .0f",cell.getNumericCellValue()));
+							case 4-> excelSheetData.setAmount(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 5 -> excelSheetData.setRemarks(BigDecimal.valueOf(cell.getNumericCellValue()));
+							default -> {
+
+							}
+						}
+						cellIndex++;
+					}
+//					sheet271s.add(sheet271);
+                    sheet271DAO sheet271 = new sheet271DAO();
+                    sheetData.add(excelSheetData);
+                    for(ExcelSheetData ignored : sheetData) {
+                       sheet271.setBank_name(excelSheetData.getBank_name());
+                       sheet271.setBank_code(excelSheetData.getBank_code());
+                       sheet271.setAccount_number(excelSheetData.getAccount_number());
+                       sheet271.setAmount(excelSheetData.getAmount());
+                       sheet271.setRemarks(excelSheetData.getRemarks());
+                    }
+                    sheet271s.add(sheet271);
+				}
+			}
+			else {
+				throw new RuntimeException("Sheet is null. Verify the sheet name in the Excel file.");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException("file too large");
+		}
+		return sheet271s;
+	}
+
+	private static boolean isValidExcelFile(MultipartFile file) {
+		return Objects.equals(file.getContentType(), contentType);
+	}
+
 
 }

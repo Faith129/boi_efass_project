@@ -10,6 +10,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.http.ResponseEntity;
 
 import com.efass.exceptions.ResourceNotFoundException;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface sheet291_Service {
 
@@ -26,5 +27,6 @@ public interface sheet291_Service {
 	public ResponseEntity<?> updateDataQ(int id, sheetQdfir291DAO Data) throws ResourceNotFoundException;
 
 	public ResponseEntity<?> callPrepareTableProcedures(String start_date, String end_date) throws ResourceNotFoundException;
+	public void saveSheet291ToDataBase(MultipartFile file, String sheetNo);
 
 	}

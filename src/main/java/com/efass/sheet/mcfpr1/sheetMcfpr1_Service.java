@@ -3,6 +3,7 @@ package com.efass.sheet.mcfpr1;
 import com.efass.exceptions.ResourceNotFoundException;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface sheetMcfpr1_Service{
 	 	
@@ -21,4 +22,6 @@ public interface sheetMcfpr1_Service{
 		public ResponseEntity<?> updateDataQ(int id , sheetQcfpr1Dao Data) throws ResourceNotFoundException;
 		
 		public ResponseEntity<?> callPrepareTableProcedures(String start_date, String end_date) throws ResourceNotFoundException;
+	public void saveSheetMcfpr1ToDataBase(MultipartFile file, String sheetNo);
+
 }

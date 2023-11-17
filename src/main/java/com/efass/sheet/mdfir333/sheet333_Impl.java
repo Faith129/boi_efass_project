@@ -6,24 +6,29 @@ import com.efass.download.xmlModels.XmlParameters;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.payload.ResponseQuarterly;
-import com.efass.sheet.mdfir291.sheet291DAO;
-import com.efass.sheet.mdfir291.sheetQdfir291DAO;
 import com.efass.sheet.table.TabController;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class sheet333_Impl implements sheet333_Service {
-
+    @Value("${app.contentType}")
+    private static String contentType;
     @Autowired
     sheet333Repository _333Repository;
 
@@ -47,7 +52,7 @@ public class sheet333_Impl implements sheet333_Service {
         res.setS333Data(data);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
-    
+
 	@Override
 	public ResponseEntity<?> createDataQ(sheetQdfir333DAO data) throws ResourceNotFoundException {
 		qdfir333Repo.save(data);
@@ -88,10 +93,10 @@ public class sheet333_Impl implements sheet333_Service {
                 result.add(e.getImpairment().toString() == null ? ".00" : String.valueOf(e.getImpairment().setScale(2, RoundingMode.HALF_EVEN)));
                 result.add(e.getCarrying_value_unquoted_eq_inv().toString() == null ? ".00" : String.valueOf(e.getCarrying_value_unquoted_eq_inv().setScale(2, RoundingMode.HALF_EVEN)));
             	}
-   			 catch(NullPointerException ex) 
+   			 catch(NullPointerException ex)
    	            {
    	    			System.out.println("NullPointerException thrown!");
-   	            }		 
+   	            }
             	});
             GenericXml.writeIntoXmlFormat(XmlParameters.builder()
                     .genericXmls(genericXmls)
@@ -257,14 +262,92 @@ public class sheet333_Impl implements sheet333_Service {
             throw new ResourceNotFoundException("Record not found with id : " + Data.getId());
         }
 	}
-	
+
 	@Override
 	public ResponseEntity<?> callPrepareTableProcedures(String start_date, String end_date)
 			throws ResourceNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}
+    @Override
+    public void saveSheet333ToDataBase(MultipartFile file, String sheetNo) {
+        if (isValidExcelFile(file)) {
+            try {
+                List<sheet333DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
+                _333Repository.saveAll(excelData);
 
+            } catch (IOException e) {
+                throw new IllegalArgumentException("File is not a valid excel file");
+            }
+        }
+    }
+    private static List<sheet333DAO> getSheetDataFromExcel(InputStream inputStream, String sheetNumber) {
+        List<sheet333DAO> sheet333s = new ArrayList<>();
+        try {
+            XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+            XSSFSheet sheet = workbook.getSheet(sheetNumber.trim());
+
+
+            if (sheet != null) {
+
+                int rowIndex = 0;
+                for (Row row : sheet) {
+                    if (rowIndex == 0) {
+                        rowIndex++;
+                        continue;
+                    }
+                    Iterator<Cell> cellIterator = row.iterator();
+                    int cellIndex = 0;
+
+                    sheet333DAO sheet333 = new sheet333DAO();
+                    while (cellIterator.hasNext()) {
+                        Cell cell = cellIterator.next();
+                        switch (cellIndex) {
+                            case 0 ->
+                                    sheet333.setId((int) cell.getNumericCellValue());
+
+                            case 1 ->
+                                    sheet333.setInvestee_name(cell.getStringCellValue());
+
+                            case 2->
+                                    sheet333.setType_of_investment(cell.getStringCellValue());
+
+                            case 3->
+                                    sheet333.setInvestement_cert_number(cell.getStringCellValue());
+
+                            case 4->
+                                    sheet333.setAmount_invested(BigDecimal.valueOf(cell.getNumericCellValue()));
+
+                            case 5->
+                                    sheet333.setFair_value_gains(BigDecimal.valueOf(cell.getNumericCellValue()));
+
+                            case 6->
+                                    sheet333.setImpairment(BigDecimal.valueOf(cell.getNumericCellValue()));
+
+                            case 7->
+                                    sheet333.setCarrying_value_unquoted_eq_inv(BigDecimal.valueOf(cell.getNumericCellValue()));
+                           default -> {
+
+                            }
+                        }
+                        cellIndex++;
+                    }
+                    sheet333s.add(sheet333);
+                }
+            }
+            else {
+                throw new RuntimeException("Sheet is null. Verify the sheet name in the Excel file.");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("file too large");
+        }
+        return sheet333s;
+    }
+    private static boolean isValidExcelFile(MultipartFile file) {
+        return Objects.equals(file.getContentType(), contentType);
+    }
 
 }
 

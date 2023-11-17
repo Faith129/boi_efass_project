@@ -7,21 +7,29 @@ import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.payload.ResponseQuarterly;
 import com.efass.sheet.table.TabController;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class sheetMcfpr1_Impl implements sheetMcfpr1_Service {
-
+    @Value("${app.contentType}")
+    private static String contentType;
     @Autowired
     sheetMcfpr1Repository _Mcfpr1Repository;
 
@@ -278,7 +286,90 @@ public class sheetMcfpr1_Impl implements sheetMcfpr1_Service {
 		// TODO Auto-generated method stub
 		return null;
 	}
+    
+    @Override
+    public void saveSheetMcfpr1ToDataBase(MultipartFile file, String sheetNo) {
+        if (isValidExcelFile(file)) {
+            try {
+                List<sheetMcfpr1DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
+                _Mcfpr1Repository.saveAll(excelData);
 
+            } catch (IOException e) {
+                throw new IllegalArgumentException("File is not a valid excel file");
+            }
+        }
+    }
+    private static List<sheetMcfpr1DAO> getSheetDataFromExcel(InputStream inputStream, String sheetNumber) {
+        List<sheetMcfpr1DAO> sheetMcfpr1s = new ArrayList<>();
+        try {
+            XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+            XSSFSheet sheet = workbook.getSheet(sheetNumber.trim());
+
+
+            if (sheet != null) {
+
+                int rowIndex = 0;
+                for (Row row : sheet) {
+                    if (rowIndex == 0) {
+                        rowIndex++;
+                        continue;
+                    }
+                    Iterator<Cell> cellIterator = row.iterator();
+                    int cellIndex = 0;
+
+                    sheetMcfpr1DAO sheetMcfpr1 = new sheetMcfpr1DAO();
+                    while (cellIterator.hasNext()) {
+                        Cell cell = cellIterator.next();
+                        switch (cellIndex) {
+                            case 0 ->
+                                    sheetMcfpr1.setId((int) cell.getNumericCellValue());
+
+                            case 1 ->
+                                    sheetMcfpr1.setAddress(cell.getStringCellValue());
+
+                            case 2->
+                                    sheetMcfpr1.setAmount_claimed_1(BigDecimal.valueOf(cell.getNumericCellValue()));
+
+                            case 3->
+                                    sheetMcfpr1.setAmount_claimed_2(BigDecimal.valueOf(cell.getNumericCellValue()));
+                            case 4->
+                                    sheetMcfpr1.setAmount_refunded_1(BigDecimal.valueOf(cell.getNumericCellValue()));
+
+                            case 5->
+                                    sheetMcfpr1.setAmount_refunded_2(BigDecimal.valueOf(cell.getNumericCellValue()));
+
+                            case 6->
+                                    sheetMcfpr1.setCategory(cell.getStringCellValue());
+
+                            case 7-> sheetMcfpr1.setComplaint_ref_number(cell.getStringCellValue());
+                            case 8-> sheetMcfpr1.setDate_received(cell.getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+                            case 9-> sheetMcfpr1.setMajor_areas_of_disagreement(cell.getStringCellValue());
+                            case 10-> sheetMcfpr1.setName_of_petitioner(cell.getStringCellValue());
+                            case 11-> sheetMcfpr1.setResolution_efforts_made(cell.getStringCellValue());
+                            case 13-> sheetMcfpr1.setSubject(cell.getStringCellValue());
+
+                            default -> {
+
+                            }
+                        }
+                        cellIndex++;
+                    }
+                    sheetMcfpr1s.add(sheetMcfpr1);
+                }
+            }
+            else {
+                throw new RuntimeException("Sheet is null. Verify the sheet name in the Excel file.");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("file too large");
+        }
+        return sheetMcfpr1s;
+    }
+    private static boolean isValidExcelFile(MultipartFile file) {
+        return Objects.equals(file.getContentType(), contentType);
+    }
 
 
 

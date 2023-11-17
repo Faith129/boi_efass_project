@@ -33,8 +33,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private JwtRequestFilter jwtRequestFilter;
-	
- 
+
+
 //  @Bean
 //  CorsConfigurationSource corsConfigurationSource() {
 //      UrlBasedCorsConfigurationSource source = new
@@ -42,8 +42,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //      source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
 //     return source;
 //  }
-	
-  
+
+
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
       final CorsConfiguration configuration = new CorsConfiguration();
@@ -57,9 +57,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       source.registerCorsConfiguration("/**", configuration);
       return source;
   }
-  
-	
-	
+
+
+
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -82,16 +82,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-	
+
 		httpSecurity.cors();
-	
-		
+
+
 		// We don't need CSRF for this example
 		httpSecurity.csrf().disable()
 				// dont authenticate this particular request
 				.authorizeRequests().antMatchers("/", "/error", "/api/all", "/api/auth/**", "/oauth2/**", "/index.html", "/*.js",
 						"/*.js.map", "/*.css", "/assets/img/*.png", "/assets/img/login-background.png", "/favicon.ico",
-						"/authenticate", "/path","/api/v1/download/**","/api/v1/createUser/**").permitAll().
+						"/authenticate", "/path","/api/v1/download/**","/api/v1/createUser/**", "/api/v1/uploadExcel/**").permitAll().
 				// all other requests need to be authenticated
 				anyRequest().authenticated().and().
 				// make sure we use stateless session; session won't be used to
