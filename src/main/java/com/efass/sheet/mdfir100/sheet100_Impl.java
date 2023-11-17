@@ -238,7 +238,7 @@ public class sheet100_Impl implements sheet100_Service {
 			try {
 				List<sheet100DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
 				updateOrSaveSheet100Data(excelData);
-				sheet100Repo.saveAll(excelData);
+//				sheet100Repo.saveAll(excelData);
 
 			} catch (IOException e) {
 				throw new IllegalArgumentException("File is not a valid excel file");
@@ -247,10 +247,10 @@ public class sheet100_Impl implements sheet100_Service {
 	}
 	private static List<sheet100DAO> getSheetDataFromExcel(InputStream inputStream, String sheetNumber) {
 		List<sheet100DAO> sheet193s = new ArrayList<>();
+		List<ExcelSheet100Data> excelSheet100Data = new ArrayList<>();
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			XSSFSheet sheet = workbook.getSheet(sheetNumber.trim());
-
 
 			if (sheet != null) {
 
@@ -264,20 +264,31 @@ public class sheet100_Impl implements sheet100_Service {
 					int cellIndex = 0;
 
 					sheet100DAO sheet100 = new sheet100DAO();
+					ExcelSheet100Data excelSheet100D  = new ExcelSheet100Data();
 					while (cellIterator.hasNext()) {
 						Cell cell = cellIterator.next();
 						switch (cellIndex) {
-							case 0 -> sheet100.setCode(String.format("%.0f", cell.getNumericCellValue()));
-							case 1 -> sheet100.setDescription(cell.getStringCellValue());
-							case 2 -> sheet100.setNumber_1(BigDecimal.valueOf(cell.getNumericCellValue()));
-							case 3 -> sheet100.setValue_1(BigDecimal.valueOf(cell.getNumericCellValue()));
-							case 4 -> sheet100.setNumber_2(BigDecimal.valueOf(cell.getNumericCellValue()));
-							case 5 -> sheet100.setValue_2(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 0 -> excelSheet100D.setCode(String.format("%.0f", cell.getNumericCellValue()));
+							case 1 -> excelSheet100D.setDescription(cell.getStringCellValue());
+							case 2 -> excelSheet100D.setNumber_1(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 3 -> excelSheet100D.setValue_1(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 4 -> excelSheet100D.setNumber_2(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 5 -> excelSheet100D.setValue_2(BigDecimal.valueOf(cell.getNumericCellValue()));
 							default -> {
 							}
 						}
 						cellIndex++;
 					}
+//					sheet193s.add(sheet100);
+					excelSheet100Data.add(excelSheet100D);
+					excelSheet100Data.forEach(sheet100Data -> {
+						sheet100.setCode(excelSheet100D.getCode());
+						sheet100.setDescription(excelSheet100D.getDescription());
+						sheet100.setNumber_1(excelSheet100D.getNumber_1());
+						sheet100.setValue_1(excelSheet100D.getValue_1());
+						sheet100.setNumber_2(excelSheet100D.getNumber_2());
+						sheet100.setValue_2(excelSheet100D.getValue_2());
+					});
 					sheet193s.add(sheet100);
 				}
 			}
@@ -297,25 +308,14 @@ public class sheet100_Impl implements sheet100_Service {
 	}
 
 	private void updateOrSaveSheet100Data(List<sheet100DAO> excelData) {
+		// Update existing record
 		for (sheet100DAO sheet100 : excelData) {
-			Optional<sheet100DAO> existingRecord = sheet100Repo.findByCode(sheet100.getCode());
-
-			existingRecord.ifPresent(System.out::println);
-
-			if (existingRecord.isPresent()) {
-				// Update existing record
-					sheet100DAO existingSheet100 = existingRecord.get();
-					existingSheet100.setDescription(sheet100.getDescription());
-					existingSheet100.setNumber_1(sheet100.getNumber_1());
-					existingSheet100.setValue_1(sheet100.getValue_1());
-					existingSheet100.setNumber_2(sheet100.getNumber_2());
-					existingSheet100.setValue_2(sheet100.getValue_2());
-					sheet100Repo.save(existingSheet100);
-			} else {
-				// Save new record
-				sheet100Repo.save(sheet100);
-			}
+			sheet100DAO existingRecord = sheet100Repo.findByCode(sheet100.getCode().trim()).get();
+			existingRecord.setNumber_1(sheet100.getNumber_1());
+			existingRecord.setValue_1(sheet100.getValue_1());
+			existingRecord.setNumber_2(sheet100.getNumber_2());
+			existingRecord.setValue_2(sheet100.getValue_2());
+			sheet100Repo.save(existingRecord);
 		}
 	}
-
 }
