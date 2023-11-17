@@ -1,5 +1,8 @@
 package com.efass.sheet.mdfir100;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,16 +12,28 @@ import com.efass.ReportGroupEnum;
 import com.efass.download.xmlModels.GenericXml;
 import com.efass.download.xmlModels.XmlParameters;
 import com.efass.sheet.table.TabController;
+import lombok.extern.log4j.Log4j2;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.payload.ResponseQuarterly;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
+@Log4j2
 public class sheet100_Impl implements sheet100_Service {
+
+//	@Value("${app.contentType}")
+	private static final String contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
 	@Autowired
 	sheet100Repository sheet100Repo;
@@ -34,6 +49,8 @@ public class sheet100_Impl implements sheet100_Service {
         sheet100Repo.insertCBNdate(date);
      return new ResponseEntity<>(date, HttpStatus.OK);
       }
+
+
 
 	List<GenericXml> genericXmlList;
 
@@ -215,4 +232,90 @@ public class sheet100_Impl implements sheet100_Service {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public void saveSheet100ToDataBase(MultipartFile file, String sheetNo) {
+		if (isValidExcelFile(file)) {
+			try {
+				List<sheet100DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
+				updateOrSaveSheet100Data(excelData);
+				sheet100Repo.saveAll(excelData);
+
+			} catch (IOException e) {
+				throw new IllegalArgumentException("File is not a valid excel file");
+			}
+		}
+	}
+	private static List<sheet100DAO> getSheetDataFromExcel(InputStream inputStream, String sheetNumber) {
+		List<sheet100DAO> sheet193s = new ArrayList<>();
+		try {
+			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+			XSSFSheet sheet = workbook.getSheet(sheetNumber.trim());
+
+
+			if (sheet != null) {
+
+				int rowIndex = 0;
+				for (Row row : sheet) {
+					if (rowIndex == 0) {
+						rowIndex++;
+						continue;
+					}
+					Iterator<Cell> cellIterator = row.iterator();
+					int cellIndex = 0;
+
+					sheet100DAO sheet100 = new sheet100DAO();
+					while (cellIterator.hasNext()) {
+						Cell cell = cellIterator.next();
+						switch (cellIndex) {
+							case 0 -> sheet100.setCode(String.format("%.0f", cell.getNumericCellValue()));
+							case 1 -> sheet100.setDescription(cell.getStringCellValue());
+							case 2 -> sheet100.setNumber_1(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 3 -> sheet100.setValue_1(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 4 -> sheet100.setNumber_2(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 5 -> sheet100.setValue_2(BigDecimal.valueOf(cell.getNumericCellValue()));
+							default -> {
+							}
+						}
+						cellIndex++;
+					}
+					sheet193s.add(sheet100);
+				}
+			}
+			else {
+				throw new RuntimeException("Sheet is null. Verify the sheet name in the Excel file.");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException("file too large");
+		}
+		return sheet193s;
+	}
+
+	private static boolean isValidExcelFile(MultipartFile file) {
+		return Objects.equals(file.getContentType(), contentType);
+	}
+
+	private void updateOrSaveSheet100Data(List<sheet100DAO> excelData) {
+		for (sheet100DAO sheet100 : excelData) {
+			Optional<sheet100DAO> existingRecord = sheet100Repo.findByCode(sheet100.getCode());
+
+			existingRecord.ifPresent(System.out::println);
+
+			if (existingRecord.isPresent()) {
+				// Update existing record
+					sheet100DAO existingSheet100 = existingRecord.get();
+					existingSheet100.setDescription(sheet100.getDescription());
+					existingSheet100.setNumber_1(sheet100.getNumber_1());
+					existingSheet100.setValue_1(sheet100.getValue_1());
+					existingSheet100.setNumber_2(sheet100.getNumber_2());
+					existingSheet100.setValue_2(sheet100.getValue_2());
+					sheet100Repo.save(existingSheet100);
+			} else {
+				// Save new record
+				sheet100Repo.save(sheet100);
+			}
+		}
+	}
+
 }
