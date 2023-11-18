@@ -10,6 +10,7 @@ import javax.persistence.Table;
 
 import javax.persistence.*;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -21,6 +22,7 @@ public class sheet100DAO implements Serializable {
     /**
 	 *
 	 */
+    @Serial
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,7 +54,6 @@ public class sheet100DAO implements Serializable {
         this.value_1 = value_1;
         this.number_2 = number_2;
         this.value_2 = value_2;
-
     }
 
     public Integer getId() {
