@@ -22,7 +22,7 @@ public class DAOUser {
 	@JsonIgnore
 	private String password;
 
-	@Column(name="password")
+	@Column(name="role")
 	@JsonIgnore
 	private String role; //Added role for user authentication
 

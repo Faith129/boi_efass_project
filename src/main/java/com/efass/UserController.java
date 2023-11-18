@@ -37,7 +37,7 @@ public class UserController {
 	UserRepository userRepository;
 
 	@Autowired
-	private UserDao userDao;
+	 UserDao userDao;
 
 	Response res = new Response();
 	

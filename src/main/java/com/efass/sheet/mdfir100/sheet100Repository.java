@@ -1,6 +1,7 @@
 package com.efass.sheet.mdfir100;
 
 import java.awt.print.Pageable;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jdbc.repository.query.Modifying;
@@ -17,8 +18,13 @@ public interface sheet100Repository extends CrudRepository<sheet100DAO, Integer>
 
     Optional<sheet100DAO> findById(int id);
 
-    @Query(value = "SELECT * FROM BOIEFASS.MDFIR100 where code=?", nativeQuery = true)
+//    @Query(value = "SELECT * FROM BOIEFASS.MDFIR100 where code=?", nativeQuery = true)
     Optional<sheet100DAO> findByCode(String code);
+
+//    sheet100DAO findByCode(String code);
+
+    @Query(value = "SELECT * FROM BOIEFASS.MDFIR100 where code=?", nativeQuery = true)
+    Optional<List<sheet100DAO>> findListOfCode(String code);
 
     @Query(value = "SELECT * FROM BOIEFASS.MDFIR100 where code=?", nativeQuery = true)
     sheetQdfirDAO findColumnsByCode(String code);
