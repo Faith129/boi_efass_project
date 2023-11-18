@@ -21,5 +21,4 @@ public class ExcelUploadController {
         sheet100Service.saveSheetToDataBase(file,sheet100);
         return ResponseEntity.ok(Map.of("Message","Sheet100 data uploaded and saved to database"));
     }
-
 }
