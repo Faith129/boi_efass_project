@@ -6,25 +6,35 @@ import com.efass.download.xmlModels.XmlParameters;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.payload.ResponseQuarterly;
+import com.efass.sheet.mdfir1600.ExcelSheetData1600;
+import com.efass.sheet.mdfir1600.sheet1600DAO;
 import com.efass.sheet.mdfir1650.sheet1650DAO;
 import com.efass.sheet.mdfir1650.sheet1650Repository;
 import com.efass.sheet.mdfir1650.sheet1650_Service;
 import com.efass.sheet.mdfir1650.sheetQdfir1650DAO;
 import com.efass.sheet.table.TabController;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class sheet1700_Impl implements sheet1700_Service {
+
+	private static final String contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
 
 	@Autowired
 	sheet1700Repository _1700Repository;
@@ -272,5 +282,109 @@ public class sheet1700_Impl implements sheet1700_Service {
 			throws ResourceNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	@Override
+	public void saveSheet1700ToDataBase(MultipartFile file, String sheetNo) {
+		if (isValidExcelFile(file)) {
+			try {
+				List<sheet1700DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
+				_1700Repository.saveAll(excelData);
+			} catch (IOException e) {
+				throw new IllegalArgumentException("File is not a valid excel file");
+			}
+		}
+	}
+
+	private static List<sheet1700DAO> getSheetDataFromExcel(InputStream inputStream, String sheetNumber) {
+		List<sheet1700DAO> sheet1700_list = new ArrayList<>();
+		List<ExcelSheetData1700> excelSheet1700Data = new ArrayList<>();
+		try {
+			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+			XSSFSheet sheet = workbook.getSheet(sheetNumber.trim());
+
+			if (sheet != null) {
+				int rowIndex = 0;
+				for (Row row : sheet) {
+					if (rowIndex == 0) {
+						rowIndex++;
+						continue;
+					}
+					Iterator<Cell> cellIterator = row.iterator();
+					int cellIndex = 0;
+
+					sheet1700DAO sheet1700 = new sheet1700DAO();
+					ExcelSheetData1700 excelSheet1700D  = new ExcelSheetData1700();
+
+					while (cellIterator.hasNext()) {
+						Cell cell = cellIterator.next();
+						switch (cellIndex) {
+							case 0 -> excelSheet1700D.setName(cell.getStringCellValue());
+							case 1 -> excelSheet1700D.setSector(cell.getStringCellValue());
+							case 2 -> excelSheet1700D.setCrms_borrower_code(cell.getStringCellValue());
+							case 3 -> excelSheet1700D.setRc_or_br_or_sr_no(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 4 -> excelSheet1700D.setTotal(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 5 -> excelSheet1700D.setClassified_as_npa(cell.getStringCellValue());
+							case 6 -> excelSheet1700D.setInvestment(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 7 -> excelSheet1700D.setLiabilities(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 8 -> excelSheet1700D.setTotal_exposure(BigDecimal.valueOf(cell.getNumericCellValue()));
+
+							default -> {
+							}
+						}
+						cellIndex++;
+					}
+					excelSheet1700Data.add(excelSheet1700D);
+					excelSheet1700Data.forEach(sheet1700Data -> {
+						sheet1700.setName(sheet1700Data.getName());
+						sheet1700.setSector(sheet1700Data.getSector());
+						sheet1700.setCrms_borrower_code(sheet1700Data.getCrms_borrower_code());
+						sheet1700.setRc_or_br_or_sr_no(sheet1700Data.getRc_or_br_or_sr_no());
+						sheet1700.setInvestment(sheet1700Data.getInvestment());
+						sheet1700.setClassified_as_npa(sheet1700Data.getClassified_as_npa());
+						sheet1700.setLiabilities(sheet1700Data.getLiabilities());
+						sheet1700.setTotal_exposure(sheet1700Data.getTotal_exposure());
+						sheet1700.setSector(sheet1700Data.getSector());
+					});
+
+					sheet1700_list.add(sheet1700);
+					//Tested with excelSheet1600D but still under review
+				}
+			}
+			else {
+				throw new RuntimeException("Sheet is null. Verify the sheet name in the Excel file.");
+			}
+		}  catch (IOException e) {
+			throw new RuntimeException("file too large");
+		}
+		return sheet1700_list;
+	}
+
+	private static boolean isValidExcelFile(MultipartFile file) {
+		return Objects.equals(file.getContentType(), contentType);
+	}
+
+	private void updateOrSaveSheet100Data(List<sheet1600DAO> excelData) {
+		sheet1600DAO newSheetRecord = new sheet1600DAO();
+		// Update existing record
+//		for (sheet1600DAO sheet1600 : excelData) {
+//			sheet1700DAO existingRecord = sheet1700Repository.findById(sheet1600.getId()).orElse(null);
+//			if (existingRecord != null) {
+//				existingRecord.setNumber_1(sheet100.getNumber_1());
+//				existingRecord.setValue_1(sheet100.getValue_1());
+//				existingRecord.setNumber_2(sheet100.getNumber_2());
+//				existingRecord.setValue_2(sheet100.getValue_2());
+//				sheet100Repo.save(existingRecord);
+//				// Save as a new record
+//			} else {
+//				newSheetRecord.setCode(sheet100.getCode());
+//				newSheetRecord.setNumber_1(sheet100.getNumber_1());
+//				newSheetRecord.setValue_1(sheet100.getValue_1());
+//				newSheetRecord.setNumber_2(sheet100.getNumber_2());
+//				newSheetRecord.setValue_2(sheet100.getValue_2());
+//				sheet100Repo.save(newSheetRecord);
+//			}
+//		}
 	}
 }

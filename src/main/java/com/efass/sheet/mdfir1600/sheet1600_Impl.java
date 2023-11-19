@@ -307,12 +307,14 @@ public class sheet1600_Impl implements sheet1600_Service {
 					}
 					excelSheet1301Data.add(excelSheet1600D);
 					excelSheet1301Data.forEach(sheet100Data -> {
-						sheet1600.setLoan_or_facilities_type(excelSheet1600D.getLoan_or_facilities_type());
-						sheet1600.setAggregate_amt_accrued_interest(excelSheet1600D.getAggregate_amt_accrued_interest());
-						sheet1600.setAggregate_amt_principal(excelSheet1600D.getAggregate_amt_principal());
-						sheet1600.setAggregate_amt_total_outstanding(excelSheet1600D.getAggregate_amt_total_outstanding());
+						sheet1600.setLoan_or_facilities_type(sheet100Data.getLoan_or_facilities_type());
+						sheet1600.setAggregate_amt_accrued_interest(sheet100Data.getAggregate_amt_accrued_interest());
+						sheet1600.setAggregate_amt_principal(sheet100Data.getAggregate_amt_principal());
+						sheet1600.setAggregate_amt_total_outstanding(sheet100Data.getAggregate_amt_total_outstanding());
 					});
 					sheet1600_list.add(sheet1600);
+
+					//Tested with excelSheet1600D but still under review
 				}
 			}
 			else {
@@ -330,9 +332,9 @@ public class sheet1600_Impl implements sheet1600_Service {
 
 	private void updateOrSaveSheet100Data(List<sheet1600DAO> excelData) {
 		sheet1600DAO newSheetRecord = new sheet1600DAO();
-//		// Update existing record
-//		for (sheet1301DAO sheet100 : excelData) {
-//			sheet100DAO existingRecord = sheet1301Repo.findByCode(sheet100.getCode()).orElse(null);
+		// Update existing record
+		for (sheet1600DAO sheet1600 : excelData) {
+			sheet1600DAO existingRecord = sheet1600Repository.findById(sheet1600.getId()).orElse(null);
 //			if (existingRecord != null) {
 //				existingRecord.setNumber_1(sheet100.getNumber_1());
 //				existingRecord.setValue_1(sheet100.getValue_1());
@@ -348,7 +350,7 @@ public class sheet1600_Impl implements sheet1600_Service {
 //				newSheetRecord.setValue_2(sheet100.getValue_2());
 //				sheet100Repo.save(newSheetRecord);
 //			}
-//		}
+		}
 	}
 
 }

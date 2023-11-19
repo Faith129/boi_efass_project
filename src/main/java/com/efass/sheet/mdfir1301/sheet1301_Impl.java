@@ -32,6 +32,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 public class sheet1301_Impl implements sheet1301_Service {
 
+	private static final String contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
 	@Autowired
 	sheet1301Repository sheet1301Repository;
 
@@ -39,8 +41,6 @@ public class sheet1301_Impl implements sheet1301_Service {
 	Qdfir1301Repo qdfir1301Repo;
 
 	List<GenericXml> genericXmlList;
-
-	private static final String contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
 
 	public List<GenericXml> getSheet1301XmlList() {

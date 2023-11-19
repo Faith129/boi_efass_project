@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
