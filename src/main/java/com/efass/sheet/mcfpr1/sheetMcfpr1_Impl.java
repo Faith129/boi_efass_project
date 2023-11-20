@@ -6,8 +6,12 @@ import com.efass.download.xmlModels.XmlParameters;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.payload.ResponseQuarterly;
+import com.efass.sheet.mdfir333.ExcelSheet333Data;
+import com.efass.sheet.mdfir333.sheet333DAO;
 import com.efass.sheet.table.TabController;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -22,14 +26,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 @Service
 public class sheetMcfpr1_Impl implements sheetMcfpr1_Service {
-    @Value("${app.contentType}")
-    private static String contentType;
+    private static final String contentType ="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     @Autowired
     sheetMcfpr1Repository _Mcfpr1Repository;
 
@@ -62,15 +67,15 @@ public class sheetMcfpr1_Impl implements sheetMcfpr1_Service {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
-	@Override
-	public ResponseEntity<?> createDataQ(sheetQcfpr1Dao data) throws ResourceNotFoundException {
-		sheetQcfpr1Repository.save(data);
+    @Override
+    public ResponseEntity<?> createDataQ(sheetQcfpr1Dao data) throws ResourceNotFoundException {
+        sheetQcfpr1Repository.save(data);
         ResponseQuarterly res = new ResponseQuarterly();
         res.setResponseMessage("Success");
         res.setResponseCode(00);
         res.setsQcfpr1Data(data);
         return new ResponseEntity<>(res, HttpStatus.OK);
-	}
+    }
 
 
     public ResponseEntity<?> fetchAllData() {
@@ -155,7 +160,7 @@ public class sheetMcfpr1_Impl implements sheetMcfpr1_Service {
             res.setResponseCode(00);
             return new ResponseEntity<>(res, HttpStatus.OK);
         }
-		return null;
+        return null;
 
 
     }
@@ -172,8 +177,8 @@ public class sheetMcfpr1_Impl implements sheetMcfpr1_Service {
     }
 
     @Override
-	public ResponseEntity<?> getDataByIdQ(int dataId) throws ResourceNotFoundException {
-    	sheetQcfpr1Dao data = sheetQcfpr1Repository.findById(dataId)
+    public ResponseEntity<?> getDataByIdQ(int dataId) throws ResourceNotFoundException {
+        sheetQcfpr1Dao data = sheetQcfpr1Repository.findById(dataId)
                 .orElseThrow(() -> new ResourceNotFoundException("Record not found for this id :: " + dataId));
         ResponseQuarterly res = new ResponseQuarterly();
         res.setResponseMessage("Record Found");
@@ -181,7 +186,7 @@ public class sheetMcfpr1_Impl implements sheetMcfpr1_Service {
         res.setsQcfpr1Data(data);
 
         return new ResponseEntity<>(res, HttpStatus.OK);
-	}
+    }
 
     public ResponseEntity<?> deleteById(int dataId) throws ResourceNotFoundException {
 
@@ -199,12 +204,12 @@ public class sheetMcfpr1_Impl implements sheetMcfpr1_Service {
 
     }
 
-	@Override
-	public ResponseEntity<?> deleteByIdQ(int dataId) throws ResourceNotFoundException {
-		Optional<sheetQcfpr1Dao> data = sheetQcfpr1Repository.findById(dataId);
+    @Override
+    public ResponseEntity<?> deleteByIdQ(int dataId) throws ResourceNotFoundException {
+        Optional<sheetQcfpr1Dao> data = sheetQcfpr1Repository.findById(dataId);
 
         if (data.isPresent()) {
-        	sheetQcfpr1Repository.delete(data.get());
+            sheetQcfpr1Repository.delete(data.get());
         } else {
             throw new ResourceNotFoundException("Record not found with id : " + dataId);
         }
@@ -212,7 +217,7 @@ public class sheetMcfpr1_Impl implements sheetMcfpr1_Service {
         res.setResponseMessage("Record Deleted");
         res.setResponseCode(00);
         return new ResponseEntity<>(res, HttpStatus.OK);
-	}
+    }
 
     public ResponseEntity<?> updateData(int id , sheetMcfpr1DAO Data) throws ResourceNotFoundException {
 
@@ -247,12 +252,12 @@ public class sheetMcfpr1_Impl implements sheetMcfpr1_Service {
         }
     }
 
-	@Override
-	public ResponseEntity<?> updateDataQ(int id, sheetQcfpr1Dao Data) throws ResourceNotFoundException {
-		Optional<sheetQcfpr1Dao> DataDb = sheetQcfpr1Repository.findById(id);
+    @Override
+    public ResponseEntity<?> updateDataQ(int id, sheetQcfpr1Dao Data) throws ResourceNotFoundException {
+        Optional<sheetQcfpr1Dao> DataDb = sheetQcfpr1Repository.findById(id);
 
         if (DataDb.isPresent()) {
-        	sheetQcfpr1Dao DataUpdate = DataDb.get();
+            sheetQcfpr1Dao DataUpdate = DataDb.get();
             DataUpdate.setId(Data.getId());
             DataUpdate.setAddress(Data.getAddress());
             DataUpdate.setAmount_claimed_1(Data.getAmount_claimed_1());
@@ -278,15 +283,15 @@ public class sheetMcfpr1_Impl implements sheetMcfpr1_Service {
         } else {
             throw new ResourceNotFoundException("Record not found with id : " + Data.getId());
         }
-	}
+    }
 
-	@Override
-	public ResponseEntity<?> callPrepareTableProcedures(String start_date, String end_date)
-			throws ResourceNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-    
+    @Override
+    public ResponseEntity<?> callPrepareTableProcedures(String start_date, String end_date)
+        throws ResourceNotFoundException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
     @Override
     public void saveSheetMcfpr1ToDataBase(MultipartFile file, String sheetNo) {
         if (isValidExcelFile(file)) {
@@ -299,8 +304,12 @@ public class sheetMcfpr1_Impl implements sheetMcfpr1_Service {
             }
         }
     }
+
     private static List<sheetMcfpr1DAO> getSheetDataFromExcel(InputStream inputStream, String sheetNumber) {
+
         List<sheetMcfpr1DAO> sheetMcfpr1s = new ArrayList<>();
+        List<ExcelSheetMcfpr1Data> excelSheetMcfpr1Data = new ArrayList<>();
+
         try {
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
             XSSFSheet sheet = workbook.getSheet(sheetNumber.trim());
@@ -314,39 +323,94 @@ public class sheetMcfpr1_Impl implements sheetMcfpr1_Service {
                         rowIndex++;
                         continue;
                     }
+                    if (rowIndex == 1) {
+                        rowIndex++;
+                        continue;
+                    }
+                    if (rowIndex == 2) {
+                        rowIndex++;
+                        continue;
+                    }
+                    if (rowIndex == 3) {
+                        rowIndex++;
+                        continue;
+                    }
                     Iterator<Cell> cellIterator = row.iterator();
                     int cellIndex = 0;
 
-                    sheetMcfpr1DAO sheetMcfpr1 = new sheetMcfpr1DAO();
+                    ExcelSheetMcfpr1Data excelSheetMcfpr1 = new ExcelSheetMcfpr1Data();
                     while (cellIterator.hasNext()) {
                         Cell cell = cellIterator.next();
                         switch (cellIndex) {
-                            case 0 ->
-                                    sheetMcfpr1.setId((int) cell.getNumericCellValue());
+                            case 0 -> {
+                                excelSheetMcfpr1.setId((int) cell.getNumericCellValue());
+                                System.out.println(excelSheetMcfpr1.getId());
+                            }
 
-                            case 1 ->
-                                    sheetMcfpr1.setAddress(cell.getStringCellValue());
+                            case 1 -> {
+                                excelSheetMcfpr1.setComplaint_ref_number(cell.getStringCellValue());
+                                System.out.println(excelSheetMcfpr1.getComplaint_ref_number());
+                            }
 
-                            case 2->
-                                    sheetMcfpr1.setAmount_claimed_1(BigDecimal.valueOf(cell.getNumericCellValue()));
+                            case 2 -> {
+                                excelSheetMcfpr1.setName_of_petitioner(cell.getStringCellValue());
+                                System.out.println(excelSheetMcfpr1.getName_of_petitioner());
+                            }
 
-                            case 3->
-                                    sheetMcfpr1.setAmount_claimed_2(BigDecimal.valueOf(cell.getNumericCellValue()));
-                            case 4->
-                                    sheetMcfpr1.setAmount_refunded_1(BigDecimal.valueOf(cell.getNumericCellValue()));
+                            case 3 -> {
+                                excelSheetMcfpr1.setAddress(cell.getStringCellValue());
+                                System.out.println(excelSheetMcfpr1.getAddress());
+                            }
 
-                            case 5->
-                                    sheetMcfpr1.setAmount_refunded_2(BigDecimal.valueOf(cell.getNumericCellValue()));
+                            case 4 -> {
+                                excelSheetMcfpr1.setSubject(cell.getStringCellValue());
+                                System.out.println(excelSheetMcfpr1.getSubject());
+                            }
 
-                            case 6->
-                                    sheetMcfpr1.setCategory(cell.getStringCellValue());
+                            case 5 -> {
+                                excelSheetMcfpr1.setCategory(cell.getStringCellValue());
+                                System.out.println(excelSheetMcfpr1.getCategory());
+                            }
 
-                            case 7-> sheetMcfpr1.setComplaint_ref_number(cell.getStringCellValue());
-                            case 8-> sheetMcfpr1.setDate_received(cell.getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-                            case 9-> sheetMcfpr1.setMajor_areas_of_disagreement(cell.getStringCellValue());
-                            case 10-> sheetMcfpr1.setName_of_petitioner(cell.getStringCellValue());
-                            case 11-> sheetMcfpr1.setResolution_efforts_made(cell.getStringCellValue());
-                            case 13-> sheetMcfpr1.setSubject(cell.getStringCellValue());
+                            case 6 -> {
+                                excelSheetMcfpr1.setDate_received(LocalDate.parse(cell.getStringCellValue()));
+                                System.out.println(excelSheetMcfpr1.getDate_received());
+                            }
+
+
+                            case 7 -> {
+                                excelSheetMcfpr1.setDate_resolved(LocalDate.parse(cell.getStringCellValue()));
+                                System.out.println(excelSheetMcfpr1.getDate_resolved());
+                            }
+
+                            case 8 -> {
+                                excelSheetMcfpr1.setResolution_efforts_made(cell.getStringCellValue());
+                                System.out.println(excelSheetMcfpr1.getDate_resolved());
+                            }
+
+
+                            case 9 -> {
+                                excelSheetMcfpr1.setMajor_areas_of_disagreement(cell.getStringCellValue());
+                                System.out.println(excelSheetMcfpr1.getMajor_areas_of_disagreement());
+                            }
+
+                            case 10 -> {
+                                excelSheetMcfpr1.setAmount_claimed_1(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheetMcfpr1.getAmount_claimed_1());
+                            }
+                            case 11 -> {
+                                excelSheetMcfpr1.setAmount_refunded_1(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheetMcfpr1.getAmount_refunded_1());
+                            }
+                            case 12 -> {
+                                excelSheetMcfpr1.setAmount_claimed_2(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheetMcfpr1.getAmount_claimed_2());
+                            }
+
+                            case 13 -> {
+                                excelSheetMcfpr1.setAmount_refunded_2(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheetMcfpr1.getAmount_refunded_2());
+                            }
 
                             default -> {
 
@@ -354,10 +418,27 @@ public class sheetMcfpr1_Impl implements sheetMcfpr1_Service {
                         }
                         cellIndex++;
                     }
-                    sheetMcfpr1s.add(sheetMcfpr1);
+                    sheetMcfpr1DAO mcfpr1 = new sheetMcfpr1DAO();
+                    excelSheetMcfpr1Data.add(excelSheetMcfpr1);
+                    for (ExcelSheetMcfpr1Data ignored : excelSheetMcfpr1Data) {
+                        mcfpr1.setAddress(excelSheetMcfpr1.getAddress());
+                        mcfpr1.setAmount_claimed_1(excelSheetMcfpr1.getAmount_claimed_1());
+                        mcfpr1.setAmount_claimed_2(excelSheetMcfpr1.getAmount_claimed_2());
+                        mcfpr1.setAmount_refunded_1(excelSheetMcfpr1.getAmount_refunded_1());
+                        mcfpr1.setAmount_refunded_2(excelSheetMcfpr1.getAmount_refunded_2());
+                        mcfpr1.setCategory(excelSheetMcfpr1.getCategory());
+                        mcfpr1.setComplaint_ref_number(excelSheetMcfpr1.getComplaint_ref_number());
+                        mcfpr1.setDate_received(excelSheetMcfpr1.getDate_received());
+                        mcfpr1.setDate_resolved(excelSheetMcfpr1.getDate_resolved());
+                        mcfpr1.setMajor_areas_of_disagreement(excelSheetMcfpr1.getMajor_areas_of_disagreement());
+                        mcfpr1.setName_of_petitioner(excelSheetMcfpr1.getName_of_petitioner());
+                        mcfpr1.setResolution_efforts_made(excelSheetMcfpr1.getResolution_efforts_made());
+                        mcfpr1.setSubject(excelSheetMcfpr1.getSubject());
+
+                    }
+                    sheetMcfpr1s.add(mcfpr1);
                 }
-            }
-            else {
+            } else {
                 throw new RuntimeException("Sheet is null. Verify the sheet name in the Excel file.");
             }
 

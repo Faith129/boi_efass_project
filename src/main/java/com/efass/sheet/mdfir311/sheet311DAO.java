@@ -27,9 +27,9 @@ public class sheet311DAO {
     public String type_of_placements;
     @Column(name = "ACCOUNT_NUMBER")
     public String account_number;
-    @Column(name = "AMOUNT_1")
+    @Column(name = "SECURED")
     public BigDecimal amount;
-    @Column(name = "AMOUNT_2")
+    @Column(name = "UNSECURED")
     public BigDecimal amount_2;
     @Column(name = "TENOR")
     public String tenor;

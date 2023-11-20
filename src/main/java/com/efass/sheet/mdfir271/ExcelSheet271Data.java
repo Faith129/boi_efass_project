@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExcelSheetData {
+public class ExcelSheet271Data {
 
     public Integer id;
 

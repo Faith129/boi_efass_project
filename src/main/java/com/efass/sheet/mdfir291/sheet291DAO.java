@@ -1,6 +1,5 @@
 package com.efass.sheet.mdfir291;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -27,9 +26,9 @@ public class sheet291DAO {
     public String type_of_placements;
     @Column(name = "ACCOUNT_NUMBER")
     public String account_number;
-    @Column(name = "AMOUNT_1")
+    @Column(name = "SECURED")
     public BigDecimal amount;
-    @Column(name = "AMOUNT_2")
+    @Column(name = "UNSECURED")
     public BigDecimal amount_2;
     @Column(name = "TENOR")
     public String tenor;

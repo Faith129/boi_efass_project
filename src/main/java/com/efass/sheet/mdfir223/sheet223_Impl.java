@@ -9,21 +9,29 @@ import com.efass.payload.ResponseQuarterly;
 import com.efass.sheet.mdfir192.sheet192DAO;
 import com.efass.sheet.mdfir192.sheetQdfir192DAO;
 import com.efass.sheet.mdfir321.sheet321DAO;
+import com.efass.sheet.mdfir223.ExcelSheet223Data;
+import com.efass.sheet.mdfir223.sheet223DAO;
 import com.efass.sheet.table.TabController;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class sheet223_Impl implements sheet223_Service {
+    private static final String contentType ="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
 	@Autowired
 	sheet223Repository sheet223Repository;
@@ -255,5 +263,114 @@ public class sheet223_Impl implements sheet223_Service {
 		// TODO Auto-generated method stub
 		return null;
 	}
+    @Override
+    public void saveSheet223ToDataBase(MultipartFile file, String sheetNo) {
+        if (isValidExcelFile(file)) {
+            try {
+                List<sheet223DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
+                sheet223Repository.saveAll(excelData);
+
+            } catch (IOException e) {
+                throw new IllegalArgumentException("File is not a valid excel file");
+            }
+        }
+    }
+    private static List<sheet223DAO> getSheetDataFromExcel(InputStream inputStream, String sheetNumber) {
+        List<sheet223DAO> sheet223s = new ArrayList<>();
+        List<ExcelSheet223Data> excelSheet223Data = new ArrayList<>();
+
+        try {
+            XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+            XSSFSheet sheet = workbook.getSheet(sheetNumber.trim());
+
+
+            if (sheet != null) {
+
+                int rowIndex = 0;
+                for (Row row : sheet) {
+                    if (rowIndex == 0) {
+                        rowIndex++;
+                        continue;
+                    }
+                    Iterator<Cell> cellIterator = row.iterator();
+                    int cellIndex = 0;
+
+                    ExcelSheet223Data excelSheet223 = new ExcelSheet223Data();
+                    while (cellIterator.hasNext()) {
+                        Cell cell = cellIterator.next();
+                        switch (cellIndex) {
+                            case 0 -> {
+                                excelSheet223.setId((int) cell.getNumericCellValue());
+                                System.out.println(excelSheet223.getId());
+                            }
+
+                            case 1 -> {
+                                excelSheet223.setInvestee_name(cell.getStringCellValue());
+                                System.out.println(excelSheet223.getInvestee_name());
+                            }
+
+                            case 2 -> {
+                                excelSheet223.setType_of_investment(cell.getStringCellValue());
+                                System.out.println(excelSheet223.getType_of_investment());
+                            }
+
+                            case 3 -> {
+                                excelSheet223.setInvestment_cert_number(cell.getStringCellValue());
+                                System.out.println(excelSheet223.getInvestment_cert_number());
+                            }
+
+                            case 4 -> {
+                                excelSheet223.setAmount_invested(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet223.getAmount_invested());
+                            }
+
+                            case 5 -> {
+                                excelSheet223.setFair_value_gains(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet223.getFair_value_gains());
+                            }
+
+                            case 6 -> {
+                                excelSheet223.setImpairment(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet223.getImpairment());
+                            }
+
+                            case 7 -> {
+                                excelSheet223.setCarrying_value_unquoted_eq_inv(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet223.getCarrying_value_unquoted_eq_inv());
+                            }
+
+                            default -> {
+
+                            }
+                        }
+                        cellIndex++;
+                    }
+                    sheet223DAO mdfir223 = new sheet223DAO();
+                    excelSheet223Data.add(excelSheet223);
+                    for(ExcelSheet223Data ignored: excelSheet223Data){
+                        mdfir223.setInvestee_name(excelSheet223.getInvestee_name());
+                        mdfir223.setType_of_investment(excelSheet223.getType_of_investment());
+                        mdfir223.setInvestement_cert_number(excelSheet223.getInvestment_cert_number());
+                        mdfir223.setAmount_invested(excelSheet223.getAmount_invested());
+                        mdfir223.setFair_value_gain_or_loss(excelSheet223.getFair_value_gains());
+                        mdfir223.setImpairment(excelSheet223.getImpairment());
+                        mdfir223.setCarrying_amt_quoted_eq_inv(excelSheet223.getCarrying_value_unquoted_eq_inv());
+                    }
+                    sheet223s.add(mdfir223);
+                }
+            }
+            else {
+                throw new RuntimeException("Sheet is null. Verify the sheet name in the Excel file.");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("file too large");
+        }
+        return sheet223s;
+    }
+    private static boolean isValidExcelFile(MultipartFile file) {
+        return Objects.equals(file.getContentType(), contentType);
+    }
 
 }

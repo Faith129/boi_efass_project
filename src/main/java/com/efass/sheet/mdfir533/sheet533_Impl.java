@@ -9,20 +9,25 @@ import com.efass.payload.ResponseQuarterly;
 import com.efass.sheet.mdfir423.sheet423DAO;
 import com.efass.sheet.mdfir423.sheetQdfir423DAO;
 import com.efass.sheet.table.TabController;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class sheet533_Impl implements sheet533_Service{
+    private static final String contentType ="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
     @Autowired
     Qdfir533Repo qdfir533Repo;
@@ -217,4 +222,101 @@ public class sheet533_Impl implements sheet533_Service{
 	        res.setS533Data(data);
 	        return new ResponseEntity<>(res, HttpStatus.OK);
 	}
+
+    @Override
+    public void saveSheet533ToDataBase(MultipartFile file, String sheetNo) {
+        if (isValidExcelFile(file)) {
+            try {
+                List<sheet533DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
+                updateOrSaveSheet533Data(excelData);
+
+            } catch (IOException e) {
+                throw new IllegalArgumentException("File is not a valid excel file");
+            }
+        }
+    }
+    private static List<sheet533DAO> getSheetDataFromExcel(InputStream inputStream, String sheetNumber) {
+        List<sheet533DAO> sheet193s = new ArrayList<>();
+        List<ExcelSheet533Data> excelSheet533Data = new ArrayList<>();
+        try {
+            XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+            XSSFSheet sheet = workbook.getSheet(sheetNumber.trim());
+
+            if (sheet != null) {
+
+                int rowIndex = 0;
+                for (Row row : sheet) {
+                    if (rowIndex == 0) {
+                        rowIndex++;
+                        continue;
+                    }
+                    if (rowIndex == 1) {
+                        rowIndex++;
+                        continue;
+                    }
+                    Iterator<Cell> cellIterator = row.iterator();
+                    int cellIndex = 0;
+
+                    sheet533DAO sheet533 = new sheet533DAO();
+                    ExcelSheet533Data excelSheet533  = new ExcelSheet533Data();
+                    while (cellIterator.hasNext()) {
+                        Cell cell = cellIterator.next();
+                        switch (cellIndex) {
+                            case 0 -> excelSheet533.setCode(String.format("%.0f", cell.getNumericCellValue()));
+                            case 1 -> excelSheet533.setDescription(cell.getStringCellValue());
+                            case 2 -> excelSheet533.setGross_amount(BigDecimal.valueOf(cell.getNumericCellValue()));
+                            case 3 -> excelSheet533.setAdditions(BigDecimal.valueOf(cell.getNumericCellValue()));
+                            case 4 -> excelSheet533.setAccumulated_depreciation(BigDecimal.valueOf(cell.getNumericCellValue()));
+                            case 5 -> excelSheet533.setImpairment(BigDecimal.valueOf(cell.getNumericCellValue()));
+                            default -> {
+                            }
+                        }
+                        cellIndex++;
+                    }
+//					sheet193s.add(sheet533);
+                    excelSheet533Data.add(excelSheet533);
+                    excelSheet533Data.forEach(sheet533Data -> {
+                        sheet533.setCode(excelSheet533.getCode());
+                        sheet533.setDescription(excelSheet533.getDescription());
+                        sheet533.setGross_amount(excelSheet533.getGross_amount());
+                        sheet533.setAdditions(excelSheet533.getAdditions());
+                        sheet533.setAccumulated_depreciation(excelSheet533.getAccumulated_depreciation());
+                        sheet533.setImpairment(excelSheet533.getImpairment());
+                    });
+                    sheet193s.add(sheet533);
+                }
+            }
+            else {
+                throw new RuntimeException("Sheet is null. Verify the sheet name in the Excel file.");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("file too large");
+        }
+        return sheet193s;
+    }
+
+    private static boolean isValidExcelFile(MultipartFile file) {
+        return Objects.equals(file.getContentType(), contentType);
+    }
+
+    private void updateOrSaveSheet533Data(List<sheet533DAO> excelData) {
+        // Update existing record
+        sheet533DAO newSheetRecord = new sheet533DAO();
+        for (sheet533DAO sheet533 : excelData) {
+            sheet533DAO existingRecord = sheet533Repo.findByCode(sheet533.getCode().trim()).orElse(null);
+            if (existingRecord != null) {
+                existingRecord.setGross_amount(sheet533.getGross_amount());
+                existingRecord.setAdditions(sheet533.getAdditions());
+                existingRecord.setAccumulated_depreciation(sheet533.getAccumulated_depreciation());
+                existingRecord.setImpairment(sheet533.getImpairment());
+                sheet533Repo.save(existingRecord);
+
+            } else {
+                throw new RuntimeException("Sheet with code "+sheet533.getCode()+" does not exist");
+            }
+        }
+    }
+
 }

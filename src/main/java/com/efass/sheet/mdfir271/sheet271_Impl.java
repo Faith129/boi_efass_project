@@ -259,7 +259,7 @@ public class sheet271_Impl implements sheet271_Service {
 		}
 	}
 	private static List<sheet271DAO> getSheetDataFromExcel(InputStream inputStream, String sheetNumber) {
-		List<ExcelSheetData> sheetData = new ArrayList<>();
+		List<ExcelSheet271Data> sheetData = new ArrayList<>();
         List<sheet271DAO> sheet271s = new ArrayList<>();
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
@@ -275,14 +275,10 @@ public class sheet271_Impl implements sheet271_Service {
 					}
 					Iterator<Cell> cellIterator = row.iterator();
 					int cellIndex = 0;
-                    ExcelSheetData excelSheetData = new ExcelSheetData();
+                    ExcelSheet271Data excelSheetData = new ExcelSheet271Data();
 
 					while (cellIterator.hasNext()) {
 						Cell cell = cellIterator.next();
-//                        if (cellIndex == 0) {
-//                            cellIndex++;
-//                            continue;
-//                        }
 
 						switch (cellIndex) {
                             case 0-> excelSheetData.setId((int) cell.getNumericCellValue());
@@ -297,10 +293,9 @@ public class sheet271_Impl implements sheet271_Service {
 						}
 						cellIndex++;
 					}
-//					sheet271s.add(sheet271);
                     sheet271DAO sheet271 = new sheet271DAO();
                     sheetData.add(excelSheetData);
-                    for(ExcelSheetData ignored : sheetData) {
+                    for(ExcelSheet271Data ignored : sheetData) {
                        sheet271.setBank_name(excelSheetData.getBank_name());
                        sheet271.setBank_code(excelSheetData.getBank_code());
                        sheet271.setAccount_number(excelSheetData.getAccount_number());

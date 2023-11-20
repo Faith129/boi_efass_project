@@ -6,6 +6,8 @@ import com.efass.download.xmlModels.XmlParameters;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.payload.ResponseQuarterly;
+import com.efass.sheet.mdfir311.ExcelSheet311Data;
+import com.efass.sheet.mdfir311.sheet311DAO;
 import com.efass.sheet.table.TabController;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -29,8 +31,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class sheet311_Impl implements sheet311_Service {
-	@Value("${app.contentType}")
-	private static String contentType;
+    private static final String contentType ="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
 	@Autowired
 	Qdfir311Repo qdfir311Repo;
 
@@ -316,83 +318,121 @@ public class sheet311_Impl implements sheet311_Service {
 			}
 		}
 	}
-	private static List<sheet311DAO> getSheetDataFromExcel(InputStream inputStream, String sheetNumber) {
-		List<sheet311DAO> sheet311s = new ArrayList<>();
-		try {
-			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
-			XSSFSheet sheet = workbook.getSheet(sheetNumber.trim());
+    private static List<sheet311DAO> getSheetDataFromExcel(InputStream inputStream, String sheetNumber) {
+        List<ExcelSheet311Data> excelSheet311Data = new ArrayList<>();
+        List<sheet311DAO> sheet311s = new ArrayList<>();
+        try {
+            XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+            XSSFSheet sheet = workbook.getSheet(sheetNumber.trim());
 
 
-			if (sheet != null) {
+            if (sheet != null) {
 
-				int rowIndex = 0;
-				for (Row row : sheet) {
-					if (rowIndex == 0) {
-						rowIndex++;
-						continue;
-					}
-					Iterator<Cell> cellIterator = row.iterator();
-					int cellIndex = 0;
+                int rowIndex = 0;
+                for (Row row : sheet) {
+                    if (rowIndex == 0) {
+                        rowIndex++;
+                        continue;
+                    }
+                    Iterator<Cell> cellIterator = row.iterator();
+                    int cellIndex = 0;
+                    ExcelSheet311Data excelSheet311 = new ExcelSheet311Data();
+                    while (cellIterator.hasNext()) {
+                        Cell cell = cellIterator.next();
+                        switch (cellIndex) {
 
-					sheet311DAO sheet311 = new sheet311DAO();
-					while (cellIterator.hasNext()) {
-						Cell cell = cellIterator.next();
-						switch (cellIndex) {
-							case 0 ->
-									sheet311.setId((int) cell.getNumericCellValue());
+                            case 0 -> {
+                                excelSheet311.setId((int) cell.getNumericCellValue());
+                                System.out.println(excelSheet311.getId());
+                            }
+                            case 1 -> {
+                                excelSheet311.setBankName(cell.getStringCellValue());
+                                System.out.println(excelSheet311.getBankName());
+                            }
+                            case 2 -> {
+                                excelSheet311.setBankCode(String.format("% .0f",cell.getNumericCellValue()));
+                                System.out.println(excelSheet311.getBankCode());
+                            }
+                            case 3 -> {
+                                excelSheet311.setType_of_placements(cell.getStringCellValue());
+                                System.out.println(excelSheet311.getType_of_placements());
+                            }
+                            case 4 -> {
+                                excelSheet311.setAccount_number(String.format("% .0f",cell.getNumericCellValue()));
+                                System.out.println(excelSheet311.getAccount_number());
+                            }
 
-							case 1 ->
-									sheet311.setBankName(cell.getStringCellValue());
+                            case 5 -> {
+                                excelSheet311.setAmount(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet311.getAmount());
+                            }
+                            case 6 -> {
+                                excelSheet311.setAmount_2(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet311.getAmount_2());
+                            }
+                            case 7 -> {
+                                excelSheet311.setTenor(String.format("% .0f",cell.getNumericCellValue()));
+                                System.out.println(excelSheet311.getTenor());
+                            }
+                            case 8 -> {
+                                excelSheet311.setEffective_date(cell.getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+                                System.out.println(excelSheet311.getEffective_date());
+                            }
+                            case 9 -> {
+                                excelSheet311.setMaturity_date(cell.getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+                                System.out.println(excelSheet311.getMaturity_date());
+                            }
+                            case 10 -> {
+                                excelSheet311.setInterest_rate(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet311.getInterest_rate());
+                            }
+                            case 11 -> {
+                                excelSheet311.setUpfront_interest_received(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet311.getUpfront_interest_received());
+                            }
+                            case 12 -> {
+                                excelSheet311.setAccrued_interest_receivable(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet311.getAccrued_interest_receivable());
+                            }
+                            case 13 -> {
+                                excelSheet311.setTimes_rolled_over(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet311.getTimes_rolled_over());
+                            }
+                            default -> {
+                                System.out.println(excelSheet311);
+                            }
+                        }
+                        cellIndex++;
+                    }
+                    sheet311DAO mdfir311 = new sheet311DAO();
+                    excelSheet311Data.add(excelSheet311);
+                    for(ExcelSheet311Data ignored: excelSheet311Data){
+                        mdfir311.setBankName(excelSheet311.getBankName());
+                        mdfir311.setBankCode(excelSheet311.getBankCode());
+                        mdfir311.setType_of_placements(excelSheet311.getType_of_placements());
+                        mdfir311.setAccount_number(excelSheet311.getAccount_number());
+                        mdfir311.setAmount(excelSheet311.getAmount());
+                        mdfir311.setAmount_2(excelSheet311.getAmount_2());
+                        mdfir311.setTenor(excelSheet311.getTenor());
+                        mdfir311.setEffective_date(excelSheet311.getEffective_date());
+                        mdfir311.setMaturity_date(excelSheet311.getMaturity_date());
+                        mdfir311.setInterest_rate(excelSheet311.getInterest_rate());
+                        mdfir311.setUpfront_interest_received(excelSheet311.getUpfront_interest_received());
+                        mdfir311.setAccrued_interest_receivable(excelSheet311.getAccrued_interest_receivable());
+                        mdfir311.setTimes_rolled_over(excelSheet311.getTimes_rolled_over());
+                    }
+                    sheet311s.add(mdfir311);
+                }
+            } else {
+                throw new RuntimeException("Sheet is null. Verify the sheet name in the Excel file.");
+            }
 
-							case 2->
-									sheet311.setBankCode(cell.getStringCellValue());
-
-							case 3->
-									sheet311.setType_of_placements(cell.getStringCellValue());
-
-							case 4->
-									sheet311.setAccount_number(cell.getStringCellValue());
-
-							case 5->
-									sheet311.setAmount(BigDecimal.valueOf(cell.getNumericCellValue()));
-
-							case 6->
-									sheet311.setAmount_2(BigDecimal.valueOf(cell.getNumericCellValue()));
-
-							case 7->
-									sheet311.setTenor(cell.getStringCellValue());
-							case 8->
-									sheet311.setEffective_date(cell.getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-
-							case 9->
-									sheet311.setMaturity_date(cell.getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-							case 10->
-									sheet311.setInterest_rate(BigDecimal.valueOf(cell.getNumericCellValue()));
-							case 11->
-									sheet311.setUpfront_interest_received(BigDecimal.valueOf(cell.getNumericCellValue()));
-							case 12->
-									sheet311.setAccrued_interest_receivable(BigDecimal.valueOf(cell.getNumericCellValue()));
-							case 13->
-									sheet311.setTimes_rolled_over(BigDecimal.valueOf(cell.getNumericCellValue()));
-							default -> {
-
-							}
-						}
-						cellIndex++;
-					}
-					sheet311s.add(sheet311);
-				}
-			}
-			else {
-				throw new RuntimeException("Sheet is null. Verify the sheet name in the Excel file.");
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new RuntimeException("file too large");
-		}
-		return sheet311s;
-	}
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("file too large");
+        }
+        return sheet311s;
+    }
 	private static boolean isValidExcelFile(MultipartFile file) {
 		return Objects.equals(file.getContentType(), contentType);
 	}

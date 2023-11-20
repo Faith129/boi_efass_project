@@ -6,6 +6,7 @@ import com.efass.download.xmlModels.XmlParameters;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.payload.ResponseQuarterly;
+import com.efass.sheet.mdfir291.ExcelSheet291Data;
 import com.efass.sheet.table.TabController;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -27,8 +28,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class sheet333_Impl implements sheet333_Service {
-    @Value("${app.contentType}")
-    private static String contentType;
+    private static final String contentType ="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
     @Autowired
     sheet333Repository _333Repository;
 
@@ -283,6 +284,8 @@ public class sheet333_Impl implements sheet333_Service {
     }
     private static List<sheet333DAO> getSheetDataFromExcel(InputStream inputStream, String sheetNumber) {
         List<sheet333DAO> sheet333s = new ArrayList<>();
+        List<ExcelSheet333Data> excelSheet333Data = new ArrayList<>();
+
         try {
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
             XSSFSheet sheet = workbook.getSheet(sheetNumber.trim());
@@ -299,41 +302,69 @@ public class sheet333_Impl implements sheet333_Service {
                     Iterator<Cell> cellIterator = row.iterator();
                     int cellIndex = 0;
 
-                    sheet333DAO sheet333 = new sheet333DAO();
+                    ExcelSheet333Data excelSheet333 = new ExcelSheet333Data();
                     while (cellIterator.hasNext()) {
                         Cell cell = cellIterator.next();
                         switch (cellIndex) {
-                            case 0 ->
-                                    sheet333.setId((int) cell.getNumericCellValue());
+                            case 0 -> {
+                                excelSheet333.setId((int) cell.getNumericCellValue());
+                                System.out.println(excelSheet333.getId());
+                            }
 
-                            case 1 ->
-                                    sheet333.setInvestee_name(cell.getStringCellValue());
+                            case 1 -> {
+                                excelSheet333.setInvestee_name(cell.getStringCellValue());
+                                System.out.println(excelSheet333.getInvestee_name());
+                            }
 
-                            case 2->
-                                    sheet333.setType_of_investment(cell.getStringCellValue());
+                            case 2 -> {
+                                excelSheet333.setType_of_investment(cell.getStringCellValue());
+                                System.out.println(excelSheet333.getType_of_investment());
+                            }
 
-                            case 3->
-                                    sheet333.setInvestement_cert_number(cell.getStringCellValue());
+                            case 3 -> {
+                                excelSheet333.setInvestment_cert_number(cell.getStringCellValue());
+                                System.out.println(excelSheet333.getInvestment_cert_number());
+                            }
 
-                            case 4->
-                                    sheet333.setAmount_invested(BigDecimal.valueOf(cell.getNumericCellValue()));
+                            case 4 -> {
+                                excelSheet333.setAmount_invested(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet333.getAmount_invested());
+                            }
 
-                            case 5->
-                                    sheet333.setFair_value_gains(BigDecimal.valueOf(cell.getNumericCellValue()));
+                            case 5 -> {
+                                excelSheet333.setFair_value_gains(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet333.getFair_value_gains());
+                            }
 
-                            case 6->
-                                    sheet333.setImpairment(BigDecimal.valueOf(cell.getNumericCellValue()));
+                            case 6 -> {
+                                excelSheet333.setImpairment(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet333.getImpairment());
+                            }
 
-                            case 7->
-                                    sheet333.setCarrying_value_unquoted_eq_inv(BigDecimal.valueOf(cell.getNumericCellValue()));
-                           default -> {
+                            case 7 -> {
+                                excelSheet333.setCarrying_value_unquoted_eq_inv(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet333.getCarrying_value_unquoted_eq_inv());
+                            }
+
+                            default -> {
 
                             }
                         }
                         cellIndex++;
                     }
-                    sheet333s.add(sheet333);
-                }
+                    sheet333DAO mdfir333 = new sheet333DAO();
+                    excelSheet333Data.add(excelSheet333);
+                    for(ExcelSheet333Data ignored: excelSheet333Data){
+                        mdfir333.setInvestee_name(excelSheet333.getInvestee_name());
+                        mdfir333.setType_of_investment(excelSheet333.getType_of_investment());
+                        mdfir333.setInvestement_cert_number(excelSheet333.getInvestment_cert_number());
+                        mdfir333.setAmount_invested(excelSheet333.getAmount_invested());
+                        mdfir333.setFair_value_gains(excelSheet333.getFair_value_gains());
+                        mdfir333.setImpairment(excelSheet333.getImpairment());
+                        mdfir333.setCarrying_value_unquoted_eq_inv(excelSheet333.getCarrying_value_unquoted_eq_inv());
+                    }
+                        sheet333s.add(mdfir333);
+                    }
             }
             else {
                 throw new RuntimeException("Sheet is null. Verify the sheet name in the Excel file.");

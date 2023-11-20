@@ -6,6 +6,8 @@ import com.efass.download.xmlModels.XmlParameters;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.payload.ResponseQuarterly;
+import com.efass.sheet.mdfir333.ExcelSheet333Data;
+import com.efass.sheet.mdfir333.sheet333DAO;
 import com.efass.sheet.table.TabController;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -27,8 +29,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class sheet371_3_Impl implements sheet371_3_Service {
-    @Value("${app.contentType}")
-    private static String contentType;
+    private static final String contentType ="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
     @Autowired
     Qdfir371_3Repo qdfir371_3Repo;
     @Autowired
@@ -78,7 +80,7 @@ public class sheet371_3_Impl implements sheet371_3_Service {
                         result.add(e.getCarrying_value().toString() == null ? ".00" : String.valueOf(e.getCarrying_value().setScale(2, RoundingMode.HALF_EVEN)));
                     }
             );
-            
+
             GenericXml.writeIntoXmlFormat(XmlParameters.builder()
                     .genericXmls(genericXmls)
                     .prefix(".T3")
@@ -100,7 +102,7 @@ public class sheet371_3_Impl implements sheet371_3_Service {
             daoClass = sheetQdfir371_3DAO.class;
             qdfirData = qdfir371_3Repo.findAll();
 
-            qdfirData.forEach((e) -> 
+            qdfirData.forEach((e) ->
             {
             	try {
         			   counter.getAndIncrement();
@@ -109,10 +111,10 @@ public class sheet371_3_Impl implements sheet371_3_Service {
                         result.add(e.getNotional_amount().toString() == null ? ".00" : String.valueOf(e.getNotional_amount().setScale(2, RoundingMode.HALF_EVEN)));
                         result.add(e.getCarrying_value().toString() == null ? ".00" : String.valueOf(e.getCarrying_value().setScale(2, RoundingMode.HALF_EVEN)));
             	}
-   			 catch(NullPointerException ex) 
+   			 catch(NullPointerException ex)
    	            {
    	    			System.out.println("NullPointerException thrown!");
-   	            }	
+   	            }
             	});
         }
         GenericXml.writeIntoXmlFormat(XmlParameters.builder()
@@ -183,14 +185,14 @@ public class sheet371_3_Impl implements sheet371_3_Service {
             throw new ResourceNotFoundException("Record not found with id : " + Data.getId());
         }
     }
-    
+
 	@Override
 	public ResponseEntity<?> callPrepareTableProcedures(String start_date, String end_date)
 			throws ResourceNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
 	public ResponseEntity<?> createDataQ(sheetQdfir371_3DAO data) throws ResourceNotFoundException {
 		qdfir371_3Repo.save(data);
@@ -200,7 +202,7 @@ public class sheet371_3_Impl implements sheet371_3_Service {
         res.setS371_3Data(data);
         return new ResponseEntity<>(res, HttpStatus.OK);
 	}
-	
+
 	@Override
 	public ResponseEntity<?> fetchAllDataQ() {
 		// TODO Auto-generated method stub
@@ -259,6 +261,8 @@ public class sheet371_3_Impl implements sheet371_3_Service {
     }
     private static List<sheet371_3DAO> getSheetDataFromExcel(InputStream inputStream, String sheetNumber) {
         List<sheet371_3DAO> sheet371_3s = new ArrayList<>();
+        List<ExcelSheet371_3Data> excelSheet371_3Data = new ArrayList<>();
+
         try {
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
             XSSFSheet sheet = workbook.getSheet(sheetNumber.trim());
@@ -272,24 +276,37 @@ public class sheet371_3_Impl implements sheet371_3_Service {
                         rowIndex++;
                         continue;
                     }
+                    if (rowIndex == 1) {
+                        rowIndex++;
+                        continue;
+                    }
                     Iterator<Cell> cellIterator = row.iterator();
                     int cellIndex = 0;
 
-                    sheet371_3DAO sheet371_3 = new sheet371_3DAO();
+                    ExcelSheet371_3Data excelSheet371_3 = new ExcelSheet371_3Data();
                     while (cellIterator.hasNext()) {
                         Cell cell = cellIterator.next();
                         switch (cellIndex) {
-                            case 0 ->
-                                    sheet371_3.setId((int) cell.getNumericCellValue());
+                            case 0 -> {
+                                excelSheet371_3.setId((int) cell.getNumericCellValue());
+                                System.out.println(excelSheet371_3.getId());
+                            }
 
-                            case 1 ->
-                                    sheet371_3.setCarrying_value(BigDecimal.valueOf(cell.getNumericCellValue()));
+                            case 1 -> {
+                                excelSheet371_3.setDerivative_financial_assets(cell.getStringCellValue());
+                                System.out.println(excelSheet371_3.getDerivative_financial_assets());
+                            }
 
-                            case 2->
-                                    sheet371_3.setDerivative_financial_assets(cell.getStringCellValue());
+                            case 2 -> {
+                                excelSheet371_3.setNotional_amount(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet371_3.getNotional_amount());
+                            }
+                            case 3 -> {
+                                excelSheet371_3.setCarrying_value(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet371_3.getCarrying_value());
+                            }
 
-                            case 3->
-                                    sheet371_3.setNotional_amount(BigDecimal.valueOf(cell.getNumericCellValue()));
+
 
                             default -> {
 
@@ -297,7 +314,16 @@ public class sheet371_3_Impl implements sheet371_3_Service {
                         }
                         cellIndex++;
                     }
-                    sheet371_3s.add(sheet371_3);
+                    sheet371_3DAO mdfir371_3 = new sheet371_3DAO();
+                    excelSheet371_3Data.add(excelSheet371_3);
+                    for (ExcelSheet371_3Data ignored : excelSheet371_3Data) {
+                        mdfir371_3.setCarrying_value(excelSheet371_3.getCarrying_value());
+                        mdfir371_3.setDerivative_financial_assets(excelSheet371_3.getDerivative_financial_assets());
+                        mdfir371_3.setNotional_amount(excelSheet371_3.getNotional_amount());
+
+                    }
+                    sheet371_3s.add(mdfir371_3);
+
                 }
             }
             else {

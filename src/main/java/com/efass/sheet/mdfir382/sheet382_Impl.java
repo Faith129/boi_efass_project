@@ -8,25 +8,33 @@ import com.efass.payload.Response;
 import com.efass.payload.ResponseQuarterly;
 import com.efass.sheet.mdfir371_1.sheet371_1DAO;
 import com.efass.sheet.mdfir371_1.sheetQdfir371_1DAO;
-import com.efass.sheet.mdfir372.sheet372DAO;
-import com.efass.sheet.mdfir372.sheet372Repository;
-import com.efass.sheet.mdfir372.sheet372_Service;
+import com.efass.sheet.mdfir382.ExcelSheet382Data;
+import com.efass.sheet.mdfir382.sheet382DAO;
+import com.efass.sheet.mdfir382.sheet382Repository;
+import com.efass.sheet.mdfir382.sheet382_Service;
 import com.efass.sheet.table.TabController;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class sheet382_Impl implements sheet382_Service {
+    private static final String contentType ="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
     @Autowired
     sheet382Repository _382Repository;
@@ -290,6 +298,154 @@ public class sheet382_Impl implements sheet382_Service {
         }
 	}
 
+    @Override
+    public void saveSheet382ToDataBase(MultipartFile file, String sheetNo) {
+        if (isValidExcelFile(file)) {
+            try {
+                List<sheet382DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
+                _382Repository.saveAll(excelData);
+
+            } catch (IOException e) {
+                throw new IllegalArgumentException("File is not a valid excel file");
+            }
+        }
+    }
+
+    private static List<sheet382DAO> getSheetDataFromExcel(InputStream inputStream, String sheetNumber) {
+        List<sheet382DAO> sheet382s = new ArrayList<>();
+        List<ExcelSheet382Data> excelSheet382Data = new ArrayList<>();
+
+        try {
+            XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+            XSSFSheet sheet = workbook.getSheet(sheetNumber.trim());
+
+
+            if (sheet != null) {
+
+                int rowIndex = 0;
+                for (Row row : sheet) {
+                    if (rowIndex == 0) {
+                        rowIndex++;
+                        continue;
+                    }
+                    Iterator<Cell> cellIterator = row.iterator();
+                    int cellIndex = 0;
+
+                    ExcelSheet382Data excelSheet382 = new ExcelSheet382Data();
+                    while (cellIterator.hasNext()) {
+                        Cell cell = cellIterator.next();
+                        switch (cellIndex) {
+                            case 0 -> {
+                                excelSheet382.setId((int) cell.getNumericCellValue());
+                                System.out.println(excelSheet382.getId());
+                            }
+
+                            case 1 -> {
+                                excelSheet382.setCustomer_code(cell.getStringCellValue());
+                                System.out.println(excelSheet382.getCustomer_code());
+                            }
+
+                            case 2 -> {
+                                excelSheet382.setCustomer_name(cell.getStringCellValue());
+                                System.out.println(excelSheet382.getCustomer_name());
+                            }
+
+                            case 3 -> {
+                                excelSheet382.setPrincipal_granted(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet382.getPrincipal_granted());
+                            }
+
+                            case 4 -> {
+                                excelSheet382.setPurpose(cell.getStringCellValue());
+                                System.out.println(excelSheet382.getPurpose());
+                            }
+
+                            case 5 -> {
+                                excelSheet382.setDate_granted(LocalDate.parse(String.valueOf(cell.getDateCellValue())));
+                                System.out.println(excelSheet382.getDate_granted());
+                            }
+
+                            case 6 -> {
+                                excelSheet382.setDue_date(LocalDate.parse(String.valueOf(cell.getDateCellValue())));
+                                System.out.println(excelSheet382.getDue_date());
+                            }
+
+                            case 7 -> {
+                                excelSheet382.setPrincipal_outstanding(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet382.getPrincipal_outstanding());
+                            }case 8 -> {
+                                excelSheet382.setInterest_rate(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet382.getInterest_rate());
+
+                            }
+                            case 9 -> {
+                                excelSheet382.setInterest_rate(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet382.getInterest_rate());
+                            }
+
+                            case 10 -> {
+                                excelSheet382.setUpfront_interest(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet382.getUpfront_interest());
+                            }
+
+                            case 11 -> {
+                                excelSheet382.setInterest_payable(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet382.getInterest_payable());
+                            }
+
+                            case 12 -> {
+                                excelSheet382.setUnpaid_principal_interest(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet382.getUnpaid_principal_interest());
+                            }
+
+                            case 13 -> {
+                                excelSheet382.setTimes_rolled_over(cell.getStringCellValue());
+                                System.out.println(excelSheet382.getTimes_rolled_over());
+                            }
+
+                            case 14 -> {
+                                excelSheet382.setColl_or_value(cell.getStringCellValue());
+                                System.out.println(excelSheet382.getInterest_rate());
+                            }
+
+                            default -> {
+
+                            }
+                        }
+                        cellIndex++;
+                    }
+                    sheet382DAO mdfir382 = new sheet382DAO();
+                    excelSheet382Data.add(excelSheet382);
+                    for(ExcelSheet382Data ignored: excelSheet382Data){
+                        mdfir382.setCustomer_code(excelSheet382.getCustomer_code());
+                        mdfir382.setCustomer_name(excelSheet382.getCustomer_name());
+                        mdfir382.setPrincipal_granted(excelSheet382.getPrincipal_granted());
+                        mdfir382.setPurpose(excelSheet382.getPurpose());
+                        mdfir382.setDate_granted(excelSheet382.getDate_granted());
+                        mdfir382.setDue_date(excelSheet382.getDue_date());
+                        mdfir382.setPrincipal_outstanding(excelSheet382.getPrincipal_outstanding());
+                        mdfir382.setInterest_rate(excelSheet382.getInterest_rate());
+                        mdfir382.setInterest_payable(excelSheet382.getInterest_payable());
+                        mdfir382.setUnpaid_principal_interest(excelSheet382.getUnpaid_principal_interest());
+                        mdfir382.setTimes_rolled_over(excelSheet382.getTimes_rolled_over());
+                        mdfir382.setColl_or_value(excelSheet382.getColl_or_value());
+                    }
+                    sheet382s.add(mdfir382);
+                }
+            }
+            else {
+                throw new RuntimeException("Sheet is null. Verify the sheet name in the Excel file.");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("file too large");
+        }
+        return sheet382s;
+    }
+    private static boolean isValidExcelFile(MultipartFile file) {
+        return Objects.equals(file.getContentType(), contentType);
+    }
 
 }
 

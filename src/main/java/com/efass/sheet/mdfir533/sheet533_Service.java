@@ -3,6 +3,7 @@ package com.efass.sheet.mdfir533;
 import com.efass.exceptions.ResourceNotFoundException;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface sheet533_Service{
     ResponseEntity<?> fetchAllData();
@@ -10,12 +11,14 @@ public interface sheet533_Service{
     ResponseEntity<?> updateData(int id, sheet533DAO Data) throws ResourceNotFoundException;
 
     ResponseEntity<?> getDataById(int dataId) throws ResourceNotFoundException;
-    
+
     ResponseEntity<?> fetchAllDataQ();
 
     ResponseEntity<?> updateDataQ(int id, sheetQdfir533DAO Data) throws ResourceNotFoundException;
 
     ResponseEntity<?> getDataByIdQ(int dataId) throws ResourceNotFoundException;
-    
+
 	public ResponseEntity<?> callPrepareTableProcedures(String start_date, String end_date) throws ResourceNotFoundException;
+    public void saveSheet533ToDataBase(MultipartFile file, String sheetNo);
+
 }
