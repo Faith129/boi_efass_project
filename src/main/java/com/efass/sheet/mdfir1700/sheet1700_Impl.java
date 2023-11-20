@@ -13,6 +13,7 @@ import com.efass.sheet.mdfir1650.sheet1650Repository;
 import com.efass.sheet.mdfir1650.sheet1650_Service;
 import com.efass.sheet.mdfir1650.sheetQdfir1650DAO;
 import com.efass.sheet.table.TabController;
+import lombok.extern.log4j.Log4j2;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -29,8 +30,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Service
+@Log4j2
 public class sheet1700_Impl implements sheet1700_Service {
 
 	private static final String contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -96,8 +99,7 @@ public class sheet1700_Impl implements sheet1700_Service {
 				result.add(e.getName() == null ? "" : e.getName());
 				result.add(e.getSector() == null ? "" : e.getSector());
 				result.add(e.getCrms_borrower_code() == null ? "" : e.getCrms_borrower_code());
-				result.add(e.getRc_or_br_or_sr_no().toString() == null ? ".00"
-						: String.valueOf(e.getRc_or_br_or_sr_no().setScale(2, RoundingMode.HALF_EVEN)));
+				result.add(e.getRc_or_br_or_sr_no().toString() == null ?  "" : String.valueOf(e.getRc_or_br_or_sr_no()));
 				result.add(e.getTotal().toString() == null ? ".00"
 						: String.valueOf(e.getTotal().setScale(2, RoundingMode.HALF_EVEN)));
 				result.add(e.getClassified_as_npa() == null ? "" : e.getClassified_as_npa());
@@ -133,8 +135,7 @@ public class sheet1700_Impl implements sheet1700_Service {
 					result.add(e.getName() == null ? "" : e.getName());
 					result.add(e.getSector() == null ? "" : e.getSector());
 					result.add(e.getCrms_borrower_code() == null ? "" : e.getCrms_borrower_code());
-					result.add(e.getRc_or_br_or_sr_no().toString() == null ? ".00"
-							: String.valueOf(e.getRc_or_br_or_sr_no().setScale(2, RoundingMode.HALF_EVEN)));
+					result.add(e.getRc_or_br_or_sr_no().toString() == null ?  "" : e.getRc_or_br_or_sr_no());
 					result.add(e.getTotal().toString() == null ? ".00"
 							: String.valueOf(e.getTotal().setScale(2, RoundingMode.HALF_EVEN)));
 					result.add(e.getClassified_as_npa() == null ? "" : e.getClassified_as_npa());
@@ -284,7 +285,6 @@ public class sheet1700_Impl implements sheet1700_Service {
 		return null;
 	}
 
-
 	@Override
 	public void saveSheet1700ToDataBase(MultipartFile file, String sheetNo) {
 		if (isValidExcelFile(file)) {
@@ -311,6 +311,14 @@ public class sheet1700_Impl implements sheet1700_Service {
 						rowIndex++;
 						continue;
 					}
+					if (rowIndex == 1) {
+						rowIndex++;
+						continue;
+					}
+					if (rowIndex == 2) {
+						rowIndex++;
+						continue;
+					}
 					Iterator<Cell> cellIterator = row.iterator();
 					int cellIndex = 0;
 
@@ -320,15 +328,16 @@ public class sheet1700_Impl implements sheet1700_Service {
 					while (cellIterator.hasNext()) {
 						Cell cell = cellIterator.next();
 						switch (cellIndex) {
-							case 0 -> excelSheet1700D.setName(cell.getStringCellValue());
-							case 1 -> excelSheet1700D.setSector(cell.getStringCellValue());
-							case 2 -> excelSheet1700D.setCrms_borrower_code(cell.getStringCellValue());
-							case 3 -> excelSheet1700D.setRc_or_br_or_sr_no(BigDecimal.valueOf(cell.getNumericCellValue()));
-							case 4 -> excelSheet1700D.setTotal(BigDecimal.valueOf(cell.getNumericCellValue()));
-							case 5 -> excelSheet1700D.setClassified_as_npa(cell.getStringCellValue());
-							case 6 -> excelSheet1700D.setInvestment(BigDecimal.valueOf(cell.getNumericCellValue()));
-							case 7 -> excelSheet1700D.setLiabilities(BigDecimal.valueOf(cell.getNumericCellValue()));
-							case 8 -> excelSheet1700D.setTotal_exposure(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 0 -> excelSheet1700D.setSerial_no(String.valueOf(cell.getNumericCellValue()));
+							case 1 -> excelSheet1700D.setName(cell.getStringCellValue());
+							case 2 -> excelSheet1700D.setSector(cell.getStringCellValue());
+							case 3 -> excelSheet1700D.setCrms_borrower_code(cell.getStringCellValue());
+							case 4 -> excelSheet1700D.setRc_or_br_or_sr_no(cell.getStringCellValue());
+							case 5 -> excelSheet1700D.setTotal(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 6 -> excelSheet1700D.setClassified_as_npa(String.valueOf(cell.getNumericCellValue()));
+							case 7 -> excelSheet1700D.setInvestment(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 8 -> excelSheet1700D.setLiabilities(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 9 -> excelSheet1700D.setTotal_exposure(BigDecimal.valueOf(cell.getNumericCellValue()));
 
 							default -> {
 							}
@@ -340,16 +349,17 @@ public class sheet1700_Impl implements sheet1700_Service {
 						sheet1700.setName(sheet1700Data.getName());
 						sheet1700.setSector(sheet1700Data.getSector());
 						sheet1700.setCrms_borrower_code(sheet1700Data.getCrms_borrower_code());
-						sheet1700.setRc_or_br_or_sr_no(sheet1700Data.getRc_or_br_or_sr_no());
+						sheet1700.setRc_or_br_or_sr_no(null);
 						sheet1700.setInvestment(sheet1700Data.getInvestment());
+						sheet1700.setTotal(sheet1700Data.getTotal());
 						sheet1700.setClassified_as_npa(sheet1700Data.getClassified_as_npa());
 						sheet1700.setLiabilities(sheet1700Data.getLiabilities());
 						sheet1700.setTotal_exposure(sheet1700Data.getTotal_exposure());
 						sheet1700.setSector(sheet1700Data.getSector());
+						System.out.println(sheet1700);
 					});
 
 					sheet1700_list.add(sheet1700);
-					//Tested with excelSheet1600D but still under review
 				}
 			}
 			else {
@@ -363,28 +373,5 @@ public class sheet1700_Impl implements sheet1700_Service {
 
 	private static boolean isValidExcelFile(MultipartFile file) {
 		return Objects.equals(file.getContentType(), contentType);
-	}
-
-	private void updateOrSaveSheet100Data(List<sheet1600DAO> excelData) {
-		sheet1600DAO newSheetRecord = new sheet1600DAO();
-		// Update existing record
-//		for (sheet1600DAO sheet1600 : excelData) {
-//			sheet1700DAO existingRecord = sheet1700Repository.findById(sheet1600.getId()).orElse(null);
-//			if (existingRecord != null) {
-//				existingRecord.setNumber_1(sheet100.getNumber_1());
-//				existingRecord.setValue_1(sheet100.getValue_1());
-//				existingRecord.setNumber_2(sheet100.getNumber_2());
-//				existingRecord.setValue_2(sheet100.getValue_2());
-//				sheet100Repo.save(existingRecord);
-//				// Save as a new record
-//			} else {
-//				newSheetRecord.setCode(sheet100.getCode());
-//				newSheetRecord.setNumber_1(sheet100.getNumber_1());
-//				newSheetRecord.setValue_1(sheet100.getValue_1());
-//				newSheetRecord.setNumber_2(sheet100.getNumber_2());
-//				newSheetRecord.setValue_2(sheet100.getValue_2());
-//				sheet100Repo.save(newSheetRecord);
-//			}
-//		}
 	}
 }

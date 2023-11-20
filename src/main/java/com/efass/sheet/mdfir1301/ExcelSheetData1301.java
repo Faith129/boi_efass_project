@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Builder
 public class ExcelSheetData1301 {
+    public String serial_no;
     public String customer_name;
     public String customer_code;
     public BigDecimal total_credit;

@@ -290,15 +290,13 @@ public class sheet1301_Impl implements sheet1301_Service {
 		if (isValidExcelFile(file)) {
 			try {
 				List<sheet1301DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
-				updateOrSaveSheet100Data(excelData);
+			sheet1301Repository.saveAll(excelData);
 
 			} catch (IOException e) {
 				throw new IllegalArgumentException("File is not a valid excel file");
 			}
 		}
 	}
-
-
 	private static List<sheet1301DAO> getSheetDataFromExcel(InputStream inputStream, String sheetNumber) {
 		List<sheet1301DAO> sheet1301_list = new ArrayList<>();
 		List<ExcelSheetData1301> excelSheet1301Data = new ArrayList<>();
@@ -313,6 +311,11 @@ public class sheet1301_Impl implements sheet1301_Service {
 						rowIndex++;
 						continue;
 					}
+
+					if (rowIndex == 1) {
+						rowIndex++;
+						continue;
+					}
 					Iterator<Cell> cellIterator = row.iterator();
 					int cellIndex = 0;
 
@@ -322,14 +325,15 @@ public class sheet1301_Impl implements sheet1301_Service {
 					while (cellIterator.hasNext()) {
 						Cell cell = cellIterator.next();
 						switch (cellIndex) {
-							case 0 -> excelSheet1301D.setCustomer_name(cell.getStringCellValue());
-							case 1 -> excelSheet1301D.setCustomer_code(cell.getStringCellValue());
-							case 2 -> excelSheet1301D.setTotal_credit(BigDecimal.valueOf(cell.getNumericCellValue()));
-							case 3 -> excelSheet1301D.setPrincipal_payment_due_and_unpaid(BigDecimal.valueOf(cell.getNumericCellValue()));
-							case 4 -> excelSheet1301D.setAccrued_interest_unpaid(BigDecimal.valueOf(cell.getNumericCellValue()));
-							case 5 -> excelSheet1301D.setTotal_impaired_credits(BigDecimal.valueOf(cell.getNumericCellValue()));
-							case 6 -> excelSheet1301D.setImpairment(BigDecimal.valueOf(cell.getNumericCellValue()));
-							case 7 -> excelSheet1301D.setRemarks(cell.getStringCellValue());
+							case 0 -> excelSheet1301D.setSerial_no(String.valueOf(cell.getNumericCellValue()));
+							case 1 -> excelSheet1301D.setCustomer_code(String.valueOf(cell.getNumericCellValue()));
+							case 2 -> excelSheet1301D.setCustomer_name(cell.getStringCellValue());
+							case 3 -> excelSheet1301D.setTotal_credit(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 4 -> excelSheet1301D.setPrincipal_payment_due_and_unpaid(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 5 -> excelSheet1301D.setAccrued_interest_unpaid(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 6 -> excelSheet1301D.setTotal_impaired_credits(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 7 -> excelSheet1301D.setImpairment(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 8 -> excelSheet1301D.setRemarks(String.valueOf(cell.getNumericCellValue()));
 							default -> {
 							}
 						}
@@ -361,28 +365,4 @@ public class sheet1301_Impl implements sheet1301_Service {
 	private static boolean isValidExcelFile(MultipartFile file) {
 		return Objects.equals(file.getContentType(), contentType);
 	}
-
-	private void updateOrSaveSheet100Data(List<sheet1301DAO> excelData) {
-		sheet100DAO newSheetRecord = new sheet100DAO();
-//		// Update existing record
-//		for (sheet1301DAO sheet100 : excelData) {
-//			sheet100DAO existingRecord = sheet1301Repo.findByCode(sheet100.getCode()).orElse(null);
-//			if (existingRecord != null) {
-//				existingRecord.setNumber_1(sheet100.getNumber_1());
-//				existingRecord.setValue_1(sheet100.getValue_1());
-//				existingRecord.setNumber_2(sheet100.getNumber_2());
-//				existingRecord.setValue_2(sheet100.getValue_2());
-//				sheet100Repo.save(existingRecord);
-//				// Save as a new record
-//			} else {
-//				newSheetRecord.setCode(sheet100.getCode());
-//				newSheetRecord.setNumber_1(sheet100.getNumber_1());
-//				newSheetRecord.setValue_1(sheet100.getValue_1());
-//				newSheetRecord.setNumber_2(sheet100.getNumber_2());
-//				newSheetRecord.setValue_2(sheet100.getValue_2());
-//				sheet100Repo.save(newSheetRecord);
-//			}
-//		}
-	}
-
 }

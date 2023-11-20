@@ -13,10 +13,11 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Builder
 public class ExcelSheetData1700 {
+    public String serial_no;
     public String name;
     public String sector;
     public String  crms_borrower_code;
-    public BigDecimal rc_or_br_or_sr_no;
+    public String rc_or_br_or_sr_no;
     public BigDecimal total;
     public String classified_as_npa;
     public BigDecimal investment;
