@@ -259,7 +259,6 @@ public class sheet600_Impl implements sheet600_Service {
                     }
                     switch (cellIdx) {
                         case 0:
-                            System.out.println(cellIdx+":hxxgx "+ currentCell.getNumericCellValue());
                             sheet600DAO.setCode(String.valueOf(currentCell.getNumericCellValue()));
                             break;
                         case 1:
