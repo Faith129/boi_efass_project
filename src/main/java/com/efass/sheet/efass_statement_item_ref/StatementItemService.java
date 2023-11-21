@@ -34,7 +34,7 @@ public class StatementItemService {
             statementItem.setStatementCode(statementItemRefRequest.getStatementCode());
             statementItem.setItemCode(statementItemRefRequest.getItemCode());
             statementItem.setItemDescription(statementItemRefRequest.getItemDescription());
-            statementItem.setCreateDt(LocalDateTime.now());
+            statementItem.setCreateDt(LocalDate.now());
             log.info(statementItem);
             itemRepository.save(statementItem);
             response = mapResponseToStatementRefResponse(statementItem);

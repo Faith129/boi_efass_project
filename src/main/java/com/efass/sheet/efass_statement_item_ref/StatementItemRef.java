@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,14 +24,15 @@ public class StatementItemRef {
 
     @Column(name = "STATEMENT_CODE")
     private String statementCode;
-
+    @Column(name = "STATEMENT_DESCRIPTION")
+    private String statementDescription;
     @Column(name = "ITEM_CODE")
     private String itemCode;
-
     @Column(name = "ITEM_DESCRIPTION")
     private String itemDescription;
-
+    @Column(name = "LEDGER_NO")
+    private String ledgerNumber;
     @Column(name = "CREATE_DT")
-    private LocalDateTime createDt;
+    private LocalDate createDt;
 
 }
