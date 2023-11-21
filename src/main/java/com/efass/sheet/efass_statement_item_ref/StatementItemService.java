@@ -32,8 +32,10 @@ public class StatementItemService {
         if (statementItem == null) {
             statementItem = new StatementItemRef();
             statementItem.setStatementCode(statementItemRefRequest.getStatementCode());
+            statementItem.setStatementDescription(statementItemRefRequest.getStatementDescription());
             statementItem.setItemCode(statementItemRefRequest.getItemCode());
             statementItem.setItemDescription(statementItemRefRequest.getItemDescription());
+            statementItem.setLedgerNumber(statementItemRefRequest.getLedgerNumber());
             statementItem.setCreateDt(LocalDate.now());
             log.info(statementItem);
             itemRepository.save(statementItem);
@@ -51,8 +53,10 @@ public class StatementItemService {
         StatementItemRef existingStatementItemRef =  validateStatementItemRef(itemRequest.getStatementCode(),itemRequest.getItemCode());
         if (existingStatementItemRef != null) {
             existingStatementItemRef.setItemDescription(itemRequest.getItemDescription());
+            existingStatementItemRef.setStatementDescription(itemRequest.getStatementDescription());
             existingStatementItemRef.setStatementCode(itemRequest.getStatementCode());
             existingStatementItemRef.setItemCode(itemRequest.getItemCode());
+            existingStatementItemRef.setLedgerNumber(itemRequest.getLedgerNumber());
             itemRepository.save(existingStatementItemRef);
         }
         assert existingStatementItemRef != null;
@@ -78,7 +82,9 @@ public class StatementItemService {
         return StatementItemRefResponse.builder()
                 .itemDescription(statementItemRef.getItemDescription())
                 .itemCode(statementItemRef.getItemCode())
+            .statementDescription(statementItemRef.getStatementDescription())
                 .statementCode(statementItemRef.getItemDescription())
+            .ledgerNumber(statementItemRef.getLedgerNumber())
                 .build();
     }
 }

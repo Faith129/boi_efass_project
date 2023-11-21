@@ -13,4 +13,6 @@ public class StatementItemRefResponse {
     private String statementCode;
     private String itemCode;
     private String itemDescription;
+    private String statementDescription;
+    private String ledgerNumber;
 }
