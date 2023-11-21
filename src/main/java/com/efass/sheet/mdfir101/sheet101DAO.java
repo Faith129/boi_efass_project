@@ -2,21 +2,17 @@ package com.efass.sheet.mdfir101;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "MDFIR101")
 public class sheet101DAO {
 
     @Id
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     public Integer id;
 
     @Column(name="CUSTOMER_CODE")
@@ -58,7 +54,15 @@ public class sheet101DAO {
     @Column(name="COLL_OR_VALUE")
     public BigDecimal col_value;
 
+    @Column(name = "CREATE_DT")
+    public Date create_dt;
+
     public sheet101DAO() {
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        create_dt = new Date();
     }
 
     public sheet101DAO(Integer id, String customer_code, String customer_name, BigDecimal principal_granted, BigDecimal purpose, LocalDate date_granted, LocalDate due_date, BigDecimal principal_outstanding, BigDecimal interest_rate, BigDecimal upfront_interest, BigDecimal interest_payable, BigDecimal unpaid_principal_interest, BigDecimal times_rolled_over, BigDecimal col_value) {

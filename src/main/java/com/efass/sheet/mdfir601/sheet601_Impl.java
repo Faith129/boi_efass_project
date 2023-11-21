@@ -11,24 +11,31 @@ import com.efass.Validation;
 import com.efass.sheet.mdfir423.sheet423DAO;
 import com.efass.sheet.mdfir423.sheetQdfir423DAO;
 import com.efass.sheet.mdfir493.sheet493DAO;
+import com.efass.sheet.mdfir600.sheet600DAO;
 import com.efass.sheet.table.TabController;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
@@ -39,6 +46,8 @@ public class sheet601_Impl implements sheet601_Service{
     @Autowired
     sheet601Repository sheet601Repository;
 	List<GenericXml> genericXmlList;
+
+	private static final String contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
 	public List<GenericXml> getSheet601XmlList() {
 		return genericXmlList;
@@ -207,6 +216,84 @@ public class sheet601_Impl implements sheet601_Service{
 			throws ResourceNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void saveSheet601ToDataBase(MultipartFile file, String sheet601) {
+		if (Objects.equals(file.getContentType(), contentType)) {
+			try {
+				sheet601Repository.deleteAll();
+				List<sheet601DAO> excelData = excelToEntity(file.getInputStream(), sheet601);
+				sheet601Repository.saveAll(excelData);
+			} catch (IOException e) {
+				throw new IllegalArgumentException("File is not a valid excel file");
+			}
+		}
+	}
+
+	public static List<sheet601DAO> excelToEntity(InputStream is, String sheetName) {
+		try {
+			Workbook workbook = new XSSFWorkbook(is);
+			Sheet sheet = workbook.getSheet(sheetName);
+			Iterator<Row> rows = sheet.iterator();
+			List<sheet601DAO> sheet600DAOS = new ArrayList<>();
+			int rowNumber = 0;
+			while (rows.hasNext()) {
+				Row currentRow = rows.next();
+				if (rowNumber == 0) {
+					rowNumber++;
+					continue;
+				}
+				if (rowNumber == 1) {
+					rowNumber++;
+					continue;
+				}
+				if (rowNumber == 2) {
+					rowNumber++;
+					continue;
+				}
+				Iterator<Cell> cellsInRow = currentRow.iterator();
+				sheet601DAO sheet601DAO = new sheet601DAO();
+				int cellIdx = 0;
+				while (cellsInRow.hasNext()) {
+					Cell currentCell = cellsInRow.next();
+					switch (cellIdx) {
+						case 1:
+							sheet601DAO.setCustomer_name(currentCell.getStringCellValue());
+							break;
+
+						case 2:
+							sheet601DAO.setDate_approved(LocalDateTime.from(currentCell.getLocalDateTimeCellValue()).toLocalDate());
+							break;
+
+						case 3:
+							sheet601DAO.setForeign_currency(currentCell.getStringCellValue());
+							break;
+
+						case 4:
+							sheet601DAO.setRate_of_exchange(BigDecimal.valueOf(currentCell.getNumericCellValue()));
+							break;
+
+						case 5:
+							sheet601DAO.setApproved_limit(BigDecimal.valueOf(currentCell.getNumericCellValue()));
+							break;
+
+						case 6:
+							sheet601DAO.setAmount_drawn(BigDecimal.valueOf(currentCell.getNumericCellValue()));
+							break;
+
+						default:
+							break;
+					}
+					cellIdx++;
+				}
+				sheet600DAOS.add(sheet601DAO);
+			}
+			workbook.close();
+			return sheet600DAOS;
+		} catch (IOException e) {
+			throw new IllegalStateException("fail to parse Excel file: " + e.getMessage());
+		}
 	}
 
 	@Override

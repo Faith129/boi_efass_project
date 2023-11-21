@@ -3,6 +3,7 @@ package com.efass.sheet.mdfir101;
 
 import org.springframework.http.ResponseEntity;
 import com.efass.exceptions.ResourceNotFoundException;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface sheet101_Service {
 	
@@ -21,7 +22,7 @@ public interface sheet101_Service {
 	public ResponseEntity<?> updateDataQ(int id, sheetQdfir101DAO Data) throws ResourceNotFoundException;
 		
 	public ResponseEntity<?> callPrepareTableProcedures(String start_date, String end_date) throws ResourceNotFoundException;
-		
-		 
-			
+
+
+	void saveSheet101ToDataBase(MultipartFile file, String sheet101);
 }
