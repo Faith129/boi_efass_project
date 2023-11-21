@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -41,4 +41,12 @@ public class sheet601DAO {
 
     @Column(name = "AMOUNT_DRAWN")
     public BigDecimal amount_drawn;
+    @Column(name = "CREATE_DT")
+    public Date create_dt;
+
+
+    @PrePersist
+    protected void onCreate() {
+        create_dt = new Date();
+    }
 }

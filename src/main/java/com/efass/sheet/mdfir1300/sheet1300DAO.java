@@ -37,7 +37,7 @@ public class sheet1300DAO {
     @Column(name = "LOST")
     public BigDecimal lost;
     @Column(name = "DFI_PROVISION")
-    public BigDecimal dfi_provision;
+    public String dfi_provision;
     @Column(name = "REMARKS")
     public BigDecimal remarks;
 
@@ -125,11 +125,11 @@ public class sheet1300DAO {
         this.lost = lost;
     }
 
-    public BigDecimal getDfi_provision() {
+    public String  getDfi_provision() {
         return dfi_provision;
     }
 
-    public void setDfi_provision(BigDecimal dfi_provision) {
+    public void setDfi_provision(String dfi_provision) {
         this.dfi_provision = dfi_provision;
     }
 

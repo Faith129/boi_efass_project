@@ -1,22 +1,31 @@
 package com.efass.sheet.mdfir101;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
 import com.efass.ReportGroupEnum;
 import com.efass.download.xmlModels.GenericXml;
 import com.efass.download.xmlModels.XmlParameters;
+import com.efass.sheet.mdfir100.ExcelSheet100Data;
 import com.efass.sheet.mdfir100.sheet100DAO;
 import com.efass.sheet.mdfir100.sheetQdfirDAO;
 import com.efass.sheet.mdfir161.sheet161DAO;
 import com.efass.sheet.mdfir321.sheet321DAO;
 import com.efass.sheet.table.TabController;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +33,7 @@ import org.springframework.stereotype.Service;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.payload.ResponseQuarterly;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Service
@@ -38,6 +48,8 @@ public class sheet101_Impl implements sheet101_Service{
     @Autowired
     TabController tabController;
 	List<GenericXml> genericXmlList;
+
+	private static final String contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
 	public List<GenericXml> getSheet101XmlList() {
 		return genericXmlList;
@@ -315,11 +327,142 @@ public class sheet101_Impl implements sheet101_Service{
 		return null;
 	}
 
+	@Override
+	public void saveSheet101ToDataBase(MultipartFile file, String sheet101) {
+		if (Objects.equals(file.getContentType(), contentType)) {
+			try {
+				_101Repository.deleteAll();
+				List<sheet101DAO> excelData = excelToEntity(file.getInputStream(), sheet101);
+				_101Repository.saveAll(excelData);
+			} catch (IOException e) {
+				throw new IllegalArgumentException("File is not a valid excel file");
+			}
+		}
+	}
+
+	public static List<sheet101DAO> excelToEntity(InputStream is,String sheetName) {
+		List<sheet101DAO> sheet101DAOS = new ArrayList<>();
+		try {
+			XSSFWorkbook workbook = new XSSFWorkbook(is);
+			XSSFSheet sheet = workbook.getSheet(sheetName.trim());
+			if (sheet != null) {
+				int rowIndex = 0;
+				for (Row row : sheet) {
+					if (rowIndex == 0) {
+						rowIndex++;
+						continue;
+					}
+					Iterator<Cell> cellIterator = row.iterator();
+					int cellIndex = 0;
+
+					sheet101DAO sheet101 = new sheet101DAO();
+					while (cellIterator.hasNext()) {
+						Cell cell = cellIterator.next();
+						switch (cellIndex) {
+//							case 0 -> sheet101.setId((int) cell.getNumericCellValue());
+							case 1 :
+								sheet101.setCustomer_code(cell.getStringCellValue());
+								break;
+							case 2 :
+								sheet101.setCustomer_name(cell.getStringCellValue());
+								break;
+							case 3 :
+								sheet101.setPrincipal_granted(BigDecimal.valueOf(cell.getNumericCellValue()));
+								break;
+							case 4 :
+								sheet101.setPurpose(BigDecimal.valueOf(cell.getNumericCellValue()));
+								break;
+							case 5 :
+								sheet101.setDate_granted(LocalDateTime.from(cell.getLocalDateTimeCellValue()).toLocalDate());
+								break;
+							case 6 :
+								sheet101.setDue_date(LocalDateTime.from(cell.getLocalDateTimeCellValue()).toLocalDate());
+								break;
+							case 7 :
+								sheet101.setPrincipal_outstanding(BigDecimal.valueOf(cell.getNumericCellValue()));
+								break;
+							case 8 :
+								sheet101.setInterest_rate(BigDecimal.valueOf(cell.getNumericCellValue()));
+								break;
+							case 9 :
+								sheet101.setUpfront_interest(BigDecimal.valueOf(cell.getNumericCellValue()));
+								break;
+							case 10 :
+								sheet101.setInterest_payable(BigDecimal.valueOf(cell.getNumericCellValue()));
+								break;
+							case 11 :
+								sheet101.setUnpaid_principal_interest(BigDecimal.valueOf(cell.getNumericCellValue()));
+								break;
+							case 12 :
+								sheet101.setTimes_rolled_over(BigDecimal.valueOf(cell.getNumericCellValue()));
+								break;
+							case 13 :
+								sheet101.setCol_value(BigDecimal.valueOf(cell.getNumericCellValue()));
+								break;
+							default : break;
+						}
+						cellIndex++;
+					}
+					sheet101DAOS.add(sheet101);
+				}
+				workbook.close();
+			}
+			else {
+				throw new IllegalStateException("Sheet is null. Verify the sheet name in the Excel file.");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new IllegalStateException("file too large");
+		}
+		return sheet101DAOS;
+	}
 
 
 
+	private static List<sheet101DAO> getSheetDataFromExcel(InputStream inputStream, String sheetNumber) {
+		List<sheet101DAO> sheet101s = new ArrayList<>();
+		try {
+			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+			XSSFSheet sheet = workbook.getSheet(sheetNumber.trim());
 
 
+			if (sheet != null) {
 
+				int rowIndex = 0;
+				for (Row row : sheet) {
+					if (rowIndex == 0) {
+						rowIndex++;
+						continue;
+					}
+					Iterator<Cell> cellIterator = row.iterator();
+					int cellIndex = 0;
 
+					sheet101DAO sheet101 = new sheet101DAO();
+					while (cellIterator.hasNext()) {
+						Cell cell = cellIterator.next();
+						switch (cellIndex) {
+							case 0 : sheet101.setCustomer_code(cell.getStringCellValue());
+							case 1 : sheet101.setCustomer_name(cell.getStringCellValue());
+							case 2 : sheet101.setUnpaid_principal_interest(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 3 : sheet101.setUpfront_interest(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 4 : sheet101.setPrincipal_granted(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 5 : sheet101.setInterest_payable(BigDecimal.valueOf(cell.getNumericCellValue()));
+							default: break;
+						}
+						cellIndex++;
+					}
+					sheet101s.add(sheet101);
+				}
+			}
+			else {
+				throw new IllegalStateException("Sheet is null. Verify the sheet name in the Excel file.");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new IllegalStateException("file too large");
+		}
+		return sheet101s;
+	}
 }

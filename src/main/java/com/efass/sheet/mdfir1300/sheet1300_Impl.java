@@ -6,20 +6,25 @@ import com.efass.download.xmlModels.XmlParameters;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.payload.ResponseQuarterly;
-import com.efass.sheet.mdfir1000.sheet1000DAO;
-import com.efass.sheet.mdfir1000.sheetQdfir1000DAO;
-import com.efass.sheet.mdfir321.sheet321DAO;
 import com.efass.sheet.table.TabController;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
@@ -32,6 +37,8 @@ public class sheet1300_Impl implements sheet1300_Service {
 	Qdfir1300Repo qdfir1300Repo;
 
 	List<GenericXml> genericXmlList;
+
+	private static final String contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
 	public List<GenericXml> getSheet1300XmlList() {
 		return genericXmlList;
@@ -105,7 +112,7 @@ public class sheet1300_Impl implements sheet1300_Service {
 					result.add(e.getLost() == null ? ".00"
 							: String.valueOf(e.getLost().setScale(2, RoundingMode.HALF_EVEN)));
 					result.add(e.getDfi_provision() == null ? ".00"
-							: String.valueOf(e.getDfi_provision().setScale(2, RoundingMode.HALF_EVEN)));
+							: String.valueOf(e.getDfi_provision()));
 					result.add(e.getRemarks() == null ? ".00"
 							: String.valueOf(e.getRemarks().setScale(2, RoundingMode.HALF_EVEN)));
 				} catch (NullPointerException ex) {
@@ -303,5 +310,103 @@ public class sheet1300_Impl implements sheet1300_Service {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void saveSheet1300ToDataBase(MultipartFile file, String sheet1300) {
+		if (Objects.equals(file.getContentType(), contentType)) {
+			try {
+				sheet1300Repository.deleteAll();
+				List<sheet1300DAO> excelData = excelToEntity(file.getInputStream(), sheet1300);
+				sheet1300Repository.saveAll(excelData);
+			} catch (IOException e) {
+				throw new IllegalArgumentException("File is not a valid excel file");
+			}
+		}
+	}
+	public static List<sheet1300DAO> excelToEntity(InputStream is, String sheetName) {
+		try {
+			Workbook workbook = new XSSFWorkbook(is);
+			Sheet sheet = workbook.getSheet(sheetName);
+			Iterator<Row> rows = sheet.iterator();
+			List<sheet1300DAO> sheet1300DAOS = new ArrayList<>();
+			int rowNumber = 0;
+			while (rows.hasNext()) {
+				Row currentRow = rows.next();
+				if (rowNumber == 0) {
+					rowNumber++;
+					continue;
+				}
+				Iterator<Cell> cellsInRow = currentRow.iterator();
+				sheet1300DAO sheet1300DAO = new sheet1300DAO();
+				int cellIdx = 0;
+				while (cellsInRow.hasNext()) {
+					Cell currentCell = cellsInRow.next();
+					switch (cellIdx) {
+						case 1:
+							sheet1300DAO.setCustomer_code(String.valueOf(currentCell.getNumericCellValue()));
+							break;
+
+						case 2:
+							sheet1300DAO.setCustomer_name(currentCell.getStringCellValue());
+							break;
+
+						case 3:
+							sheet1300DAO.setTotal_credit(BigDecimal.valueOf(currentCell.getNumericCellValue()));
+							break;
+
+						case 4:
+							sheet1300DAO.setPrincipal_payment_due_and_unpaid(BigDecimal.valueOf(currentCell.getNumericCellValue()));
+							break;
+
+						case 5:
+							sheet1300DAO.setAccrued_interest_unpaid(BigDecimal.valueOf(currentCell.getNumericCellValue()));
+							break;
+
+						case 6:
+							sheet1300DAO.setTotal_outstanding_credits(BigDecimal.valueOf(currentCell.getNumericCellValue()));
+							break;
+
+						case 7:
+							sheet1300DAO.setWatch_list(BigDecimal.valueOf(currentCell.getNumericCellValue()));
+							break;
+
+						case 8:
+							sheet1300DAO.setSubstandard(BigDecimal.valueOf(currentCell.getNumericCellValue()));
+							break;
+
+						case 9:
+							sheet1300DAO.setDoubtful(BigDecimal.valueOf(currentCell.getNumericCellValue()));
+							break;
+
+						case 10:
+							sheet1300DAO.setVery_doubtful(BigDecimal.valueOf(currentCell.getNumericCellValue()));
+							break;
+
+						case 11:
+							sheet1300DAO.setLost(BigDecimal.valueOf(currentCell.getNumericCellValue()));
+							break;
+
+						case 12:
+							sheet1300DAO.setDfi_provision(String.valueOf(currentCell.getNumericCellValue()));
+							break;
+
+						case 13:
+							sheet1300DAO.setRemarks(BigDecimal.valueOf(currentCell.getNumericCellValue()));
+							break;
+
+						default:
+							break;
+					}
+					cellIdx++;
+				}
+				sheet1300DAOS.add(sheet1300DAO);
+			}
+			workbook.close();
+			return sheet1300DAOS;
+		} catch (IOException e) {
+			throw new RuntimeException("fail to parse Excel file: " + e.getMessage());
+		}
+	}
+
 
 }
