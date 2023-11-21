@@ -6,15 +6,25 @@ import com.efass.download.xmlModels.XmlParameters;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.payload.ResponseQuarterly;
+import com.efass.sheet.mdfir1600.ExcelSheetData1600;
+import com.efass.sheet.mdfir1600.sheet1600DAO;
 import com.efass.sheet.table.TabController;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,6 +35,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class sheet921_Impl implements sheet921_Service {
+    private static final String contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
     @Autowired
     Qdfir921Repo qdfir921Repo;
@@ -313,7 +324,7 @@ public class sheet921_Impl implements sheet921_Service {
 		return null;
 	}
 
-	@Override
+    @Override
 	public ResponseEntity<?> createDataQ(sheetQdfir921DAO data) throws ResourceNotFoundException {
 		qdfir921Repo.save(data);
 	        ResponseQuarterly res = new ResponseQuarterly();
@@ -387,6 +398,109 @@ public class sheet921_Impl implements sheet921_Service {
         }
 	}
 
+    @Override
+    public void saveSheet921ToDataBase(MultipartFile file, String sheetNo) {
+        if (isValidExcelFile(file)) {
+            try {
+                List<sheet921DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
+                _921Repository.saveAll(excelData);
+            } catch (IOException e) {
+                throw new IllegalArgumentException("File is not a valid excel file");
+            }
+        }
+    }
 
+    private static List<sheet921DAO> getSheetDataFromExcel(InputStream inputStream, String sheetNumber) {
+        List<sheet921DAO> sheet921_list = new ArrayList<>();
+        List<ExcelSheetData921> excelSheet921Data = new ArrayList<>();
+        try {
+            XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+            XSSFSheet sheet = workbook.getSheet(sheetNumber.trim());
+
+            if (sheet != null) {
+                int rowIndex = 0;
+                for (Row row : sheet) {
+                    if (rowIndex == 0) {
+                        rowIndex++;
+                        continue;
+                    }
+                    Iterator<Cell> cellIterator = row.iterator();
+                    int cellIndex = 0;
+
+                    sheet921DAO sheet921 = new sheet921DAO();
+                    ExcelSheetData921 excelSheetData921  = new ExcelSheetData921();
+
+                    while (cellIterator.hasNext()) {
+                        Cell cell = cellIterator.next();
+                        switch (cellIndex) {
+                            case 0 -> excelSheetData921.setSurname(cell.getStringCellValue());
+                            case 1 -> excelSheetData921.setFirst_name(cell.getStringCellValue());
+                            case 2 -> excelSheetData921.setMiddle_name(cell.getStringCellValue());
+                            case 3 -> excelSheetData921.setDesignation(cell.getStringCellValue());
+                            case 4 -> excelSheetData921.setSex(cell.getStringCellValue());
+                            case 5 -> excelSheetData921.setDate_of_birth(LocalDate.parse(cell.getStringCellValue()));
+                            case 6 -> excelSheetData921.setNationality(cell.getStringCellValue());
+                            case 7 -> excelSheetData921.setState_of_origin(cell.getStringCellValue());
+                            case 8 -> excelSheetData921.setPassport_number(cell.getStringCellValue());
+                            case 9 -> excelSheetData921.setNational_id_card_number(cell.getStringCellValue());
+                            case 10 -> excelSheetData921.setBranch_name(cell.getStringCellValue());
+                            case 11 -> excelSheetData921.setBranch_code(cell.getStringCellValue());
+                            case 12 -> excelSheetData921.setState_code(cell.getStringCellValue());
+                            case 13 -> excelSheetData921.setDepartment(cell.getStringCellValue());
+                            case 14 -> excelSheetData921.setDate_of_fraud(LocalDate.parse(cell.getStringCellValue()));
+                            case 15 -> excelSheetData921.setDate_discovered(LocalDate.parse(cell.getStringCellValue()));
+                            case 16 -> excelSheetData921.setAmount_involved(BigDecimal.valueOf(cell.getNumericCellValue()));
+                            case 17 -> excelSheetData921.setStatus(cell.getStringCellValue());
+                            case 18 -> excelSheetData921.setAmount_recovered(BigDecimal.valueOf(cell.getNumericCellValue()));
+                            case 19 -> excelSheetData921.setActual_loss(BigDecimal.valueOf(cell.getNumericCellValue()));
+                            case 20 -> excelSheetData921.setType(cell.getStringCellValue());
+                            case 21 -> excelSheetData921.setDate(LocalDate.parse(cell.getStringCellValue())); //optional
+                            default -> {
+                            }
+                        }
+                        cellIndex++;
+                    }
+                    excelSheet921Data.add(excelSheetData921);
+                    excelSheet921Data.forEach(sheet921D -> {
+                        sheet921.setSurname(sheet921D.getSurname());
+                        sheet921.setFirst_name(sheet921D.getFirst_name());
+                        sheet921.setMiddle_name(sheet921D.getMiddle_name());
+                        sheet921.setDesignation(sheet921D.getDesignation());
+                        sheet921.setSex(sheet921D.getSex());
+                        sheet921.setDate_of_birth(sheet921D.getDate_of_birth());
+                        sheet921.setNationality(sheet921D.getNationality());
+                        sheet921.setState_of_origin(sheet921D.getState_of_origin());
+                        sheet921.setPassport_number(sheet921D.getPassport_number());
+                        sheet921.setNational_id_card_number(sheet921D.getNational_id_card_number());
+                        sheet921.setBranch_name(sheet921D.getBranch_name());
+                        sheet921.setBranch_code(sheet921D.getBranch_code());
+                        sheet921.setState_code(sheet921D.getState_code());
+                        sheet921.setDepartment(sheet921D.getDepartment());
+                        sheet921.setDate_of_fraud(sheet921D.getDate_of_fraud());
+                        sheet921.setDate_discovered(sheet921D.getDate_discovered());
+                        sheet921.setAmount_involved(sheet921D.getAmount_involved());
+                        sheet921.setStatus(sheet921D.getStatus());
+                        sheet921.setAmount_recovered(sheet921D.getAmount_recovered());
+                        sheet921.setActual_loss(sheet921D.getActual_loss());
+                        sheet921.setType(sheet921D.getType());
+                        sheet921.setDate(sheet921D.getDate()); //optional? will the date be pass as part of the Excel data
+                    });
+                    sheet921_list.add(sheet921);
+
+                    //excelSheet921D not tested yet
+                }
+            }
+            else {
+                throw new RuntimeException("Sheet is null. Verify the sheet name in the Excel file.");
+            }
+        }  catch (IOException e) {
+            throw new RuntimeException("file too large");
+        }
+        return sheet921_list;
+    }
+
+    private static boolean isValidExcelFile(MultipartFile file) {
+        return Objects.equals(file.getContentType(), contentType);
+    }
 }
 

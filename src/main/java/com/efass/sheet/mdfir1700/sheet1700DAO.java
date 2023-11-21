@@ -12,7 +12,7 @@ import java.time.LocalDate;
 public class sheet1700DAO {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "ID")
     public Integer id;
     @Column(name = "NAME")
     public String name;
@@ -21,7 +21,7 @@ public class sheet1700DAO {
     @Column(name = "CRMS_BORROWER_CODE")
     public String  crms_borrower_code;
     @Column(name = "RC_OR_BR_OR_SR_NO")
-    public BigDecimal rc_or_br_or_sr_no;
+    public String rc_or_br_or_sr_no;
     @Column(name = "TOTAL")
     public BigDecimal total;
     @Column(name = "CLASSIFIED_AS_NPA")
@@ -56,10 +56,10 @@ public class sheet1700DAO {
     public void setCrms_borrower_code(String crms_borrower_code) {
         this.crms_borrower_code = crms_borrower_code;
     }
-    public BigDecimal getRc_or_br_or_sr_no() {
+    public String getRc_or_br_or_sr_no() {
         return rc_or_br_or_sr_no;
     }
-    public void setRc_or_br_or_sr_no(BigDecimal rc_or_br_or_sr_no) {
+    public void setRc_or_br_or_sr_no(String rc_or_br_or_sr_no) {
         this.rc_or_br_or_sr_no = rc_or_br_or_sr_no;
     }
     public BigDecimal getTotal() {
@@ -92,5 +92,4 @@ public class sheet1700DAO {
     public void setTotal_exposure(BigDecimal total_exposure) {
         this.total_exposure = total_exposure;
     }
-
 }
