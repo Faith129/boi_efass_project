@@ -6,24 +6,33 @@ import com.efass.download.xmlModels.XmlParameters;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.payload.ResponseQuarterly;
+import com.efass.sheet.mdfir100.ExcelSheet100Data;
+import com.efass.sheet.mdfir100.sheet100DAO;
 import com.efass.sheet.mdfir1000.sheet1000DAO;
 import com.efass.sheet.mdfir1000.sheetQdfir1000DAO;
 import com.efass.sheet.mdfir1300.sheet1300DAO;
 import com.efass.sheet.table.TabController;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class sheet1301_Impl implements sheet1301_Service {
+
+	private static final String contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
 	@Autowired
 	sheet1301Repository sheet1301Repository;
@@ -32,6 +41,7 @@ public class sheet1301_Impl implements sheet1301_Service {
 	Qdfir1301Repo qdfir1301Repo;
 
 	List<GenericXml> genericXmlList;
+
 
 	public List<GenericXml> getSheet1301XmlList() {
 		return genericXmlList;
@@ -275,4 +285,85 @@ public class sheet1301_Impl implements sheet1301_Service {
 		return null;
 	}
 
+	@Override
+	public void saveSheet1301ToDataBase(MultipartFile file, String sheetNo) {
+		if (isValidExcelFile(file)) {
+			try {
+                sheet1301Repository.deleteAll();
+				List<sheet1301DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
+			sheet1301Repository.saveAll(excelData);
+
+			} catch (IOException e) {
+				throw new IllegalArgumentException("File is not a valid excel file");
+			}
+		}
+	}
+	private static List<sheet1301DAO> getSheetDataFromExcel(InputStream inputStream, String sheetNumber) {
+		List<sheet1301DAO> sheet1301_list = new ArrayList<>();
+		List<ExcelSheetData1301> excelSheet1301Data = new ArrayList<>();
+		try {
+			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+			XSSFSheet sheet = workbook.getSheet(sheetNumber.trim());
+
+			if (sheet != null) {
+				int rowIndex = 0;
+				for (Row row : sheet) {
+					if (rowIndex == 0) {
+						rowIndex++;
+						continue;
+					}
+
+					if (rowIndex == 1) {
+						rowIndex++;
+						continue;
+					}
+					Iterator<Cell> cellIterator = row.iterator();
+					int cellIndex = 0;
+
+					sheet1301DAO sheet1301 = new sheet1301DAO();
+					ExcelSheetData1301 excelSheet1301D  = new ExcelSheetData1301();
+
+					while (cellIterator.hasNext()) {
+						Cell cell = cellIterator.next();
+						switch (cellIndex) {
+							case 0 -> excelSheet1301D.setSerial_no(String.valueOf(cell.getNumericCellValue()));
+							case 1 -> excelSheet1301D.setCustomer_code(String.valueOf(cell.getNumericCellValue()));
+							case 2 -> excelSheet1301D.setCustomer_name(cell.getStringCellValue());
+							case 3 -> excelSheet1301D.setTotal_credit(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 4 -> excelSheet1301D.setPrincipal_payment_due_and_unpaid(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 5 -> excelSheet1301D.setAccrued_interest_unpaid(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 6 -> excelSheet1301D.setTotal_impaired_credits(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 7 -> excelSheet1301D.setImpairment(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 8 -> excelSheet1301D.setRemarks(String.valueOf(cell.getNumericCellValue()));
+							default -> {
+							}
+						}
+						cellIndex++;
+					}
+					excelSheet1301Data.add(excelSheet1301D);
+					excelSheet1301Data.forEach(sheet100Data -> {
+						sheet1301.setCustomer_name(excelSheet1301D.getCustomer_name());
+						sheet1301.setCustomer_code(excelSheet1301D.getCustomer_code());
+						sheet1301.setTotal_credit(excelSheet1301D.getTotal_credit());
+						sheet1301.setPrincipal_payment_due_and_unpaid(excelSheet1301D.getPrincipal_payment_due_and_unpaid());
+						sheet1301.setAccrued_interest_unpaid(excelSheet1301D.getAccrued_interest_unpaid());
+						sheet1301.setTotal_impaired_credits(excelSheet1301D.getTotal_impaired_credits());
+						sheet1301.setImpairment(excelSheet1301D.getImpairment());
+						sheet1301.setRemarks(excelSheet1301D.getRemarks());
+					});
+					sheet1301_list.add(sheet1301);
+				}
+			}
+			else {
+				throw new RuntimeException("Sheet is null. Verify the sheet name in the Excel file.");
+				}
+		}  catch (IOException e) {
+			throw new RuntimeException("file too large");
+		}
+		return sheet1301_list;
+	}
+
+	private static boolean isValidExcelFile(MultipartFile file) {
+		return Objects.equals(file.getContentType(), contentType);
+	}
 }

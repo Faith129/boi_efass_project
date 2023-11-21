@@ -251,6 +251,7 @@ public class sheet371_3_Impl implements sheet371_3_Service {
     public void saveSheet371_3ToDataBase(MultipartFile file, String sheetNo) {
         if (isValidExcelFile(file)) {
             try {
+                _371_3Repository.deleteAll();
                 List<sheet371_3DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
                 _371_3Repository.saveAll(excelData);
 

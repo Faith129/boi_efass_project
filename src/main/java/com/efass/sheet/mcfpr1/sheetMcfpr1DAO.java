@@ -35,7 +35,7 @@ public class sheetMcfpr1DAO {
     public String category;
 
     @Column(name = "COMPLAINT_REF_NUMBER")
-    public String complaint_ref_number;
+    public BigDecimal complaint_ref_number;
 
     @Column(name = "DATE_RECEIVED")
     public LocalDate date_received;
@@ -111,11 +111,11 @@ public class sheetMcfpr1DAO {
         this.category = category;
     }
 
-    public String getComplaint_ref_number() {
+    public BigDecimal getComplaint_ref_number() {
         return complaint_ref_number;
     }
 
-    public void setComplaint_ref_number(String complaint_ref_number) {
+    public void setComplaint_ref_number(BigDecimal complaint_ref_number) {
         this.complaint_ref_number = complaint_ref_number;
     }
 

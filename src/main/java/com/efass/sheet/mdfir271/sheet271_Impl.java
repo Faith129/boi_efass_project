@@ -250,6 +250,7 @@ public class sheet271_Impl implements sheet271_Service {
 	public void saveSheet271ToDataBase(MultipartFile file, String sheetNo) {
 		if (isValidExcelFile(file)) {
 			try {
+                sheet271Repository.deleteAll();
 				List<sheet271DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
 				sheet271Repository.saveAll(excelData);
 

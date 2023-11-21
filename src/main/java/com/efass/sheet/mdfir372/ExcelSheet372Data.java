@@ -23,9 +23,9 @@ public class ExcelSheet372Data {
 
     public String purpose;
 
-    public String date_granted;
+    public LocalDate date_granted;
 
-    public String due_date;
+    public LocalDate due_date;
 
     public BigDecimal principal_outstanding;
 
@@ -37,7 +37,7 @@ public class ExcelSheet372Data {
 
     public BigDecimal unpaid_principal_interest;
 
-    public String times_rolled_over;
+    public BigDecimal times_rolled_over;
 
-    public String coll_or_value;
+    public BigDecimal coll_or_value;
 }

@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -94,7 +95,7 @@ public class sheetMcfpr1_Impl implements sheetMcfpr1_Service {
 
 
             data.forEach((e) -> {
-                result.add(e.getComplaint_ref_number() == null ? "" :e.getComplaint_ref_number());
+                result.add(e.getComplaint_ref_number() == null ? ".00" : String.valueOf(e.getComplaint_ref_number().setScale(2, RoundingMode.HALF_EVEN)));
                 result.add(e.getName_of_petitioner()== null ? "" :e.getName_of_petitioner());
                 result.add(e.getAddress()== null ? "" : e.getAddress());
                 result.add(e.getSubject()== null ? "" :e.getSubject());
@@ -296,6 +297,7 @@ public class sheetMcfpr1_Impl implements sheetMcfpr1_Service {
     public void saveSheetMcfpr1ToDataBase(MultipartFile file, String sheetNo) {
         if (isValidExcelFile(file)) {
             try {
+                _Mcfpr1Repository.deleteAll();
                 List<sheetMcfpr1DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
                 _Mcfpr1Repository.saveAll(excelData);
 
@@ -331,10 +333,7 @@ public class sheetMcfpr1_Impl implements sheetMcfpr1_Service {
                         rowIndex++;
                         continue;
                     }
-                    if (rowIndex == 3) {
-                        rowIndex++;
-                        continue;
-                    }
+
                     Iterator<Cell> cellIterator = row.iterator();
                     int cellIndex = 0;
 
@@ -348,7 +347,7 @@ public class sheetMcfpr1_Impl implements sheetMcfpr1_Service {
                             }
 
                             case 1 -> {
-                                excelSheetMcfpr1.setComplaint_ref_number(cell.getStringCellValue());
+                                excelSheetMcfpr1.setComplaint_ref_number(BigDecimal.valueOf(cell.getNumericCellValue()));
                                 System.out.println(excelSheetMcfpr1.getComplaint_ref_number());
                             }
 
@@ -373,13 +372,13 @@ public class sheetMcfpr1_Impl implements sheetMcfpr1_Service {
                             }
 
                             case 6 -> {
-                                excelSheetMcfpr1.setDate_received(LocalDate.parse(cell.getStringCellValue()));
+                                excelSheetMcfpr1.setDate_received(LocalDateTime.from(cell.getLocalDateTimeCellValue()).toLocalDate());
                                 System.out.println(excelSheetMcfpr1.getDate_received());
                             }
 
 
                             case 7 -> {
-                                excelSheetMcfpr1.setDate_resolved(LocalDate.parse(cell.getStringCellValue()));
+                                excelSheetMcfpr1.setDate_resolved(LocalDateTime.from(cell.getLocalDateTimeCellValue()).toLocalDate());
                                 System.out.println(excelSheetMcfpr1.getDate_resolved());
                             }
 

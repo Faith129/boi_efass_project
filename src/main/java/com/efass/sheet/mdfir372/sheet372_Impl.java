@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -94,8 +95,8 @@ public class sheet372_Impl implements sheet372_Service {
                         result.add(e.getUpfront_interest().toString() == null ? ".00" : String.valueOf(e.getUpfront_interest().setScale(2, RoundingMode.HALF_EVEN)));
                         result.add(e.getInterest_payable().toString() == null ? ".00" : String.valueOf(e.getInterest_payable().setScale(2, RoundingMode.HALF_EVEN)));
                         result.add(e.getUnpaid_principal_interest().toString() == null ? ".00" : String.valueOf(e.getUnpaid_principal_interest().setScale(2, RoundingMode.HALF_EVEN)));
-                        result.add(e.getTimes_rolled_over() == null ? "" :e.getTimes_rolled_over());
-                        result.add(e.getColl_or_value() == null ? "" :e.getColl_or_value());
+                        result.add(e.getTimes_rolled_over() == null ? ".00" : String.valueOf(e.getTimes_rolled_over().setScale(2, RoundingMode.HALF_EVEN)));
+                        result.add(e.getColl_or_value()== null ? ".00" : String.valueOf(e.getColl_or_value().setScale(2, RoundingMode.HALF_EVEN)));
         	}
 			 catch(NullPointerException ex)
 	            {
@@ -139,8 +140,8 @@ public class sheet372_Impl implements sheet372_Service {
                         result.add(e.getUpfront_interest().toString() == null ? ".00" : String.valueOf(e.getUpfront_interest().setScale(2, RoundingMode.HALF_EVEN)));
                         result.add(e.getInterest_payable().toString() == null ? ".00" : String.valueOf(e.getInterest_payable().setScale(2, RoundingMode.HALF_EVEN)));
                         result.add(e.getUnpaid_principal_interest().toString() == null ? ".00" : String.valueOf(e.getUnpaid_principal_interest().setScale(2, RoundingMode.HALF_EVEN)));
-                        result.add(e.getTimes_rolled_over() == null ? "" :e.getTimes_rolled_over());
-                        result.add(e.getColl_or_value() == null ? "" :e.getColl_or_value());
+                        result.add(e.getTimes_rolled_over() == null ? ".00" : String.valueOf(e.getUnpaid_principal_interest().setScale(2, RoundingMode.HALF_EVEN)));
+                        result.add(e.getColl_or_value() == null ? ".00" : String.valueOf(e.getUnpaid_principal_interest().setScale(2, RoundingMode.HALF_EVEN)));
 
                     }
             );
@@ -298,6 +299,7 @@ public class sheet372_Impl implements sheet372_Service {
     public void saveSheet372ToDataBase(MultipartFile file, String sheetNo) {
         if (isValidExcelFile(file)) {
             try {
+                _372Repository.deleteAll();
                 List<sheet372DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
                 _372Repository.saveAll(excelData);
 
@@ -357,12 +359,12 @@ public class sheet372_Impl implements sheet372_Service {
                             }
 
                             case 5 -> {
-                                excelSheet372.setDate_granted(String.valueOf(cell.getDateCellValue()));
+                                excelSheet372.setDate_granted(LocalDateTime.from(cell.getLocalDateTimeCellValue()).toLocalDate());
                                 System.out.println(excelSheet372.getDate_granted());
                             }
 
                             case 6 -> {
-                                excelSheet372.setDue_date(String.valueOf(cell.getDateCellValue()));
+                                excelSheet372.setDue_date(LocalDateTime.from(cell.getLocalDateTimeCellValue()).toLocalDate());
                                 System.out.println(excelSheet372.getDue_date());
                             }
 
@@ -389,13 +391,13 @@ public class sheet372_Impl implements sheet372_Service {
                             }
 
                             case 12 -> {
-                                excelSheet372.setTimes_rolled_over(cell.getStringCellValue());
+                                excelSheet372.setTimes_rolled_over(BigDecimal.valueOf(cell.getNumericCellValue()));
                                 System.out.println(excelSheet372.getTimes_rolled_over());
                             }
 
                             case 13 -> {
-                                excelSheet372.setColl_or_value(cell.getStringCellValue());
-                                System.out.println(excelSheet372.getInterest_rate());
+                                excelSheet372.setColl_or_value(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet372.getColl_or_value());
                             }
 
                             default -> {
@@ -411,8 +413,8 @@ public class sheet372_Impl implements sheet372_Service {
                         mdfir372.setCustomer_name(excelSheet372.getCustomer_name());
                         mdfir372.setPrincipal_granted(excelSheet372.getPrincipal_granted());
                         mdfir372.setPurpose(excelSheet372.getPurpose());
-                        mdfir372.setDate_granted(LocalDate.parse(excelSheet372.getDate_granted()));
-                        mdfir372.setDue_date(LocalDate.parse(excelSheet372.getDue_date()));
+                        mdfir372.setDate_granted(excelSheet372.getDate_granted());
+                        mdfir372.setDue_date(excelSheet372.getDue_date());
                         mdfir372.setPrincipal_outstanding(excelSheet372.getPrincipal_outstanding());
                         mdfir372.setInterest_rate(excelSheet372.getInterest_rate());
                         mdfir372.setInterest_payable(excelSheet372.getInterest_payable());

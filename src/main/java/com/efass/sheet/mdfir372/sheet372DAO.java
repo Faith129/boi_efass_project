@@ -56,10 +56,10 @@ public class sheet372DAO {
     public BigDecimal unpaid_principal_interest;
 
     @Column(name="TIMES_ROLLED_OVER")
-    public String times_rolled_over;
+    public BigDecimal times_rolled_over;
 
     @Column(name="COLL_OR_VALUE")
-    public String coll_or_value;
+    public BigDecimal coll_or_value;
 
     public Integer getId() {
         return id;
@@ -157,19 +157,19 @@ public class sheet372DAO {
         this.unpaid_principal_interest = unpaid_principal_interest;
     }
 
-    public String getTimes_rolled_over() {
+    public BigDecimal getTimes_rolled_over() {
         return times_rolled_over;
     }
 
-    public void setTimes_rolled_over(String times_rolled_over) {
+    public void setTimes_rolled_over(BigDecimal times_rolled_over) {
         this.times_rolled_over = times_rolled_over;
     }
 
-    public String getColl_or_value() {
+    public BigDecimal getColl_or_value() {
         return coll_or_value;
     }
 
-    public void setColl_or_value(String coll_or_value) {
+    public void setColl_or_value(BigDecimal coll_or_value) {
         this.coll_or_value = coll_or_value;
     }
 

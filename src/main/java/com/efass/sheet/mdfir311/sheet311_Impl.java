@@ -310,6 +310,7 @@ public class sheet311_Impl implements sheet311_Service {
 	public void saveSheet311ToDataBase(MultipartFile file, String sheetNo) {
 		if (isValidExcelFile(file)) {
 			try {
+                _311Repository.deleteAll();
 				List<sheet311DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
 				_311Repository.saveAll(excelData);
 

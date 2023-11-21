@@ -4,6 +4,7 @@ import com.efass.exceptions.ResourceNotFoundException;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,4 +22,6 @@ public interface sheet920_Service {
     public ResponseEntity<?> getDataByIdQ(int dataId) throws ResourceNotFoundException;
     public ResponseEntity<?> updateDataQ(int id, sheetQdfir920DAO Data) throws ResourceNotFoundException;
 	public ResponseEntity<?> callPrepareTableProcedures(String start_date, String end_date) throws ResourceNotFoundException;
+    void saveSheet920ToDataBase(MultipartFile file, String sheetNo);
+
 }

@@ -294,6 +294,7 @@ public class sheet291_Impl implements sheet291_Service {
     public void saveSheet291ToDataBase(MultipartFile file, String sheetNo) {
         if (isValidExcelFile(file)) {
             try {
+                _291Repository.deleteAll();
                 List<sheet291DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
                 _291Repository.saveAll(excelData);
 

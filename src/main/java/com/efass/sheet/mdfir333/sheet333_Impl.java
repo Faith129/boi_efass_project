@@ -274,6 +274,7 @@ public class sheet333_Impl implements sheet333_Service {
     public void saveSheet333ToDataBase(MultipartFile file, String sheetNo) {
         if (isValidExcelFile(file)) {
             try {
+                _333Repository.deleteAll();
                 List<sheet333DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
                 _333Repository.saveAll(excelData);
 

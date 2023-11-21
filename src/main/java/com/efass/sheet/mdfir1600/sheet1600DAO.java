@@ -11,7 +11,7 @@ public class sheet1600DAO {
     @Column(name = "id")
     public Integer id;
     @Column(name = "LOAN_OR_FACILITIES_TYPE")
-    public BigDecimal loan_or_facilities_type;
+    public String loan_or_facilities_type;
     @Column(name = "AGGREGATE_AMOUNT_PRINCIPAL")
     public BigDecimal aggregate_amt_principal;
     @Column(name = "AGGREGATE_AMOUNT_ACCRUED_INTEREST")
@@ -22,7 +22,7 @@ public class sheet1600DAO {
     public sheet1600DAO() {
     }
 
-    public sheet1600DAO(Integer id, BigDecimal loan_or_facilities_type, BigDecimal aggregate_amt_principal, BigDecimal aggregate_amt_accrued_interest, BigDecimal aggregate_amt_total_outstanding) {
+    public sheet1600DAO(Integer id, String loan_or_facilities_type, BigDecimal aggregate_amt_principal, BigDecimal aggregate_amt_accrued_interest, BigDecimal aggregate_amt_total_outstanding) {
         this.id = id;
         this.loan_or_facilities_type = loan_or_facilities_type;
         this.aggregate_amt_principal = aggregate_amt_principal;
@@ -38,11 +38,11 @@ public class sheet1600DAO {
         this.id = id;
     }
 
-    public BigDecimal getLoan_or_facilities_type() {
+    public String getLoan_or_facilities_type() {
         return loan_or_facilities_type;
     }
 
-    public void setLoan_or_facilities_type(BigDecimal loan_or_facilities_type) {
+    public void setLoan_or_facilities_type(String loan_or_facilities_type) {
         this.loan_or_facilities_type = loan_or_facilities_type;
     }
 

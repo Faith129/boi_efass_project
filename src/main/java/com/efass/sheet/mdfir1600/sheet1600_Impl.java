@@ -6,25 +6,35 @@ import com.efass.download.xmlModels.XmlParameters;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.payload.ResponseQuarterly;
+import com.efass.sheet.mdfir100.sheet100DAO;
 import com.efass.sheet.mdfir1000.sheet1000DAO;
 import com.efass.sheet.mdfir1000.sheetQdfir1000DAO;
 import com.efass.sheet.mdfir1300.sheetQdfir1300DAO;
+import com.efass.sheet.mdfir1301.ExcelSheetData1301;
+import com.efass.sheet.mdfir1301.sheet1301DAO;
 import com.efass.sheet.mdfir1500.sheet1500DAO;
 import com.efass.sheet.table.TabController;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class sheet1600_Impl implements sheet1600_Service {
+	private static final String contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
 
 	@Autowired
 	sheet1600Repository sheet1600Repository;
@@ -81,7 +91,7 @@ public class sheet1600_Impl implements sheet1600_Service {
 				counter.getAndIncrement();
 				result.add(String.valueOf(counter));
 				result.add(e.getLoan_or_facilities_type() == null ? ".00"
-						: String.valueOf(e.getLoan_or_facilities_type().setScale(2, RoundingMode.HALF_EVEN)));
+						: String.valueOf(e.getLoan_or_facilities_type()== null ? "" : e.getLoan_or_facilities_type()));
 				result.add(e.getAggregate_amt_principal().toString() == null ? ".00"
 						: String.valueOf(e.getAggregate_amt_principal().setScale(2, RoundingMode.HALF_EVEN)));
 				result.add(e.getAggregate_amt_accrued_interest().toString() == null ? ".00"
@@ -111,8 +121,7 @@ public class sheet1600_Impl implements sheet1600_Service {
 
 					counter.getAndIncrement();
 					result.add(String.valueOf(counter));
-					result.add(e.getLoan_or_facilities_type() == null ? ".00"
-							: String.valueOf(e.getLoan_or_facilities_type().setScale(2, RoundingMode.HALF_EVEN)));
+					result.add(e.getLoan_or_facilities_type()== null ? "" : e.getLoan_or_facilities_type());
 					result.add(e.getAggregate_amt_principal().toString() == null ? ".00"
 							: String.valueOf(e.getAggregate_amt_principal().setScale(2, RoundingMode.HALF_EVEN)));
 					result.add(e.getAggregate_amt_accrued_interest().toString() == null ? ".00"
@@ -247,5 +256,99 @@ public class sheet1600_Impl implements sheet1600_Service {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void saveSheet1600ToDataBase(MultipartFile file, String sheetNo) {
+		if (isValidExcelFile(file)) {
+			try {
+                sheet1600Repository.deleteAll();
+				List<sheet1600DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
+                sheet1600Repository.saveAll(excelData);
+
+			} catch (IOException e) {
+				throw new IllegalArgumentException("File is not a valid excel file");
+			}
+		}
+	}
+
+
+	private static List<sheet1600DAO> getSheetDataFromExcel(InputStream inputStream, String sheetNumber) {
+		List<sheet1600DAO> sheet1600_list = new ArrayList<>();
+		List<ExcelSheetData1600> excelSheet1301Data = new ArrayList<>();
+		try {
+			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+			XSSFSheet sheet = workbook.getSheet(sheetNumber.trim());
+
+			if (sheet != null) {
+				int rowIndex = 0;
+				for (Row row : sheet) {
+					if (rowIndex == 0) {
+						rowIndex++;
+						continue;
+					}
+//                    if (rowIndex == 1) {
+//                        rowIndex++;
+//                        continue;
+//                    }
+					Iterator<Cell> cellIterator = row.iterator();
+					int cellIndex = 0;
+
+					sheet1600DAO sheet1600 = new sheet1600DAO();
+					ExcelSheetData1600 excelSheet1600D  = new ExcelSheetData1600();
+
+
+					while (cellIterator.hasNext()) {
+						Cell cell = cellIterator.next();
+						switch (cellIndex) {
+                            case 0 -> {
+                                excelSheet1600D.setId((int) cell.getNumericCellValue());
+                                System.out.println(excelSheet1600D.getId());
+                            }
+                            case 1 -> {
+                                excelSheet1600D.setLoan_or_facilities_type(cell.getStringCellValue());
+                                System.out.println(excelSheet1600D.getLoan_or_facilities_type());
+                            }
+                            case 2 -> {
+                                excelSheet1600D.setAggregate_amt_accrued_interest(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet1600D.getAggregate_amt_accrued_interest());
+                            }
+                            case 3 -> {
+                                excelSheet1600D.setAggregate_amt_principal(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet1600D.getAggregate_amt_principal());
+                            }
+                            case 4 -> {
+                                excelSheet1600D.setAggregate_amt_total_outstanding(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet1600D.getAggregate_amt_total_outstanding());
+                            }
+                            default -> {
+							}
+						}
+						cellIndex++;
+					}
+					excelSheet1301Data.add(excelSheet1600D);
+					excelSheet1301Data.forEach(sheet100Data -> {
+						sheet1600.setLoan_or_facilities_type(sheet100Data.getLoan_or_facilities_type());
+						sheet1600.setAggregate_amt_accrued_interest(sheet100Data.getAggregate_amt_accrued_interest());
+						sheet1600.setAggregate_amt_principal(sheet100Data.getAggregate_amt_principal());
+						sheet1600.setAggregate_amt_total_outstanding(sheet100Data.getAggregate_amt_total_outstanding());
+					});
+					sheet1600_list.add(sheet1600);
+
+					//Tested with excelSheet1600D but still under review
+				}
+			}
+			else {
+				throw new RuntimeException("Sheet is null. Verify the sheet name in the Excel file.");
+			}
+		}  catch (IOException e) {
+			throw new RuntimeException("file too large");
+		}
+		return sheet1600_list;
+	}
+
+	private static boolean isValidExcelFile(MultipartFile file) {
+		return Objects.equals(file.getContentType(), contentType);
+	}
+
 
 }

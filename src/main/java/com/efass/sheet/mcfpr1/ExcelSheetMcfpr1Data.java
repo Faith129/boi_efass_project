@@ -28,7 +28,7 @@ public class ExcelSheetMcfpr1Data {
 
     public String category;
 
-    public String complaint_ref_number;
+    public BigDecimal complaint_ref_number;
 
     public LocalDate date_received;
 

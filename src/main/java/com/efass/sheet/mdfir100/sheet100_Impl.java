@@ -232,13 +232,13 @@ public class sheet100_Impl implements sheet100_Service {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	@Override
 	public void saveSheet100ToDataBase(MultipartFile file, String sheetNo) {
 		if (isValidExcelFile(file)) {
 			try {
 				List<sheet100DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
 				updateOrSaveSheet100Data(excelData);
-//				sheet100Repo.saveAll(excelData);
 
 			} catch (IOException e) {
 				throw new IllegalArgumentException("File is not a valid excel file");
@@ -309,13 +309,25 @@ public class sheet100_Impl implements sheet100_Service {
 
 	private void updateOrSaveSheet100Data(List<sheet100DAO> excelData) {
 		// Update existing record
+		sheet100DAO newSheetRecord = new sheet100DAO();
 		for (sheet100DAO sheet100 : excelData) {
-			sheet100DAO existingRecord = sheet100Repo.findByCode(sheet100.getCode().trim()).get();
-			existingRecord.setNumber_1(sheet100.getNumber_1());
-			existingRecord.setValue_1(sheet100.getValue_1());
-			existingRecord.setNumber_2(sheet100.getNumber_2());
-			existingRecord.setValue_2(sheet100.getValue_2());
-			sheet100Repo.save(existingRecord);
+			sheet100DAO existingRecord = sheet100Repo.findByCode(sheet100.getCode().trim()).orElse(null);
+			if (existingRecord != null) {
+				existingRecord.setNumber_1(sheet100.getNumber_1());
+				existingRecord.setValue_1(sheet100.getValue_1());
+				existingRecord.setNumber_2(sheet100.getNumber_2());
+				existingRecord.setValue_2(sheet100.getValue_2());
+				sheet100Repo.save(existingRecord);
+
+			} else {
+//				newSheetRecord.setCode(sheet100.getCode());
+//				newSheetRecord.setNumber_1(sheet100.getNumber_1());
+//				newSheetRecord.setValue_1(sheet100.getValue_1());
+//				newSheetRecord.setNumber_2(sheet100.getNumber_2());
+//				newSheetRecord.setValue_2(sheet100.getValue_2());
+//				sheet100Repo.save(newSheetRecord);
+				throw new RuntimeException("Sheet with code "+sheet100.getCode()+" does not exist");
+			}
 		}
 	}
 }

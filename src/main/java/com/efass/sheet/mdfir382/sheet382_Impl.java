@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -96,8 +97,8 @@ public class sheet382_Impl implements sheet382_Service {
                         result.add(e.getUpfront_interest().toString() == null ? ".00" : String.valueOf(e.getUpfront_interest().setScale(2, RoundingMode.HALF_EVEN)));
                         result.add(e.getInterest_payable().toString() == null ? ".00" : String.valueOf(e.getInterest_payable().setScale(2, RoundingMode.HALF_EVEN)));
                         result.add(e.getUnpaid_principal_interest().toString() == null ? ".00" : String.valueOf(e.getUnpaid_principal_interest().setScale(2, RoundingMode.HALF_EVEN)));
-                        result.add(e.getTimes_rolled_over() == null ? "" :e.getTimes_rolled_over());
-                        result.add(e.getColl_or_value() == null ? "" :e.getColl_or_value());
+                        result.add(e.getTimes_rolled_over() == null ? ".00" : String.valueOf(e.getTimes_rolled_over().setScale(2, RoundingMode.HALF_EVEN)));
+                        result.add(e.getColl_or_value() == null ? ".00" : String.valueOf(e.getColl_or_value().setScale(2, RoundingMode.HALF_EVEN)));
             	}
    			 catch(NullPointerException ex)
    	            {
@@ -302,6 +303,7 @@ public class sheet382_Impl implements sheet382_Service {
     public void saveSheet382ToDataBase(MultipartFile file, String sheetNo) {
         if (isValidExcelFile(file)) {
             try {
+                _382Repository.deleteAll();
                 List<sheet382DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
                 _382Repository.saveAll(excelData);
 
@@ -361,12 +363,12 @@ public class sheet382_Impl implements sheet382_Service {
                             }
 
                             case 5 -> {
-                                excelSheet382.setDate_granted(LocalDate.parse(String.valueOf(cell.getDateCellValue())));
+                                excelSheet382.setDate_granted(LocalDateTime.from(cell.getLocalDateTimeCellValue()).toLocalDate());
                                 System.out.println(excelSheet382.getDate_granted());
                             }
 
                             case 6 -> {
-                                excelSheet382.setDue_date(LocalDate.parse(String.valueOf(cell.getDateCellValue())));
+                                excelSheet382.setDue_date(LocalDateTime.from(cell.getLocalDateTimeCellValue()).toLocalDate());
                                 System.out.println(excelSheet382.getDue_date());
                             }
 
@@ -399,13 +401,13 @@ public class sheet382_Impl implements sheet382_Service {
                             }
 
                             case 13 -> {
-                                excelSheet382.setTimes_rolled_over(cell.getStringCellValue());
+                                excelSheet382.setTimes_rolled_over(BigDecimal.valueOf(cell.getNumericCellValue()));
                                 System.out.println(excelSheet382.getTimes_rolled_over());
                             }
 
                             case 14 -> {
-                                excelSheet382.setColl_or_value(cell.getStringCellValue());
-                                System.out.println(excelSheet382.getInterest_rate());
+                                excelSheet382.setColl_or_value(BigDecimal.valueOf(cell.getNumericCellValue()));
+                                System.out.println(excelSheet382.getColl_or_value());
                             }
 
                             default -> {

@@ -267,6 +267,7 @@ public class sheet223_Impl implements sheet223_Service {
     public void saveSheet223ToDataBase(MultipartFile file, String sheetNo) {
         if (isValidExcelFile(file)) {
             try {
+                sheet223Repository.deleteAll();
                 List<sheet223DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
                 sheet223Repository.saveAll(excelData);
 

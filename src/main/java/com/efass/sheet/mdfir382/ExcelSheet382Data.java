@@ -38,7 +38,7 @@ public class ExcelSheet382Data {
 
     public BigDecimal unpaid_principal_interest;
 
-    public String times_rolled_over;
+    public BigDecimal times_rolled_over;
 
-    public String coll_or_value;
+    public BigDecimal coll_or_value;
 }
