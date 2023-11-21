@@ -3,9 +3,14 @@ package com.efass.excelUpload.controller;
 import com.efass.sheet.mdfir100.sheet100_Service;
 import com.efass.sheet.mdfir101.sheet101_Service;
 import com.efass.sheet.mdfir1300.sheet1300_Service;
+import com.efass.sheet.mdfir1301.sheet1301_Service;
+import com.efass.sheet.mdfir1600.sheet1600_Service;
+import com.efass.sheet.mdfir1700.sheet1700_Service;
 import com.efass.sheet.mdfir250.sheet250_Service;
 import com.efass.sheet.mdfir600.sheet600_Service;
 import com.efass.sheet.mdfir601.sheet601_Service;
+import com.efass.sheet.mdfir920.sheet920_Service;
+import com.efass.sheet.mdfir921.sheet921_Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +25,11 @@ import java.util.Map;
 public class ExcelUploadController {
 
     private final sheet100_Service sheet100_Service;
+    private final sheet1600_Service sheet1600_service;
+    private final com.efass.sheet.mdfir920.sheet920_Service sheet920_Service;
+    private final sheet921_Service sheet921_service;
+    private final sheet1700_Service sheet1700_service;
+    private final sheet1301_Service sheet1301_service;
 
     private final sheet101_Service _sheet101_Service;
     private final sheet250_Service _sheet250_Service;
@@ -27,10 +37,39 @@ public class ExcelUploadController {
     private final sheet601_Service _sheet601_service;
     private final sheet1300_Service _sheet1300_service;
 
-    @PostMapping("uploadSheet/{sheet100}")
-    public ResponseEntity<?> uploadSheet(@PathParam("file") MultipartFile file, @PathVariable String sheet100) {
-        sheet100_Service.saveSheet100ToDataBase(file, sheet100);
-        return ResponseEntity.ok(Map.of("Message", "Sheet100 data uploaded and saved to database"));
+    @PostMapping("mdfir100/{mdfir100}")
+    public ResponseEntity<?> uploadSheet(@PathParam("file") MultipartFile file, @PathVariable String mdfir100) {
+        sheet100_Service.saveSheet100ToDataBase(file, mdfir100);
+        return ResponseEntity.ok(Map.of("Message", "MDFIR100 data uploaded and saved to database"));
+    }
+
+    @PostMapping("mdfir1600/{mdfir1600}")
+    public ResponseEntity<?> uploadSheet1600(@PathParam("file") MultipartFile file, @PathVariable String mdfir1600) {
+        sheet1600_service.saveSheet1301ToDataBase(file, mdfir1600);
+        return ResponseEntity.ok(Map.of("Message", "MDFIR1600 data uploaded and saved to database"));
+    }
+
+    @PostMapping("mdfir920/{mdfir920}")
+    public ResponseEntity<?> uploadSheet920(@PathParam("file") MultipartFile file, @PathVariable String mdfir920) {
+        sheet920_Service.saveSheet920ToDataBase(file, mdfir920);
+        return ResponseEntity.ok(Map.of("Message", "sheet920 data uploaded and saved to database"));
+    }
+    @PostMapping("mdfir921/{mdfir921}")
+    public ResponseEntity<?> uploadSheet921(@PathParam("file") MultipartFile file, @PathVariable String mdfir921) {
+        sheet921_service.saveSheet921ToDataBase(file, mdfir921);
+        return ResponseEntity.ok(Map.of("Message", "sheet921 data uploaded and saved to database"));
+    }
+
+    @PostMapping("mdfir1700/{mdfir1700}")
+    public ResponseEntity<?> uploadSheet1700(@PathParam("file") MultipartFile file, @PathVariable String mdfir1700) {
+        sheet1700_service.saveSheet1700ToDataBase(file, mdfir1700);
+        return ResponseEntity.ok(Map.of("Message", "sheet1700 data uploaded and saved to database"));
+    }
+
+    @PostMapping("mdfir1301/{mdfir1301}")
+    public ResponseEntity<?> uploadSheet1301(@PathParam("file") MultipartFile file, @PathVariable String mdfir1301) {
+        sheet1301_service.saveSheet1301ToDataBase(file, mdfir1301);
+        return ResponseEntity.ok(Map.of("Message", "sheet1301 data uploaded and saved to database"));
     }
 
     @PostMapping("mdfir101/{mdfir101}")

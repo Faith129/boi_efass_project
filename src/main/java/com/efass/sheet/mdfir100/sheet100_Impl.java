@@ -11,6 +11,7 @@ import java.util.*;
 import com.efass.ReportGroupEnum;
 import com.efass.download.xmlModels.GenericXml;
 import com.efass.download.xmlModels.XmlParameters;
+import com.efass.sheet.mdfir600.sheet600DAO;
 import com.efass.sheet.table.TabController;
 import lombok.extern.log4j.Log4j2;
 import org.apache.poi.ss.usermodel.Cell;
@@ -260,6 +261,10 @@ public class sheet100_Impl implements sheet100_Service {
 						rowIndex++;
 						continue;
 					}
+					if (rowIndex == 1) {
+						rowIndex++;
+						continue;
+					}
 					Iterator<Cell> cellIterator = row.iterator();
 					int cellIndex = 0;
 
@@ -267,15 +272,33 @@ public class sheet100_Impl implements sheet100_Service {
 					ExcelSheet100Data excelSheet100D  = new ExcelSheet100Data();
 					while (cellIterator.hasNext()) {
 						Cell cell = cellIterator.next();
+						if (cellIndex == 0 && (cell.getNumericCellValue() == 21110
+								|| cell.getNumericCellValue() == 21130 || cell.getNumericCellValue() == 21135
+								|| cell.getNumericCellValue() == 21155 || cell.getNumericCellValue() == 21195
+								|| cell.getNumericCellValue() == 21215 || cell.getNumericCellValue() == 21230
+						)) {
+							break;
+						}
 						switch (cellIndex) {
-							case 0 -> excelSheet100D.setCode(String.format("%.0f", cell.getNumericCellValue()));
-							case 1 -> excelSheet100D.setDescription(cell.getStringCellValue());
-							case 2 -> excelSheet100D.setNumber_1(BigDecimal.valueOf(cell.getNumericCellValue()));
-							case 3 -> excelSheet100D.setValue_1(BigDecimal.valueOf(cell.getNumericCellValue()));
-							case 4 -> excelSheet100D.setNumber_2(BigDecimal.valueOf(cell.getNumericCellValue()));
-							case 5 -> excelSheet100D.setValue_2(BigDecimal.valueOf(cell.getNumericCellValue()));
-							default -> {
-							}
+							case 0 :
+								excelSheet100D.setCode(String.format("%.0f",cell.getNumericCellValue()));
+								break;
+							case 1 :
+								excelSheet100D.setDescription(cell.getStringCellValue());
+								break;
+							case 2 :
+								excelSheet100D.setNumber_1(BigDecimal.valueOf(cell.getNumericCellValue()));
+								break;
+							case 3 :
+								excelSheet100D.setValue_1(BigDecimal.valueOf(cell.getNumericCellValue()));
+								break;
+							case 4 :
+								excelSheet100D.setNumber_2(BigDecimal.valueOf(cell.getNumericCellValue()));
+								break;
+							case 5 :
+								excelSheet100D.setValue_2(BigDecimal.valueOf(cell.getNumericCellValue()));
+								break;
+							default : break;
 						}
 						cellIndex++;
 					}
@@ -309,24 +332,17 @@ public class sheet100_Impl implements sheet100_Service {
 
 	private void updateOrSaveSheet100Data(List<sheet100DAO> excelData) {
 		// Update existing record
-		sheet100DAO newSheetRecord = new sheet100DAO();
 		for (sheet100DAO sheet100 : excelData) {
-			sheet100DAO existingRecord = sheet100Repo.findByCode(sheet100.getCode().trim()).orElse(null);
-			if (existingRecord != null) {
-				existingRecord.setNumber_1(sheet100.getNumber_1());
-				existingRecord.setValue_1(sheet100.getValue_1());
-				existingRecord.setNumber_2(sheet100.getNumber_2());
-				existingRecord.setValue_2(sheet100.getValue_2());
-				sheet100Repo.save(existingRecord);
+			Optional<sheet100DAO> existingRecord = sheet100Repo.findByCode(sheet100.getCode());
+			sheet100DAO record;
+			if (existingRecord.isPresent()) {
+				record = existingRecord.get();
+				record.setNumber_1(sheet100.getNumber_1());
+				record.setValue_1(sheet100.getValue_1());
+				record.setNumber_2(sheet100.getNumber_2());
+				record.setValue_2(sheet100.getValue_2());
+				sheet100Repo.save(record);
 
-			} else {
-//				newSheetRecord.setCode(sheet100.getCode());
-//				newSheetRecord.setNumber_1(sheet100.getNumber_1());
-//				newSheetRecord.setValue_1(sheet100.getValue_1());
-//				newSheetRecord.setNumber_2(sheet100.getNumber_2());
-//				newSheetRecord.setValue_2(sheet100.getValue_2());
-//				sheet100Repo.save(newSheetRecord);
-				throw new RuntimeException("Sheet with code "+sheet100.getCode()+" does not exist");
 			}
 		}
 	}
