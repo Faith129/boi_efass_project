@@ -1,16 +1,19 @@
-package com.efass.sheet.efass_statement_item_ref.dto;
+package com.efass.sheet.efass_gl_mapping;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class StatementItemRefResponse {
+@Data
+public class GlMappingRequest {
     private String statementCode;
+    private String statementDesc;
     private String itemCode;
-    private String itemDescription;
+    private String itemDesc;
+    private String category;
+    private String ledgerNo;
 }
