@@ -92,8 +92,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						"/authenticate", "/path","/api/v1/download/**","/api/v1/createUser/**", "/api/v1/auth/**", "/v2/api-docs", "/v3/api-docs", "/v3/api-docs/**",
 						"/swagger-resources", "/swagger-resources/**", "/configuration/ui",
 						"/configuration/security", "/swagger-ui/**", "/webjars/**",
-						"/swagger-ui.html"
-				).permitAll().
+						"/swagger-ui.html","/api/v1/efassGlMapping/**").permitAll().
 				// all other requests need to be authenticated
 				anyRequest().authenticated().and().
 				// make sure we use stateless session; session won't be used to
