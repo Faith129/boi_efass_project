@@ -6,26 +6,34 @@ import com.efass.download.xmlModels.XmlParameters;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.payload.ResponseQuarterly;
+import com.efass.sheet.mdfir100.sheet100DAO;
 import com.efass.sheet.mdfir1000.sheet1000DAO;
+import com.efass.sheet.mdfir101.sheet101DAO;
 import com.efass.sheet.mdfir192.sheet192DAO;
 import com.efass.sheet.mdfir192.sheetQdfir192DAO;
 import com.efass.sheet.mdfir453.sheet453DAO;
 import com.efass.sheet.table.TabController;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 public class sheet250_Impl implements sheet250_Service {
@@ -35,6 +43,7 @@ public class sheet250_Impl implements sheet250_Service {
 	@Autowired
 	sheet250Repository sheet250Repository;
 	List<GenericXml> genericXmlList;
+	private static final String contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
 	public List<GenericXml> getSheet250XmlList() {
 		return genericXmlList;
@@ -228,6 +237,80 @@ public class sheet250_Impl implements sheet250_Service {
 			throws ResourceNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void saveSheet250ToDataBase(MultipartFile file, String sheet250) {
+		if (Objects.equals(file.getContentType(), contentType)) {
+			try {
+				List<sheet250DAO> excelData = excelToEntity(file.getInputStream(), sheet250);
+				updateSheet101Data(excelData);
+			} catch (IOException e) {
+				throw new IllegalArgumentException("File is not a valid excel file");
+			}
+		}
+	}
+	private void updateSheet101Data(List<sheet250DAO> excelData) {
+		for (sheet250DAO _sheet250DAO : excelData) {
+			Optional<sheet250DAO> existingRecord = sheet250Repository.findByCode(_sheet250DAO.getCode());
+			if(existingRecord.isPresent()){
+				sheet250DAO record = existingRecord.get();
+				record.setPercentage(_sheet250DAO.getPercentage());
+				sheet250Repository.save(record);
+			}else {
+				sheet250DAO record = new sheet250DAO();
+				record.setCode(_sheet250DAO.getCode());
+				record.setDescription(_sheet250DAO.getDescription());
+				record.setPercentage(_sheet250DAO.getPercentage());
+				sheet250Repository.save(record);
+			}
+		}
+	}
+
+
+	public static List<sheet250DAO> excelToEntity(InputStream is, String sheetName) {
+		try {
+			Workbook workbook = new XSSFWorkbook(is);
+			Sheet sheet = workbook.getSheet(sheetName);
+			Iterator<Row> rows = sheet.iterator();
+			List<sheet250DAO> sheet250DAOS = new ArrayList<>();
+			int rowNumber = 0;
+			while (rows.hasNext()) {
+				Row currentRow = rows.next();
+				if (rowNumber == 0) {
+					rowNumber++;
+					continue;
+				}
+				Iterator<Cell> cellsInRow = currentRow.iterator();
+				sheet250DAO sheet250DAO = new sheet250DAO();
+				int cellIdx = 0;
+				while (cellsInRow.hasNext()) {
+					Cell currentCell = cellsInRow.next();
+					switch (cellIdx) {
+						case 0:
+							sheet250DAO.setCode(String.format("%.0f", currentCell.getNumericCellValue()));
+							break;
+
+						case 1:
+							sheet250DAO.setDescription(currentCell.getStringCellValue());
+							break;
+
+						case 2:
+							sheet250DAO.setPercentage(BigDecimal.valueOf(currentCell.getNumericCellValue()));
+							break;
+
+						default:
+							break;
+					}
+					cellIdx++;
+				}
+				sheet250DAOS.add(sheet250DAO);
+			}
+			workbook.close();
+			return sheet250DAOS;
+		} catch (IOException e) {
+			throw new IllegalStateException("fail to parse Excel file: " + e.getMessage());
+		}
 	}
 
 }

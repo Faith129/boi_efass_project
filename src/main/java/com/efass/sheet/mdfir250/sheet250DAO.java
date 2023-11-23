@@ -3,8 +3,8 @@ package com.efass.sheet.mdfir250;
 import javax.persistence.*;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Date;
 
 
 @Entity
@@ -12,8 +12,7 @@ import java.time.LocalDate;
 public class sheet250DAO {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-
-    @Column(name = "id")
+    @Column(name = "ID")
     public Integer id;
     @Column(name = "CODE")
     public String code;
@@ -21,6 +20,8 @@ public class sheet250DAO {
     public String description;
     @Column(name = "PERCENTAGE")
     public BigDecimal percentage;
+    @Column(name = "CREATE_DT")
+    public Date create_dt;
 
     public sheet250DAO() {
     }
@@ -64,5 +65,8 @@ public class sheet250DAO {
         this.percentage = percentage;
     }
 
-
+    @PrePersist
+    protected void onCreate() {
+        create_dt = new Date();
+    }
 }

@@ -2,6 +2,7 @@ package com.efass.activity;
 
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.procedures.ProcedureImpl;
+import lombok.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +40,7 @@ public class ActivityController {
     }
 
     @PostMapping("/date")
-    public ResponseEntity<String> setDate(@RequestBody String date) {
+    public ResponseEntity<String> setDate(@RequestParam @NonNull String date) {
         this.date = date;
         System.out.println(this.date);
         DateTimeFormatter formatter = new DateTimeFormatterBuilder()

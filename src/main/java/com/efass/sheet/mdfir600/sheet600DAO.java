@@ -3,6 +3,7 @@ package com.efass.sheet.mdfir600;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
 @Table(name = "MDFIR600")
@@ -43,6 +44,9 @@ public class sheet600DAO implements Serializable {
 
     @Column(name = "OTHERS_2")
     public String others_2;
+
+    @Column(name = "CREATE_DT")
+    public Date create_dt;
 
 
 
@@ -154,5 +158,8 @@ public class sheet600DAO implements Serializable {
         this.others_2 = others_2;
     }
 
-
+    @PrePersist
+    protected void onCreate() {
+        create_dt = new Date();
+    }
 }

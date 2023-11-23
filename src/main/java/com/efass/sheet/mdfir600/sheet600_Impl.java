@@ -7,20 +7,30 @@ import com.efass.exceptions.RecordNotFoundException;
 import com.efass.exceptions.ResourceNotFoundException;
 import com.efass.payload.Response;
 import com.efass.payload.ResponseQuarterly;
+import com.efass.sheet.mdfir101.sheet101DAO;
+import com.efass.sheet.mdfir250.sheet250DAO;
 import com.efass.sheet.mdfir300.sheet300DAO;
 import com.efass.sheet.mdfir423.sheet423DAO;
 import com.efass.sheet.mdfir423.sheetQdfir423DAO;
 import com.efass.sheet.table.TabController;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 
 
 @Service
@@ -32,6 +42,7 @@ public class sheet600_Impl implements sheet600_Service {
     @Autowired
     sheet600Repository sheet600Repo;
     List<GenericXml> genericXmlList;
+    private static final String contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
     public List<GenericXml> getSheet600XmlList() {
         return genericXmlList;
@@ -177,7 +188,121 @@ public class sheet600_Impl implements sheet600_Service {
 		return null;
 	}
 
-	@Override
+    @Override
+    public void saveSheet600ToDataBase(MultipartFile file, String sheet600) {
+        if (Objects.equals(file.getContentType(), contentType)) {
+            try {
+                List<sheet600DAO> excelData = excelToEntity(file.getInputStream(), sheet600);
+                updateSheet600Data(excelData);
+            } catch (IOException e) {
+                throw new IllegalArgumentException("File is not a valid excel file");
+            }
+        }
+    }
+
+    private void updateSheet600Data(List<sheet600DAO> excelData) {
+        for (sheet600DAO _sheet600DAO : excelData) {
+            Optional<sheet600DAO> existingRecord = sheet600Repo.findByCode(_sheet600DAO.getCode());
+            sheet600DAO record;
+            if(existingRecord.isPresent()){
+                record = existingRecord.get();
+                record.setDescription(_sheet600DAO.getDescription());
+                record.setTerm_loan(_sheet600DAO.getTerm_loan());
+                record.setOver_draft(_sheet600DAO.getOver_draft());
+                record.setOthers_1(_sheet600DAO.getOthers_1());
+                record.setAdvances_under_lease(_sheet600DAO.getAdvances_under_lease());
+                record.setBankers_acceptances(_sheet600DAO.getBankers_acceptances());
+                record.setCommercial_papers(_sheet600DAO.getCommercial_papers());
+                record.setBills_discounted(_sheet600DAO.getBills_discounted());
+                record.setOthers_2(_sheet600DAO.getOthers_2());
+                sheet600Repo.save(record);
+            }
+        }
+    }
+
+    public static List<sheet600DAO> excelToEntity(InputStream is, String sheetName) {
+        try {
+            Workbook workbook = new XSSFWorkbook(is);
+            Sheet sheet = workbook.getSheet(sheetName);
+            Iterator<Row> rows = sheet.iterator();
+            List<sheet600DAO> sheet600DAOS = new ArrayList<>();
+            int rowNumber = 0;
+            while (rows.hasNext()) {
+                Row currentRow = rows.next();
+                if (rowNumber == 0) {
+                    rowNumber++;
+                    continue;
+                }
+                if (rowNumber == 1) {
+                    rowNumber++;
+                    continue;
+                }
+                Iterator<Cell> cellsInRow = currentRow.iterator();
+                sheet600DAO sheet600DAO = new sheet600DAO();
+                int cellIdx = 0;
+                while (cellsInRow.hasNext()) {
+                    Cell currentCell = cellsInRow.next();
+                    if (cellIdx == 0 && (currentCell.getNumericCellValue() == 40100
+                    || currentCell.getNumericCellValue() == 40200 || currentCell.getNumericCellValue() == 40300
+                    || currentCell.getNumericCellValue() == 40400 || currentCell.getNumericCellValue() == 40500
+                    || currentCell.getNumericCellValue() == 40600 || currentCell.getNumericCellValue() == 40700
+                    || currentCell.getNumericCellValue() == 40800 || currentCell.getNumericCellValue() == 40900
+                    || currentCell.getNumericCellValue() == 41000 || currentCell.getNumericCellValue() == 41200
+                    || currentCell.getNumericCellValue() == 41300 || currentCell.getNumericCellValue() == 41400
+                    || currentCell.getNumericCellValue() == 41500 || currentCell.getNumericCellValue() == 41600
+                    || currentCell.getNumericCellValue() == 41700 || currentCell.getNumericCellValue() == 41800
+                    || currentCell.getNumericCellValue() == 41900 || currentCell.getNumericCellValue() == 42000
+                    || currentCell.getNumericCellValue() == 42100 || currentCell.getNumericCellValue() == 42200
+                    || currentCell.getNumericCellValue() == 42300 || currentCell.getNumericCellValue() == 42400
+                    )) {
+                        break;
+                    }
+                    switch (cellIdx) {
+                        case 0:
+                            sheet600DAO.setCode(String.valueOf(currentCell.getNumericCellValue()));
+                            break;
+                        case 1:
+                            sheet600DAO.setDescription(currentCell.getStringCellValue());
+                            break;
+                        case 2:
+                            sheet600DAO.setTerm_loan(BigDecimal.valueOf(currentCell.getNumericCellValue()));
+                            break;
+                        case 3:
+                            sheet600DAO.setOver_draft(BigDecimal.valueOf(currentCell.getNumericCellValue()));
+                            break;
+                        case 4:
+                            sheet600DAO.setOthers_1(String.valueOf(currentCell.getNumericCellValue()));
+                            break;
+                        case 5:
+                            sheet600DAO.setAdvances_under_lease(BigDecimal.valueOf(currentCell.getNumericCellValue()));
+                            break;
+                        case 6:
+                            sheet600DAO.setBankers_acceptances(String.valueOf(currentCell.getNumericCellValue()));
+                            break;
+                        case 7:
+                            sheet600DAO.setCommercial_papers(String.valueOf(currentCell.getNumericCellValue()));
+                            break;
+                        case 8:
+                            sheet600DAO.setBills_discounted(BigDecimal.valueOf(currentCell.getNumericCellValue()));
+                            break;
+                        case 9:
+                            sheet600DAO.setOthers_2(String.valueOf(currentCell.getNumericCellValue()));
+                            break;
+                        default:
+                            break;
+                    }
+                    cellIdx++;
+                }
+                sheet600DAOS.add(sheet600DAO);
+            }
+            workbook.close();
+            return sheet600DAOS;
+        } catch (IOException e) {
+            throw new IllegalStateException("fail to parse Excel file: " + e.getMessage());
+        }
+    }
+
+    @Override
 	public ResponseEntity<?> fetchAllDataQ() {
 		// TODO Auto-generated method stub
 		return null;
