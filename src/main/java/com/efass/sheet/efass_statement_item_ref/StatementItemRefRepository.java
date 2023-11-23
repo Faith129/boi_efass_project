@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface StatementItemRefRepository extends JpaRepository<StatementItemRef,Integer> {
     StatementItemRef findByStatementCode(String statementCode);
 
-    StatementRef findByItemCode(String itemCode);
+    StatementItemRef findByItemCode(String itemCode);
 
 
     void deleteByStatementCode(String statementCode);

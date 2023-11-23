@@ -10,9 +10,7 @@ public interface EfassGlMappingRepository extends JpaRepository<EfassGlMapping,I
     EfassGlMapping findByItemCode(String itemCode);
 
     EfassGlMapping findByLedgerNo(String itemCode);
-
     void deleteByStatementCode(String statementCode);
     void deleteByItemCode(String itemCode);
-    void deleteByLedgerNo(String itemCode);
     Optional<EfassGlMapping> findByItemCodeAndStatementCode(String itemCode, String statementCode);
 }

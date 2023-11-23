@@ -14,6 +14,5 @@ public class GlMappingRequest {
     private String statementDesc;
     private String itemCode;
     private String itemDesc;
-    private String category;
     private String ledgerNo;
 }

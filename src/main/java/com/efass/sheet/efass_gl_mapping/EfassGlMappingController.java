@@ -3,7 +3,10 @@ package com.efass.sheet.efass_gl_mapping;
 import com.efass.sheet.efass_statement_item_ref.StatementItemRefApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/api/v1/efassGlMapping")
@@ -29,9 +32,21 @@ public class EfassGlMappingController {
         return glMappingService.fetchStatementCodesFromStatementRef();
     }
 
-    @GetMapping("deleteByItemCode")
+    @GetMapping("getStatementDesc")
     @ResponseStatus(HttpStatus.OK)
-    public GlMappingGenericResponse<?> deleteByItemCode() {
-        return null;
+    public GlMappingGenericResponse<?> getStatementDesc(@RequestParam String statementCode) {
+        return glMappingService.getStatementDescByStatementCode(statementCode);
+    }
+
+    @GetMapping("getItemDesc")
+    @ResponseStatus(HttpStatus.OK)
+    public GlMappingGenericResponse<?> getItemDesc(@RequestParam String itemCode) {
+        return glMappingService.getItemDescByItemCode(itemCode);
+    }
+
+    @DeleteMapping("deleteByItemCode")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteByItemCode(@RequestParam String itemCode) {
+        glMappingService.deleteByItemCode(itemCode);
     }
 }
