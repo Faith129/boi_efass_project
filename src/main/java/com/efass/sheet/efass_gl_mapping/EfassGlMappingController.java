@@ -13,11 +13,18 @@ import javax.websocket.server.PathParam;
 @RequiredArgsConstructor
 public class EfassGlMappingController {
     private final EfassGlMappingService glMappingService;
+    private final EfassGlMappingRepository glMappingRepo;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public GlMappingGenericResponse<?>createGlMappingData(@RequestBody GlMappingRequest mappingRequest) {
-        return glMappingService.createGlMappingData(mappingRequest);
+    public ResponseEntity<GlMappingGenericResponse<?>> createGlMappingData(@RequestBody GlMappingRequest mappingRequest) {
+        boolean existingGl = glMappingRepo.findByStatementCode(mappingRequest.getStatementCode()).isPresent();
+        if (existingGl) {
+            return new ResponseEntity<>(GlMappingGenericResponse.builder()
+                    .responseMessage("Statement code already exist " + mappingRequest.getStatementCode())
+                    .data(null)
+                    .build(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(glMappingService.createGlMappingData(mappingRequest), HttpStatus.ACCEPTED);
     }
 
     @GetMapping("fetchItemCodes")
@@ -38,15 +45,28 @@ public class EfassGlMappingController {
         return glMappingService.getStatementDescByStatementCode(statementCode);
     }
 
+    @GetMapping("getAllGlData")
+    @ResponseStatus(HttpStatus.OK)
+    public GlMappingGenericResponse<?> getAllGlData() {
+        return glMappingService.fetchAllGlData();
+    }
+
+    @PostMapping("updateGlData")
+    @ResponseStatus(HttpStatus.OK)
+    public GlMappingGenericResponse<?> updateGlData(@RequestBody GlMappingRequest glMappingRequest) {
+        return glMappingService.updateGlData(glMappingRequest);
+    }
+
     @GetMapping("getItemDesc")
     @ResponseStatus(HttpStatus.OK)
     public GlMappingGenericResponse<?> getItemDesc(@RequestParam String itemCode) {
         return glMappingService.getItemDescByItemCode(itemCode);
     }
 
-    @DeleteMapping("deleteByItemCode")
+
+    @DeleteMapping("deleteByStatementCode")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteByItemCode(@RequestParam String itemCode) {
-        glMappingService.deleteByItemCode(itemCode);
+    public GlMappingGenericResponse<?> deleteByStatementCode(@RequestParam String statementCode) {
+       return glMappingService.deleteByStatementCode(statementCode);
     }
 }

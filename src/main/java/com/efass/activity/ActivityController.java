@@ -116,8 +116,9 @@ public class ActivityController {
     }
 
     @DeleteMapping("/activity/{id}")
-    public void deleteActivity(@PathVariable("id") Integer id){
+    public ResponseEntity<String> deleteActivity(@PathVariable("id") Integer id){
         activityRepo.deleteById(id);
+        return new ResponseEntity<>("SUCCESS",HttpStatus.OK);
     }
 
     public int getActivityLength(){

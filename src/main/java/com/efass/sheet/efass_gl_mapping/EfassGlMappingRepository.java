@@ -5,12 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface EfassGlMappingRepository extends JpaRepository<EfassGlMapping,Integer> {
-    EfassGlMapping findByStatementCode(String statementCode);
-
-    EfassGlMapping findByItemCode(String itemCode);
-
-    EfassGlMapping findByLedgerNo(String itemCode);
+   Optional<EfassGlMapping> findByStatementCode(String statementCode);
     void deleteByStatementCode(String statementCode);
-    void deleteByItemCode(String itemCode);
-    Optional<EfassGlMapping> findByItemCodeAndStatementCode(String itemCode, String statementCode);
 }

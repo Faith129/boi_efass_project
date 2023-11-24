@@ -13,7 +13,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Builder
 public class ExcelSheetData1600 {
-    public BigDecimal loan_or_facilities_type;
+    public Integer serial_no;
+    public String loan_or_facilities_type;
     public BigDecimal aggregate_amt_principal;
     public BigDecimal aggregate_amt_accrued_interest;
     public BigDecimal aggregate_amt_total_outstanding;

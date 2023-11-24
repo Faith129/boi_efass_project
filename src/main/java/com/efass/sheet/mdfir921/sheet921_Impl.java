@@ -432,29 +432,31 @@ public class sheet921_Impl implements sheet921_Service {
 
                     while (cellIterator.hasNext()) {
                         Cell cell = cellIterator.next();
+
                         switch (cellIndex) {
-                            case 0 -> excelSheetData921.setSurname(cell.getStringCellValue());
-                            case 1 -> excelSheetData921.setFirst_name(cell.getStringCellValue());
-                            case 2 -> excelSheetData921.setMiddle_name(cell.getStringCellValue());
-                            case 3 -> excelSheetData921.setDesignation(cell.getStringCellValue());
-                            case 4 -> excelSheetData921.setSex(cell.getStringCellValue());
-                            case 5 -> excelSheetData921.setDate_of_birth(LocalDate.parse(cell.getStringCellValue()));
-                            case 6 -> excelSheetData921.setNationality(cell.getStringCellValue());
-                            case 7 -> excelSheetData921.setState_of_origin(cell.getStringCellValue());
-                            case 8 -> excelSheetData921.setPassport_number(cell.getStringCellValue());
-                            case 9 -> excelSheetData921.setNational_id_card_number(cell.getStringCellValue());
-                            case 10 -> excelSheetData921.setBranch_name(cell.getStringCellValue());
-                            case 11 -> excelSheetData921.setBranch_code(cell.getStringCellValue());
-                            case 12 -> excelSheetData921.setState_code(cell.getStringCellValue());
-                            case 13 -> excelSheetData921.setDepartment(cell.getStringCellValue());
-                            case 14 -> excelSheetData921.setDate_of_fraud(LocalDate.parse(cell.getStringCellValue()));
-                            case 15 -> excelSheetData921.setDate_discovered(LocalDate.parse(cell.getStringCellValue()));
-                            case 16 -> excelSheetData921.setAmount_involved(BigDecimal.valueOf(cell.getNumericCellValue()));
-                            case 17 -> excelSheetData921.setStatus(cell.getStringCellValue());
-                            case 18 -> excelSheetData921.setAmount_recovered(BigDecimal.valueOf(cell.getNumericCellValue()));
-                            case 19 -> excelSheetData921.setActual_loss(BigDecimal.valueOf(cell.getNumericCellValue()));
-                            case 20 -> excelSheetData921.setType(cell.getStringCellValue());
-                            case 21 -> excelSheetData921.setDate(LocalDate.parse(cell.getStringCellValue())); //optional
+                            case 0 -> excelSheetData921.setSerial_no((int) cell.getNumericCellValue());
+                            case 1 -> excelSheetData921.setSurname(cell.getStringCellValue());
+                            case 2 -> excelSheetData921.setFirst_name(cell.getStringCellValue());
+                            case 3 -> excelSheetData921.setMiddle_name(cell.getStringCellValue());
+                            case 4 -> excelSheetData921.setDesignation(cell.getStringCellValue());
+                            case 5 -> excelSheetData921.setSex(cell.getStringCellValue());
+                            case 6 -> excelSheetData921.setDate_of_birth(cell.getLocalDateTimeCellValue().toLocalDate());
+                            case 7 -> excelSheetData921.setNationality(cell.getStringCellValue());
+                            case 8 -> excelSheetData921.setState_of_origin(cell.getStringCellValue());
+                            case 9 -> excelSheetData921.setPassport_number(cell.getStringCellValue());
+                            case 10 -> excelSheetData921.setNational_id_card_number(cell.getStringCellValue());
+                            case 11 -> excelSheetData921.setBranch_name(cell.getStringCellValue());
+                            case 12 -> excelSheetData921.setBranch_code(cell.getStringCellValue());
+                            case 13 -> excelSheetData921.setState_code(cell.getStringCellValue());
+                            case 14 -> excelSheetData921.setDepartment(cell.getStringCellValue());
+                            case 15 -> excelSheetData921.setDate_of_fraud(cell.getLocalDateTimeCellValue().toLocalDate());
+                            case 16 -> excelSheetData921.setDate_discovered(cell.getLocalDateTimeCellValue().toLocalDate());
+                            case 17 -> excelSheetData921.setAmount_involved(BigDecimal.valueOf(cell.getNumericCellValue()));
+                            case 18 -> excelSheetData921.setStatus(cell.getStringCellValue());
+                            case 19 -> excelSheetData921.setAmount_recovered(BigDecimal.valueOf(cell.getNumericCellValue()));
+                            case 20 -> excelSheetData921.setActual_loss(BigDecimal.valueOf(cell.getNumericCellValue()));
+                            case 21 -> excelSheetData921.setType(cell.getStringCellValue());
+                            case 22 -> excelSheetData921.setDate(cell.getLocalDateTimeCellValue().toLocalDate()); //optional
                             default -> {
                             }
                         }

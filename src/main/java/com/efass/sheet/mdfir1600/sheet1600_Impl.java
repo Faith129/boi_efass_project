@@ -91,7 +91,7 @@ public class sheet1600_Impl implements sheet1600_Service {
 				counter.getAndIncrement();
 				result.add(String.valueOf(counter));
 				result.add(e.getLoan_or_facilities_type() == null ? ".00"
-						: String.valueOf(e.getLoan_or_facilities_type().setScale(2, RoundingMode.HALF_EVEN)));
+						: String.valueOf(e.getLoan_or_facilities_type()));
 				result.add(e.getAggregate_amt_principal().toString() == null ? ".00"
 						: String.valueOf(e.getAggregate_amt_principal().setScale(2, RoundingMode.HALF_EVEN)));
 				result.add(e.getAggregate_amt_accrued_interest().toString() == null ? ".00"
@@ -259,11 +259,11 @@ public class sheet1600_Impl implements sheet1600_Service {
 	}
 
 	@Override
-	public void saveSheet1301ToDataBase(MultipartFile file, String sheetNo) {
+	public void saveSheet1600ToDataBase(MultipartFile file, String sheetNo) {
 		if (isValidExcelFile(file)) {
 			try {
 				List<sheet1600DAO> excelData = getSheetDataFromExcel(file.getInputStream(), sheetNo);
-				updateOrSaveSheet100Data(excelData);
+				sheet1600Repository.saveAll(excelData);
 
 			} catch (IOException e) {
 				throw new IllegalArgumentException("File is not a valid excel file");
@@ -286,20 +286,25 @@ public class sheet1600_Impl implements sheet1600_Service {
 						rowIndex++;
 						continue;
 					}
+
+					if (rowIndex == 1) {
+						rowIndex++;
+						continue;
+					}
 					Iterator<Cell> cellIterator = row.iterator();
 					int cellIndex = 0;
 
 					sheet1600DAO sheet1600 = new sheet1600DAO();
 					ExcelSheetData1600 excelSheet1600D  = new ExcelSheetData1600();
 
-
 					while (cellIterator.hasNext()) {
 						Cell cell = cellIterator.next();
 						switch (cellIndex) {
-							case 0 -> excelSheet1600D.setLoan_or_facilities_type(BigDecimal.valueOf(cell.getNumericCellValue()));
-							case 1 -> excelSheet1600D.setAggregate_amt_accrued_interest(BigDecimal.valueOf(cell.getNumericCellValue()));
-							case 2 -> excelSheet1600D.setAggregate_amt_principal(BigDecimal.valueOf(cell.getNumericCellValue()));
-							case 3 -> excelSheet1600D.setAggregate_amt_total_outstanding(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 0 -> excelSheet1600D.setSerial_no((int) cell.getNumericCellValue());
+							case 1 -> excelSheet1600D.setLoan_or_facilities_type(cell.getStringCellValue());
+							case 2 -> excelSheet1600D.setAggregate_amt_accrued_interest(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 3 -> excelSheet1600D.setAggregate_amt_principal(BigDecimal.valueOf(cell.getNumericCellValue()));
+							case 4 -> excelSheet1600D.setAggregate_amt_total_outstanding(BigDecimal.valueOf(cell.getNumericCellValue()));
 							default -> {
 							}
 						}

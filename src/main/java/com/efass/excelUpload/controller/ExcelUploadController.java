@@ -45,7 +45,7 @@ public class ExcelUploadController {
 
     @PostMapping("mdfir1600/{mdfir1600}")
     public ResponseEntity<?> uploadSheet1600(@PathParam("file") MultipartFile file, @PathVariable String mdfir1600) {
-        sheet1600_service.saveSheet1301ToDataBase(file, mdfir1600);
+        sheet1600_service.saveSheet1600ToDataBase(file, mdfir1600);
         return ResponseEntity.ok(Map.of("Message", "MDFIR1600 data uploaded and saved to database"));
     }
 

@@ -26,5 +26,5 @@ public interface sheet1600_Service {
 
 	public ResponseEntity<?> callPrepareTableProcedures(String start_date, String end_date)
 			throws ResourceNotFoundException;
-	void saveSheet1301ToDataBase(MultipartFile file, String sheetNo);
+	void saveSheet1600ToDataBase(MultipartFile file, String sheetNo);
 }
